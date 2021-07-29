@@ -1,0 +1,617 @@
+<div class="md-range-event" id="main_form_register" mbsc-form style="display:none">
+  <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+    <div class="mbsc-header-txt mbsc-align-center">
+      <div class="mbsc-align-center" style="margin-top:8px;">
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการช่วยเหลือผู้ป่วยโควิดฉุกเฉิน สำหรับผู้ป่วยรักษาตัวที่บ้าน</p>
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
+      </div>
+    </div>
+  </div>
+
+  <div mbsc-form>
+    <div mbsc-form id="form_display">
+      <div class="mbsc-align-center" style="margin-top:20px;">
+        <p style="margin-top:3px;margin-bottom:8px;;">ลงทะเบียนผู้ป่วย</p>
+      </div>
+
+      <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
+        <hr style="background-color: #58595B;opacity:0.5;">
+      </div>
+
+      <!-- form register -->
+      <div id="form_register" >
+        <!-- 1 -->
+        <div id="title_customer" class="mbsc-align-left" style="margin-left: 18px;margin-top:10px;">
+          <span style="padding:5px 13px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1.</span>
+          <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ข้อมูลเบื้องต้น</span>
+        </div>
+
+        <div style="padding:0px;margin:0px;">
+          <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+                <div id="input_nametitle" style="border-radius:0px !important;padding:0px;margin-top:15px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">คำนำหน้าชื่อ<span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_nametitle">
+                      <label id="nametitle_er" style="padding:0px;margin:0px;border-radius:0px;">
+                        <select mbsc-dropdown id="nametitle" data-input-style="box" name="nametitle">
+                          <option value="">กรุณาเลือก</option>
+                          <option value="เด็กชาย">เด็กชาย</option>
+                          <option value="เด็กหญิง">เด็กหญิง</option>
+                          <option value="นาย">นาย</option>
+                          <option value="นางสาว">นางสาว</option>
+                          <option value="นาง">นาง</option>
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_firstname" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ชื่อ <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_firstname">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="firstname" type="text" name="firstname" placeholder="" value=""
+                          oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_lastname" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">นามสกุล <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_lastname">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="lastname" type="text" name="lastname" placeholder="" value=""
+                          oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+                <div id="input_typeidcard" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">กรุณาเลือกบัตรประจำตัว <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_typeidcard">
+                      <label style="padding:0px;margin:0px;border-radius:0px;">
+                        <select mbsc-dropdown id="type_idcard" data-input-style="box">
+                          <option value="">กรุณาเลือก</option>
+                          <option value="รหัสประชาชน">รหัสประจำตัวประชาชน</option>
+                          <option value="พาสปอร์ต">พาสปอร์ต</option>
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_idcard" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">เลขบัตรประจำตัวประชาชน / เลขที่พาสปอร์ต <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_idcard">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="idcard" type="text"  placeholder="" value="" oninput="this.value = this.value.replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');"
+                          style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_age" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">อายุ <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_age">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="age" type="text" inputmode="numeric" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="3"
+                          style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+                <div id="input_birthday" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">วันเดือนปีเกิด (ค.ศ) <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_birthday">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="birthday" type="text" name="birthday" placeholder="" maxlength="30" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_mobileno" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">หมายเลขโทรศัพท์ที่สะดวกติดต่อ <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_mobileno">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="mobileno" type="text" inputmode="numeric" name="mobileno" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                          maxlength="10" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_email" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">อีเมล (ที่ใช้สำหรับติดต่อ) </p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_email">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="email" type="text" name="email" placeholder="" value="" maxlength="30" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+
+
+            <!-- 2 -->
+            <div id="title_address" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+              <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">2.</span>
+              <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ที่อยู่ปัจจุบัน</span>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+                <div id="input_village" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ที่อยู่โดยละเอียด <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_address">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="village" type="text" name="village" placeholder="" value="" maxlength="100" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="mbsc-row" style="padding:0px;margin:0px;">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_lane" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ซอย</p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_lane">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="lane" type="text" name="lane" placeholder="" value="" maxlength="30" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_road" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ถนน <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_road">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="road" type="text" name="road" placeholder="" value="" maxlength="30" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+
+
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_subdistrict" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ตำบล/แขวง <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_subdistrict">
+                      <label id="subdistrict_er" style="padding:0px;margin:0px;border-radius:0px;">
+                        <!-- <select mbsc-dropdown id="subdistrict" data-input-style="box" name="subdistrict">
+                          <option value="">กรุณาเลือก</option>
+                        </select> -->
+                        <input class="mbsc-align-left" mbsc-input id="subdistrict" type="text" name="subdistrict" placeholder="" value=""
+                          oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+            <div id="input_district" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+              <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">อำเภอ/เขต <span style="color:red"> *</span></p>
+              <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                <div id="inputbox_district">
+                  <label id="district_er" style="padding:0px;margin:0px;border-radius:0px;">
+                    <input class="mbsc-align-left" mbsc-input id="district" type="text" name="district" placeholder="" value=""
+                      oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mbsc-row" style="padding:0px;margin:0px;">
+          <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+            <div id="input_province" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+              <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">จังหวัด <span style="color:red"> *</span></p>
+              <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                <div id="inputbox_province">
+                  <label id="province_er" style="padding:0px;margin:0px;border-radius:0px;">
+                    <input class="mbsc-align-left" mbsc-input id="province" type="text" name="province" placeholder="" value=""
+                      oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+            <div id="input_zipcode" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+              <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">รหัสไปรษณีย์ <span style="color:red"> *</span></p>
+              <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                <div id="inputbox_zipcode">
+                  <label id="zipcode_er" style="padding:0px;margin:0px;border-radius:0px;">
+                    <input class="mbsc-align-left" mbsc-input id="zipcode" type="text" inputmode="numeric" name="zipcode" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5"
+                      style="font-size: 13px;" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+            <!-- 3 -->
+            <div id="title_contact" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+              <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">3.</span>
+              <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> บุคคลติดต่อในกรณีฉุกเฉิน</span>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_firstname_contact" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ชื่อผู้ติดต่อกรณีฉุกเฉิน <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_firstname_contact">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="firstname_contact" type="text" name="firstname_contact" placeholder="" value=""
+                          oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_lastname_contact" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">นามสกุล <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_lastname_contact">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="lastname_contact" type="text" name="lastname_contact" placeholder="" value=""
+                          oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60" style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+                <div id="input_tel" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">หมายเลขโทรศัพท์ที่สะดวกติดต่อ <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_tel">
+                      <label>
+                        <input class="mbsc-align-left" mbsc-input id="tel" type="text" inputmode="numeric" name="tel" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"
+                          style="font-size: 13px;" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 -->
+            <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+              <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">4.</span>
+              <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ข้อมูลเพิ่มเติม</span>
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+              <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+                <div id="input_allergic" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">อาการแพ้ยา (ถ้ามี)</p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;margin-top:5px;">
+                    <div id="inputbox_allergic">
+                      <label>
+                        <textarea id="allergic" type="text" name="allergic" rows="3" cols="266" class="mbsc-align-left" style="font-size: 13px;"></textarea>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="show_btn_save" class="mbsc-align-center mbsc-btn-group-justified">
+              <button id="btn_register" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="checkAndSubmit()"
+                style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
+                <div class="mbsc-form-grid">
+                  <div class="mbsc-grid">
+                    <div class="mbsc-row">
+                      <div class="mbsc-col-12">
+                        <p style="padding:0px;margin:0px;" id="text_edit_inbtn">บันทึก</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <script>
+
+    var geo_location;
+    navigator.geolocation.getCurrentPosition((position) =>
+            {
+              geo_location = {
+                type: "Point",
+                coordinates: [position.coords.longitude ,position.coords.latitude]
+              }
+            })
+
+      function refreshpage() {
+          //console.log("GLOBALUSER",GLOBALUSER)
+          if(GLOBALUSER.status ==1){
+            $('#main_form_register').show();
+          }
+          else if (GLOBALUSER.status == 3)
+          {
+            go2View('initsymptoms');
+          }
+          else
+          {
+            go2View("alreadyregister")
+          }
+      }
+
+    function checkAndSubmit()
+    {
+      console.log("Clicked")
+
+      let isValid = true;
+
+      let nametitle = document.getElementById('nametitle').value;
+      let firstname = $("#firstname").val()
+      let lastname = $("#lastname").val()
+      let type_idcard =  document.getElementById('type_idcard').value;
+      let idcard = $("#idcard").val()
+      let age = $("#age").val()
+      let birthday = $("#birthday").val()
+      let mobileno = $("#mobileno").val()
+      let email = $("#email").val()
+
+      let address = $("#village").val()
+      // let village_no = $("#village_no").val()
+      // let village = $("#village").val()
+      // let lane = $("#lane").val()
+      // let road = $("#road").val()
+      // let building = $("#building").val()
+      // let floor = $("#floor").val()
+      // let room_no = $("#room_no").val()
+      let province = $("#province").val()
+      let district = $("#district").val()
+      let subdistrict = $("#subdistrict").val()
+      let zipcode = $("#zipcode").val()
+
+      let firstname_contact = $("#firstname_contact").val()
+      let lastname_contact = $("#lastname_contact").val()
+      let tel = $("#tel").val()
+      let allergic = $("#allergic").val()
+
+
+      if(!nametitle)
+      {
+        return alert_modal("กรุณาเลือกคำนำหน้าชื่อ");
+      }
+
+      if(!firstname)
+      {
+        return alert_modal("กรุณากรอกชื่อจริง");
+      }
+      if(!lastname)
+      {
+        return alert_modal("กรุณากรอกนามสกุล");
+
+      }
+
+      if (!type_idcard)
+      {
+        return alert_modal("กรุณาระบุประเภทเอกสารประจำตัว");
+      }
+
+      if(!idcard)
+      {
+        return alert_modal("กรุณากรอกรหัสประจำตัวประชาชน / พาสปอร์ต");
+      }
+
+      if (type_idcard == "รหัสประชาชน" && (idcard.length != 13 || !idcard.match(new RegExp("^[0-9]+$"))))
+      {
+        return alert_modal("กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง");
+      }
+
+      //Format อาจจะไม่เหมือนกัน
+      // if (type_idcard == "พาสปอร์ต" && !idcard.match(new RegExp("^[a-zA-Z][0-9]+$")))
+      // {
+      //   return alert_modal("กรุณากรอกเลขพาสปอร์ตให้ถูกต้อง / Invalid Passport number");
+      // }
+
+      if(!age)
+      {
+        return alert_modal("กรุณากรอกอายุ");
+      }
+
+      if(!birthday)
+      {
+        return alert_modal("กรุณากรอกวันเกิด");
+      }
+
+      if(!mobileno)
+      {
+        return alert_modal("กรุณากรอกเบอร์โทรศัพท์");
+      }
+
+      if(!(mobileno.match(/^[0-9]+$/)))
+      {
+        return alert_modal("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง");
+      }
+
+      if(!address)
+      {
+        return alert_modal("กรุณากรอกที่อยู่โดยละเอียด");
+      }
+
+      if(!province)
+      {
+        return alert_modal("กรุณากรอกจังหวัด");
+      }
+
+      if(!district)
+      {
+        return alert_modal("กรุณากรอกอำเภอ/เขต");
+      }
+
+      if(!subdistrict)
+      {
+        return alert_modal("กรุณากรอกตำบล/แขวง");
+      }
+
+      if(!zipcode)
+      {
+        return alert_modal("กรุณากรอกรหัสไปรษณีย์");
+      }
+
+      if(!firstname_contact)
+      {
+        return alert_modal("กรุณากรอกชื่อของบุคคลในกรณีฉุกเฉิน");
+      }
+
+      if(!lastname_contact)
+      {
+        return alert_modal("กรุณากรอกนามสกุลของบุคคลในกรณีฉุกเฉิน");
+      }
+
+      if(!tel)
+      {
+        return alert_modal("กรุณากรอกเบอร์โทรของบุคคลในกรณีฉุกเฉิน");
+      }
+
+      if(tel.length < 9 || tel.length > 10)
+      {
+        return alert_modal("กรุณากรอกเบอร์โทรของบุคคลในกรณีฉุกเฉินให้ถูกต้อง");
+      }
+
+      // if (!geo_location || !geo_location.coordinates || geo_location.length == 0)
+      // {
+      //     //โยน Error
+      //     return alert_modal("โปรดอนุญาตให้มีการเก็บข้อมูลตำแหน่งที่อยู่")
+      // }
+
+            //Submission
+            let payload =
+            {
+              nametitle: nametitle,
+              firstname: firstname,
+              lastname: lastname,
+              type_idcard: type_idcard,
+              idcard: idcard,
+              age: age,
+              birthday: birthday,
+              mobileno: mobileno,
+              email: email,
+
+              address:
+              {
+                address: address,
+                // village_no:village_no,
+                // village:village,
+                // lane:lane,
+                // road:road,
+                // building:building,
+                // floor:floor,
+                // room_no:room_no,
+                province:province,
+                district:district,
+                subdistrict:subdistrict,
+                zipcode:zipcode
+              },
+
+              emergency:
+              {
+                firstname_contact:firstname_contact,
+                lastname_contact:lastname_contact,
+                tel:tel,
+              },
+              allergic:allergic,
+              location:geo_location,
+              verify: false
+            }
+            console.log("POST DATA",payload)
+            document.getElementById('btn_register').disabled = true;
+            document.getElementById('text_edit_inbtn').innerHTML = "โปรดรอซักครู่"
+            //Check Submit here
+            $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
+            {
+                console.log(msg);
+                go2View("initsymptoms");
+
+            })
+
+    }
+    $(document).ready(function() {
+    $('#birthday').mobiscroll().calendar({
+      dateFormat: 'dd/mm/yyyy',
+      display: 'center',
+      touchUi: false,
+      max: new Date(new Date().setDate(new Date().getDate())),
+    })
+  })
+
+    $.Thailand({
+      database: '/lineliff/assets/jquery.Thailand.js-master/jquery.Thailand.js/database/db.zip',
+      $district: $('#subdistrict'),
+      $amphoe: $('#district'),
+      $province: $('#province'),
+      $zipcode: $('#zipcode'),
+    });
+  </script>

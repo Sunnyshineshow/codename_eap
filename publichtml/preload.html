@@ -1,0 +1,40 @@
+<header id='inc_menu_header'> </header>
+
+
+<div id='mainpage_body' style="margin-top: 50px !important;" class="pb-5">
+  <center>Loading ..</center>
+</div>
+
+<footer style="margin-left: 0px !important;" class="fixed-bottom mt-5">
+  <div class="container-fluid my-auto">
+    <div class="text-center my-auto copyright"><span>© Copyright  <br /></span>
+    </div>
+  </div>
+
+
+</footer>
+
+
+
+<script>
+    
+    var all_page = [
+        'main','appointment'
+    ];
+
+    for (var x = 0; x < all_page.length; x++) {
+        onPageshow(all_page[x], {
+            obj: '#mainpage_body',
+            url: PREFIX_MAIN_LOCAL + '/' + all_page[x] + '.html'
+        });
+    }
+
+
+    if(starturl == '/undefined') {
+      starturl = "main"
+    }
+    console.log("starturl", starturl)
+      go2View(starturl);
+
+
+</script>

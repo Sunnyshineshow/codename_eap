@@ -1,0 +1,205 @@
+<!-- ส่วน Topmenu ปรับที่นี่ -->
+<style>
+  /* Modify Nav bar */
+  .clean-navbar .navbar-nav .nav-item {
+    padding-right: 1rem;
+    padding-top: 10px;
+  }
+
+  .clean-navbar.fixed-bottom,
+  .clean-navbar.fixed-top {
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+  }
+
+  .navbar {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+    font-size: calc (1rem + 6.vw);
+  }
+
+  /* .nav>li>a:hover {
+
+    color: white !important;
+    background-color: #2772B8;
+  } */
+
+  .selected_menu {
+    backgroud-color: #aaa;
+  }
+
+  .click_active {
+    text-align: left;
+    /* color: #2772B8 !important;
+    padding-left: 10px !important */
+  }
+
+  .dropdown-menu {
+    font-size: 0.9rem;
+  }
+
+  .navbar {
+    padding: 0rem 1rem 0.2rem 1rem;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .navbar {
+      padding: 1rem 1rem;
+    }
+  }
+</style>
+
+
+<!-- <nav id="topmenu" class="navbar navbar-light navbar-expand-lg fixed-top clean-navbar shadow ticket_navbar_color" style="background-color: white">
+  <div class="container-fluid">
+    <a class="navbar-brand logo alink" onclick='go2View("main")'>
+      <img src="/images/logo-advance-vending.png" alt="Image Here" width="150" style=" border-radius: 10px;" />
+    </a>
+
+
+    <div class="collapse navbar-collapse " id="navcol-1">
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item dropdown pt-0" role="presentation">
+          <a class="dropdown-toggle nav-link text-capitalize alink btn click_active" data-toggle="dropdown" aria-expanded="false" href="javascript:;" onclick="return go2View('patientlist')">
+            <small> <i class="fas fa-cube"></i>&nbsp; รายชื่อผู้ป่วย </small>
+          </a>
+
+        </li>
+        <li class="nav-item dropdown pt-0" role="presentation">
+          <a class="dropdown-toggle nav-link text-capitalize alink btn click_active" data-toggle="dropdown" aria-expanded="false" href="javascript:;">
+            <small> <i class="fas fa-sitemap"></i>&nbsp;รายชื่อโรงพยาบาล </small>
+          </a>
+
+        </li>
+        <li class="nav-item dropdown pt-0" role="presentation">
+          <a class="dropdown-toggle nav-link text-capitalize alink btn click_active"  aria-expanded="false" href="stafflist" onclick='return go2View("stafflist")'>
+            <small> <i class="fas fa-user-lock"></i>&nbsp;Staff </small>
+          </a>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item alink text-capitalize dropdown_display"  >
+              <i class="fas fa-list-ul"></i>&nbsp;Staff List
+            </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown pt-0 ml-5">
+          <a class="dropdown-toggle nav-link text-capitalize alink" data-toggle="dropdown" aria-expanded="false" href="javascript:;">
+            <img src="/image/profile.png" class="rounded-circle staffimage" style="max-width : 50px">
+          </a>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item alink text-capitalize dropdown_display" href="javascript:;">
+              User
+            </a>
+            <div class="dropdown-divider "></div>
+
+          </div>
+        </li>
+        <li class="nav-item dropdown pt-0 ml-5">
+        <a class="dropdown-item alink text-capitalize dropdown_display" onclick="logout()">
+          Log Out
+        </a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-light navbar-expand-sm fixed-top clean-navbar shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand logo alink" onclick='go2View("main")'>
+      <!-- <img src="/images/logo-advance-vending.png" alt="Image Here" width="150" style=" border-radius: 10px;" /> -->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('patientlist')"><small>&nbsp; รายชื่อผู้ป่วย </small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('call_center')"><small>&nbsp;ตรวจสอบสถานะผู้ป่วย</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('monitoring')"><small>&nbsp;Monitoring</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('gmap')"><small>&nbsp; แผนที่ผู้ป่วย</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('appointment')"><small>&nbsp; กำหนดการนัดหมาย</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('treatment')"><small>&nbsp; ข้อมูลการรักษา</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('hospital')"><small>&nbsp;รายชื่อสถานพยาบาล</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('hospital_manage')"><small>&nbsp;จัดการคิวสถานพยาบาล</small></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('car_manage')"><small>&nbsp;จัดคิวรถ</small></a>
+        </li>
+        <!--
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="return go2View('log_report')"><small>&nbsp;Staff Log</small></a>
+        </li>
+        -->
+        <!--
+        <li class="nav-item dropdown">
+          <a class="dropdown-toggle nav-link click_active" aria-expanded="false" href="stafflist" onclick='return go2View("stafflist")'>
+            <small class="text-dark">&nbsp;Staff </small>
+          </a> -->
+          <!--
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item alink text-capitalize dropdown_display">
+              &nbsp;Staff List
+            </a>
+          </div>
+          -->
+        </li>
+      </ul>
+      <span class="navbar-text" style="padding:0px;margin:0px;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/image/profile.png" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;">
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#" onclick="go2View('main')">Home</a></li>
+              <li><a class="dropdown-item" href="#" onclick="go2View('stafflist')">Staff</a></li>
+              <li><a class="dropdown-item" href="#" onclick="go2View('log_report')">Log Report</a></li>
+              <li><a class="dropdown-item" href="#" onclick="logout()">Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </span>
+    </div>
+  </div>  
+</nav>
+<script>
+  console.log('GLOBAL_USER ==== > ', GLOBAL_USER);
+  if (GLOBAL_USER) {
+    if (GLOBAL_USER.pictureUrl) {
+      var img;
+      // try {
+      // $get(GLOBAL_USER.pictureUrl);
+      img = GLOBAL_USER.pictureUrl;
+      // console.log('IMG LOAD----');
+      // } catch (e) {
+      // console.log('IMAG ERROR');
+      // img = '/image/profile.png';
+      // }
+      // console.log('IMAGE SHOW', img);
+      $('.staffimage').attr('src', img)
+    }
+  }
+  $('.dropdown_display').click(function() {
+    console.log('true click')
+    $('div .navbar-collapse').collapse('hide');
+  });
+
+  function logout() {
+    window.localStorage.clear();
+    window.location.href = '/admin';
+  }
+</script>

@@ -1,0 +1,414 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="p-2 mr-5 ml-5">
+      <div class="container">
+        <br><br>
+        <h3 class="p-0 m-0 mb-3"><b>Vehicle Management (อยู่ระหว่างการพัฒนา)</b></h3>
+        
+        <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="verify_patient('##patient-id##')" disabled><i class="fas fa-car"></i> ดูรายการรถ</button>
+        <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="OpenSearchBox('Register_car')"><i class="fas fa-car"></i> ลงทะเบียนรถรับส่ง</button>
+
+        <div id="Register_car" style="display: none;">
+        <br>
+        <h3 style="color: #0d6efd;"><b>ลงทะเบียนรถรับส่ง</b></h3>
+        <br>
+        <div class="card bg-light">
+          <div class="card-body">
+            <div id="hospital_information">
+
+              <p class="p-0 m-0"><strong>ชื่อผู้ขับ:</strong>  <br>              
+                <select class="form-select" aria-label="Staff Select" id="staff_list" style="display: none;">
+                  <option value="##staff-id##">##staff-displayName##</option>
+                </select>
+                <select class="form-select" aria-label="Staff" id="staff_list_showing">
+                </select>
+              </p> 
+
+              <p class="p-0 m-0"><strong>เบอร์ติดต่อนัดหมาย:</strong> 
+              <input class="form-control" id="Driver_tel" type="text" placeholder="หมายเลขโทรศัพท์" 
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" size="20"/>
+              </p>
+
+              <p class="p-0 m-0"><strong>เลขทะเบียนรถยนต์:</strong>                     
+                <input class="form-control"  id="Driver_carnum" type="text" placeholder="เลขทะเบียนรถยนต์" maxlength="15" style="font-size: 13px;" size="20"/>
+              </p> 
+
+              <br>
+              <input type="submit" class="btn btn-primary" onclick="SendData()">
+             
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+        <div class="row mb-1 d-flex justify-content-start">
+            <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <form class="form-row" style="width: 100%;" onsubmit="return refreshpage();">
+        <div class="form-group">
+
+          <!-- <div class="row d-flex justify-content-center"> -->
+          <div class="row d-flex justify-start">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="form-group">
+                <input type="text" class="form-control" id="search_idno" placeholder="ID No">
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="form-group">
+                <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_status">
+                  <option value="-2">โปรดเลือก</option>
+                  <option value="-1">ยกเลิก</option>
+                  <option value="0">รอคิว</option>
+                  <option value="1">ได้คิว</option>
+                  <option value="2">ตามเวลานัด</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="CheckOpenSearchBox" onclick="OpenSearchBox('SearchHospitalList_showing')">
+                <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยชื่อโรงพยาบาล</label>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <select class="form-select" aria-label="Default select example" id="SearchHospitalList" style="display: none;">
+                <option value="##hospital-id##">##hospital-name##</option>
+              </select>
+              <select class="form-select" aria-label="Default select example" id="SearchHospitalList_showing" style="display: none;">
+              </select>
+            </div>
+          </div>
+          <br>
+          <div class= "row d-flex justify-start">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+              <div class="form-check">
+                <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยทะเบียนรถยนต์</label>
+              </div>
+           </div>           
+           
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+              <div id="car_select" style="display: none;">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="vehicle_##VEHICLE-id##" name="car_options_select" value="##VEHICLE-id##">
+                <label class="form-check-label" for="exampleCheck1">##VEHICLE-CarNumber##</label>
+              </div>
+            </div>
+            <div id="car_select_showing">
+          
+            </div>
+          </div>
+
+          </div>
+            <br>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+        <br>
+      </form>
+
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+
+    <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
+      <div class="btn-group" style="text-align: left;">
+        <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
+        <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
+      </div>
+
+          <div class="row mt-4">
+            <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="pagination_bar pb-3"></div>
+            </div>
+          </div>
+
+          <br>
+
+          
+
+          <div class="table-responsive">
+            <table class="table table-bordered show_startpage font-weight-light">
+              <thead class="text-center">
+                <tr>
+                  <th scope="col" class="text-secondary">Profile</th>
+                  <th scope="col" class="text-secondary">เลขที่นัดหมาย</th>
+                  <th scope="col" class="text-secondary">Display Name</th>
+                  <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
+                  <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
+                  <th scope="col" class="text-secondary">รายละเอียด</th>
+                  <th scope="col" class="text-secondary">สถานะ</th>
+                  <th scope="col" class="text-secondary">รถที่จะไปรับ</th>
+                  <th scope="col" class="text-secondary">Action</th>
+                </tr>
+              </thead>
+              <tbody id="row_patientlist" style="display:none;">
+                <tr>
+                  <td class="text-center table-middle">
+                    <img src="##patient-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                  </td>
+                  <td class="text-center table-middle"># ##patient-id##</td>
+                  <td class="text-center table-middle">##patient-patient.displayName##
+                    <br>
+                    ##patient-patient.firstname## ##patient-patient.lastname##
+                  </td>
+                  <td class="text-center table-middle">##patient-appointtime##</td>
+                  <td class="text-center table-middle">##patient-hospital.name##</td>
+                  <td class="text-center table-middle">##patient-comment##</td>
+                  <td class="text-center table-middle">##patient-status##</td>
+                  <td class="text-center table-middle">##patient-vehicle##</td>
+                  <td class="text-center table-middle">
+                    <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
+                    <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody id="show_patientlist">
+                <tr>
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+            </div>
+          </div>
+          
+
+      </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  var date = new Date()
+  var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 19*3600
+  var shown_date = new Date((current_date + 5*3600) * 1000)
+  var template_patient_row = $('#row_patientlist').html();
+  var template_dropdown = $('#SearchHospitalList').html();
+  var searchobj = {};
+  var fncsearch;
+  var template_hospital_name = $('#HospitalName').html();
+
+  var html_row_2;
+  var hospitalname;
+  var vehicle_name;
+  var staff_name;
+  
+
+  $(document).ready(() =>
+  {
+    $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
+        console.log(msg)
+
+         html_row_2 = hash_replace(template_dropdown, 'hospital', msg)
+        $("#SearchHospitalList_showing").html(html_row_2);
+
+        // hospitalname = hash_replace(template_hospital_name, 'hospital', msg)
+        // $("#HospitalName").html(hospitalname);
+      })
+
+      $.getJSON(MAINURL + "/api-backend/admin/load_vehicle",(msg) =>
+      {
+        vehicle_name = hash_replace($("#car_select").html(), 'VEHICLE', msg)
+        $("#car_select_showing").html(vehicle_name);
+      })
+
+      $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
+        console.log(msg)
+        staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
+        $("#staff_list_showing").html(staff_name);
+      })
+  })
+
+  function refreshpage(rawdata) {
+
+    console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
+        document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
+    var search_setting = {
+      posturl: '/api-backend/admin/vehiclelist',
+      paginationDIV: $('.pagination_bar'),
+      pagesize: 10,
+      showfunction: show_patient_list,
+      limit: 10,
+      search: {}
+    }
+
+    // console.log(document.getElementsByName('car_options_select'))
+
+    console.log(new Date(current_date * 1000))
+    let car_options = document.getElementsByName('car_options_select')
+    let cars = []
+    let haveCar = false
+
+    for (let i = 0; i < car_options.length; i++)
+    {
+      if (car_options[i].checked)
+      {
+        // console.log("Option Checked: " + car_options[i].value)
+        cars.push(parseInt(car_options[i].value))
+        haveCar = true
+      }
+    }
+
+    if (haveCar)
+    {
+      Object.assign(search_setting.search,{find_vehicle: cars})
+      haveCar = false
+    }
+
+    if ($('#search_idno').val() !== "") {
+      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
+    }
+
+    console.log("Search: " + $('#search_status').val())
+    if ($('#search_status').val() !== "-2") {
+        Object.assign(search_setting.search,{find_status: $('#search_status').val()})
+    }
+
+    if (document.getElementById('CheckOpenSearchBox').checked) {
+      if ($('#SearchHospitalList_showing').val() !== "") {
+        Object.assign(search_setting.search,{find_hospital: $('#SearchHospitalList_showing').val()})
+      }
+    }
+
+    Object.assign(search_setting.search,{find_date: current_date})
+    //getSelectedname();
+
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+    
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting); // Defult always search at first
+    return false;
+  }
+
+  function show_patient_list(objdata, totalrecord) {
+    console.log('objdata', objdata);
+    if (objdata.result && totalrecord > 0) {
+      working.patient = objdata.obj;
+      console.log("OBJDATA: " + objdata.obj)
+      objdata.obj.map(item => {
+        // console.log(item)
+        item.createDate ? item.createdate = moment(item.createdate, "X").format('YYYY/MM/DD') : "";
+        item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+      })
+
+      for (let i = 0; i < objdata.obj.length; i++) {
+        //Date Time
+        let datetime = new Date(objdata.obj[i].appointtime * 1000)
+
+        let minutes = datetime.getMinutes()
+
+        if (minutes < 10) {
+          minutes = "0" + minutes
+        }
+
+        objdata.obj[i].appointtime = datetime.getDate() + "/" +
+          (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " " + datetime.getHours() + ":" + minutes
+
+        if (objdata.obj[i].status == -1) {
+          objdata.obj[i].status = `<span style="color: #C70039;">ยกเลิก</span>`
+        } else if (objdata.obj[i].status == 0) {
+          objdata.obj[i].status = `<span style="color: #FFD033;">รอคิว</span>`
+        } else if (objdata.obj[i].status == 1) {
+          objdata.obj[i].status = `<span style="color: #47CF55;">ได้คิว</span>`
+        } else if (objdata.obj[i].status == 2) {
+          objdata.obj[i].status = `<span style="color: green;">ตามเวลานัด</span>`
+        } else if (objdata.obj[i].status == 200) {
+          objdata.obj[i].status = `<span style="color: #9139B6;">นัดอัตโนมัติ</span>`
+        }
+
+        if (!objdata.obj[i].vehicle)
+          {
+            let appointid = objdata.obj[i]._id
+            Object.assign(objdata.obj[i], {vehicle: `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>`})
+            console.log(objdata.obj[i].vehicle)
+          }
+          else
+          {
+            let appointid = objdata.obj[i]._id
+            let vehicle = objdata.obj[i].vehicle
+            Object.assign(objdata.obj[i], {vehicle: `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">ID รถ: ${vehicle}</button>`})
+            console.log(objdata.obj[i].vehicle)
+          }
+      }
+
+      var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
+      $("#show_patientlist").html(html_row);
+
+      // $('.show_startpage').show('slow');
+    } else {
+      $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+    }
+  }
+
+  function view_symptom(patient_id) {
+
+    go2View("patient?id=" + patient_id)
+
+  }
+
+  function appointment(patient_id) {
+
+    go2View("appoint_patient?id=" + patient_id)
+
+  }
+
+  function settingpatient(dataid) {
+    working.active_patientid = dataid;
+    go2View('patient-edit');
+  }
+
+  function choose_car(appointid)
+  {
+    go2View("car_choose?id=" + appointid)
+  }
+
+  function OpenSearchBox(Object) {
+    var x = document.getElementById(Object);
+    if (x.style.display === "none")
+      x.style.display = "block";
+    else
+      x.style.display = "none";
+  }
+
+  function SendData()
+  {
+    let staff = parseInt(document.getElementById('staff_list_showing').value);
+    let Fullname = $("#Driver_name").val() + " " + $("#Driver_surname").val()
+    let payload = {
+        Fullname: Fullname,
+        Tel: $("#Driver_tel").val(),
+        CarNumber: $("#Driver_carnum").val(),
+        staff: staff
+    }
+    console.log(payload)
+    console.log(Fullname)
+    console.log($("#Driver_name").val())
+    console.log($("#Driver_surname").val())
+    console.log($("#Driver_tel").val())
+    console.log($("#Driver_carnum").val())
+    console.log(GLOBAL_USER.UserID)
+
+    $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
+    {
+       alert("Send data Complete!")
+    })
+  }
+
+  function changeDate(quantity) {
+    current_date += 24 * 3600 * (quantity)
+    shown_date = new Date((current_date + 5*3600) * 1000)
+    refreshpage()
+  }
+</script>

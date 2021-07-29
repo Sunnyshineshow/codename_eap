@@ -1,0 +1,120 @@
+<div class="md-range-event" id="main_form_register" mbsc-form style="display:none">
+    <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+      <div class="mbsc-header-txt mbsc-align-center">
+        <div class="mbsc-align-center" style="margin-top:8px;">
+          <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการช่วยเหลือผู้ป่วยโควิดฉุกเฉิน สำหรับผู้ป่วยรักษาตัวที่บ้าน</p>
+          <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
+        </div>
+      </div>
+    </div>
+  
+    <div mbsc-form>
+      <div mbsc-form id="form_display">
+        <div class="mbsc-align-center" style="margin-top:20px;">
+          <p style="margin-top:3px;margin-bottom:8px;;">เลือกโรงพยาบาลที่ท่านสะดวก</p>
+        </div>
+  
+        <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
+          <hr style="background-color: #58595B;opacity:0.5;">
+        </div>
+  
+        <!-- form register -->
+        <div id="form_choose_location" >
+          <!-- 1 -->
+          
+
+          <div mbsc-form style="max-width:900px;" class="mbsc-align-center mbsc-btn-group-justified">
+            <div class="mbsc-grid mbsc-form-grid">
+
+                    <div class="mbsc-row">
+                        
+                    <div class="mbsc-col-12">
+                        <label>
+                            โปรดเลือก </label>
+                            <select mbsc-dropdown data-input-style="box" id="hospital" style="display: none;">
+                                <option value="##HOSPITAL-id##">##HOSPITAL-name##</option>
+                            </select>
+                            <select mbsc-dropdown data-input-style="box" id="hospital_showing">
+
+                            </select>
+                        
+                    </div>
+            </div>
+
+            </div>
+          </div>
+              <div id="show_btn_save" class="mbsc-align-center mbsc-btn-group-justified">
+                <button id="btn_register" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="hospitalSubmit()"
+                  style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
+                  <div class="mbsc-form-grid">
+                    <div class="mbsc-grid">
+                      <div class="mbsc-row">
+                        <div class="mbsc-col-12">
+                          <p style="padding:0px;margin:0px;" id="text_edit_inbtn">บันทึก</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+<script>
+    var hospitalNamelist;
+    var appoint_detail_template = $("#hospital").html()
+    // $.getJSON(MAINURL + "/api-web/line/hospital/get",(msg) =>
+    //     {
+    //         console.log(msg)
+
+    //         let tmp;
+    //         tmp = hash_replace(hospitalNamelist, 'HOSPITAL', msg)
+    //         $("#hospital_list_showing").html(tmp)
+    //     })
+    $.getJSON(MAINURL + '/api-web/line/hospital/get', (msg) => {
+          console.log(msg)
+
+           hospitalNamelist = hash_replace(appoint_detail_template, 'HOSPITAL', msg)
+           $("#hospital_showing").html(hospitalNamelist)
+
+           $('#hospital_showing').mobiscroll().select({
+                display: 'bubble'
+            });
+        })
+
+        function hospitalSubmit()
+        {
+
+            let location = {
+                type: "Point",
+                coordinates: [0,0]
+            }
+
+            let hospital = parseInt($('#hospital_showing').val())
+
+            let payload = 
+            {
+                hospital: hospital,
+                location: location
+            }
+            console.log(payload)
+
+            $.postJSON(MAINURL + "/api-web/line/patient/reappoint",payload,(msg) =>
+            {
+                if (msg.code == 200)
+                {
+                    alert_modal("บันทึกข้อมูลแล้ว")
+                    return go2View("queuecheck")
+                }
+                else
+                {
+                    return alert_modal("เกิดปัญหาระหว่างบันทึกข้อมูล โปรดลองใหม่อีกครั้ง")
+                }
+            })
+        }
+</script>
+  

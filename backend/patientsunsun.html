@@ -1,0 +1,472 @@
+<div>
+    <!-- PATIENT VIEW -->
+    <div class="main_page mb-5" style="margin-top:120px;">
+      <div class="container">
+        <!-- <div class="card"> -->
+        <!-- <div class="card-body" style="width: 85%;"> -->
+        <div class="p-2 mr-5 ml-5" id="main_paitient_info">
+          <h3> <b>Patient Information</b></h3>
+          <!-- profile -->
+          <div id="patient_description" style="display: none;">
+            <div class="row mt-5">
+              <div class="col-md-6">
+                <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                  <div class="card-body" style="text-align: left;">
+                    <h4 style="color: #289de9;">รายละเอียด</h4>
+                    <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                    <div class="text-center">
+                      <img src="##PATIENT-pictureUrl##" alt="Patient Image" width="20%" height="auto" class="rounded-pill text-center max-auto">
+                    </div>
+                    <p class="m-0 p-0 mt-3"><strong>ID:</strong> ##PATIENT-id##</p>
+                    <p class="m-0 p-0 mt-3"><strong>ชื่อ:</strong> ##PATIENT-nametitle####PATIENT-firstname## ##PATIENT-lastname##</p>
+                    <p class="m-0 p-0"><strong>อายุ:</strong> ##PATIENT-age##</p>
+                    <p class="m-0 p-0"><strong>วันเกิด:</strong> ##PATIENT-birthday##</p>
+                    <p class="m-0 p-0"><strong>เพศ:</strong> ##PATIENT-gender##</p>
+                    <p class="m-0 p-0 mt-3"><strong>แพ้ยา:</strong> ##PATIENT-allergic##</p>
+                    <p class="m-0 p-0 mt-3"><strong>ที่อยู่:</strong></p>
+                    <p class="m-0 p-0">##PATIENT-address.address## ##PATIENT-address.lane## ##PATIENT-address.road## ##PATIENT-address.subdistrict## ##PATIENT-address.district## ##PATIENT-address.province## ##PATIENT-address.zipcode##</p>
+                    <p class="m-0 p-0 mt-3"><strong>Email:</strong> ##PATIENT-email##</p>
+                    <p class="m-0 p-0"><strong>เบอร์โทร:</strong> ##PATIENT-mobileno##</p>
+                    <p class="m-0 p-0 mt-3"><strong><span style="color: #C70039;">ข้อมูลติดต่อฉุกเฉิน</span></strong></p>
+                    <p class="m-0 p-0"><strong>ชื่อ:</strong> ##PATIENT-emergency.firstname_contact## ##PATIENT-emergency.lastname_contact##</p>
+                    <p class="m-0 p-0"><strong>เบอร์โทร:</strong> ##PATIENT-emergency.tel##</p>
+                    <button type="button" class="btn btn-primary mt-4 mb-3" onclick="clickToVerify()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                      <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                    </svg> ตรวจสอบ</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                  <div class="card-body" style="text-align: left;">
+                    <h4 class="card-title" style="color: #289de9;">อาการปัจจุบัน </h4>
+                    <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                    <p class="m-0 p-0"><strong>อาการข้างต้น:</strong> ##PATIENT-init_symptoms.symptoms##</p>
+                    <p class="m-0 p-0 mt-3"><strong>โรคประจำตัวที่มี<span style="color: #C70039;">ความเสี่ยง</span>:</strong></p>
+                    <p class="m-0 p-0"><span style="text-align: justify;">##PATIENT-init_symptoms.disease##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>spO2:</strong>
+                      <span style="text-align: justify;">##PATIENT-init_symptoms.spo_room_air##</span>
+                    </p>
+                    <p class="m-0 p-0 mt-3"><strong>ระดับออกซิเจนในเลือดหลังออกกำลังกาย:</strong>
+                      <span style="text-align: justify;">##PATIENT-init_symptoms.exercise_test##</span>
+                    </p>
+                    <p class="m-0 p-0 mt-3"><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                    <p class="m-0 p-0"><span style="text-align: justify;">##PATIENT-init_symptoms.comment##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>สีของผู้ป่วย:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-color##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>จำนวนวันตั้งแต่ที่มีอาการ:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-day_count##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>Call Center Verify:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-verify##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>Call Center Comment:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-call_cen_comment##</span></p>
+                    <button type="button" class="btn btn-primary mt-4 mb-3" onclick="clickToAppoint()"><i class="fas fa-calendar-check"></i> คลิกเพื่อทำการนัดหมาย</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="patient_description_showing">
+          </div>
+          <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:50px;"></div>
+  
+          <div class="row">
+            <div class="col-6">
+              <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                <div class="card-body" style="text-align: left;">
+                  <h4 style="color: #289de9;">ส่งข้อความเข้าไลน์ของผู้ป่วย</h4>
+                  <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                  <strong>กรอกข้อความที่นี่</strong><br>
+                  <textarea id="lineSender" class="form-control" type="text"></textarea>
+                  <input class="btn btn-dark border-0 mt-3" style="background-color: #1597BB;" type="button" id="line_send_message" value="ส่งข้อความ" onclick="sendToLine()">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                <div class="card-body" style="text-align: left;">
+                  <h4 style="color: #289de9;">แก้ไขสีของผู้ป่วย</h4>
+                  <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                  <select id="color_picker" class="form-select form-select-lg mt-5 mb-0">
+                    <option selected value="NA">เลือกสี</option>
+                    <option value="GREEN" style="color: green;">เขียว</option>
+                    <option value="YELLOW" style="color: #fcba03;">เหลือง</option>
+                    <option value="RED" style="color: red;">แดง</option>
+                  </select>
+                  <br>
+                  <input type="button" class="btn btn-primary border-0" value="แก้สี" style="background-color: #1597BB;" onclick="colorFix()">
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:50px;"></div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                <div class="card-body">
+                  <strong>แต่งตั้งให้เป็น Staff... </strong><br><br>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <strong>ตำแหน่ง:</strong>
+                    </div>
+                    <div class="col-md-8">
+                      <select id="role_selection" name="role_selection" class="form-select">
+                        <option value="NONE">เลือกหน้าที่</option>
+                        <option value="SUPERADMIN">หัวหน้าแอดมิน</option>
+                        <option value="DEVELOPER">นักพัฒนา</option>
+                        <option value="XRAY">หน่วย X-Ray</option>
+                        <option value="CALLCEN">คอลเซ็นเตอร์</option>
+                        <option value="VOLUNTEER">อาสาสมัคร</option>
+                        <option value="DRIVER">พนักงานขับรถ</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-md-4">
+                      <strong>สังกัดสถานพยาบาล: </strong>
+                    </div>
+                    <div class="col-md-8">
+                      <select name="hospital" id="hospital" style="display: none;" class="form-select">
+                        <option value="##HOSPITAL-id##">##HOSPITAL-name##</option>
+                      </select>
+                      <select name="hospital_showing" id="hospital_showing" class="form-select">
+                        <option value="##HOSPITAL-id##">##เดี๋ยวมาเขียน ยังไม่เสร็จ##</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-primary mt-2" onclick="AddStaffDataToDB()" id="submit_addstaff" width="10" height="10">ยืนยัน</button>
+                    <button type="submit" class="btn btn-primary mt-2" onclick="sync_role()" width="10" height="10">Sync ตำแหน่ง</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                <div class="card-body" style="text-align: center;">
+                  <strong>จัดการผู้ป่วย</strong><br><br>
+                  <button type="submit" class="btn btn-danger" onclick="deletePatient()" width="10" height="10">ลบผู้ป่วย</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+  
+          <!-- details -->
+  
+          <!-- daily symptom -->
+          <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:50px;"></div>
+  
+          <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+            <div class="card-body" style="text-align: center;">
+              <h4 style="color: #289de9;text-align:left;">ตามอาการรายวัน</h4>
+              <div class="table-responsive">
+                <table class="table table-bordered show_startpage font-weight-light">
+                  <thead class="text-center">
+                    <tr>
+                      <th scope="col" class="text-secondary">No</th>
+                      <th scope="col" class="text-secondary">Date</th>
+                      <th scope="col" class="text-secondary">Symptoms</th>
+                      <th scope="col" class="text-secondary">Remark</th>
+                      <th scope="col" class="text-secondary">Location</th>
+                      <th scope="col" class="text-secondary">Doctor's Comment</th>
+                    </tr>
+                  </thead>
+                  <tbody id="row_symptomlist" style="display: none;">
+                    <tr>
+                      <td class="text-center table-middle">##SYMPTOMS-id##</td>
+                      <td class="text-center table-middle">##SYMPTOMS-inputdate##</td>
+                      <td class="text-center table-middle">##SYMPTOMS-symptoms##</td>
+                      <td class="text-center table-middle">##SYMPTOMS-remark##</td>
+                      <td class="text-center table-middle"><a href="##SYMPTOMS-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" >Gmap</button></a></td>
+                      <td class="text-center table-middle">##SYMPTOMS-doctorcomment##</td>
+                    </tr>
+                  </tbody>
+                  <tbody id="row_symptomlist_showing">
+                    <tr>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          max-width: 75%;
+          margin: auto;
+          text-align: center;
+          font-family: arial;
+        }
+      </style>
+      <script>
+        var template_main_paitient_info = $('#main_paitient_info').html();
+        var template_symptomlist = $("#row_symptomlist").html()
+  
+        function refreshpage() {
+  
+          console.log("GLOBAL_USER",GLOBAL_USER)
+          if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
+            return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+          }
+  
+          var patientid = getParameterByName('id', window.location.search);
+          $.postJSON(MAINURL + '/api-backend/admin/patient', {
+            _id: patientid
+          }, (res) => {
+  
+            console.log(res)
+            for (let i = 0; i < res.symptoms.length; i++) {
+              //Date Time
+              let datetime = new Date(res.symptoms[i].inputdate * 1000)
+  
+              res.symptoms[i].inputdate = datetime.getDate() + "/" +
+                (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+  
+              //Location href
+  
+              if (res.symptoms[i].location) {
+                Object.assign(res.symptoms[i].location, {
+                  link: "https://www.google.com/maps/search/" +
+                    res.symptoms[i].location.coordinates[1] + "," +
+                    res.symptoms[i].location.coordinates[0]
+                })
+              }
+            }
+  
+            if (res.color == "RED") {
+              res.color = '<span style="color: #C70039;">แดง</span>'
+            } else if (res.color == "YELLOW") {
+              res.color = '<span style="color: #fcba03;">เหลือง</span>'
+            } else if (res.color == "GREEN") {
+              res.color = '<span style="color: green;">เขียว</span>'
+            } else {
+              Object.assign(res, {
+                color: "N/A"
+              })
+            }
+  
+            if(res.is_staff)
+            {
+              document.getElementById('submit_addstaff').disabled = true
+            }
+  
+            if (res.verify == true)
+            {
+              res.verify = "ติดตามอาการแล้ว"
+            }
+            else
+            {
+              res.verify = "ยังไม่ได้ติดตามอาการ"
+              Object.assign(res, {call_cen_comment: "ยังไม่ได้ติดตามอาการ"})
+            }
+  
+            if (!res.init_symptoms) {
+              let init_symptom = {
+                spo_room_air: "!! ยังไม่ลงทะเบียน !!",
+                exercise_test: "!! ยังไม่ลงทะเบียน !!"
+              };
+              Object.assign(res, {
+                init_symptoms: init_symptom
+              })
+            } 
+  
+            if (res.symptoms.length !== 0)
+            {
+              if (res.symptoms[0].spo_room_air)
+              {
+                res.init_symptoms.spo_room_air = res.symptoms[0].spo_room_air
+              }
+  
+              if (res.symptoms[0].exercise_test)
+              {
+                res.init_symptoms.exercise_test = res.symptoms[0].exercise_test
+              }
+            }
+            
+  
+            if (res.init_symptoms.spo_room_air == -1) {
+              res.init_symptoms.spo_room_air = "ไม่ทราบค่า"
+            }
+  
+            if (res.init_symptoms.exercise_test == -1) {
+              res.init_symptoms.exercise_test = "ไม่ทราบค่า"
+            }
+  
+            Object.assign(res, {
+              day_count: date_diff(res.createdate * 1000)
+            })
+  
+            //Use to replace data
+            /*
+            รูปแบบการเรียกใช้
+            1.#   hash_replace ( object หลักที่ต้องการให้ไปค้นหา# แล้วเปลี่ยน ,   "PREFIX ของคำแรกที่ต้องการค้นหา ตามด้วยชื่อ field และหรือ . ของ field ย่อยๆ " , Data)
+            2.    hash_replace (  HTML STRING ต้องการให้ไปค้นหา# แล้วเปลี่ยน ,   "PREFIX ของคำแรกที่ต้องการค้นหา ตามด้วยชื่อ field และหรือ . ของ field ย่อยๆ " , Data)
+  
+            ข้อ 2 จะ return มาเป็น HTML อีกที
+            */
+  
+            let tmp;
+            tmp = hash_replace($('#patient_description'), "PATIENT", res)
+            $("#patient_description_showing").html(tmp)
+  
+            //แยก Template กับ Display
+            tmp = hash_replace(template_symptomlist, "SYMPTOMS", res.symptoms.reverse())
+            $("#row_symptomlist_showing").html(tmp)
+  
+          })
+  
+          $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
+            let tmp;
+            tmp = hash_replace($('#hospital'), "HOSPITAL", msg)
+            $("#hospital_showing").html(tmp)
+          })
+        }
+  
+        function date_diff(date1) {
+          let dateOnly = new Date()
+          console.log(dateOnly)
+  
+          let date2 = Date.parse(new Date(dateOnly.getFullYear(), dateOnly.getMonth(), dateOnly.getDate()))
+          console.log(new Date(date2))
+  
+          return parseInt((date2 - date1) / 86400000)
+        }
+  
+        function sendToLine() {
+          var patientid = getParameterByName('id', window.location.search);
+          let message = $("#lineSender").val()
+  
+          let payload = {
+            _id: patientid,
+            message: message
+          }
+  
+          $.postJSON(MAINURL + "/api-backend/admin/patient_sendline", payload, (msg) => {
+            if (msg.code == 200) {
+              console.log(msg);
+              return alert_success("ส่งข้อความสำเร็จ")
+            } else {
+              console.log(msg);
+              return alert("เกิดปัญหาระหว่างส่งข้อความ")
+            }
+          })
+        }
+  
+        function colorFix() {
+          var patientid = getParameterByName('id', window.location.search);
+          let color = $("#color_picker").val();
+  
+          if (color == "NA") {
+            return alert("กรุณาเลือกสี")
+          }
+  
+          let payload = {
+            id: patientid,
+            color: color
+          }
+  
+          $.postJSON(MAINURL + "/api-backend/admin/color_changer", payload, (msg) => {
+            console.log(msg)
+  
+            if (msg.code == 200) {
+              return alert_success("แก้ไขสีเรียบร้อย")
+            } else {
+              return alert("เกิดปัญหาระหว่างแก้สี โปรดลองใหม่อีกครั้ง")
+            }
+          })
+        }
+  
+        function clickToAppoint() {
+          var patientid = getParameterByName('id', window.location.search);
+          go2View("appoint_patient?id=" + patientid)
+        }
+  
+        function clickToVerify() {
+          var patientid = getParameterByName('id', window.location.search);
+          go2View("call_patient?id=" + patientid)
+        }
+  
+        function AddStaffDataToDB() {
+          var patientid = getParameterByName('id', window.location.search);
+  
+          let role = document.getElementById('role_selection').value
+  
+          let affiliation = document.getElementById('hospital_showing').value
+          console.log(affiliation)
+  
+          if (role == "NONE") {
+            return alert("กรุณาเลือกหน้าที่")
+          }
+  
+          if (confirm("แน่ใจหรือว่าจะแต่งตั้งให้เป็น " + role + "?")) {
+            payload = {
+              _id: patientid,
+              role: role,
+              affiliation: affiliation
+            }
+  
+            console.log(payload);
+            $.postJSON(MAINURL + "/api-backend/admin/add_role_staff", payload, (msg) => {
+              console.log(msg);
+              if (msg.code == 200) {
+                alert_success("เเต่งตั้งเรียบร้อย")
+                return refreshpage()
+              } else if (msg.code == 201) {
+                return alert_success("อัพเดทเรียบร้อย")
+              } else if (msg.code == 409) {
+                return alert("ผู้ใช้เป็นเจ้าหน้าที่อยู่แล้ว")
+              } else {
+                return alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง")
+              }
+            })
+          }
+        }
+  
+        function deletePatient() {
+          var patientid = getParameterByName('id', window.location.search);
+  
+          let payload = {
+            _id: patientid
+          }
+  
+          if (confirm("คุณต้องการลบผู้ป่วยคนนี้หรือไม่")) {
+            $.postJSON(MAINURL + "/api-backend/admin/patient_delete", payload, (msg) => {
+              if (msg.code == 200) {
+                alert_success("ทำการลบผู้ป่วยแล้ว")
+                return go2View('patientlist')
+              } else {
+                return alert("เกิดข้อผิดพลาดระหว่างลบ โปรดลองใหม่อีกครั้ง")
+              }
+            })
+          }
+        }
+  
+        function sync_role()
+        {
+          var patientid = getParameterByName('id', window.location.search);
+  
+          let payload = {
+            _id: patientid
+          }
+  
+          $.postJSON(MAINURL + "/api-backend/admin/sync_staff",payload,(msg) =>
+          {
+            if (msg.code == 200)
+            {
+              alert_success("Sync ตำแหน่งเรียบร้อย")
+              return refreshpage()
+            }
+            else if (msg.code == 404)
+            {
+              return alert("ไม่พบข้อมูลบางอย่าง: " + msg.detail)
+            }
+            else if (msg.code == 403)
+            {
+              return alert("ไม่พบข้อมูลใน Staff หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อฝ่ายพัฒนา")
+            }
+          })
+        }
+      </script>
+  

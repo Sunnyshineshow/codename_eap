@@ -1,0 +1,455 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600&display=swap');
+
+  * {
+    font-family: 'Kanit', sans-serif;
+  }
+
+  button:focus {
+    outline: 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  thead {
+    background: #eeeeee;
+    height: 34px;
+  }
+
+  td th
+    {
+    border: 1px solid #ffeadb;
+    padding: 8px;
+    text-align: center;
+  }
+
+  td {
+    height: 45px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  tr:nth-child(even) {
+    background: #eeeeee;
+  }
+
+  .float-right {
+    float: right;
+  }
+</style>
+<div id="main_queue">
+<div class="md-range-event" mbsc-form>
+  <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+    <div class="mbsc-header-txt mbsc-align-center">
+      <div class="mbsc-align-center" style="margin-top:8px;">
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการช่วยเหลือผู้ป่วยโควิดฉุกเฉิน สำหรับผู้ป่วยรักษาตัวที่บ้าน</p>
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div>
+  <div class="mbsc-align-center" style="margin-top:20px;margin-bottom:12px;">
+    <p style="margin-top:3px;margin-bottom:8px;font-weight:400;"> ตารางนัดหมาย</p>
+  </div>
+</div>
+
+<table id="table_history">
+  <!-- style="width: 130%;" -->
+  <thead id="table_header" style="font-weight:500;font-size:13px;">
+
+  </thead>
+  <tbody id="que_data" style="font-size:12px; display: none;">
+    <tr class="tb_color">
+      <td style="text-align:center;">
+        <!-- position: sticky; left: 0; background-color: white; -->
+        ##APPOINT-id##
+      </td>
+      <td style="text-align:center;">
+        ##APPOINT-appointtime##
+      </td>
+      <td style="text-align:center;">
+        ##APPOINT-hospital.name##
+        </button>
+      </td>
+      <td style="text-align:center;color:#0b9fd5;">
+        ##APPOINT-comment##
+      </td>
+      <td style="text-align:center;">
+        ##APPOINT-status##
+      </td>
+      <!-- <td style="text-align:center;">
+        ##APPOINT-staff##
+      </td> -->
+      <td style="text-align:center;">
+        ##APPOINT-travel##
+      </td>
+      <!-- ปุ่มประเภท -->
+      <td style="text-align:center;">
+          <p style="padding:0px;margin:0px;"><span>##APPOINT-type##</span></p>
+      </td>
+    </tr>
+  </tbody>
+
+  <tbody id="que_data_showing" style="font-size:12px;">
+
+  </tbody>
+</table>
+
+<div id="none_order" style="width:80%;margin:auto;" class="mbsc-align-center">
+  <div id = "no_app" class="mbsc-card-content mbsc-align-center" style="background-color:white !important;padding: 20px 20px !important;margin:auto !important;border-radius:15px !important; positio !important">
+
+  </div>
+</div>
+</div>
+<!-- modal ยืนยันการทำราย -->
+<div id="popup_init">
+  <div id="popup_details_hospital_##APPOINT-id##" class="mbsc-cloak"style="display:none;">
+    <div class="mbsc-align-center mbsc-padding" style="margin:0px;padding:0px;">
+      <p style="padding:0px;margin:0px;font-weight:500;">ข้อมูลการนัด</p>
+      <hr>
+      <image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>
+      <hr>
+      <p style="padding:0px;margin:0px;font-weight:500;">ข้อมูลการติดต่อ</p>
+      <p style="padding:0px;margin:0px;font-weight:500;" class="md-text-center" >##APPOINT-hospital.nameonly##</p>
+      <hr>
+    </div>
+    <div class="">
+      <p style="padding:0px;margin:0px;"><span style="font-weight:500;">เบอร์ติดต่อ :</span> ##APPOINT-hospital.hotline##</p>
+      <p style="padding:0px;margin:0px;"><span style="font-weight:500;">ที่ตั้ง :</span> ##APPOINT-hospital.address##</p>
+    </div>
+    <div class="mbsc-btn-group-justified">
+      <button mbsc-button type="button" class="mbsc-btn-outline " onclick="close_popup_show_detail('##APPOINT-id##')"
+        style="border:none;border-color: #AAAAAA !important;border-radius: 10px !important;color: white !important;background-color: #AAAAAA !important;">ปิด</button>
+        <button mbsc-button type="button" class="mbsc-btn-outline" onclick="googleMap('##APPOINT-hospital.location.coordinates##')" style="color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;"><i class="fa fa-map-marker"></i> Google Map</button>
+    </div>
+  </div>
+
+  <div id="popup_details_choosing_##APPOINT-id##" class="mbsc-cloak"style="display:none;">
+    <div class="mbsc-align-center mbsc-padding" style="margin:0px;padding:0px;">
+      <p style="padding:0px;margin:0px;font-weight:500;">เลือกการเดินทางไป</p>
+      <p style="padding:0px;margin:0px;font-weight:500;" class="md-text-center" >##APPOINT-hospital.nameonly##</p>
+      <hr>
+    </div>
+    <div class="">
+      <p style="padding:0px;margin:0px;"><span style="font-weight:500;">เบอร์ติดต่อ :</span> ##APPOINT-hospital.hotline##</p>
+      <p style="padding:0px;margin:0px;"><span style="font-weight:500;">ที่ตั้ง :</span> ##APPOINT-hospital.address##</p>
+    </div>
+    <div class="mbsc-btn-group-justified">
+      <button mbsc-button type="button" class="mbsc-btn-outline" onclick="googleMap('##APPOINT-hospital.location.coordinates##')" style="color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;"><i class="fa fa-map-marker"></i> Google Map</button>
+    </div>
+    <div class="mbsc-btn-group-justified">
+      <button mbsc-button type="button" class="mbsc-btn-outline" onclick="go_option('##APPOINT-id##','STAFF')" style="color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;">รถรับส่งของเจ้าหน้าที่</button>
+      <button mbsc-button type="button" class="mbsc-btn-outline" onclick="popup_show_detail_self('##APPOINT-id##')" style="color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;">รถส่วนตัวของผู้ป่วย</button>
+    </div>
+    <div class="mbsc-btn-group-justified">
+      <button mbsc-button type="button" class="mbsc-btn-outline " onclick="close_popup_show_choosing('##APPOINT-id##')"
+        style="border:none;border-color: #AAAAAA !important;border-radius: 10px !important;color: white !important;background-color: #AAAAAA !important;">ปิด</button>
+    </div>
+  </div>
+
+  <div id="popup_details_self_##APPOINT-id##" class="mbsc-cloak"style="display:none;">
+    <div class="mbsc-align-center mbsc-padding" style="margin:0px;padding:0px;">
+      <p style="padding:0px;margin:0px;font-weight:500;">ใช้รถส่วนตัว</p>
+      <image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>
+      <hr>
+      <p style="padding:0px;margin:0px;font-weight:500;">โปรดกรอกเลขทะเบียนรถ</p>
+      <hr>
+      <div class="mbsc-row">
+        <div class="mbsc-col-md-10 mbsc-col-10" style="text-align: center;">
+          <label for="selfcar_input">ทะเบียนรถ</label>
+          <input id="selfcar_input_##APPOINT-id##" mbsc-input data-input-style="box" data-label-style="floating" type="text" placeholder="ทะเบียนรถ" />
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <p style="padding:0px;margin:0px;"><span style="font-weight:500;">เบอร์ติดต่อ :</span> ##APPOINT-hospital.hotline##</p>
+    </div>
+    <div class="mbsc-btn-group-justified">
+      <button mbsc-button type="button" class="mbsc-btn-outline " onclick="close_popup_show_self('##APPOINT-id##')"
+        style="border:none;border-color: #AAAAAA !important;border-radius: 10px !important;color: white !important;background-color: #AAAAAA !important;">ปิด</button>
+        <button mbsc-button type="button" class="mbsc-btn-outline" onclick="selfcar_confirm('##APPOINT-id##')" style="color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;">ยืนยัน</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  function refreshpage() {
+      console.log("GLOBALUSER",GLOBALUSER)
+      if(GLOBALUSER.status == 1){
+          go2View("register");
+      }
+      else if (GLOBALUSER.status == 3)
+      {
+        alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน")
+        go2View("initsymptoms")
+        return;
+      }
+      else
+      {
+        $.getJSON(MAINURL + "/api-web/line/appoint_load_patient",(msg) =>
+        {
+          if (!msg.location)
+          {
+            console.log("Location not available");
+            go2View("choose_location")
+          }
+          else
+          {
+            get_queue();
+          }
+        })
+        
+      }
+  }
+
+  //modal confirm order
+  function popup_show_detail(id) {
+    let popupstr  = "#popup_details_hospital_" + id
+    var popup_confirm_book = $(popupstr).mobiscroll().popup({
+      display: 'center',
+      buttons: []
+    }).mobiscroll('getInst')
+    popup_confirm_book.show('slow');
+    return false;
+  }
+  //end modal confirm
+
+  //modal confirm order
+  function popup_show_detail_self(id) {
+    let popupstr  = "#popup_details_self_" + id
+    var popup_confirm_book = $(popupstr).mobiscroll().popup({
+      display: 'center',
+      buttons: []
+    }).mobiscroll('getInst')
+    popup_confirm_book.show('slow');
+    return false;
+  }
+  //end modal confirm
+
+  //modal close modal
+  function close_popup_show_detail(id) {
+    var popup_confirm_book = $('#popup_details_hospital_' + id).mobiscroll().popup({
+      display: 'center'
+    }).mobiscroll('getInst')
+
+    popup_confirm_book.hide('fast');
+
+    return false;
+  }
+
+  //modal close modal
+  function close_popup_show_self(id) {
+    var popup_confirm_book = $('#popup_details_self_' + id).mobiscroll().popup({
+      display: 'center'
+    }).mobiscroll('getInst')
+
+    popup_confirm_book.hide('fast');
+
+    return false;
+  }
+
+  function popup_show_choosing(id) {
+    let popupstr_choosing  = "#popup_details_choosing_" + id
+    var popup_confirm_book_choosing = $(popupstr_choosing).mobiscroll().popup({
+      display: 'center',
+      buttons: []
+    }).mobiscroll('getInst')
+    popup_confirm_book_choosing.show('slow');
+    return false;
+  }
+  //end modal confirm
+
+  //modal close modal
+  function close_popup_show_choosing(id) {
+    var popup_confirm_book_choosing = $('#popup_details_choosing_' + id).mobiscroll().popup({
+      display: 'center'
+    }).mobiscroll('getInst')
+
+    popup_confirm_book_choosing.hide('fast');
+
+    return false;
+  }
+
+  // button ของประเภท
+  function popup_show_type(id) {
+    let popupstr  = "" + id
+    var popup_confirm_book = $(popupstr).mobiscroll().popup({
+      display: 'center',
+      buttons: []
+    }).mobiscroll('getInst')
+    popup_confirm_book.show('slow');
+    return false;
+  }
+
+
+
+  function googleMap(coor) {
+    coor = coor.split(",")
+    let lat = coor[1]
+    let lng = coor[0]
+
+    window.open("https://www.google.com/maps/search/" + lat + ","+ lng, '_blank')
+  }
+
+  function go_option(id,travel)
+  {
+    $.postJSON(MAINURL + "/api-web/line/travel_method",{_id:id,travel:travel} ,(msg) =>
+    {
+      if (msg.code == 400)
+      {
+        return alert_modal("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง")
+      }
+
+      alert_modal("แก้การเดินทางแล้ว")
+      return refreshpage();
+
+    })
+  }
+
+  function get_queue()
+  {
+    $.getJSON(MAINURL + "/api-web/line/appoint_load", (msg) =>
+    {
+      console.log(msg)
+
+      for (let i = 0; i < msg.length; i++)
+      {
+          let datetime = new Date(msg[i].appointtime * 1000)
+
+          let minuteStr = datetime.getMinutes();
+
+          if (minuteStr < 10)
+          {
+              minuteStr = "0" + (datetime.getMinutes()).toString();
+          }
+
+          msg[i].appointtime = datetime.getDate() + "/"
+          + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " "
+          + datetime.getHours() + ":" + minuteStr
+
+          Object.assign(msg[i].hospital, {nameonly: msg[i].hospital.name})
+
+          if (msg[i].type == "CUSTOM")
+          {
+            msg[i].type = "นัดปกติ"
+          }
+          else if (msg[i].type == "XRAY")
+          {
+            msg[i].type = "นัด X-Ray"
+          }
+
+          if (msg[i].status == -1)
+          {
+              msg[i].status = `<span style="color: #C70039;">ยกเลิก</span>`
+          }
+          else if (msg[i].status == 0)
+          {
+            msg[i].status = `<span style="color: #FFD033;">รอคิว</span>`
+            msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
+          }
+          else if (msg[i].status == 1)
+          {
+            msg[i].status = `<span style="color: #47CF55;">ได้คิว</span>`
+            msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
+          }
+          else if (msg[i].status == 2)
+          {
+            msg[i].status = `<span style="color: green;">ตามเวลานัด</span>`
+            msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
+          }
+          else
+          {
+            msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
+          }
+
+          if (msg[i].status == `<span style="color: #C70039;">ยกเลิก</span>`)
+          {
+            msg[i].travel = "คิวยกเลิก"
+          }
+          else if (!msg[i].travel)
+          {
+            Object.assign(msg[i], {travel : "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_choosing('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +"โปรดเลือก"+"</span></p></button>"})
+          }
+          else if(msg[i].travel == "STAFF")
+          {
+            msg[i].travel = "รถเจ้าหน้าที่"
+          }
+          else if(msg[i].travel == "SELF")
+          {
+            msg[i].travel = "รถส่วนตัว"
+          }
+      }
+
+      if (msg.length == 0)
+      {
+        document.getElementById('no_app').innerHTML = `<img style="display: block !important;margin: 0 auto !important;opacity: 0.5 !important; " src="https://image.flaticon.com/icons/png/512/4326/4326320.png" alt="ticket_emtry" width="50" height="50">
+    <p class="mbsc-p mbsc-align-center" style="color: black !important;">ท่านยังไม่มีรายการนัดหมาย</p>`
+      }
+      else
+      {
+        document.getElementById('table_header').innerHTML = `<tr>
+          <!-- position: sticky; position: -webkit-sticky; top: 0; background-color: #eeeeee; -->
+      <td style="text-align:center; width:10%;">เลขที่การนัด </td>
+      <td style="text-align:center; width:10%;">วันที่</td>
+      <td style="text-align:center; width:10%;">สถานที่</td>
+      <td style="text-align:center; width:20%;">การรักษา</td>
+      <td style="text-align:center; width:10%;">สถานะ</td>
+      <!-- <td style="text-align:center; width:20%;">เจ้าหน้าที่</td> -->
+      <td style="text-align:center; width:20%;">การเดินทาง</td>
+      <td style="text-align:center; width:20%;">ประเภท</td>
+    </tr>`
+        var que_data_template = $("#que_data").html()
+
+          tmp = hash_replace(que_data_template,"APPOINT",msg)
+          $("#que_data_showing").html(tmp)
+
+          tmp = hash_replace($("#popup_init").html(),"APPOINT",msg)
+          $("#popup_init").html(tmp)
+      }
+
+      for (let i = 0; i < msg.length; i++)
+      {
+        let qr = new QRious({
+          element: document.getElementById('qr_' + msg[i]._id + "_" +  msg[i].patient),
+          value: 'https://eap.advws.com/public/appointment?id=' +  msg[i]._id + '&patient=' +  msg[i].patient
+        })
+
+        console.log('qr_' + msg[i]._id + "_" +  msg[i].patient)
+        console.log('https://eap.advws.com/public/appointment?id=' +  msg[i]._id + '&patient=' +  msg[i].patient)
+      }
+    })
+
+      $('#main_queue').show();
+  }
+
+  function selfcar_confirm(id)
+  {
+    let selfcar = document.getElementById('selfcar_input_' + id).value
+
+    console.log(document.getElementById('selfcar_input_' + id).value)
+    if (!selfcar)
+    {
+      return alert_modal("กรุณากรอกเลขทะเบียน")
+    }
+
+    $.postJSON(MAINURL + "/api-web/line/travel_method",{_id:id,travel:"SELF",selfcar: selfcar} ,(msg) =>
+    {
+      if (msg.code == 400)
+      {
+        return alert_modal("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง")
+      }
+
+      alert_modal("แก้การเดินทางแล้ว")
+      return refreshpage();
+    })
+  }
+  // alert_modal(ท่านยังไม่มีรายการนัดหมาย);
+</script>

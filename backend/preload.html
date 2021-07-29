@@ -1,0 +1,113 @@
+<header id='inc_menu_header'> </header>
+
+
+<div id='mainpage_body' style="margin-top: 50px !important;" class="pb-5">
+  <center>Loading ..</center>
+</div>
+<footer style="margin-left: 0px !important;" class="fixed-bottom mt-5">
+  <div class="container-fluid my-auto">
+    <div class="text-center my-auto copyright"><span>© Copyright  <br /></span>
+    </div>
+  </div>
+
+
+</footer>
+
+<div id="lineLogin"></div>
+
+<script>
+    var GLOBAL_USER;
+    var ACCESS_TOKEN = localStorage.getItem('eap_access_token');
+    var pagestatus = getParameterByName('?');
+    var page = window.location.pathname.split('/')[URL_PAGE_POSITION+1];
+    var working ={}
+    console.log("PAGE = ",page)
+    var all_page = [
+        'dashboard', 'loginline','main', 'stafflist','notallow','patientlist','monitoring','gmap','appointment','treatment','hospital','hospital_edit',
+        'patient','appoint_patient','staff_edit','call_center','call_patient','car_manage','hospital_manage','car_choose','log_report','patient_form'
+    ];
+
+    for (var x = 0; x < all_page.length; x++) {
+        onPageshow(all_page[x], {
+            obj: '#mainpage_body',
+            url: PREFIX_MAIN_LOCAL + '/' + all_page[x] + '.html'
+        });
+    }
+
+    function show_module(token) {
+        // if (pagestatus) {
+        //     starturl = starturl.split('?')[0];
+        //     console.log("starturl", starturl)
+        // }
+        var access = token.scope;
+        console.log("TOKEN = ",token)
+        $('#inc_menu_header').load(PREFIX_MAIN_LOCAL+'/inc_nav.html');
+
+        $('.sidebar').load(PREFIX_MAIN_LOCAL+'/sidebar.html', function() {
+            $('.sidebar').show(function() {
+                // console.log(page)
+                $('#'+page).addClass('active');
+            });
+        });
+
+        $('#header').load(PREFIX_MAIN_LOCAL+'/navbar.html', function() {
+            $('#header').show();
+        });
+        $('#footernav').load(PREFIX_MAIN_LOCAL+'/footer.html', function() {
+            $('#footernav').show();
+        });
+
+        $('#linelogin').hide();
+
+        $('.topmenu').load(PREFIX_MAIN_LOCAL+'/topmenu.html', function() {
+            $('.topmenu-right').show(function() {
+                // console.log(page)
+                $('#'+page).addClass('active');
+            });
+        });
+    }
+
+    if(starturl == '/undefined') {
+      starturl = "main"
+    }
+    console.log("starturl", starturl)
+    if (ACCESS_TOKEN) {
+        console.log("ACCESS_TOKEN",ACCESS_TOKEN)
+        var decode = jwt_decode(ACCESS_TOKEN);
+        if(decode.exp < Math.floor(new Date() / 1000)) {
+            $('.sidenav').hide();
+            $('#header').hide();
+            $('#footernav').hide();
+            $('.topmenu').hide();
+            window.localStorage.clear();
+            window.location = PREFIX_URL + '/loginline';
+        } else {
+            ajax_settoken(ACCESS_TOKEN);
+            show_module(decode);
+            GLOBAL_USER = decode;
+        }
+        if(starturl){
+            // console.log(starturl)
+            go2View(starturl);
+        }else{
+            go2View("main");  /* main */
+        }
+    } else {
+        if(starturl && starturl.indexOf('/loginline?') ==0){
+            // console.log("checking.. from LINE")
+            $('#lineLogin').load(PREFIX_MAIN_LOCAL + '/loginline.html');
+        }else {
+            go2View("loginline");
+        }
+    }
+
+
+
+        function logout() {
+            window.localStorage.clear();
+            window.location =  PREFIX_URL
+        }
+
+
+
+</script>

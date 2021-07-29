@@ -1,0 +1,103 @@
+<!-- <div>Please wait.....</div> -->
+<div class="container bg-" id="main_login_page" style="display:none">
+  <div class="row justify-content-center align-self-center" style="margin-top:200px;">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-4 h-100">
+      <div class="center-screen">
+        <div class="card w-100 mx-auto border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;border-radius:0px;">
+          <div class="row mt-5 mb-5">
+            <div class="col-md-12 text-center">
+              Image Here
+            </div>
+            <div class="col-md-12">
+              <h6 class="text-center">Admin<span><b> System.</b></span></h6>
+            </div>
+            <hr class="w-50 mx-auto mt-3">
+            <div class="col-md-12 p-3 d-flex justify-content-center">
+              <button type="button" class="btn btn-line" style="outline: none;color: white !important;background: #00B900 !important;"
+               onclick="loginLineUser()">
+                <span class="ps-3 pe-3">
+                  <span style="font-size:20px;" class="me-2"><b><i class="fab fa-line"></i></b></span>
+                  <span class="pl-1" style="font-size: 18px;"><b>Log in with Line</b></span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  var LINE_USER = {};
+
+  var myLiffId = '1656222532-ZJLv88Q3';
+  var urlParams = new URLSearchParams(window.location.search);
+  var code = urlParams.get('code');
+  var alreadyinit;
+
+  function loginLineUser() {
+     console.log('param line is: ', myLiffId)
+    liff.init({ liffId: myLiffId }).then(() => {
+      console.log(liff.isLoggedIn())
+      if (liff.isLoggedIn()) {
+        var tokenLine = liff.getAccessToken();
+        liff.getProfile().then(profile => {
+          // console.log("profile", profile)
+          LINE_USER.token = tokenLine;
+          LINE_USER.pictureUrl = profile.pictureUrl;
+          LINE_USER.userId = profile.userId;
+          LINE_USER.displayName = profile.displayName;
+          LINE_USER.statusMessage = profile.statusMessage;
+          console.log("profile",profile)
+          ;
+          verifyLineLogin({ LINE_USER: LINE_USER });
+        })
+        console.log("logedin")
+        // verifyLineLogin({ LINE_USER: LINE_USER });
+        // // console.log("tokenLine is: ", tokenLine)
+        // // localStorage.setItem("linetoken", tokenLine);
+      } else {
+        liff.login();
+      }
+    }).catch((err) => {
+      $('#main_login_page').show();
+      console.log(err.code, err.message);
+    });
+  }
+
+  function verifyLineLogin(lineData) {
+    console.log("LINE USER",lineData)
+    $.postJSON('/api-backend/auth/line', lineData, (res) => {
+      console.log(res)
+      if(res && res.result) {
+        if(res.data &&  Array.isArray(res.data.scope)){
+          if(res.data.scope.indexOf('admin') !== -1){
+              ajax_settoken(res.token);
+              localStorage.setItem('eap_access_token', res.token);
+              window.location.replace(PREFIX_URL);
+              return;
+          }
+          console.log("not found admin profile")
+        }
+        go2View('notallow')
+
+        // $('#linelogin').hide();
+      } else {
+        $('#main_login_page').show();
+        alert(res.message);
+        return false;
+      }
+    })
+  }
+
+  if (code) {
+    console.log("Found Line Code")
+    loginLineUser();
+  }else{
+    $('#main_login_page').show();
+  }
+
+</script>

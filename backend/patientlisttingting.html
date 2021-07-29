@@ -1,0 +1,282 @@
+<div class="main_page mb-5" style="margin-top:150px;">
+    <div class="p-2 mr-5 ml-5">
+      <div class="container">
+        
+
+        <!--Counter-->
+
+        <div class="position-relative" style="text-align: center;">
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h1>Red Cases</h1>
+                  <br><br><h2 id="red_cases_num" style="color: red;">Test</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h1>Yellow Cases</h1>
+                  <br><br><h2 id="yellow_cases_num" style="color: #fcba03;">Test</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h1>Green Cases</h1>
+                  <br><br><h2 id="green_cases_num" style="color: green;">Test</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+              <br><br>
+              <br><br>
+
+        <h3>Patient List</h3>
+        <div class="row mb-1">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form class="form-row" onsubmit="return refreshpage();">
+              <div class="row d-flex justify-content-center ">
+                <!-- <label for="txtsearch">ค้นหา</label> -->
+                <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="search_idno" placeholder="ID No"> <br />
+                  </div>
+                </div>
+                <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <input type="text" class="form-control" id="search_name" placeholder="Search Name"> <br />
+                </div>
+                <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
+                </div>
+                <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
+                </div>
+                <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <div class="form-group col-md-6">
+                    <button type="submit" class="btn btn-primary">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                        <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                      </svg>
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+          <div class="row mt-4">
+            <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="pagination_bar pb-3">แบ่งหน้า</div>
+            </div>
+          </div> <!-- // แบ่งหน้า -->
+        </div>
+        <!-- แบ่งหน้า -->
+
+
+        <div class="table-responsive">
+
+          <table class="table table-bordered show_startpage font-weight-light">
+            <thead class="text-center">
+              <tr>
+                <th scope="col" class="text-secondary">Profile</th>
+                <th scope="col" class="text-secondary">ID</th>
+                <th scope="col" class="text-secondary">Display Name</th>
+                <th scope="col" class="text-secondary">Area</th>
+                <th scope="col" class="text-secondary">Create Date</th>
+                <th scope="col" class="text-secondary">Color</th>
+                <th scope="col" class="text-secondary">Register Status</th>
+                <th scope="col" class="text-secondary">Action</th>
+              </tr>
+            </thead>
+            <tbody id="row_patientlist" style="display:none;">
+              <tr>
+                <td class="text-center table-middle">
+                  <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                </td>
+                <td class="text-center table-middle"># ##patient-id##</td>
+                <td class="text-center table-middle">##patient-displayName##
+                  <br>
+                  ##patient-firstname## ##patient-lastname##
+                </td>
+                <td class="text-center table-middle">อ.##patient-address.district## จ.##patient-address.province##</td>
+                <td class="text-center table-middle">##patient-createDate##</td>
+                <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
+                <td class="text-center table-middle">##patient-status##</td>
+                <td class="text-center table-middle">
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-id##')">นัดหมาย</button>
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody id="show_patientlist">
+              <tr>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- // end table -->
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var template_patient_row = $('#row_patientlist').html();
+    var searchobj = {};
+    var fncsearch;
+
+
+    function refreshpage(rawdata) {
+      var search_setting = {
+        posturl: '/api-backend/admin/patientlist',
+        paginationDIV: $('.pagination_bar'),
+        pagesize: 10,
+        showfunction: show_patient_list,
+        limit: 10,
+      }
+      if ($('#search_name').val() !== "") {
+        search_setting.search = {
+          findname: $('#search_name').val()
+        }
+      }
+
+      if ($('#search_idno').val() !== "") {
+        search_setting.search = {
+          find_id: $('#search_idno').val()
+        }
+      }
+
+      if ($('#search_cid').val() !== "") {
+        search_setting.search = {
+          find_idcard: $('#search_cid').val()
+        }
+      }
+
+      if ($('#search_tel').val() !== "") {
+          search_setting.search = {
+              find_tel: $('#search_tel').val()
+          }
+      }
+
+      var pagenumber = getParameterByName('page', window.location.search);
+      if (pagenumber > 1) {
+        search_setting.page = pagenumber;
+      }
+      // console.log('SEARCH ', search_setting);
+      fncsearch = ADV_search(search_setting); // Defult always search at first
+      return false;
+    }
+
+    function show_patient_list(objdata, totalrecord) {
+      // console.log('objdata', objdata);
+      if (objdata.result && totalrecord > 0) {
+        working.patient = objdata.obj;
+        console.log("OBJDATA: " + objdata.obj)
+        objdata.obj.map(item => {
+          // console.log(item)
+
+          // let datetime = new Date(res.symptoms[i].inputdate)
+          // res.symptoms[i].inputdate = datetime.getDate() + "/"
+          // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+
+          // item.createDate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
+          // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
+
+          item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+        })
+
+        for (let i = 0; i < objdata.obj.length; i++)
+          {
+              //Status
+              if (objdata.obj[i].status == 1)
+              {
+                objdata.obj[i].status = "ยังไม่ได้ลง"
+              }
+              else if (objdata.obj[i].status == 2)
+              {
+                objdata.obj[i].status = "ลงทะเบียนแล้ว"
+              }
+              else if (objdata.obj[i].status == 3)
+              {
+                objdata.obj[i].status = "ยังลงทะเบียนไม่เสร็จ"
+              }
+              else
+              {
+                objdata.obj[i].status = "--ไม่มีข้อมูล--"
+              }
+
+              //Date Time
+              let datetime = new Date(objdata.obj[i].createdate * 1000)
+
+              objdata.obj[i].createdate = datetime.getDate() + "/"
+              + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+
+              if (objdata.obj[i].color)
+              {
+                //Status color
+                if (objdata.obj[i].color == "RED")
+                {
+                  objdata.obj[i].color = '<span style="color: #C70039;">RED</span>'
+                }
+                else if (objdata.obj[i].color == "YELLOW")
+                {
+                  objdata.obj[i].color = '<span style="color: #fcba03;">YELLOW</span>'
+                }
+                else if (objdata.obj[i].color == "GREEN")
+                {
+                  objdata.obj[i].color = '<span style="color: green;">GREEN</span>'
+                }
+              }
+              else
+              {
+                Object.assign(objdata.obj[i].color = "N/A")
+              }
+          }
+
+          $.getJSON(MAINURL + "/api-backend/admin/color_counter",(msg) =>
+          {
+            //Apply Count
+              document.getElementById('red_cases_num').innerHTML = msg.red
+              document.getElementById('yellow_cases_num').innerHTML = msg.yellow
+              document.getElementById('green_cases_num').innerHTML = msg.green
+          })
+
+        var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
+        $("#show_patientlist").html(html_row);
+        // $('.show_startpage').show('slow');
+      } else {
+        $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+      }
+    }
+
+    function view_symptom(patient_id) {
+
+      go2View("patient?id=" + patient_id)
+
+    }
+
+    function appointment(patient_id) {
+
+      go2View("appoint_patient?id=" + patient_id)
+
+    }
+
+    function settingpatient(dataid) {
+      working.active_patientid = dataid;
+      go2View('patient-edit');
+    }
+  </script>

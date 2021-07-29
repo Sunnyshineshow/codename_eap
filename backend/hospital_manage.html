@@ -1,0 +1,284 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+  <div class="container">
+    <div class="position-relative" style="text-align: center;">
+      <div class="row">
+        <div class="col-md-4 mt-2">
+          <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+            <div class="card-body text-dark">
+              <h3>Current</h3>
+              <h1 id="current_cap_display">Loading</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mt-2">
+          <div class="card border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+            <div class="card-body text-dark">
+              <h3>Full</h3>
+              <h1 id="full_capacity_display">Loading</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mt-2">
+          <div class="card border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+            <div class="card-body text-dark">
+              <h3>Threshold</h3>
+              <h1 id="threshold_display">Loading</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+
+    <div class="col-md-12">
+      <h3 style="color: #0d6efd;"><b>Time Slot</b></h3>
+      <div class="card">
+        <div class="card-body" style="text-align: center;">
+
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+              <input type="date" class="form-control" id="search_date" placeholder="Date"> <br />
+            </div>
+
+            <div class="col-md-6">
+              <select class="form-select" aria-label="Default select example" id="SearchHospitalList" style="display: none;">
+                <option value="##hospital-id##">##hospital-name##</option>
+              </select>
+              <select class="form-select" aria-label="Default select example" id="SearchHospitalList_showing">
+              </select>
+              
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" onclick="SetsearchDate($('#search_date').val())">
+            <i class="fas fa-search"></i>
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+
+<div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+
+<div>
+  <b>
+    <h3 style="color: #0d6efd;" id="showing_current_date">Current Date will be display here</h3>
+  </b>
+  <br>
+  <div class="btn-group" style="text-align: left;">
+    <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
+    <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
+  </div>
+  <br>
+  <br>
+  <div class="table-responsive">
+
+    <table class="table table-bordered show_startpage font-weight-light">
+      <thead class="text-center">
+        <tr>
+          <th scope="col" class="text-secondary">Timeslot No.</th>
+          <th scope="col" class="text-secondary">Interval</th>
+          <th scope="col" class="text-secondary">Current Queue</th>
+        </tr>
+      </thead>
+      <tbody id="row_timeslot" style="display:none;">
+        <tr>
+          <td class="text-center table-middle">##TIMESLOT-id##</td>
+          <td class="text-center table-middle">##TIMESLOT-timestart## - ##TIMESLOT-timeend##</td>
+          <td class="text-center table-middle">##TIMESLOT-queuecount##</td>
+        </tr>
+      </tbody>
+      <tbody id="show_timeslot">
+        <tr>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+</div>
+
+
+<script>
+  var template_row_timeslot = $('#row_timeslot').html();
+  var HospitalData
+  var hospital_id = 1
+  var date = new Date()
+  var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()) / 1000)
+  var html_row_2
+
+  $(document).ready(() =>
+  {
+    $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
+      html_row_2 = hash_replace( $("#SearchHospitalList").html(), 'hospital', msg)
+        $("#SearchHospitalList_showing").html(html_row_2);
+    })
+  })
+
+  function refreshpage() {
+    //Object for table
+    // $.postJSON(MAINURL + "/api-backend/admin/hospital_edit/get", {
+    //   _id: hospital_id
+    // }, (ObjectData) => {
+    //   console.log(ObjectData);
+    //   if (ObjectData != null) {
+    //     console.log("Pass!")
+    //     HospitalData = ObjectData
+    //     var hospitalhtml_row = hash_replace($("#hospital_information").html(), 'HOSPITAL', ObjectData)
+    //     $("#hospital_information").html(hospitalhtml_row);
+    //   } else {
+    //     $("#hospital_information").html("Data not found");
+    //   }
+    // })
+
+    console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
+    //กัน Commit
+    console.log("Hospital ID" + hospital_id)
+
+    let payload = {
+      hospital: hospital_id,
+      timestart: current_date
+    }
+
+    console.log(payload)
+
+    $.postJSON(MAINURL + "/api-backend/admin/hospital/load_timeslot", payload, (msg) => {
+      console.log("AfterSend data")
+      console.log(msg)
+      if (msg.code == 200) {
+        for (let i = 0; i < msg.detail.length; i++) {
+          let datetime = new Date(msg.detail[i].timestart * 1000)
+
+          let minutes = datetime.getMinutes()
+
+          let hours = datetime.getHours()
+
+          if (minutes < 10) {
+            minutes = "0" + minutes
+          }
+
+          if (hours < 10) {
+            hours = "0" + hours
+          }
+
+          msg.detail[i].timestart = hours + ":" + minutes
+
+
+
+          datetime = new Date(msg.detail[i].timeend * 1000)
+
+          minutes = datetime.getMinutes()
+
+          hours = datetime.getHours()
+
+          if (minutes < 10) {
+            minutes = "0" + minutes
+          }
+
+          if (hours < 10) {
+            hours = "0" + hours
+          }
+
+          msg.detail[i].timeend = hours + ":" + minutes
+        }
+
+        let tmp = hash_replace(template_row_timeslot, 'TIMESLOT', msg.detail)
+        $("#show_timeslot").html(tmp);
+
+        $.postJSON(MAINURL + "/api-backend/admin/hospital/threshold",payload,(msg) =>
+      {
+        console.log(msg)
+        document.getElementById('current_cap_display').innerHTML = msg.current_cap
+        document.getElementById('full_capacity_display').innerHTML = msg.full_capacity
+        document.getElementById('threshold_display').innerHTML = Math.floor(msg.threshold).toString() + "%"
+
+        console.log("Current cap: " + msg.current_cap)
+      })
+
+      } else if (msg.code == 404 || msg.code == 400) {
+        let detail = msg.detail
+        $("#show_timeslot").html(`<tr><td colspan="100%" class="text-center"><span class="text-sub">${detail}</span></td></tr>`);
+
+        document.getElementById('current_cap_display').innerHTML = "---"
+        document.getElementById('full_capacity_display').innerHTML = "---"
+        document.getElementById('threshold_display').innerHTML = "---"
+      }
+      let showing_date = new Date(current_date * 1000)
+      document.getElementById('showing_current_date').innerHTML = showing_date.getDate() + "/" + (showing_date.getMonth() + 1) + "/" + showing_date.getFullYear()
+    })
+  }
+
+
+  //กัน Commit
+  function Submittime() {
+
+    console.log("OK!")
+    console.log($('#OnDate').val())
+
+    //Change to date()
+
+    var DateSpliter = $('#OnDate').val().split("-")
+    var TimeStartSpliter =  $('#Startime').val().split(":")
+    var TimeEndSpliter =  $('#Endtime').val().split(":")
+
+    console.log(DateSpliter)
+    console.log(TimeStartSpliter)
+    console.log(TimeEndSpliter)
+
+    var Start = Math.floor(new Date(DateSpliter[0],DateSpliter[1]-1,DateSpliter[2],TimeStartSpliter[0],TimeStartSpliter[1]) /1000)
+    var End = Math.floor(new Date(DateSpliter[0],DateSpliter[1]-1,DateSpliter[2],TimeEndSpliter[0],TimeEndSpliter[1]) /1000)
+
+    console.log($('#Startime').val() + " + " + $('#Endtime').val())
+    console.log(Math.floor(new Date(DateSpliter[0].getFullYear,DateSpliter[1].getMonth,DateSpliter[2].getDate,TimeStartSpliter[0].getHours,TimeStartSpliter[1].getMinutes)) / 1000 )
+    console.log(End)
+
+    if (Start >= End)
+    {
+      return alert("โปรดกรอกเวลาที่ถูกต้อง")
+    }
+
+    var new_timeslot = {
+      timeslot: parseInt($('#Freetime_Slot').val()),
+      hospital: HospitalData._id, // Hospital ID (ดึงจากหน้าเว็บ)
+      queuemax: HospitalData.xraycapacity, // xraycapacity (ดึงจากหน้าเว็บ)
+      startdate: Start,
+      enddate: End,
+    }
+    console.log(new_timeslot)
+
+    alert("กำลังอัปเดตค่าเข้าระบบกรุณารอสักครู่แล้วจึง Refresh หน้า")
+    $.postJSON(MAINURL + "/api-backend/admin/hospital/new_timeslot", new_timeslot, (ObjectData) => {
+      console.log("Sending: " + new_timeslot);
+      console.log(ObjectData);
+      if (ObjectData != null) {
+        alert_success("อัปเดตตารางเวลาเรียบร้อยแล้ว")
+      }
+    })
+  }
+  //กัน Commit
+
+  function changeDate(quantity) {
+    current_date += 24 * 3600 * (quantity)
+    refreshpage()
+  }
+
+  function SetsearchDate(DateSelect) {
+    if (DateSelect)
+    {
+      current_date = Math.floor(new Date(DateSelect) / 1000)
+    }
+    console.log("current date: " + current_date)
+
+    hospital_id =  parseInt(document.getElementById('SearchHospitalList_showing').value)
+    refreshpage()
+  }
+</script>

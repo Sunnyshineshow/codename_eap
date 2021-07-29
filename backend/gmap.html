@@ -1,0 +1,112 @@
+<style media="screen">
+  #iframe-contents {
+    height: 680px;
+    overflow: auto;
+  }
+</style>
+<div class="main_page mb-5" style="margin-top:120px;">
+  <div class="p-2 mr-5 ml-5">
+    <div class="container">
+      <h3><b>Google Map</b></h3>
+      <div class="" id="iframe-contents">
+        <div id="map" style="height: 600px;">Please wait map</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwdeP0gegsHLNFUFvHpVFePFwl9Jcy7U&callback=initMap&libraries=&v=weekly">
+</script>
+
+<script>
+  var fncsearch;
+  var themarker = null;
+  var map
+
+  function search_data() {
+    //var anysearch = {color:"RED"}
+    var anysearch = {}
+    $.postJSON(MAINURL + '/api-backend/admin/patient_maps', anysearch, (res) => {
+      if (res.result && res.obj) {
+        show_patient_list(res.obj);
+      }
+
+    });
+
+  }
+
+
+  function show_patient_list(objdata, totalrecord) {
+    console.log('objdata', objdata);
+    if (themarker) {
+      themarker.clearMarkers();
+    }
+
+    const markers = objdata.map(item => {
+      // patient has GPS
+
+      if (item.pictureUrl) {
+        image = item.pictureUrl
+      }
+      if (item.firstname) {
+        name = item.firstname + "  " + item.lastname
+      } else {
+        name = item.displayName
+      }
+      var l = {
+        lat: item.location.coordinates[1],
+        lng: item.location.coordinates[0]
+      };
+      var img = {
+        url: image,
+        size: new google.maps.Size(30, 30),
+        scaledSize: new google.maps.Size(30, 30)
+      }
+      if (!img.url) {
+        img = undefined;
+      }
+      var temp = new google.maps.Marker({
+        position: l,
+        //  map: map,
+        icon: img,
+        title: "#" + item._id + ": " + name
+      });
+      const infowindow = new google.maps.InfoWindow({
+        content: temp.getTitle(),
+      });
+      temp.addListener("click", () => {
+
+        infowindow.open(map, temp);
+
+      });
+      return temp;
+    })
+    console.log("LOOP ALL markers", markers)
+    var themarker = new MarkerClusterer(map, markers, {
+      gridSize: 20,
+      imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
+
+  }
+
+  function initMap() {
+    if (google) {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 8,
+        center: {
+          lat: 13.0376,
+          lng: 101.491373
+        },
+      });
+      if (map) {
+        search_data()
+      }
+    } else {
+      console.log("No google")
+    }
+  }
+</script>
+
+</div>
+</div>

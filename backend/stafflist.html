@@ -1,0 +1,251 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="p-2 mr-5 ml-5">
+<div style="display:none;" id="Hider">
+        <div class="container">
+            <h3><b>Staff List</b></h3>
+            <div class="row mb-1">
+                <div class="col-6 col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <form class="form-row" onsubmit="return pre_search();">
+                        <div class="form-group col-md-6" style="width: 100%;">
+                            <label for="txtsearch">ค้นหา</label>
+                            <div class="row d-flex justify-content-left" style="width: 180%;">
+                            <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3" style="width: 30%;">
+                              <div class="form-group">
+                                <input type="text" class="form-control" id="search_name" placeholder="Search Name">
+                              </div>
+                            </div>
+                            <br>
+                            <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3" style="width: 30%;">
+                              <div class="form-group">
+                                <input type="text" class="form-control" id="search_id" placeholder="ค้นหาด้วยไอดี">
+                              </div>
+                            </div>
+                            <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3" style="width: 30%;">
+                              <div class="form-group">
+                                <input type="text" class="form-control" id="search_hospital" placeholder="ค้นหาด้วยสังกัดสถานพยาบาล">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-6 pt-4">
+                            <button type="submit" class="btn btn-primary">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                  <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                </svg>
+                Search
+              </button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="row mt-4">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="pagination_bar pb-3">แบ่งหน้า</div>
+        </div>
+      </div> <!-- // แบ่งหน้า -->
+            </div>
+            <!-- แบ่งหน้า -->
+
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered show_startpage font-weight-light">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col" class="text-secondary">Profile</th>
+                            <th scope="col" class="text-secondary">ID</th>
+                            <th scope="col" class="text-secondary">Display Name</th>
+                            <th scope="col" class="text-secondary">สังกัดสถานพยาบาล</th>
+                            <th scope="col" class="text-secondary">Create Date</th>
+                            <th scope="col" class="text-secondary">ตำแหน่ง</th>
+                            <th scope="col" class="text-secondary">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="row_stafflist" style="display:none;">
+                        <tr>
+                            <td class="text-center table-middle">
+                                <img src="##STAFF-pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                            </td>
+                            <td class="text-center table-middle"># ##STAFF-id##</td>
+                            <td class="text-center table-middle">##STAFF-displayName##</td>
+                            <td class="text-center table-middle">##STAFF-affiliation##</td>
+                            <td class="text-center table-middle">##STAFF-createdate##</td>
+                            <td class="text-center table-middle">##STAFF-role##</td>
+                            <td class="text-center table-middle">
+                                <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="settingStaff('##STAFF-id##')">จัดการ</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="show_stafflist">
+                        <tr>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- // end table -->
+
+
+
+
+        </div>
+</div>
+    </div>
+</div>
+<script type="text/javascript">
+    var status_th = [];
+    status_th[1] = 'Subscriber';
+    status_th[2] = 'Administrator';
+    // var status_color = [];
+    // status_color[1] = 'text'
+
+    var template_staff_row = $('#row_stafflist').html();
+
+    var searchobj = {};
+    var fncsearch;
+
+    //CheckIsStaff()
+
+
+    function refreshpage(rawdata,clearsearch) {
+        console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
+        $('#Hider').show();
+        var search_setting = {
+            posturl: '/api-backend/admin/staff/list',
+            paginationDIV: $('.pagination_bar'),
+            pagesize: 10,
+            showfunction: show_staff_list,
+            limit: 10,
+        }
+        if ($('#search_name').val() !== "") {
+            search_setting.search = {
+                findname: $('#search_name').val()
+            }
+        }
+        if ($('#search_id').val() !== "") {
+            search_setting.search = {
+                findid: $('#search_id').val()
+            }
+        }
+        if ($('#search_hospital').val() !== "") {
+            search_setting.search = {
+                findhospital: $('#search_hospital').val()
+            }
+        }
+
+        //date change
+        // Object.assign(res, {day_count: date_diff(res.createdate * 1000)})
+
+        var pagenumber = getParameterByName('page', window.location.search);
+        if (pagenumber > 1) {
+            search_setting.page = pagenumber;
+        }
+        // console.log('SEARCH ', search_setting);
+        fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+        return false;
+    }
+
+    function pre_search(){
+    // clear search url from lastsearch
+
+    refreshpage(undefined,true);
+    return false;
+  }
+  
+    function show_staff_list(objdata, totalrecord) {
+        // console.log('objdata', objdata);
+        if (objdata.result && totalrecord > 0) {
+            working.staff = objdata.obj;
+            objdata.obj.map(item => {
+                // console.log(item)
+                item.createdate ? item.createdate = moment(item.createdate / 1000, "X").format('DD/MM/YYYY') : "";
+                // item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+
+                let affstring = "";
+                for (let j = 0; j < item.affiliation.length; j++)
+                {
+                    if(!item.affiliation[j].name)
+                    {
+                        continue
+                    }
+                    affstring += (item.affiliation[j].name) + " "
+                }
+                item.affiliation = affstring
+            })
+
+            // // old date
+            // for (let i = 0; i < objdata.obj.length; i++)
+            // {
+            //     //Date Time
+            //     let datetime = new Date(objdata.obj[i].createdate)
+
+            //     objdata.obj[i].createdate = datetime.getDate() + "/"
+            //     + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+
+            // }
+
+            var html_row = hash_replace(template_staff_row, 'STAFF', objdata.obj)
+            $("#show_stafflist").html(html_row);
+            // $('.show_startpage').show('slow');
+        } else {
+            $("#show_stafflist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+        }
+    }
+
+    // //date change
+    // function date_diff(date1)
+    // {
+    //     let dateOnly = new Date()
+    //     console.log(dateOnly)
+    //
+    //     let date2 = Date.parse(new Date(dateOnly.getFullYear(), dateOnly.getMonth(), dateOnly.getDate()))
+    //     console.log(new Date(date2))
+    //
+    //     return parseInt((date2 - date1) / 86400000)
+    // }
+
+    function settingStaff(dataid) {
+        working.active_staffid = dataid;
+        go2View('staff-edit');
+    }
+    // function settingStaff(patient_id) {
+    //   go2View("staff_edit?id=" + patient_id)
+    // }
+    function settingStaff(staff_editid)
+    {
+        go2View("staff_edit?id=" + staff_editid)
+    }
+
+    function CheckIsStaff()
+    {
+        // console.log(GLOBAL_USER.userId)
+        $.postJSON(MAINURL + "/api-backend/admin/checker", {userId: GLOBAL_USER.userId}, (msg) =>
+        {
+            console.log(msg)
+            //To Dragon: ถ้ากุด่ามึงเพราะ Line นี้ ด่ากุได้เลยว่า "เอ้าก็มึงเป็นคนโค้ด"
+            if(msg.code == 200)
+            {
+                var x = document.getElementById("Hider");
+                if (x.style.display === "none")
+                {
+                    x.style.display = "block";
+                }
+            }
+            else if (msg.code == 403)
+            {
+                return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+            }
+            else
+            {
+                return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+            }
+        })
+    }
+
+
+</script>

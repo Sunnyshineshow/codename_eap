@@ -1,0 +1,503 @@
+<div>
+    <div class="main_page mb-5" style="margin-top:120px;">
+      <div class="container">
+        <h3 class="mb-3"><b>นัดหมายผู้ป่วย</b></h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body" style="text-align: left;">
+                <h4 style="color: #289de9;">รายละเอียดผู้ป่วย</h4>
+                <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                <div id="patient_information" style="display: none;">
+                  <p class="p-0 m-0 mt-3"><strong>ชื่อ: </strong>##PATIENT-nametitle## ##PATIENT-firstname## ##PATIENT-lastname##</p>
+                  <p class="p-0 m-0"><strong>อายุ: </strong> ##PATIENT-age##</p>
+                  <p class="p-0 m-0"><strong>เบอร์โทรติดต่อ: </strong>##PATIENT-mobileno##</p>
+                  <p class="p-0 m-0 mt-3"><strong>โรคประจำตัวที่มี: </strong><br> ##PATIENT-init_symptoms.disease##</p>
+                  <p class="p-0 m-0 mt-3"><strong>แพ้ยา: </strong>##PATIENT-allergic##</p><br>
+                  <button type="button" class="btn text-white mb-3" onclick="toDescription()" style="background: #289de9;"><i class="far fa-hand-pointer"></i> คลิกที่นี่เพื่อดูรายละเอียดผู้ป่วย</button>
+                </div>
+                <div id="patient_information_showing">
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body" style="text-align: left;">
+                <h4 style="color: #289de9;">นัดหมายผู้ป่วย</h4>
+                <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                <div id="appointment_detail">
+                  <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label"><strong>วันเวลานัดหมาย: </strong></label>
+                    <div class="col-sm-8">
+                      <input type="datetime-local" class="form-control" id="appoint_date">
+                      <p class="m-0 p-0"><span style="color: red;"><small>*ไม่รองรับการใช้งานผ่าน Firefox</small></span></p>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label"><strong>สถานที่: </strong></label>
+                    <div class="col-sm-8">
+                      <select class="form-select" name="hospital" id="hospital" style="display: none;">
+                        <option value="##HOSPITAL-id##">##HOSPITAL-name##</option>
+                      </select>
+  
+                      <select class="form-select" name="hospital_showing" id="hospital_showing">
+                        <div id="qrcode"></div>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- //01: type="datetime-local" -->
+                  <!-- //02 on firefox but no time: type="date" name="dateofbirth" -->
+                  <!-- //03 all error: id="appoint_date" -->
+                  <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label"><strong>ประเภทการรักษา: </strong></label>
+                    <div class="col-sm-8">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type_of_treatment" id="x_ray_choose">
+                        <label class="form-check-label" for="x_ray_choose">
+                          X-Ray
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type_of_treatment" id="customize_choose" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          กำหนดเอง
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label"><strong>การรักษา: </strong></label>
+                    <div class="col-sm-8">
+                      <textarea class="form-control" name="name" rows="2" cols="80"  type="text" id="treatment"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-8">
+                      <button type="button" id="appoint_confirm"  class="btn btn-primary" onclick="submit()"><i class="fas fa-calendar-check"></i> นัดหมาย</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <br>
+        <div class="card">
+            <div class="card-body" style="text-align: left;">
+              <h4 style="color: #289de9;" class="mb-3">เลื่อนนัดหมาย</h4>
+              <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+              <div id="queue_postpone">
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label"><strong>เลขที่นัดหมาย: </strong></label>
+                  <div class="col-sm-8">
+                    <textarea class="form-control" id="queue_number" rows="1" type="number"></textarea>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label"><strong>วันเวลานัดหมาย: </strong></label>
+                      <div class="col-sm-8">
+                        <input type="datetime-local" class="form-control" id="postpone_date">
+                      </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label"><strong>สถานที่: </strong></label>
+                  <div class="col-sm-8">
+                    <select class="form-select" name="hospital_q" id="hospital_q" style="display: none;">
+                      <option value="##HOSPITAL-id##">##HOSPITAL-name##</option>
+                    </select>
+                    <select class="form-select" name="hospital_showing_q" id="hospital_showing_q">
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label"><strong>ประเภทการรักษา: </strong></label>
+                  <div class="col-sm-8">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="type_of_treatment" id="queue_x_ray_choose">
+                      <label class="form-check-label" for="queue_x_ray_choose">
+                        X-Ray
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="type_of_treatment" id="queue_customize_choose" checked>
+                      <label class="form-check-label" for="queue_customize_choose">
+                        กำหนดเอง
+                      </label>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label"><strong>การรักษา: </strong></label>
+                  <div class="col-sm-8">
+                    <textarea class="form-control" name="queue_treatment" rows="2" cols="80"  type="text" id="queue_treatment"></textarea>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label"></label>
+                  <div class="col-sm-8">
+                    <button type="button" id="change_appoint_confirm"  class="btn btn-primary" onclick="postponeSubmit()"><i class="fas fa-calendar-check"></i> เปลี่ยนนัดหมาย</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <br>
+        <div class="card">
+          <div class="card-body" style="text-align: left;">
+            <h4 style="color: #289de9;" class="mb-3">นัดหมายที่มีอยู่</h4>
+            <div id="appointment_list">
+              <div class="table-responsive">
+                <table class="table table-bordered show_startpage font-weight-light">
+                  <thead class="text-center">
+                    <tr>
+                      <th scope="col" class="text-secondary">เลขที่นัดหมาย</th>
+                      <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
+                      <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
+                      <th scope="col" class="text-secondary">รายละเอียด</th>
+                      <th scope="col" class="text-secondary">สถานะ</th>
+                      <th scope="col" class="text-secondary">Action</th>
+                      <th scope="col" class="text-secondary">QRcode</th>
+                    </tr>
+                  </thead>
+                  <tbody id="row_appointlist" style="display: none;">
+                    <tr>
+                      <td class="text-center table-middle">##APPOINT-id##</td>
+                      <td class="text-center table-middle">##APPOINT-appointtime##</td>
+                      <td class="text-center table-middle">##APPOINT-hospital.name##</td>
+                      <td class="text-center table-middle">##APPOINT-comment##</td>
+                      <td class="text-center table-middle">##APPOINT-status##</td>
+                      <td class="text-center table-middle">
+                        <button type="button" name="button" class="btn btn-danger" onclick="cancelAppointment('##APPOINT-id##')">ยกเลิก</button>
+                      </td>
+                      <td class="text-center table-middle">
+                        <button type="button" class="btn btn-primary border-0" style="background: #289de9;" onclick="showQR('##APPOINT-id##','##APPOINT-patient##')" width="10" height="10">Show QR</button>
+                        <!--<a href="##SYMPTOMS-qr.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" >Show</button></a>-->
+                        <div id="popup_qr" class="mbsc-cloak" style="display:none;">
+                          <image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>
+                        </div>
+                        <!--<image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>-->
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody id="row_appointlist_showing">
+                    <tr>
+  
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <style>
+    //firefox date but no time
+  
+    [type="date"] {
+      background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+    }
+    [type="date"]::-webkit-inner-spin-button {
+      display: none;
+    }
+    [type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0;
+    }
+  </style> -->
+  <script>
+    var appointment_list;
+    var patient_info_template = $("#patient_information").html()
+    var appoint_detail_template = $("#hospital").html()
+    var appointlist_template = $("#row_appointlist").html()
+    var hospitalNamelist;
+
+    $(document).ready(() =>
+    {
+      $.getJSON(MAINURL + '/api-backend/admin/hospital/get', (msg) => {
+        console.log("Appoint Patient")
+          console.log(msg)
+
+           hospitalNamelist = hash_replace(appoint_detail_template, 'HOSPITAL', msg)
+           $("#hospital_showing").html(hospitalNamelist)
+
+           tmp = hash_replace($("#hospital_q").html(), "HOSPITAL", msg)
+          $("#hospital_showing_q").html(tmp)
+        })
+    })
+
+    function refreshpage(rawdata) {
+        console.log(rawdata)
+        console.log("Raw Data Above")
+
+        console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1 )){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+        
+      let patientid = getParameterByName('id', window.location.search);
+      $.postJSON(MAINURL + '/api-backend/admin/appoint/loaddata', {
+        _id: patientid
+      }, (msg) => {
+  
+        // console.log(msg)
+  
+        //Use to replace data
+        let tmp;
+        tmp = hash_replace(patient_info_template, "PATIENT", msg.patient)
+        $("#patient_information_showing").html(tmp)
+  
+        // QR CODE
+        //new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie");
+  
+      })
+  
+      $.postJSON(MAINURL + '/api-backend/admin/appoint/patientdata', {
+        patient: patientid
+      }, (msg) => {
+        console.log(msg)
+
+        appointment_list = msg;
+
+  
+        for (let i = 0; i < msg.length; i++) {
+          //Date Time
+          let datetime = new Date(msg[i].appointtime * 1000)
+  
+          let minutes = datetime.getMinutes()
+  
+          if (minutes < 10) {
+            minutes = "0" + minutes
+          }
+  
+          msg[i].appointtime = datetime.getDate() + "/" +
+            (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " " + datetime.getHours() + ":" + minutes
+  
+          if (msg[i].status == -1) {
+            msg[i].status = `<span style="color: #C70039;">ยกเลิก</span>`
+          } else if (msg[i].status == 0) {
+            msg[i].status = `<span style="color: #FFD033;">รอคิว</span>`
+          } else if (msg[i].status == 1) {
+            msg[i].status = `<span style="color: #47CF55;">ได้คิว</span>`
+          } else if (msg[i].status == 2) {
+            msg[i].status = `<span style="color: green;">ตามเวลานัด</span>`
+          } else if (msg[i].status == 200) {
+            msg[i].status = `<span style="color: #9139B6;">นัดอัตโนมัติ</span>`
+          }
+        }
+  
+        //Use to replace data
+        let tmp;
+        tmp = hash_replace(appointlist_template, "APPOINT", msg)
+        $("#row_appointlist_showing").html(tmp)
+      })
+    }
+  
+    function showQR(appointment,patient)
+      {
+        console.log("GLOBAL_USER",GLOBAL_USER)
+
+        //var patientid = getParameterByName('id', window.location.search);
+        //$.getJSON(MAINURL + "/api-backend/admin/patient", (msg) =>
+        //{
+          //console.log(msg)
+
+              let qr = new QRious({
+                element: document.getElementById('qr_' + appointment + "_" +  patient),
+                value: 'https://eap.advws.com/public/appointment?id=' +  appointment + '&patient=' +  patient
+              })
+
+              console.log('qr_' + appointment + "_" +  patient)
+              console.log('https://eap.advws.com/public/appointment?id=' +  appointment + '&patient=' +  patient)
+
+
+        //})
+      
+      }
+
+    function submit() {
+      // console.log($('#hospital_showing').val())
+  
+      let patientid = getParameterByName('id', window.location.search);
+      let type;
+      let date = new Date()
+      var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
+
+      if (!($('#appoint_date').val())) {
+        return alert("โปรดกรอกวันเวลานัดหมาย")
+      }
+
+      if (Math.floor(Date.parse($('#appoint_date').val())) < current_date){
+        return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
+      }
+      
+      if (document.getElementById('x_ray_choose').checked) {
+        type = "XRAY"
+      } else if (document.getElementById('customize_choose').checked) {
+        type = "CUSTOM"
+        if (!($('#treatment').val())) {
+        return alert("โปรดกรอกรายละเอียดการรักษา")
+      }
+      }
+  
+      let payload = {
+        patient: patientid,
+        hospital: parseInt($('#hospital_showing').val()),
+        appointtime: Math.floor(Date.parse($('#appoint_date').val())),
+        type: type,
+        comment: $('#treatment').val()
+      }
+  
+      $.postJSON(MAINURL + "/api-backend/admin/appoint/submit", payload, (msg) => {
+        console.log("data from server: " + msg)
+        return alert_success("ทำการนัดหมายเรียบร้อย");
+      })
+
+      refreshpage(true);
+    }
+
+    function postponeSubmit() {
+      console.log($('#postpone_date').val())
+      let patientid = getParameterByName('id', window.location.search);
+      let type;
+      let date = new Date()      
+
+      let isInThisPatient = false
+
+      var Half = $('#postpone_date').val().split("T")
+      var SplitDate = Half[0].split("-")
+      var SplitTime = Half[1].split(":")
+
+      console.log("Setting Date")
+     
+      console.log()
+      console.log(Half)
+      console.log(SplitDate)
+      console.log(SplitTime)
+
+      var ChangeTime = Math.floor(new Date(SplitDate[0],SplitDate[1]-1,SplitDate[2],SplitTime[0],SplitTime[1]) /1000)
+      var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()) / 1000)
+      
+      console.log(ChangeTime)
+      console.log(current_date)      
+      
+      if (!($('#queue_number').val())) {
+        return alert("โปรดกรอกเลขที่นัดหมาย")
+      }
+      
+      for (let i = 0; i < appointment_list.length; i++)
+      {
+        if ($('#queue_number').val() == appointment_list[i]._id)
+        {
+          isInThisPatient = true
+          break;
+        }
+      }
+
+      if (!isInThisPatient)
+      {
+        return alert("ไม่มีเลขนัดหมายของผู้ป่วยนี้")
+      }
+
+      if (!($('#postpone_date').val())) {
+        return alert("โปรดกรอกวันเวลานัดหมาย")
+      }
+
+      if (ChangeTime < current_date){
+        return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
+      }
+
+      if (document.getElementById('queue_x_ray_choose').checked) {
+        type = "XRAY"
+      } else if (document.getElementById('queue_customize_choose').checked) {
+        type = "CUSTOM"
+        if (!($('#queue_treatment').val())) {
+        return alert("โปรดกรอกรายละเอียดการรักษา")
+      }
+      }            
+
+      let payload = {
+        _id: $('#queue_number').val(),
+        hospital: parseInt($('#hospital_showing_q').val()),
+        appointtime: ChangeTime,
+        type: type,
+        comment: $('#queue_treatment').val()
+      }    
+
+      console.log("Dragon's Test")
+      console.log(payload)
+
+      $.postJSON(MAINURL + "/api-backend/admin/appoint/reschedule_appoint", payload, (msg) => {
+        console.log("data from server: " + msg)
+        if (msg.code == 200)
+        {
+          return alert_success("ทำการเปลี่ยนนัดหมายเรียบร้อย");
+        }
+        else if (msg.code == 403)
+        {
+          return alert("ไม่อนุญาตให้เลื่อนนัดดังกล่าว")
+        }
+        else
+        {
+          return alert("เกิดข้อผิดพลาดระหว่างเลื่อนนัด โปรดลองใหม่อีกครั้ง")
+        }
+      })
+
+      refreshpage(true);
+    }
+  
+    function cancelAppointment(id) {
+      let payload = {
+        _id: id
+      }
+  
+      if (confirm("คุณต้องการยกเลิกนัดหรือไม่")) {
+        $.post(MAINURL + "/api-backend/admin/appoint/cancel_appoint", payload, (msg) => {
+          if (msg.code == 200)
+          {
+            return alert("ยกเลิกนัดเรียบร้อยแล้ว")
+          }
+          else if (msg.code == 403)
+          {
+            return alert("ไม่อนุญาตให้ยกเลิกนัดดังกล่าว")
+          }
+          else
+          {
+            return alert("เกิดข้อผิดพลาดระหว่างยกเลิก โปรดลองใหม่อีกครั้ง")
+          }
+        })
+      }
+
+      refreshpage(true);
+  
+    }
+  
+    function toDescription() {
+      let patientid = getParameterByName('id', window.location.search);
+      go2View("patient?id=" + patientid)
+
+      refreshpage(true);
+    }
+
+    function Toggle(Box)
+    {
+        var x = document.getElementById(Box);
+        if (x.style.display === "none") 
+        x.style.display = "none";
+        else 
+        x.style.display = "block"; 
+    }
+    //date + time
+    // mobiscroll.datepicker('#appoint_date', {
+    //   controls: ['date', 'time'],
+    //   touchUi: true
+    // });
+  </script>
+  

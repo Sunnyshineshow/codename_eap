@@ -1,0 +1,337 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+  <div class="p-2 mr-5 ml-5">
+    <div class="container">
+      <!--Counter-->
+      <div class="position-relative" style="text-align: center;">
+        <div class="row">
+          <div class="col-md-4 mt-2">
+            <div onclick="go2View('patientlist?find_color=RED')" class="card bg-danger border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+              <div class="card-body text-white">
+                <h3>Red Cases</h3>
+                <h1 id="red_cases_num">Loading</h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mt-2">
+            <div onclick="go2View('patientlist?find_color=YELLOW')" class="card bg-warning border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+              <div class="card-body text-dark">
+                <h3>Yellow Cases</h3>
+                <h1 id="yellow_cases_num">Loading</h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mt-2">
+            <div onclick="go2View('patientlist?find_color=GREEN')" class="card bg-success border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+              <div class="card-body text-white">
+                <h3>Green Cases</h3>
+                <h1 id="green_cases_num">Loading</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+
+      <h3 class="p-0 m-0 mb-3"><b>Patient List</b></h3>
+      <div class="row mb-1 d-flex justify-content-start">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <form class="form-row" onsubmit="return pre_search();">
+            <div class="row d-flex justify-content-center ">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search_idno" placeholder="ID">
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
+                    <option value="NONE">โปรดเลือกสี</option>
+                    <option value="GREEN">เขียว</option>
+                    <option value="YELLOW">เหลือง</option>
+                    <option value="RED">แดง</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary border-0">
+                    <i class="fas fa-search"></i>
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- add patients -->
+      <br>
+      <div class="row d-flex justify-content-end">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2" style="text-align: right;">
+          <button type="submit" class="btn btn-primary" onclick="AddDataPatient()">
+            <i class="fas fa-plus"></i> เพิ่มผู้ป่วย
+          </button>
+        </div>
+      </div>
+
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+
+      <!-- แบ่งหน้า -->
+      <div class="row mt-4">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="pagination_bar pb-3"></div>
+        </div>
+      </div>
+      <!-- // แบ่งหน้า -->
+
+      <div class="table-responsive mt-2">
+        <table class="table table-bordered table-hover show_startpage font-weight-light" >
+          <thead class="text-center">
+            <tr>
+              <th scope="col" class="text-secondary">Profile</th>
+              <th scope="col" class="text-secondary">ID</th>
+              <th scope="col" class="text-secondary">Display Name</th>
+              <th scope="col" class="text-secondary">Area</th>
+              <th scope="col" class="text-secondary">Create Date</th>
+              <th scope="col" class="text-secondary">Day Count</th>
+              <th scope="col" class="text-secondary">Color</th>
+              <th scope="col" class="text-secondary">Register Status</th>
+              <th scope="col" class="text-secondary">Action</th>
+            </tr>
+          </thead>
+          <tbody id="row_patientlist" style="display:none;">
+            <tr>
+              <td class="text-center table-middle">
+                <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
+              </td>
+              <td class="text-center table-middle"># ##patient-id##</td>
+              <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
+                <br>
+                ##patient-firstname## ##patient-lastname##
+              </td>
+              <td class="text-center table-middle">ต.##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province##</td>
+              <td class="text-center table-middle">##patient-createDate##</td>
+              <td class="text-center table-middle">##patient-day_count##</td>
+              <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
+              <td class="text-center table-middle">##patient-status##</td>
+              <td class="text-center">
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')"><i class="fas fa-calendar-week"></i> นัดหมาย</button>
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody id="show_patientlist">
+            <tr>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- // end table -->
+
+
+
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var template_patient_row = $('#row_patientlist').html();
+  var searchobj = {};
+  var fncsearch;
+  // var global_color;
+
+  function pre_search(){
+    // clear search url from lastsearch
+
+    refreshpage(undefined,true);
+    return false;
+  }
+  function refreshpage(rawdata,clearsearch) {
+    console.log("GLOBAL_USER",GLOBAL_USER)
+
+    var search_setting = {
+      posturl: '/api-backend/admin/patientlist',
+      paginationDIV: $('.pagination_bar'),
+      pagesize: 10,
+      showfunction: show_patient_list,
+      limit: 10,
+      search: {}
+    }
+    if ($('#search_name').val() !== "") {
+      Object.assign(search_setting.search,{findname: $('#search_name').val()})
+    }
+
+    if ($('#search_idno').val() !== "") {
+      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
+    }
+
+    if ($('#search_cid').val() !== "") {
+      Object.assign(search_setting.search,{find_idcard: $('#search_cid').val()})
+    }
+
+    if ($('#search_tel').val() !== "") {
+      Object.assign(search_setting.search,{find_tel: $('#search_tel').val()})
+    }
+
+    if ($('#search_color').val() != "NONE") {
+      Object.assign(search_setting.search,{find_color: $('#search_color').val()})
+    }
+    console.log("Searching..",search_setting)
+    // else
+    // {
+    //   Object.assign(search_setting.search,{find_color: undefined})
+    // }
+
+    console.log(search_setting.search)
+
+    // if (global_color) {
+    //   Object.assign(search_setting.search,{find_color: global_color})
+    // }
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    return false;
+  }
+
+  function show_patient_list(objdata, totalrecord) {
+    // console.log('objdata', objdata);
+    if (objdata.result && totalrecord > 0) {
+      working.patient = objdata.obj;
+      console.log("OBJDATA: " + objdata.obj)
+      var STATUSSHOW =["--ไม่มีข้อมูล--","ยังไม่ได้ลง","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ"]
+      objdata.obj.map(item => {
+        // console.log(item)
+        // let datetime = new Date(res.symptoms[i].inputdate)
+        // res.symptoms[i].inputdate = datetime.getDate() + "/"
+        // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+         item.day_count =  moment(item.createdate, "X").fromNow(true)
+         item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
+         item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
+         if (item.color == "RED") {
+           item.color = '<span style="color: #C70039;">RED</span>'
+         } else if (item.color == "YELLOW") {
+           item.color = '<span style="color: #fcba03;">YELLOW</span>'
+         } else if (item.color == "GREEN") {
+           item.color = '<span style="color: green;">GREEN</span>'
+         }else{
+           item.color = "N/A"
+         }
+        // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
+
+        item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+      })
+
+      //Edit here
+      $.getJSON(MAINURL + "/api-backend/admin/is_staff", (msg) => {
+        console.log(msg)
+        for (let i = 0; i < objdata.obj.length; i++) {
+          for (let j = 0; j < msg.length; j++) {
+            if (objdata.obj[i].displayName == msg[j].displayName) {
+              console.log("Admin: " + msg[j].displayName)
+              Object.assign(objdata.obj[i], {
+                AdminColor: '<span style="color: #C70039;">Admin: </span>'
+              })
+              document.getElementById("Admin_color").innerHTML = '<span style="color: #C70039;">Admin: </span>'
+            }
+          }
+        }
+      })
+
+      $.getJSON(MAINURL + "/api-backend/admin/color_counter", (msg) => {
+        //Apply Count
+        if (msg.red)
+        {
+          document.getElementById('red_cases_num').innerHTML = msg.red
+        }
+        else
+        {
+          document.getElementById('red_cases_num').innerHTML = 0
+        }
+
+        if (msg.yellow)
+        {
+          document.getElementById('yellow_cases_num').innerHTML = msg.yellow
+        }
+        else
+        {
+          document.getElementById('yellow_cases_num').innerHTML = 0
+        }
+
+        if (msg.green)
+        {
+          document.getElementById('green_cases_num').innerHTML = msg.green
+        }
+        else
+        {
+          document.getElementById('green_cases_num').innerHTML = 0
+        }
+
+
+      })
+
+      global_color = null;
+
+      var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
+      $("#show_patientlist").html(html_row);
+      // $('.show_startpage').show('slow');
+
+    } else {
+      $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+    }
+  }
+
+  function view_symptom(patient_id) {
+
+    go2View("patient?id=" + patient_id)
+
+  }
+
+  function appointment(patient_id) {
+
+    go2View("appoint_patient?id=" + patient_id)
+
+  }
+
+  function settingpatient(dataid) {
+    working.active_patientid = dataid;
+    go2View('patient-edit');
+  }
+
+  function AddDataPatient(){
+    go2View('patient_form');
+  }
+
+  function date_diff(date1) {
+    let dateOnly = new Date()
+    console.log(dateOnly)
+
+    let date2 = Date.parse(new Date(dateOnly.getFullYear(), dateOnly.getMonth(), dateOnly.getDate()))
+    console.log(new Date(date2))
+
+    return parseInt((date2 - date1) / 86400000)
+  }
+
+  // function changeColor(color)
+  // {
+  //   global_color = color
+  //   console.log("Color Changed:" + color)
+  //   refreshpage()
+  // }
+</script>

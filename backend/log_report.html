@@ -1,0 +1,148 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="p-2 mr-5 ml-5">            
+  
+        <h3 class="p-0 m-0 mb-3"><b>Staff Log</b></h3>      
+        
+        <div class="row d-flex justify-start" onsubmit="refreshpage()">
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <strong>ค้นหาผ่านการกระทำ</strong>
+                  <select class="form-select" aria-label="ActionType" id="search_Action">
+                    <option value="0">โปรดเลือก</option>
+                    <option value="ADD">ADD</option>
+                    <option value="UPDATE">UPDATE</option>   
+                    <option value="DELETE">DELETE</option>                  
+                  </select>                  
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <button type="submit" class="btn btn-primary" onclick="refreshpage()">
+                  <i class="fas fa-search"></i>
+                  Search
+                </button>
+            </div>
+
+        </div>
+  
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+  
+        <!-- แบ่งหน้า -->
+        <div class="row mt-4">
+            <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="pagination_bar pb-3"></div>
+            </div>
+        </div>
+        <!-- // แบ่งหน้า -->
+
+        <div class="table-responsive">
+            <table class="table table-bordered show_startpage font-weight-light">
+              <thead class="text-center">
+                <tr>                
+                  <th scope="col" class="text-secondary">ID</th>
+                  <th scope="col" class="text-secondary">Log Type</th>
+                  <th scope="col" class="text-secondary">Display Name</th>
+                  <th scope="col" class="text-secondary">Edit on</th>
+                  <th scope="col" class="text-secondary">Time</th>                
+                </tr>
+              </thead>
+              <tbody id="Staff_log" style="display:none;">
+                <tr>                 
+                  <td class="text-center table-middle"># ##log_audit-id##</td>
+                  <td class="text-center table-middle">##log_audit-logtype## </td>                          
+                  <td class="text-center table-middle">##log_audit-staff.staffname##</td>
+                  <td class="text-center table-middle">##log_audit-obj##</td>
+                  <td class="text-center table-middle">##log_audit-time##</td>                       
+                </tr>
+              </tbody>
+              <tbody id="show_StaffLog">
+                <tr>
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>   
+       
+        <!-- // end table -->      
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var template_patient_row = $('#Staff_log').html();
+    var searchobj = {};
+    var fncsearch;
+  
+  
+    function refreshpage(rawdata) {
+
+      console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
+      var search_setting = {
+        posturl: '/api-backend/admin/get_staff_log',
+        paginationDIV: $('.pagination_bar'),
+        pagesize: 10,
+        showfunction: show_patient_list,
+        limit: 20,
+        search: {}
+      }
+    //Searchig system
+    if ($('#search_name').val() !== "") {
+      search_setting.search = {
+        findname: $('#search_name').val()
+      }
+    }
+
+    
+    console.log("Search: " + $('#search_Action').val())
+    if ($('#search_Action').val() !== "0") 
+    {
+      console.log("SA: " + $('#search_Action').val())
+        Object.assign(search_setting.search,{find_logtype: $('#search_Action').val()})
+    }
+   
+
+    //pagination_bar Sys
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting); // Defult always search at first
+    return false;
+    }
+  
+    function show_patient_list(objdata, totalrecord) {
+      // console.log('objdata', objdata);
+      if (objdata.result && totalrecord > 0) {
+        working.patient = objdata.obj;
+        console.log("OBJDATA: " + objdata.obj)
+        objdata.obj.map(item => {         
+          item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+        })        
+        
+        console.log(objdata.obj[0])
+
+        for (let i = 0; i < objdata.obj.length; i++)
+         {
+            //Date Time
+            let datetime = new Date(objdata.obj[i].time * 1000)
+
+            objdata.obj[i].time = datetime.getDate() + "/" +
+            (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+        
+        }
+
+        var html_row = hash_replace(template_patient_row, 'log_audit', objdata.obj)
+        $("#show_StaffLog").html(html_row);
+        // $('.show_startpage').show('slow');
+      } else {
+        $("#show_StaffLog").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+      }
+    } 
+   
+  </script>
+  

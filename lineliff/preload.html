@@ -1,0 +1,164 @@
+<div class="wrapper" id="mainpage_body">
+
+</div>
+
+<div id="alert1" class="mbsc-cloak" style="display:none">
+  <div class="mbsc-align-center mbsc-padding">
+    <p class="md-text-center" style="color: black !important" id="message2show"></p>
+  </div>
+  <div class="mbsc-btn-group-justified">
+    <button mbsc-button type="button" class="mbsc-btn-outline mbsc-btn-checkin-gray-2" onclick="close_popup_alert1()"
+      style="border:none">ตกลง</button>
+  </div>
+</div>
+
+
+<script>
+    var myLiffId = window.location.pathname.split('/')[URL_PAGE_POSITION+1]
+    var page = window.location.pathname.split('/')[URL_PAGE_POSITION+2];
+    console.log("PAGE = ",page)
+    var alreadyinit = false;
+    var LINE_USER;var GLOBALUSER;
+    var working={setting:{} }
+    if(!myLiffId){
+      console.error("No LINE LIFF");
+    }
+    var all_page = ['loginline','main','register','test','alreadyregister','error','reportsymptoms','queuecheck','initsymptoms','admin_qr',
+    'admin_notallowed','admin_option','guideline','O2Sat','choose_location','staff_xray','staff_driver','driver_option'];
+
+    for (var x = 0; x < all_page.length; x++) {
+        onPageshow(all_page[x], {
+            obj: '#mainpage_body',
+            url: PREFIX_MAIN_LOCAL + '/' + all_page[x] + '.html'
+        },function() {
+        $('#mainpage_body').refresh()   // <-- Refresh Mobi Scroll
+      });
+    }
+    var temp_go2View = go2View
+    go2View = function(thepage){
+      if(thepage.indexOf(myLiffId) !== -1){
+        temp_go2View(thepage)
+      }else{
+        temp_go2View('/'+myLiffId +'/'+thepage)
+      }
+    }
+
+    if(starturl == '/undefined') {
+      starturl = "main"
+    }
+    console.log("starturl", starturl)
+
+      function initializeLiff(cb) {
+        console.log("init Liff");
+        if (alreadyinit) {
+          if (typeof(runApp) == 'function') {
+            runApp({}, cb);
+          }
+          return;
+        }
+        console.log("INIT ", myLiffId);
+        liff.init({
+          liffId: myLiffId
+        }, () => {
+          initializeApp(cb);
+        }, err => {
+          alert(err.message);
+          console.log("INIT FAIL", myLiffId)
+          console.log(err.code, err.message)
+        });
+      }
+
+
+
+
+
+      function displayLiffData() {
+        LINE_USER = {};
+        LINE_USER.browserLanguage = liff.getLanguage();
+        LINE_USER.sdkVersion = liff.getVersion();
+        LINE_USER.isInClient = liff.isInClient();
+        LINE_USER.isLoggedIn = liff.isLoggedIn();
+        LINE_USER.deviceOS = liff.getOS();
+        //  console.log(LINE_USER);
+      }
+
+        function initializeApp(cb) {
+          // console.log("initializeApp", cb);
+          if (typeof(alreadyinit) == 'function') {
+            alreadyinit();
+            return ;
+          }
+          if (alreadyinit) {
+            return ;
+          }
+          //alreadyinit =true;
+          displayLiffData();
+          // check if the user is logged in/out, and disable inappropriate button
+          if (liff.isLoggedIn()) {
+             console.log("user Loged in");
+            var token = liff.getAccessToken();
+            liff.getProfile().then(profile => {
+              LINE_USER.token = token;
+              LINE_USER.pictureUrl = profile.pictureUrl;
+              LINE_USER.userId = profile.userId;
+              LINE_USER.displayName = profile.displayName;
+              LINE_USER.statusMessage = profile.statusMessage;
+
+              var tk = liff.getDecodedIDToken();
+              if (tk) {
+                LINE_USER.getDecodedIDToken = tk.email;
+              }
+              runApp(token, cb);
+              alreadyinit = runApp;
+
+            }).catch(err => {
+              if (typeof(fnc_noprofile) == 'function')
+                fnc_noprofile();
+               console.log("Error Getprofile", err)
+            });
+          } else {
+             console.log("user NOT LOG in");
+            liff.login();
+            //show login Button
+          }
+        }
+
+
+      initializeLiff((userdata) => {
+        console.log("INIT FINISH",userdata)
+        $.postJSON(MAINURL + '/api-web/line/userdata', userdata, (msg) => {
+          if (msg.result) {
+            GLOBALUSER = msg.data;
+            ajax_settoken(msg.token);
+            console.log("New Header Set",msg.token)
+            go2View(starturl);
+          }
+        });
+      });
+
+      function runApp(token, cb) {
+        var data = {
+          token: token,
+          LINE_USER: LINE_USER
+        };
+        console.log("GOT TOKEN", data, cb);
+        cb(data);
+      }
+      function alert_modal(msg){
+        $('#message2show').html(msg);
+        var popup_alert1 = $('#alert1').mobiscroll().popup({
+          display: 'center',
+          buttons: []
+        }).mobiscroll('getInst')
+
+        popup_alert1.show('fast');
+        return false;
+      }
+      function close_popup_alert1() {
+        var popup_alert1 = $('#alert1').mobiscroll().popup({
+          display: 'center'
+        }).mobiscroll('getInst')
+        popup_alert1.hide('fast');
+        return false;
+      }
+</script>

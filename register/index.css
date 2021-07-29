@@ -1,0 +1,32 @@
+body {
+  background-color: #a1dffb;
+  color: #3d6c6f;
+  font-family: 'Kanit', sans-serif;
+}
+
+header {
+  background-image: url("../picture/001.jpg");
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+  text-shadow: 2px 2px 5px #c33124;
+}
+.tab {
+    display: inline-block;
+    margin-left: 25px;
+}
+
+/* input */
+input {
+  border-width: 1px;
+  border-radius: 0px;
+  padding-top: 0.5rem;
+  padding-right: 0.75rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+}
+
+input[type=text]:focus {
+  border: 2px solid #c33124;
+}

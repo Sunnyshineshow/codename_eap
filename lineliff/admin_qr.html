@@ -1,0 +1,161 @@
+<div class="md-range-event" mbsc-form>
+    <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+      <div class="mbsc-header-txt mbsc-align-center">
+        <div class="mbsc-align-center" style="margin-top:8px;">
+          <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการช่วยเหลือผู้ป่วยโควิดฉุกเฉิน สำหรับผู้ป่วยรักษาตัวที่บ้าน</p>
+          <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="none_order" style="width:80%;margin:auto; display: none;" class="mbsc-align-center">
+    <span style="color: #b21414; text-align: right;">!! ขออภัย คุณไม่มีสิทธิ์ในการจัดการหน้านี้ !!</span>
+    <br>
+    <span style="color: #000000; text-align: right;">หากคิดว่านี่เป็นข้อผิดพลาด โปรดติดต่อฝ่ายพัฒนา</span>
+    </div>
+
+    <div id="not_support_showing" style="width:80%;margin:auto; display: none;" class="mbsc-align-center">
+        <span style="color: #b21414; text-align: right;">!! ขออภัย เครื่องของคุณไม่สามารถใช้เมนูนี้ได้ !! <br> -- รองรับเฉพาะระบบ Android เท่านั้น -- </span>
+        <br>
+        <span style="color: #000000; text-align: right;">หากคิดว่านี่เป็นข้อผิดพลาด โปรดติดต่อฝ่ายพัฒนา</span>
+        </div>
+
+
+        <div id="ui" style="display: none;">
+          <div mbsc-form>
+              <div class="mbsc-align-center" style="margin-top:20px;">
+                  <p id="title_address" style="margin-top:3px;margin-bottom:8px;"> Welcome Developer</p>
+                </div>
+      
+                <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
+                  <hr style="background-color: #58595B;opacity:0.5;">
+                </div>
+                <div class="mbsc-align-center">
+                    <div class = "mbsc-btn-group-block">
+                      <button mbsc-button onclick="navigate_xray()">Staff Menu</button>
+                    </div>
+                    <div class = "mbsc-btn-group-block">
+                      <button mbsc-button onclick="navigate_driver()">Driver Menu</button>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+      
+      </div>
+
+  <div mbsc-form id="ui_showing">
+
+  </div>
+
+<script>
+
+    $(document).ready(() =>
+    {
+        console.log(GLOBALUSER,"GLOBALUSER.role")
+        if(!Array.isArray(GLOBALUSER.role)){
+          console.log("Access Denied");
+          document.getElementById('none_order').style.display = "block"
+          return;
+        }
+        if(GLOBALUSER.role.indexOf("DEVELOPER") == -1 && GLOBALUSER.role.indexOf("XRAY") == -1 && GLOBALUSER.role.indexOf("DRIVER") == -1){  // found DEVELOPER
+          if (!liff.scanCode) {
+            document.getElementById('not_support_showing').style.display = "block"
+            return;
+          }
+
+          // if (liff.getOS() == "android")
+          // {
+          //     console.log("OS Supported")
+          //     $("#ui_showing").html($("#ui").html())
+          // }
+          // else
+          // {
+          //     console.log("OS not support: " + liff.getOS())
+          //     document.getElementById('not_support_showing').style.display = "block"
+          // }
+
+        console.log("Access Denied");
+        document.getElementById('none_order').style.display = "block"
+        return;
+    }
+          if (GLOBALUSER.role.indexOf("DEVELOPER") !== -1)
+          {
+            $("#ui_showing").html($("#ui").html())
+          }
+
+          else if (GLOBALUSER.role.indexOf("XRAY") !== -1)
+          {
+            go2View("staff_xray")
+          }
+
+          else if (GLOBALUSER.role.indexOf("DRIVER") !== -1)
+          {
+            go2View("staff_driver")
+          }
+  })
+
+    function qrCodeScanner()
+    {
+        liff.scanCode().then(result => {
+            if (result.value == null)
+            {
+                return alert_modal("ยกเลิกการสแกน")
+            }
+
+            let url = new URL(result.value)
+            let id = url.searchParams.get("id");
+            let patient = url.searchParams.get("patient");
+
+            if (!id || !patient)
+            {
+                return alert_modal("ข้อมูลไม่ถูกต้อง")
+            }
+            else
+            {
+                $.postJSON(MAINURL + "/api-web/line/admin_loadqrdata", {_id:id,patient:patient},(msg)=>
+                {
+                    if (msg.code == 200)
+                    {
+                        go2View("admin_option?id=" +  id + '&patient=' +  patient);
+                    }
+                    else if (msg.code == 404)
+                    {
+                        alert_modal("ไม่พบข้อมูลนัดหมาย โปรดติดต่อเจ้าหน้าที่ฝ่ายพัฒนา")
+                    }
+                    else if (msg.code == 403)
+                    {
+                        return alert_modal("นัดหมายนี้ถูกยกเลิก<br><br>หากคิดว่านี่คือข้อผิดพลาด<br>โปรดติดต่อเจ้าหน้าที่ฝ่ายพัฒนา")
+                    }
+                    else
+                    {
+                        alert_modal("เกิดข้อผิดพลาดบางอย่าง โปรดลองใหม่อีกครั้ง")
+                    }
+                })
+
+            }
+        });
+
+    }
+
+    function navigate_xray()
+    {
+      go2View("staff_xray")
+    }
+
+    function navigate_driver()
+    {
+      go2View("staff_driver")
+    }
+</script>

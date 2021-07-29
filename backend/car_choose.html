@@ -1,0 +1,235 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="container">
+      <h3 class="mb-3"><b>จัดรถให้ผู้ป่วย</b></h3>
+      <div class="row">
+        
+            <div class="row mt-5">
+              <div class="col-md-6">
+                <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                  <div class="card-body" style="text-align: left;">
+                    <h4 style="color: #289de9;">รายละเอียด</h4>
+                    <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                    
+                    <div id="patient_description" style="display: none;">
+                    <div class="text-center">
+                        <img src="##PATIENT-patient.pictureUrl##" alt="Patient Image" width="20%" height="auto" class="rounded-pill text-center max-auto">
+                    </div>
+                    <p class="m-0 p-0 mt-3"><strong>ID:</strong> ##PATIENT-patient.id##</p>
+                    <p class="m-0 p-0 mt-3"><strong>เลขที่นัด:</strong> ##PATIENT-id##</p>
+                    <p class="m-0 p-0 mt-3"><strong>วันที่นัด:</strong> ##PATIENT-appointtime##</p>
+                    <p class="m-0 p-0 mt-3"><strong>ชื่อ:</strong> ##PATIENT-patient.nametitle####PATIENT-patient.firstname## ##PATIENT-patient.lastname##</p>
+                    <p class="m-0 p-0"><strong>อายุ:</strong> ##PATIENT-patient.age##</p>
+                    <p class="m-0 p-0"><strong>เพศ:</strong> ##PATIENT-patient.gender##</p>
+                    <p class="m-0 p-0 mt-3"><strong>ที่อยู่:</strong></p>
+                    <p class="m-0 p-0">##PATIENT-patient.address.address## ##PATIENT-patient.address.lane## ##PATIENT-patient.address.road## ตำบล/แขวง ##PATIENT-patient.address.subdistrict## อำเภอ/เขต ##PATIENT-patient.address.district##  จังหวัด ##PATIENT-patient.address.province## ##PATIENT-patient.address.zipcode##</p><br>
+                    <p class="m-0 p-0"><strong>เบอร์โทร:</strong> ##PATIENT-patient.mobileno##</p>
+                    <p class="m-0 p-0"><strong>สีของผู้ป่วย:</strong> ##PATIENT-patient.color##</p>
+                    <button class="btn btn-primary mt-4 mb-3" onclick="toGoogleMap()"><i class="fas fa-map-marker-alt"></i>Google Map</button>
+                    </div>  
+                    <div id="patient_description_showing">
+                    </div>
+                </div>
+              </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+                  <div class="card-body" style="text-align: left;">
+                    <h4 class="card-title" style="color: #289de9;">เลือกรถรับส่ง</h4>
+                    <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>ทะเบียนรถยนต์:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-select" aria-label="choose_vehicle" id="vehicle_select" style="display: none;">
+                                <option value="##VEHICLE-id##">##VEHICLE-CarNumber##</option>
+                              </select>
+                              <select class="form-select" aria-label="Default select example" id="vehicle_select_choosing">
+                              </select>
+                        </div>
+                    </div>
+                    <br>                                      
+                    <div class="row">
+                      <div class="col-md-6">
+                          <strong>วันที่ไปรับ:</strong>
+                      </div>
+                      <div class="col-md-6">
+                          <input class="form-control" type="date" aria-label="pickup date" id="pickup_date">
+                      </div>
+                  </div>
+                  <div id="confirm_button" style="text-align: center;">
+                    <button class="btn btn-primary mt-4 mb-3" onclick="chooseCar()">ยืนยัน</button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        <br>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+      var appointment_data
+
+      $(document).ready(() =>
+      {
+          $.getJSON(MAINURL + "/api-backend/admin/vehicle_list", (msg) =>
+          {
+            let tmp;
+            tmp = hash_replace($('#vehicle_select'), "VEHICLE", msg)
+            $("#vehicle_select_choosing").html(tmp)
+          })
+      })
+
+    function refreshpage() {
+
+      console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
+      var appointid = getParameterByName('id', window.location.search);
+      $.postJSON(MAINURL + '/api-backend/admin/vehicle_patient', {
+        _id: appointid
+      }, (res) => {
+
+        console.log(res)
+
+        appointment_data = res
+
+        if (appointment_data.vehicle)
+        {
+          let appoint_vehicle = appointment_data.vehicle
+          document.getElementById('confirm_button').innerHTML = `<button class="btn btn-primary mt-4 mb-3" onclick="editCar()">แก้ไข</button><br><br><span style="color: #C70039;">ID รถ: ${appoint_vehicle}</span>`
+        }
+
+        //Use to replace data
+        /*
+        รูปแบบการเรียกใช้
+        1.#   hash_replace ( object หลักที่ต้องการให้ไปค้นหา# แล้วเปลี่ยน ,   "PREFIX ของคำแรกที่ต้องการค้นหา ตามด้วยชื่อ field และหรือ . ของ field ย่อยๆ " , Data)
+        2.    hash_replace (  HTML STRING ต้องการให้ไปค้นหา# แล้วเปลี่ยน ,   "PREFIX ของคำแรกที่ต้องการค้นหา ตามด้วยชื่อ field และหรือ . ของ field ย่อยๆ " , Data)
+
+        ข้อ 2 จะ return มาเป็น HTML อีกที
+        */
+
+        if (res.patient.color == "RED") {
+            res.patient.color = '<span style="color: #C70039;">แดง</span>'
+          } else if (res.patient.color == "YELLOW") {
+            res.patient.color = '<span style="color: #fcba03;">เหลือง</span>'
+          } else if (res.patient.color == "GREEN") {
+            res.patient.color = '<span style="color: green;">เขียว</span>'
+          } else {
+            Object.assign(res.patient, {
+              color: "N/A"
+            })
+          }
+
+        let tmp;
+        tmp = hash_replace($('#patient_description'), "PATIENT", res)
+        $("#patient_description_showing").html(tmp)
+
+      })
+    }
+    function toGoogleMap()
+      {
+        coor = appointment_data.patient.location.coordinates;
+        let lat = coor[1]
+        let lng = coor[0]
+
+        window.open("https://www.google.com/maps/search/" + lat + ","+ lng, '_blank')
+      }
+
+      function chooseCar()
+      {
+        let vehicle = document.getElementById('vehicle_select_choosing').value
+
+        let pickup_date = new Date($('#pickup_date').val())
+        pickup_date = Math.floor(new Date(pickup_date.getFullYear(),pickup_date.getMonth(),pickup_date.getDate()) / 1000)
+
+        console.log(vehicle)
+        console.log(pickup_date)
+
+        if (pickup_date < Math.floor(new Date() / 1000))
+        {
+          return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
+        }
+
+        let payload = 
+        {
+          _id: appointment_data._id,
+          patient: appointment_data.patient,
+          hospital: appointment_data.hospital,
+          vehicle: parseInt(vehicle),
+          pickup_date: pickup_date
+        }
+
+        console.log(payload)
+        $.postJSON(MAINURL + "/api-backend/admin/queue_vehicle", payload,(msg) =>
+        {
+          console.log("Test")
+          if (msg.code == 200)          
+          {
+            alert_success("บันทึกข้อมูลเรียบร้อย")
+            refreshpage()
+          }
+          else if (msg.code == 403)
+          {
+            alert("คิวรถเต็มในวันดังกล่าว โปรดเลือกรถคันอื่น")
+          }
+          else 
+          {
+            alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+          }
+        })
+      }
+
+      function editCar()
+      {
+        let vehicle = document.getElementById('vehicle_select_choosing').value
+        let pickup_date = new Date($('#pickup_date').val())
+        pickup_date = Math.floor(new Date(pickup_date.getFullYear(),pickup_date.getMonth(),pickup_date.getDate()) / 1000)
+
+        if (pickup_date < Math.floor(new Date() / 1000))
+        {
+          return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
+        }
+
+        let update_data = {
+          vehicle: parseInt(vehicle)
+        }
+
+        if (pickup_date)
+        {
+          Object.assign(update_data,{pickup_date: pickup_date})
+        }
+
+        let payload = 
+        {
+          appointment: appointment_data._id,
+          updates: update_data
+        }
+
+        console.log(payload)
+        $.postJSON(MAINURL + "/api-backend/admin/edit_vehicle", payload,(msg) =>
+        {
+          if (msg.code == 200)
+          {
+            alert_success("บันทึกข้อมูลเรียบร้อย")
+            refreshpage()
+          }
+          else if (msg.code == 403)
+          {
+            alert("คิวรถเต็มในวันดังกล่าว โปรดเลือกรถคันอื่น")
+          }
+          else 
+          {
+            alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+          }
+        })
+      }
+  </script>

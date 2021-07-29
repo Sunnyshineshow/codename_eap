@@ -1,0 +1,222 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+  <div class="p-2 mr-5 ml-5">
+    <div class="container">
+      <h3><b>Affiliation List</b></h3>
+      <div class="row mb-1">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <form class="form-row" onsubmit="return refreshpage();">
+            <div class="row d-flex justify-content-end">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2" align="right">
+                <button type="submit" class="btn btn-primary" onclick="AddDataHospital()">
+                  <i class="fas fa-plus"></i> เพิ่มสถานพยาบาล
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                <input type="text" class="form-control" id="search_name" placeholder="ค้นหาชื่อสถานพยาบาล">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search"></i>
+                  Search
+                </button>
+              </div>
+            </div>
+
+            <div id="AddData" style="display: none;">
+              <div class="card mt-5 bg-light">
+                <div class="card-body">
+                  <form class="form-group">
+                    <div class="form-group col-md-6">
+                      <label for="txt">ชื่อสถานพยาบาล <span style="color:red"> *</span></label>
+                      <input class="form-control" id="Add_Hospitalname" type="text" placeholder="" value=""
+                        style="font-size: 13px;" />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="exampleInputPassword1">ที่อยู่ <span style="color:red"> *</span></label>
+                      <input class="form-control" id="Add_Address" type="text" placeholder="" value="" maxlength="60" style="font-size: 13px;" />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="exampleInputPassword1">สายด่วน <span style="color:red"> *</span></label>
+                      <input class="form-control" mbsc-input id="Add_Tel" type="text" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="exampleInputPassword1">ความจุผู้ป่วย <span style="color:red"> *</span></label>
+                      <input class="form-control" mbsc-input id="Add_capacity" type="text" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label for="exampleInputPassword1">พิกัดสถานพยาบาล <span style="color:red"> *</span></label>
+                      <div class="row">
+                        <div class="form-group col-md-6 mt-2">
+                          <input class="form-control" mbsc-input id="latitude" type="text" placeholder="เส้นรุ้ง / latitude" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="20"
+                            style="font-size: 13px;" />
+                        </div>
+                        <div class="form-group col-md-6 mt-2">
+                          <input class="form-control" mbsc-input id="longtitude" type="text" placeholder="เส้นแวง / longtitude" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="20"
+                            style="font-size: 13px;" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <br>
+
+                    <button type="submit" class="btn btn-primary" onclick="AddDataToDB()" width="10" height="10">Submit</button>
+                    </from>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+
+        </div>
+      </div>
+
+      <div class="row mt-4 mb-2">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="pagination_bar pb-3"></div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered show_startpage font-weight-light">
+          <thead class="text-center">
+            <tr>
+              <th scope="col" class="text-secondary">ID</th>
+              <th scope="col" class="text-secondary">ชื่อสถานพยาบาล</th>
+              <th scope="col" class="text-secondary">ที่อยู่</th>
+              <th scope="col" class="text-secondary">สายด่วน</th>
+              <th scope="col" class="text-secondary">ความจุผู้ป่วย</th>
+              <th scope="col" class="text-secondary">Action</th>
+            </tr>
+          </thead>
+          <tbody id="row_hospitallist" style="display:none;">
+            <tr>
+              <td class="text-center table-middle"># ##hospital-id##</td>
+              <td class="text-center table-middle">##hospital-name## </td>
+              <td class="text-center table-middle">##hospital-address##</td>
+              <td class="text-center table-middle">##hospital-hotline##</td>
+              <td class="text-center table-middle">##hospital-xraycapacity##</td>
+              <td class="text-center table-middle">
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="edit_hospital('##hospital-id##')">จัดการ</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody id="show_hospitallist">
+            <tr>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- // end table -->
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var template_patient_row = $('#row_hospitallist').html();
+  var searchobj = {};
+  var fncsearch;
+
+
+  function refreshpage(rawdata) {
+
+    console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
+    var search_setting = {
+      posturl: '/api-backend/admin/HospitalList',
+      paginationDIV: $('.pagination_bar'),
+      pagesize: 10,
+      showfunction: show_hospital_list,
+      limit: 10,
+    }
+    if ($('#search_name').val() !== "") {
+      search_setting.search = {
+        findname: $('#search_name').val()
+      }
+    }
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting); // Defult always search at first
+    return false;
+  }
+
+  function show_hospital_list(objdata, totalrecord) {
+    // console.log('objdata', objdata);
+    if (objdata.result && totalrecord > 0) {
+      working.patient = objdata.obj;
+      objdata.obj.map(item => {
+        // console.log(item)
+        item.createDate ? item.createDate = moment(item.createDate, "X").format('YYYY/MM/DD') : "";
+        item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+      })
+      var html_row = hash_replace(template_patient_row, 'hospital', objdata.obj)
+      $("#show_hospitallist").html(html_row);
+      // $('.show_startpage').show('slow');
+    } else {
+      $("#show_hospitallist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+    }
+  }
+
+  function settingpatient(dataid) {
+    working.active_patientid = dataid;
+    go2View('patient-edit');
+  }
+
+  function AddDataHospital() {
+    var x = document.getElementById("AddData");
+    if (x.style.display === "none")
+      x.style.display = "block";
+    else
+      x.style.display = "none";
+  }
+
+  function AddDataToDB() {
+    if (($(Add_Hospitalname).val()) || ($(Add_Address).val()) || ($(Add_Tel).val()) || $(latitude).val() || $(longtitude).val() || $(Add_capacity).val()) {
+      
+      if ($(latitude).val() == "" || $(longtitude).val() == "")
+      {
+        return alert("กรุณากรอก Latitude / Longtitude ของสถานพยาบาล")
+      }
+      
+      var payload = {
+        name: $(Add_Hospitalname).val(),
+        address: $(Add_Address).val(),
+        hotline: $(Add_Tel).val(),
+        capacity: $(Add_capacity).val(),
+        location: {
+          type: "Point",
+          coordinates: [$(longtitude).val(), $(latitude).val()]
+        }
+      }
+
+      console.log(payload.location.coordinates)
+      $.postJSON(MAINURL + "/api-backend/admin/hospital/add", payload, (msg) => {
+        if (msg.result) {
+          console.log(msg.detail);
+          return alert_success("เพิ่มโรงพยาบาลสำเร็จ")
+          // go2View("initsymptoms");
+        } else {
+          console.log(msg.detail);
+          return alert("เกิดข้อผิดพลาดในระบบ โปรดลองอีกครั้ง: " + msg.detail)
+        }
+
+      })
+    } else {
+      alert("กรุณาเพิ่มข้อมูลก่อน submit")
+    }
+
+  }
+
+  function edit_hospital(hospital_id) {
+    go2View("hospital_edit?id=" + hospital_id)
+  }
+</script>

@@ -1,0 +1,100 @@
+<div class="card">
+    <div class="card-body">
+
+        <div id="description" style="display: none;">
+            <br>
+            <h1>ข้อมูลผู้ป่วย</h1>
+            <p>
+            <br>ชื่อ : ##DESC-firstname##
+            <br>นามสกุล :  ##DESC-lastname##
+            <br>วันเกิด : ##DESC-birthday##
+            <br>อายุ : ##DESC-age##
+            <br>เพศ : ##DESC-gender##
+            <br>รหัสบัตรประชาชน / พาสปอร์ต : ##DESC-idcard##
+            <br>ที่อยู่ : ##DESC-address.address## ##DESC-address.lane## ##DESC-address.road## 
+            ##DESC-address.subdistrict## ##DESC-address.district## ##DESC-address.province## ##DESC-address.zipcode##
+            <br>เบอร์โทร : ##DESC-mobileno##
+            <br>อีเมล : ##DESC-email##
+            <br>โรคประจำตัว : ##DESC-init_symptoms.disease##
+            <br>แพ้ยา : ##DESC-allergic##
+            <br>สถานะสีของผู้ป่วยปัจจุบัน : ##DESC-color##
+            </p>
+        </div>
+        
+        <div id="description_showing">
+        
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+
+        <div id="appointment_desc" style="display: none;">
+            <br>
+            <h1>ข้อมูลการนัด</h1>
+            <p>
+            <br>เลขที่: # ##APP-id##
+            <br>เวลา: ##APP-appointtime##
+            <br>รายละเอียด: ##APP-comment##
+            <br>สถานที่: ##APP-hospital.name##
+            <br> ##APP-hospital.address##
+            <br>เจ้าหน้าที่: ##APP-staff##
+            </p>
+        </div>
+        
+        <div id="appointment_desc_showing">
+        
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    var patient_id = getParameterByName('patient', window.location.search);
+    var appoint_id = getParameterByName('id', window.location.search);
+
+    $.postJSON(MAINURL + "/api-public/patient_data/",{_id:appoint_id,patient:patient_id},(msg) =>
+    {
+        if (msg.code == 200)
+        {
+            //Date Time
+            let datetime = new Date(msg.detail.appointtime)
+
+            let minutes = datetime.getMinutes()
+
+            if (minutes < 10)
+            {
+                minutes = "0" + minutes
+            }
+            
+            msg.detail.appointtime = datetime.getDate() + "/" 
+            + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " " + datetime.getHours() + ":" + minutes
+
+            let tmp;
+            tmp = hash_replace($('#description'),"DESC",msg.detail.patient)
+            $("#description_showing").html(tmp)
+
+            tmp = hash_replace($('#appointment_desc'),"APP",msg.detail)
+            $("#appointment_desc_showing").html(tmp)
+        }
+        else if (msg.code == 404)
+        {
+            alert("ไม่พบข้อมูลผู้ป่วย")
+        }
+        else if (msg.code == 400)
+        {
+            alert("เกิดปัญหาใน DB")
+        }
+        else
+        {
+            alert("เกิดปัญหาบางอย่าง โปรดลองใหม่อีกครั้ง")
+        }
+        console.log(msg.detail)
+    })
+
+
+</script>

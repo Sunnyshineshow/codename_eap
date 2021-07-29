@@ -1,0 +1,73 @@
+<div class="md-range-event" mbsc-form>
+  <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+    <div class="mbsc-header-txt mbsc-align-center">
+      <div class="mbsc-align-center" style="margin-top:8px;">
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการช่วยเหลือผู้ป่วยโควิดฉุกเฉิน สำหรับผู้ป่วยรักษาตัวที่บ้าน</p>
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <br />
+<p style="color: #233E8B;">คู่มือปฏิบัติ &#x0230A; &#x02336; &#x0230B;</p>
+<br />
+<a href="./O2Sat.html"><button onclick="return go2View('O2Sat')" class="custom-btn menu"><span> &nbsp;&nbsp;คู่มือทดสอบสภาวะการขาดออกซิเจน &#x000BB;&nbsp;&nbsp; </span></button></a>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
+  * {
+    font-family: 'Kanit', sans-serif;
+  }
+
+.custom-btn {
+  padding: 25px;
+  border: 2px solid #125D98;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+.menu {
+  background: #125D98;
+  color: #fff;
+  line-height: 300%;
+  padding: 0;
+  border: none;
+}
+.menu:hover {
+  background: #FFF5FD;
+  color: #EC4646;
+   box-shadow:
+   -7px -7px 20px 0px #fff9,
+   -4px -4px 5px 0px #fff9,
+   7px 7px 20px 0px #0002,
+   4px 4px 5px 0px #0001;
+}
+.menu:before,
+.menu:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #EC4646;
+  transition:400ms ease all;
+}
+.menu:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.menu:hover:before,
+.menu:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+</style>
