@@ -1,0 +1,235 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="p-2 mr-5 ml-5">
+      <div class="container" style="text-align: center;">
+        <div id="title">
+            <h3><b>กระทู้คำถาม</b></h3>
+            <h4><b>ย้ายพันทิปเข้ามาในเว็บเราแล้ววันนี้</b></h4>
+        </div>
+        <br>
+        <div id="subtitle">
+            <h5> -- อยู่ระหว่างการพัฒนา --</h5>
+        </div>
+        <br>
+        <div id="contents">
+        </div>
+      </div> 
+    </div>
+</div>
+
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="p-2 mr-5 ml-5">
+      <div class="container">
+  
+        <h3 class="p-0 m-0 mb-3"><b>Forum</b></h3>
+        <div class="row mb-1 d-flex justify-content-start">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form class="form-row" onsubmit="return pre_search();">
+              <div class="row d-flex justify-content-left ">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="search_idno" placeholder="ID">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <input type="text" class="form-control" id="search_name" placeholder="หัวข้อ">
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary border-0">
+                      <i class="fas fa-search"></i>
+                      Search
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+  
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+
+          <div id="new_topic">
+            <div class="card mt-5 bg-light">
+              <div class="card-body">
+                <form class="form-group">
+                    <h4 class="p-0 m-0 mb-3"><b>เพิ่มกระทู้</b></h4>
+                  <div class="form-group col-md-6">
+                    <label for="txt" for="forum_topic">หัวข้อกระทู้ <span style="color:red"> *</span></label>
+                    <input class="form-control" id="forum_topic" type="text" placeholder="" value=""
+                      style="font-size: 13px;" />
+                  </div>
+                  <br>
+                  <label for="forum_content_box">เนื้อหา</label>
+                  <div class="form-group col-md-6">
+                    <textarea class="form-control" type="text" id="forum_content_box" row="4" cols="50" style="font-size: 13px;"></textarea>
+                  </div>
+
+                  <br>
+                  </from>
+
+          </div>
+          
+            </div>
+            
+          </div>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <div class="form-group">
+            <button class="btn btn-primary border-0" onclick="new_topic_forum()">
+                <i class="fas fa-question"></i> เพิ่มกระทู้
+            </button>
+            </div>
+        </div>
+
+          
+
+          <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+        <!-- แบ่งหน้า -->
+        <div class="row mt-4">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="pagination_bar pb-3"></div>
+          </div>
+        </div>
+        <!-- // แบ่งหน้า -->
+  
+        <div class="table-responsive mt-2">
+          <table class="table table-bordered table-hover show_startpage font-weight-light" >
+            <thead class="text-center">
+              <tr>
+                <th scope="col" class="text-secondary">ID</th>
+                <th scope="col" class="text-secondary">User</th>
+                <th scope="col" class="text-secondary">Topic</th>
+                <th scope="col" class="text-secondary">Created</th>
+                <th scope="col" class="text-secondary">Reply</th>
+              </tr>
+            </thead>
+            <tbody id="row_patientlist" style="display:none;">
+              <tr>
+                <td class="text-center table-middle"># ##pantip-id##</td>
+                <td class="text-center table-middle"><img src="##pantip-by.pictureUrl##" style="max-width:50px;" class="rounded-circle"><br> ##pantip-by.displayName##</td>
+                <td class="text-center table-middle"><strong>##pantip-topic##</strong></td>
+                <td class="text-center table-middle">##pantip-day_count##</td>
+                <td class="text-center">
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2 position-relative" onclick="click_to_reply('##pantip-id##')">
+                    <i class="fas fa-paper-plane"></i> ตอบกลับ <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">##pantip-reply_count##</span></button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody id="show_patientlist">
+              <tr>
+  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- // end table -->
+      </div>
+    </div>
+  </div>
+
+<script>
+    var template_patient_row = $('#row_patientlist').html();
+  var searchobj = {};
+  var fncsearch;
+  // var global_color;
+
+  function pre_search(){
+    // clear search url from lastsearch
+
+    refreshpage(undefined,true);
+    return false;
+  }
+  function refreshpage(rawdata,clearsearch) {
+    console.log("GLOBAL_USER",GLOBAL_USER)
+
+    var search_setting = {
+      posturl: '/api-backend/admin/faq/list',
+      paginationDIV: $('.pagination_bar'),
+      pagesize: 10,
+      showfunction: show_patient_list,
+      limit: 10,
+      search: {}
+    }
+    if ($('#search_name').val() !== "") {
+      Object.assign(search_setting.search,{findname: $('#search_name').val()})
+    }
+
+    if ($('#search_idno').val() !== "") {
+      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
+    }
+
+    console.log("Searching..",search_setting)
+
+    console.log(search_setting.search)
+
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    return false;
+  }
+
+  function show_patient_list(objdata, totalrecord) {
+    // console.log('objdata', objdata);
+    if (objdata.result && totalrecord > 0) {
+      working.patient = objdata.obj;
+      console.log("OBJDATA: " + objdata.obj)
+      objdata.obj.map(item => {
+        item.day_count =  moment(item.createdate, "X").fromNow(true)
+         item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
+         item.reply_count = item.reply.length
+      })
+
+      var html_row = hash_replace(template_patient_row, 'pantip', objdata.obj)
+      $("#show_patientlist").html(html_row);
+      // $('.show_startpage').show('slow');
+
+    } else {
+      $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+    }
+  }
+
+    function new_topic_forum()
+    {
+        let content = ""
+
+        if (!$("#forum_topic").val())
+        {
+            return alert("กรุณากรอกหัวข้อ")
+        }
+
+        if (!$("#forum_content_box").val())
+        {
+            content = " -- ไม่มีเนื้อหา -- "
+        }
+        else
+        {
+            content = $("#forum_content_box").val()
+        }
+
+
+        let payload = {
+                topic : $("#forum_topic").val(),
+                content: content,
+            }
+
+        $.postJSON(MAINURL + "/api-backend/admin/faq/add",payload,(msg) =>
+        {
+            if (msg.result)
+            {
+                return alert_success("เพิ่มกระทู้แล้ว")
+            }
+            else
+            {
+                return alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+            }
+        })
+    }
+
+    function click_to_reply(id)
+    {
+        go2View("faq_reply?id=" + id)
+    }
+</script>

@@ -95,6 +95,25 @@
                 </div>
               </div>
               <div class="mbsc-col-6" style="padding:0px;margin:0px;">
+                <div id="input_idcard" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">อายุ <span style="color:red"> *</span></p>
+                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                    <div id="inputbox_idcard">
+                      <label style="width: 100%;">
+                        <input  class="form-control" style="width: 100%;" mbsc-input id="age" type="number"  placeholder="อายุ" value="" style="font-size: 13px;" />
+                          
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+                
+            </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;">
+              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
                 <div id="input_birthday" style="border-radius:0px !important;padding:0px;margin-top:10px;">
                   <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">วันเดือนปีเกิด (ค.ศ) <span style="color:red"> *</span></p>
                   <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
@@ -106,9 +125,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="mbsc-row" style="padding:0px;margin:0px;">
               <div class="mbsc-col-6" style="padding:0px;margin:0px;">
                 <div id="input_mobileno" style="border-radius:0px !important;padding:0px;margin-top:10px;">
                   <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">เบอร์โทรศัพท์ <span style="color:red"> *</span></p>
@@ -688,8 +704,9 @@
           let birthday = $("#birthday").val()
           let mobileno = $("#mobileno").val()
           let email = $("#email").val()
+          let age = $("#age").val()
 
-          let address = $("#inputbox_address").val()
+          let address = $("#village").val()
           let province = $("#province").val()
           let district = $("#district").val()
           let subdistrict = $("#subdistrict").val()
@@ -738,6 +755,11 @@
               return alert("กรณากรอกวันเกิด");
             }
 
+            if (!age)
+            {
+              return alert("กรณากรอกอายุ");
+            }
+
             if(!mobileno)
             {
               return alert("กรุณากรอกเบอร์โทรศัพท์์");
@@ -746,6 +768,11 @@
             if(!(mobileno.match(/^[0-9]+$/)) || mobileno.length != 10)
             {
               return alert("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง");
+            }
+
+            if(!address)
+            {
+              return alert("กรุณากรอกที่อยู่");
             }
 
             if(!province)
@@ -784,7 +811,7 @@
             }
 
 
-          let coorArr = $("#hospital_showing").val().spilt(",")
+          let coorArr = $("#hospital_showing").val().split(",")
           let location = 
           {
             type: "Point",
@@ -953,15 +980,29 @@
               },
               allergic: allergic,
               verify: false,
-              initial_symptoms: initial_symptoms,
+              init_symptoms: initial_symptoms,
               status: 2,
-              location: location
+              location: location,
+              createdate: Math.floor((new Date()) / 1000),
+              lastupdate: Math.floor((new Date()) / 1000)
             }
 
 
               console.log(initial_symptoms)
               console.log(payload)
           
+              $.postJSON(MAINURL + "/api-backend/admin/patient_manualadd_new", payload, (msg) =>
+              {
+                if (msg.code == 200)
+                {
+                  alert_success("เพิ่มผู้ป่วยแล้ว")
+                  return go2View('patientlist')
+                }
+                else
+                {
+                  return alert("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง")
+                }
+              })
     }
 
     function checkToDisable()
