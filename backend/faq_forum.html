@@ -110,7 +110,7 @@
                 <td class="text-center table-middle"><strong>##pantip-topic##</strong></td>
                 <td class="text-center table-middle">##pantip-day_count##</td>
                 <td class="text-center">
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2 position-relative">
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2 position-relative" onclick="click_to_reply('##pantip-id##')">
                     <i class="fas fa-paper-plane"></i> ตอบกลับ <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">##pantip-reply_count##</span></button>
                 </td>
               </tr>
@@ -226,5 +226,10 @@
                 return alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
             }
         })
+    }
+
+    function click_to_reply(id)
+    {
+        go2View("faq_reply?id=" + id)
     }
 </script>
