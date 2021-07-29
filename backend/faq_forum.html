@@ -96,35 +96,22 @@
           <table class="table table-bordered table-hover show_startpage font-weight-light" >
             <thead class="text-center">
               <tr>
-                <th scope="col" class="text-secondary">Profile</th>
                 <th scope="col" class="text-secondary">ID</th>
-                <th scope="col" class="text-secondary">Display Name</th>
-                <th scope="col" class="text-secondary">Area</th>
-                <th scope="col" class="text-secondary">Create Date</th>
-                <th scope="col" class="text-secondary">Day Count</th>
-                <th scope="col" class="text-secondary">Color</th>
-                <th scope="col" class="text-secondary">Register Status</th>
-                <th scope="col" class="text-secondary">Action</th>
+                <th scope="col" class="text-secondary">User</th>
+                <th scope="col" class="text-secondary">Topic</th>
+                <th scope="col" class="text-secondary">Created</th>
+                <th scope="col" class="text-secondary">Reply</th>
               </tr>
             </thead>
             <tbody id="row_patientlist" style="display:none;">
               <tr>
-                <td class="text-center table-middle">
-                  <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
-                </td>
-                <td class="text-center table-middle"># ##patient-id##</td>
-                <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
-                  <br>
-                  ##patient-firstname## ##patient-lastname##
-                </td>
-                <td class="text-center table-middle">ต.##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province##</td>
-                <td class="text-center table-middle">##patient-createDate##</td>
-                <td class="text-center table-middle">##patient-day_count##</td>
-                <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
-                <td class="text-center table-middle">##patient-status##</td>
+                <td class="text-center table-middle"># ##pantip-id##</td>
+                <td class="text-center table-middle"><img src="##pantip-by.pictureUrl##" style="max-width:50px;" class="rounded-circle"><br> ##pantip-by.displayName##</td>
+                <td class="text-center table-middle"><strong>##pantip-topic##</strong></td>
+                <td class="text-center table-middle">##pantip-day_count##</td>
                 <td class="text-center">
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')"><i class="fas fa-calendar-week"></i> นัดหมาย</button>
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2 position-relative">
+                    <i class="fas fa-paper-plane"></i> ตอบกลับ <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">##pantip-reply_count##</span></button>
                 </td>
               </tr>
             </tbody>
@@ -141,6 +128,69 @@
   </div>
 
 <script>
+    var template_patient_row = $('#row_patientlist').html();
+  var searchobj = {};
+  var fncsearch;
+  // var global_color;
+
+  function pre_search(){
+    // clear search url from lastsearch
+
+    refreshpage(undefined,true);
+    return false;
+  }
+  function refreshpage(rawdata,clearsearch) {
+    console.log("GLOBAL_USER",GLOBAL_USER)
+
+    var search_setting = {
+      posturl: '/api-backend/admin/faq/list',
+      paginationDIV: $('.pagination_bar'),
+      pagesize: 10,
+      showfunction: show_patient_list,
+      limit: 10,
+      search: {}
+    }
+    if ($('#search_name').val() !== "") {
+      Object.assign(search_setting.search,{findname: $('#search_name').val()})
+    }
+
+    if ($('#search_idno').val() !== "") {
+      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
+    }
+
+    console.log("Searching..",search_setting)
+
+    console.log(search_setting.search)
+
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    return false;
+  }
+
+  function show_patient_list(objdata, totalrecord) {
+    // console.log('objdata', objdata);
+    if (objdata.result && totalrecord > 0) {
+      working.patient = objdata.obj;
+      console.log("OBJDATA: " + objdata.obj)
+      objdata.obj.map(item => {
+        item.day_count =  moment(item.createdate, "X").fromNow(true)
+         item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
+         item.reply_count = item.reply.length
+      })
+
+      var html_row = hash_replace(template_patient_row, 'pantip', objdata.obj)
+      $("#show_patientlist").html(html_row);
+      // $('.show_startpage').show('slow');
+
+    } else {
+      $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+    }
+  }
+
     function new_topic_forum()
     {
         let content = ""
