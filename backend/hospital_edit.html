@@ -198,6 +198,7 @@
     var TimeStartSpliter =  $('#Startime').val().split(":")
     var TimeEndSpliter =  $('#Endtime').val().split(":")
     var multiple_day = $("multiple_day").val()
+    var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
 
     console.log(DateSpliter)
     console.log(TimeStartSpliter)
@@ -206,6 +207,11 @@
     if (!DateSpliter)
     {
       return alert("กรุณากรอกวันที่")
+    }
+
+    if (Math.floor(Date.parse(DateSpliter)) < current_date)
+    {
+      return alert("กรุณากรอกวันที่ให้ถูกต้อง")
     }
 
     if (!TimeStartSpliter)

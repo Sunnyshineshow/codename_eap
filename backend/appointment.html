@@ -60,14 +60,21 @@
                 Search
               </button>
             </div>
+          </div>
 
+          <!--<div class="row d-flex justify-start">
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                ค้นหาด้วยช่วงเวลา
+              <strong style="text-align: left;" >ค้นหาด้วยช่วงเวลา: </strong>
             </div>
             <div class="form-group">
-              <div class="row d-flex justify-start">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="row">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                    <div class="form-group">
+                      <label>ตั้งแต่ </label>
                   <label><input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น"></label>
+                    </div>
+                  </div>
+                  
                 </div>
                 <div></div>
                 <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -75,8 +82,14 @@
                 </div>
               </div>
             </div>
-
+          </div>-->
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <strong style="text-align: left;" >ค้นหาด้วยช่วงเวลา: </strong>
           </div>
+          <label>ตั้งแต่ </label>
+          <label><input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น"></label>
+          <label>ถึง </label>
+          <label><input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด"></label>
         </div>
       </form>
       <!--
