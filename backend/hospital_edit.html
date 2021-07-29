@@ -209,7 +209,9 @@
       return alert("กรุณากรอกวันที่")
     }
 
-    if (Math.floor(Date.parse(DateSpliter)) < current_date)
+    console.log(Math.floor(new Date(DateSpliter) / 1000) + " vs. " + current_date)
+
+    if (Math.floor(new Date(DateSpliter)) <= current_date)
     {
       return alert("กรุณากรอกวันที่ให้ถูกต้อง")
     }
@@ -234,7 +236,6 @@
     if (Start >= End)
     {
       return alert("โปรดกรอกเวลาที่ถูกต้อง")
-      
     }
     else if(!($('#Freetime_Slot').val())|| !($('#OnDate').val()) || !($('#Startime').val()) || !($('#Endtime').val()) )
     {
