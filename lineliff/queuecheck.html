@@ -308,6 +308,11 @@
         return alert_modal("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง")
       }
 
+      if (msg.code == 403)
+      {
+        return alert_modal("ไม่สามารถเลือกได้ เนื่องจากทำรายการช้ากว่าเวลาที่กำหนด")
+      }
+
       alert_modal("แก้การเดินทางแล้ว")
       return refreshpage();
 
