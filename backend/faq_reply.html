@@ -2,8 +2,77 @@
     <div class="p-2 mr-5 ml-5">
       <div class="container">
   
-        <h3 class="p-0 m-0 mb-3"><b>Forum Reply</b></h3>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                
+            </div>
+            <h3 class="p-0 m-0 mb-3"><b>Thread</b></h3>
+
+        <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+            <div class="card-body" style="text-align: left;">
+            <div id="topic_data" style="display: none;">
+                <h4>##FAQ-topic##</h4>
+              <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+              <div class="card-body">
+                <p>##FAQ-content##</p>
+            </div>
+            <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+            <img src="##FAQ-by.pictureUrl##" alt="User Image" width="5%" height="auto" class="rounded-pill text-center max-auto"> <label>##FAQ-by.displayName##   </label>   <label> ##FAQ-createdate##</label>
+            </div>
+
+            <div id="topic_data_showing">
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+        <br>
+        <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+            <div class="card-body" style="text-align: left;">
+
+                <h4>ตอบกลับ</h4>
+              <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+              <div class="card-body">
+                  <div class="form-group col-md-6">
+                    <textarea class="form-control" type="text" id="forum_content_box" row="4" cols="50" style="font-size: 13px;"></textarea>
+                  </div>
+            </div>
+            <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+            <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2 position-relative" onclick="click_to_reply()">
+                <i class="fas fa-paper-plane"></i> ตอบกลับ </button>
+
+            </div>
+          </div>
       </div>
     </div>
 </div>
+
+<script>
+
+    var id = getParameterByName('id', window.location.search);
+
+    $.postJSON(MAINURL + "/api-backend/admin/faq/list_individual", {_id: id}, (msg) =>
+    {
+
+            let date = new Date(msg.detail.createdate * 1000)
+
+            let minute = date.getMinutes()
+
+            if (minute < 10)
+            {
+                minute = "0" + minute
+            }
+
+            msg.detail.createdate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + minute
+
+
+        let tmp;
+
+        tmp = hash_replace($('#topic_data'), "FAQ", msg.detail)
+          $("#topic_data_showing").html(tmp)
+    })
+</script>
         
