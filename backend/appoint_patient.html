@@ -294,6 +294,14 @@
           } else if (msg[i].status == 200) {
             msg[i].status = `<span style="color: #9139B6;">นัดอัตโนมัติ</span>`
           }
+          else if (msg[i].status == 4)
+          {
+            msg[i].status = `<span style="color: red;">พลาดคิว</span>`
+          }
+          else if (msg[i].status == 5)
+          {
+            msg[i].status = `<span style="color: black;">ขาดนัด</span>`
+          }
         }
   
         //Use to replace data
