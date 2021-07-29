@@ -62,7 +62,7 @@
                   <br>
                   <label for="forum_content_box">เนื้อหา</label>
                   <div class="form-group col-md-6">
-                    <textarea class="form-control" type="text" id="forum_content_box" row="4" cols="50"></textarea>
+                    <textarea class="form-control" type="text" id="forum_content_box" row="4" cols="50" style="font-size: 13px;"></textarea>
                   </div>
 
                   <br>
@@ -167,7 +167,7 @@
 
         $.postJSON(MAINURL + "/api-backend/admin/faq/add",payload,(msg) =>
         {
-            if (result)
+            if (msg.result)
             {
                 return alert_success("เพิ่มกระทู้แล้ว")
             }
