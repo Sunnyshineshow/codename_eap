@@ -47,14 +47,14 @@
                             <th scope="col" class="text-secondary">Profile</th>
                             <th scope="col" class="text-secondary">ID</th>
                             <th scope="col" class="text-secondary">Display Name</th>
-                            <th scope="col" class="text-secondary">วันที่มีอาการ</th>
+                            <th scope="col" class="text-secondary">วันที่ประเมิน</th>
+                            <th scope="col" class="text-secondary">สี</th>
                             <th scope="col" class="text-secondary">อาการ</th>
                             <th scope="col" class="text-secondary">การหายใจ</th>
-                            <th scope="col" class="text-secondary">SpO2</th>
-                            <th scope="col" class="text-secondary">การทดสอบออกกำลังกาย</th>
-                            <th scope="col" class="text-secondary">pneumonia-check</th>
+                            <th scope="col" class="text-secondary">SpO2 Room Air (%)</th>
+                            <th scope="col" class="text-secondary">ระดับออกซิเจนในเลือดหลังออกกำลังกาย</th>
+                            <th scope="col" class="text-secondary">ปอดอักเสบ</th>
                             <th scope="col" class="text-secondary">อาการเพิ่มเติม</th>
-                            <th scope="col" class="text-secondary">Color</th>
                             <th scope="col" class="text-secondary">ตำแหน่ง</th>
                             <th scope="col" class="text-secondary">Action</th>
                         </tr>
@@ -70,13 +70,13 @@
                               ##patient-patient.firstname## ##patient-patient.lastname##
                             </td>
                             <td class="text-center table-middle">##patient-inputdate##</td>
+                            <td class="text-center table-middle"><span id="patient_color">##patient-patient.color##</span></td>
                             <td class="text-center table-middle" id = "symptoms_td">##patient-symptoms##</td>
                             <td class="text-center table-middle" id = "symptoms_td">##patient-breathing##</td>
                             <td class="text-center table-middle" id = "symptoms_td">##patient-spo_room_air##</td>
                             <td class="text-center table-middle" id = "symptoms_td">##patient-exercise_test##</td>
                             <td class="text-center table-middle" id = "symptoms_td">##patient-pneumonia_check##</td>
                             <td class="text-center table-middle" id = "symptoms_td">##patient-remark##</td>
-                            <td class="text-center table-middle"><span id="patient_color">##patient-patient.color##</span></td>
                             <!--<td class="text-center table-middle"><a href="##patient-location.link##" target="_blank">##patient-location.coordinates##</a></td>-->
                             <td class="text-center table-middle">
                               <!--<button class="btn btn-primary mt-4 mb-3" type="button" onclick="toGoogleMap()"><i class="fas fa-map-marker-alt"></i> Google Map</button>-->
@@ -151,6 +151,12 @@
         item.inputdate? item.inputdate = moment(item.inputdate, "X").format('DD/MM/YYYY') : "";
         item.location ? item.location = { link: "https://www.google.com/maps/search/" + item.location.coordinates[1] + "," + item.location.coordinates[0]} : item.location;
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+        
+        typeof(item.patient) == "number" ? item.location = { link: ""} : item.location;
+        typeof(item.patient) == "number" ? item.patient = {displayName: "--INACTIVE USER--"} : "";
+
+        item.pneumonia_check ? item.pneumonia_check = "เคย" : item.pneumonia_check = "ไม่เคย";
+        
         if (item.patient.color == "RED") {
            item.patient.color = '<span style="color: #C70039;">RED</span>'
          } else if (item.patient.color == "YELLOW") {
@@ -160,7 +166,23 @@
          }else{
            item.patient.color = "N/A"
          }
+
+         if (item.breathing == "normal")
+         {
+          item.breathing = "หายใจปกติ"
+         }
+
+         else if (item.breathing == "heavy")
+         {
+          item.breathing = "เหนื่อยหอบ"
+         }
+         else if (item.breathing == "hard")
+         {
+          item.breathing = "หายใจลำบาก"
+         }
       })
+
+      
 
       var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
       $("#show_patientlist").html(html_row);
