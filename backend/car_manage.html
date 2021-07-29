@@ -44,7 +44,7 @@
         <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
         <div class="row mb-1 d-flex justify-content-start">
             <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <form class="form-row" style="width: 100%;" onsubmit="return refreshpage();">
+              <form class="form-row" style="width: 100%;" onsubmit="return pre_search();">
         <div class="form-group">
 
           <!-- <div class="row d-flex justify-content-center"> -->
@@ -223,7 +223,14 @@
       })
   })
 
-  function refreshpage(rawdata) {
+  function pre_search(){
+    // clear search url from lastsearch
+
+    refreshpage(undefined,true);
+    return false;
+  }
+
+  function  refreshpage(rawdata,clearsearch) {
 
     console.log("GLOBAL_USER",GLOBAL_USER)
         if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1)){
@@ -288,7 +295,8 @@
     }
     
     // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting); // Defult always search at first
+    console.log(typeof(current_date))
+    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
   }
 
@@ -297,51 +305,16 @@
     if (objdata.result && totalrecord > 0) {
       working.patient = objdata.obj;
       console.log("OBJDATA: " + objdata.obj)
+      var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`]
       objdata.obj.map(item => {
+        let appointid = item._id
+        let vehicle = item.vehicle
         // console.log(item)
-        item.createDate ? item.createdate = moment(item.createdate, "X").format('YYYY/MM/DD') : "";
+        item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY') : "";
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+        item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
+        item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">ID รถ: ${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
       })
-
-      for (let i = 0; i < objdata.obj.length; i++) {
-        //Date Time
-        let datetime = new Date(objdata.obj[i].appointtime * 1000)
-
-        let minutes = datetime.getMinutes()
-
-        if (minutes < 10) {
-          minutes = "0" + minutes
-        }
-
-        objdata.obj[i].appointtime = datetime.getDate() + "/" +
-          (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " " + datetime.getHours() + ":" + minutes
-
-        if (objdata.obj[i].status == -1) {
-          objdata.obj[i].status = `<span style="color: #C70039;">ยกเลิก</span>`
-        } else if (objdata.obj[i].status == 0) {
-          objdata.obj[i].status = `<span style="color: #FFD033;">รอคิว</span>`
-        } else if (objdata.obj[i].status == 1) {
-          objdata.obj[i].status = `<span style="color: #47CF55;">ได้คิว</span>`
-        } else if (objdata.obj[i].status == 2) {
-          objdata.obj[i].status = `<span style="color: green;">ตามเวลานัด</span>`
-        } else if (objdata.obj[i].status == 200) {
-          objdata.obj[i].status = `<span style="color: #9139B6;">นัดอัตโนมัติ</span>`
-        }
-
-        if (!objdata.obj[i].vehicle)
-          {
-            let appointid = objdata.obj[i]._id
-            Object.assign(objdata.obj[i], {vehicle: `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>`})
-            console.log(objdata.obj[i].vehicle)
-          }
-          else
-          {
-            let appointid = objdata.obj[i]._id
-            let vehicle = objdata.obj[i].vehicle
-            Object.assign(objdata.obj[i], {vehicle: `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">ID รถ: ${vehicle}</button>`})
-            console.log(objdata.obj[i].vehicle)
-          }
-      }
 
       var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
       $("#show_patientlist").html(html_row);
@@ -409,6 +382,6 @@
   function changeDate(quantity) {
     current_date += 24 * 3600 * (quantity)
     shown_date = new Date((current_date + 5*3600) * 1000)
-    refreshpage()
+    pre_search()
   }
 </script>
