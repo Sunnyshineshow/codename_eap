@@ -370,6 +370,16 @@
             msg[i].status = `<span style="color: green;">ตามเวลานัด</span>`
             msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
           }
+          else if (msg[i].status == 4)
+          {
+            msg[i].status = `<span style="color: red;">พลาดคิว</span>`
+            msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
+          }
+          else if (msg[i].status == 5)
+          {
+            msg[i].status = `<span style="color: black;">ขาดนัด</span>`
+            msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"
+          }
           else
           {
             msg[i].hospital.name = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_detail('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +msg[i].hospital.name+"</span></p>"

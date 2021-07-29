@@ -21,6 +21,8 @@
                   <option value="0">รอคิว</option>
                   <option value="1">ได้คิว</option>
                   <option value="2">ตามเวลานัด</option>
+                  <option value="4">พลาดคิว</option>
+                  <option value="5">ขาดนัด</option>
                 </select>
               </div>
             </div>
@@ -242,7 +244,8 @@
         working.patient = objdata.obj;
         console.log("OBJDATA: " + objdata.obj)
         
-        var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`]
+        var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
+  
         objdata.obj.map(item => {
           // console.log(item)
           item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY') : "";
