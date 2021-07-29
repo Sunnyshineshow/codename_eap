@@ -90,6 +90,10 @@
                   <option value="RED" style="color: red;">แดง</option>
                 </select>
                 <br>
+                <label>เหตุผล</label>
+                <input class="form-control" id="reason" type="input" name="reason" placeholder="" value="" maxlength="100" style="font-size: 13px;" />
+                <br>
+                
                 <input type="button" class="btn btn-primary border-0" value="แก้สี" style="background-color: #1597BB;" onclick="colorFix()">
               </div>
             </div>
@@ -358,9 +362,14 @@
           }
         var patientid = getParameterByName('id', window.location.search);
         let color = $("#color_picker").val();
+        let reason = $("#reason").val()
 
         if (color == "NA") {
           return alert("กรุณาเลือกสี")
+        }
+
+        if (!reason){
+          return alert("กรุณากรอกเหตุผล");
         }
 
         let payload = {
