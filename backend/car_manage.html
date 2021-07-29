@@ -1,10 +1,10 @@
 <div class="main_page mb-5" style="margin-top:120px;">
     <div class="p-2 mr-5 ml-5">
       <div class="container">
-        <br><br>
+        
         <h3 class="p-0 m-0 mb-3"><b>Vehicle Management (อยู่ระหว่างการพัฒนา)</b></h3>
         
-        <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="verify_patient('##patient-id##')" disabled><i class="fas fa-car"></i> ดูรายการรถ</button>
+        <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clickToSelf()"><i class="fas fa-car"></i> ดูเลขทะเบียนรถผู้มาเอง</button>
         <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="OpenSearchBox('Register_car')"><i class="fas fa-car"></i> ลงทะเบียนรถรับส่ง</button>
 
         <div id="Register_car" style="display: none;">
@@ -305,7 +305,7 @@
     if (objdata.result && totalrecord > 0) {
       working.patient = objdata.obj;
       console.log("OBJDATA: " + objdata.obj)
-      var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`]
+      var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
       objdata.obj.map(item => {
         let appointid = item._id
         let vehicle = item.vehicle
@@ -324,6 +324,10 @@
       $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
     }
   }
+
+  function clickToSelf() {
+        go2View("car_self");
+      }
 
   function view_symptom(patient_id) {
 
