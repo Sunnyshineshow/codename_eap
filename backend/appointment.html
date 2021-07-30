@@ -27,18 +27,32 @@
               </div>
             </div>
 
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-              <strong style="text-align: left;" >ค้นหาด้วยชื่อโรงพยาบาล: </strong> <br><br>
-              <div id="hospital_select" style="display: none;">
-                <div class="col-md-12">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="hospital_##HOSPITAL-id##" name="hospital_select" value="##HOSPITAL-id##">
-                            <label class="form-check-label" for="exampleCheck1">##HOSPITAL-name##</label>
-                        </div>
-                </div>
+            <div class="row d-flex justify-start">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <label for="SearchDate_Start">ตั้งแต่</label>
+                <input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น">
               </div>
-              <div id="hospital_select_showing"></div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <label for="SearchDate_End">ถึง </label>
+                <input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด">
+              </div>
             </div>
+
+            <div class="row d-flex justify-start">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                <strong style="text-align: left;" ><br>ค้นหาด้วยชื่อโรงพยาบาล: </strong> <br>
+                <div id="hospital_select" style="display: none;">
+                  <div class="col-md-12">
+                          <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="hospital_##HOSPITAL-id##" name="hospital_select" value="##HOSPITAL-id##">
+                              <label class="form-check-label" for="hospital_##HOSPITAL-id##">##HOSPITAL-name##</label>
+                          </div>
+                  </div>
+                </div>
+                <div id="hospital_select_showing"></div>
+              </div>
+            </div>
+            
 
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2"></div>
             <!--<div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
@@ -54,13 +68,6 @@
               <select class="form-select" aria-label="Default select example" id="SearchHospitalList_showing" style="display: none;">
               </select>
             </div>-->
-            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-                Search
-              </button>
-            </div>
-          </div>
 
           <!--<div class="row d-flex justify-start">
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -83,15 +90,16 @@
               </div>
             </div>
           </div>-->
-          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-            <strong style="text-align: left;" >ค้นหาด้วยช่วงเวลา: </strong>
-          </div>
-          <label>ตั้งแต่ </label>
-          <label><input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น"></label>
-          <label>ถึง </label>
-          <label><input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด"></label>
+
         </div>
       </form>
+      <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-search"></i>
+          Search
+        </button>
+      </div>
+    </div>
       <!--
       <div class="row d-flex justify-start">
         <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -206,11 +214,15 @@
       {
         if (hospital_element[i].checked)
         {
-          hospital.push(hospital_element[i].value)
+          hospital.push(parseInt(hospital_element[i].value))
         }
       }
 
       console.log(hospital)
+
+      if (hospital.length > 0) {
+        Object.assign(search_setting.search,{find_hospital: hospital})
+      }
 
       if ($('#search_idno').val() !== "") {
         Object.assign(search_setting.search,{find_id: $('#search_idno').val()})

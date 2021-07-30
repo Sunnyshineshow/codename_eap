@@ -3,7 +3,7 @@
   
         <h3 class="p-0 m-0 mb-3"><b>Staff Log</b></h3>      
         
-        <div class="row d-flex justify-start" onsubmit="refreshpage()">
+        <div class="row d-flex justify-start" onsubmit="pre_search()">
 
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                <button type="submit" class="btn btn-primary" onclick="refreshpage()">
+                <button type="submit" class="btn btn-primary" onclick="pre_search()">
                   <i class="fas fa-search"></i>
                   Search
                 </button>
@@ -72,8 +72,14 @@
     var searchobj = {};
     var fncsearch;
   
+    function pre_search(){
+      // clear search url from lastsearch
+
+      refreshpage(undefined,true);
+      return false;
+    }
   
-    function refreshpage(rawdata) {
+    function refreshpage(rawdata,clearsearch) {
 
       console.log("GLOBAL_USER",GLOBAL_USER)
         if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
@@ -89,30 +95,28 @@
         search: {}
       }
     //Searchig system
-    if ($('#search_name').val() !== "") {
-      search_setting.search = {
-        findname: $('#search_name').val()
+    // if ($('#search_name').val() !== "") {
+    //   search_setting.search = {
+    //     findname: $('#search_name').val()
+    //   }
+
+      console.log("Search: " + $('#search_Action').val())
+      if ($('#search_Action').val() !== "0") 
+      {
+        console.log("SA: " + $('#search_Action').val())
+          Object.assign(search_setting.search,{find_logtype: $('#search_Action').val()})
       }
-    }
-
     
-    console.log("Search: " + $('#search_Action').val())
-    if ($('#search_Action').val() !== "0") 
-    {
-      console.log("SA: " + $('#search_Action').val())
-        Object.assign(search_setting.search,{find_logtype: $('#search_Action').val()})
-    }
-   
 
-    //pagination_bar Sys
-    var pagenumber = getParameterByName('page', window.location.search);
-    if (pagenumber > 1) {
-      search_setting.page = pagenumber;
-    }
+      //pagination_bar Sys
+      var pagenumber = getParameterByName('page', window.location.search);
+      if (pagenumber > 1) {
+        search_setting.page = pagenumber;
+      }
 
-    // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting); // Defult always search at first
-    return false;
+      // console.log('SEARCH ', search_setting);
+      fncsearch = ADV_search(search_setting,clearsearch) // Defult always search at first
+      return false;
     }
   
     function show_patient_list(objdata, totalrecord) {
