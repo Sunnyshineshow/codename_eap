@@ -33,6 +33,7 @@
                   <button type="button" class="btn btn-primary mt-4 mb-3" onclick="clickToVerify()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
                     <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
                   </svg> ตรวจสอบ</button>
+                  <button type="button" class="btn btn-primary mt-4 mb-3" onclick="open_first_map('##PATIENT-location.link##')"><i class="fas fa-map-marker-alt"></i> ตำแหน่ง</button>
                 </div>
               </div>
             </div>
@@ -187,7 +188,7 @@
                     <td class="text-center table-middle">##SYMPTOMS-exercise_test##</td>
                     <td class="text-center table-middle">##SYMPTOMS-pneumonia_check##</td>
                     <td class="text-center table-middle">##SYMPTOMS-remark##</td>
-                    <td class="text-center table-middle"><a href="##SYMPTOMS-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" id="map" style="background-color: #1597BB;"><i class="fas fa-map-marker-alt"></i> Gmap</button></a></td>
+                    <td class="text-center table-middle"><button type="button" class="btn btn-primary border-0" id="map" style="background-color: #1597BB;" onclick="open_map('##SYMPTOMS-location.link##')"><i class="fas fa-map-marker-alt"></i> Gmap</button></td>
                   </tr>
                 </tbody>
                 <tbody id="row_symptomlist_showing">
@@ -226,6 +227,16 @@
         $.postJSON(MAINURL + '/api-backend/admin/patient', {
           _id: patientid
         }, (res) => {
+
+          if (res.location) {
+
+            Object.assign(res.location,{
+                  link: "https://www.google.com/maps/search/" +
+                  res.location.coordinates[1] + "," +
+                  res.location.coordinates[0]
+                })
+                
+              }
 
           console.log(res)
           res.day_count = moment(res.createdate, "X").fromNow(true)
@@ -351,10 +362,6 @@
           //แยก Template กับ Display
           tmp = hash_replace(template_symptomlist, "SYMPTOMS", res.symptoms.reverse())
           $("#row_symptomlist_showing").html(tmp)
-
-          if (!($('#map').val())){
-              return alert("ผู้ป่วยไม่ประสงค์เปิดเผยตำแหน่งที่อยู่")
-            }
         })
 
         $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
@@ -551,5 +558,25 @@
             return alert("ไม่พบข้อมูลใน Staff หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อฝ่ายพัฒนา")
           }
         })
+      }
+
+      function open_map(link)
+      {
+        if (!link)
+        {
+          return alert("ผู้ป่วยไม่ประสงค์เปิดเผยตำแหน่งที่อยู่")
+        }
+
+        return window.open(link, "_blank")
+      }
+
+      function open_first_map(link)
+      {
+        if (!link)
+        {
+          return alert("ผู้ป่วยไม่ประสงค์เปิดเผยตำแหน่งที่อยู่")
+        }
+
+        return window.open(link, "_blank")
       }
     </script>
