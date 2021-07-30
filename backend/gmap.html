@@ -24,7 +24,7 @@
         <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
           <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
             <div class="form-group">
-              <button type="submit" class="btn btn-primary border-0" onclick="search_data()">
+              <button type="submit" class="btn btn-primary border-0" onclick="refreshpage()">
                 Search
               </button>
             </div>
@@ -50,9 +50,10 @@
   var themarker;
   var map
   var clear_map;
+  var a;
 
-  function search_data() {
-    //var anysearch = {color:"RED"}
+  function refreshpage()
+  {
     var anysearch = {}
 
     if ($("#search_color").val() != "NONE")
@@ -70,12 +71,13 @@
       }
     });
 
+    return false;
   }
 
 
   function show_patient_list(objdata, totalrecord) {
     console.log('objdata', objdata);
-    
+    a = 5;
     console.log(themarker)
     
     if (themarker) {
@@ -123,7 +125,7 @@
       return temp;
     })
     console.log("LOOP ALL markers", markers)
-    var themarker = new MarkerClusterer(map, markers, {
+    themarker = new MarkerClusterer(map, markers, {
       gridSize: 20,
       imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
     });
@@ -141,7 +143,7 @@
         },
       });
       if (map) {
-        search_data()
+        refreshpage()
       }
     } else {
       console.log("No google")
