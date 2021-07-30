@@ -7,13 +7,39 @@
 <div class="main_page mb-5" style="margin-top:120px;">
   <div class="p-2 mr-5 ml-5">
     <div class="container">
+      
       <h3><b>Google Map</b></h3>
+
+      <div class="row d-flex justify-content-left ">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <div class="form-group">
+            <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
+              <option value="NONE">โปรดเลือกสี</option>
+              <option value="GREEN">เขียว</option>
+              <option value="YELLOW">เหลือง</option>
+              <option value="RED">แดง</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary border-0" onclick="search_data()">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
       <div class="" id="iframe-contents">
         <div id="map" style="height: 600px;">Please wait map</div>
       </div>
     </div>
   </div>
 </div>
+
 
 <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwdeP0gegsHLNFUFvHpVFePFwl9Jcy7U&callback=initMap&libraries=&v=weekly">
@@ -27,11 +53,20 @@
   function search_data() {
     //var anysearch = {color:"RED"}
     var anysearch = {}
+
+    if ($("#search_color").val() != "NONE")
+    {
+      anysearch = {color: $("#search_color").val()}
+    }
+    else
+    {
+      anysearch = {}
+    }
+
     $.postJSON(MAINURL + '/api-backend/admin/patient_maps', anysearch, (res) => {
       if (res.result && res.obj) {
         show_patient_list(res.obj);
       }
-
     });
 
   }
