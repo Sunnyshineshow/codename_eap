@@ -47,7 +47,7 @@
 
 <script>
   var fncsearch;
-  var themarker = null;
+  var themarker;
   var map
 
   function search_data() {
@@ -74,7 +74,11 @@
 
   function show_patient_list(objdata, totalrecord) {
     console.log('objdata', objdata);
+    
+    console.log(themarker)
+    
     if (themarker) {
+      console.log("Marker Cleared")
       themarker.clearMarkers();
     }
 
@@ -122,6 +126,7 @@
       gridSize: 20,
       imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
     });
+    console.log(themarker)
 
   }
 
