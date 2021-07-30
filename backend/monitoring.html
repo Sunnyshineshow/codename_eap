@@ -19,6 +19,16 @@
               <small style="font-size:12px;">* ค้นหาผ่านอาการป่วย (<span style="color:red">หมายเหตุ: ใช้ (",") ในการขั้นโรคเช่น มีไข้ , ตาแดง</span>)</small>
             </div>
           </div>
+
+          <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-2">
+            <select class="form-select" aria-label="การหายใจของผู้ป่วย" id="search_breathing">
+              <option value="NONE">โปรดเลือกการหายใจ</option>
+              <option value="normal">หายใจปกติ</option>
+              <option value="heavy">เหนื่อยหอบ</option>
+              <option value="hard">หายใจแรง</option>
+            </select>
+          </div>
+
           <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
             <button type="submit" class="btn btn-primary border-0">
               <i class="fas fa-search"></i>
@@ -133,6 +143,12 @@
     if ($('#search_bysymptom').val() !== "") {
       Object.assign(search_setting.search,{findsymptom: $('#search_bysymptom').val().split(",")})
     }
+
+    if ($('#search_breathing').val() !== "NONE") {
+      Object.assign(search_setting.search,{find_breathing: $('#search_breathing').val()})
+    }
+
+
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
