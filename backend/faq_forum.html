@@ -1,7 +1,7 @@
 <div class="main_page mb-5" style="margin-top:120px;">
     <div class="p-2 mr-5 ml-5">
       <div class="container">
-  
+
         <h3 class="p-0 m-0 mb-3"><b>Forum</b></h3>
         <div class="row mb-1 d-flex justify-content-start">
           <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -28,10 +28,10 @@
             </form>
           </div>
         </div>
-  
+
         <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
 
-          <div id="new_topic">
+          <div id="new_topic" style="display:none">
             <div class="card mt-5 bg-light">
               <div class="card-body">
                 <form class="form-group">
@@ -48,22 +48,25 @@
                   </div>
 
                   <br>
-                  </from>
+                  <div class="col-5 mr-auto ml-auto" id="imageuoload">
+
+                    </div>
+                  </form>
 
           </div>
-          
+
             </div>
-            
+
           </div>
           <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
             <div class="form-group">
-            <button class="btn btn-primary border-0" onclick="new_topic_forum()">
+            <button class="btn btn-primary border-0" onclick="new_topic_forum(this)">
                 <i class="fas fa-question"></i> เพิ่มกระทู้
             </button>
             </div>
         </div>
 
-          
+
 
           <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
         <!-- แบ่งหน้า -->
@@ -73,7 +76,7 @@
           </div>
         </div>
         <!-- // แบ่งหน้า -->
-  
+
         <div class="table-responsive mt-2">
           <table class="table table-bordered table-hover show_startpage font-weight-light" >
             <thead class="text-center">
@@ -99,7 +102,7 @@
             </tbody>
             <tbody id="show_patientlist">
               <tr>
-  
+
               </tr>
             </tbody>
           </table>
@@ -121,7 +124,12 @@
     refreshpage(undefined,true);
     return false;
   }
+
+
   function refreshpage(rawdata,clearsearch) {
+    $('#imageuoload').loadcached('/backend/uploadimage.html', function() {
+      console.log("Load image cached")
+    });
     console.log("GLOBAL_USER",GLOBAL_USER)
 
     var search_setting = {
@@ -162,6 +170,9 @@
         item.day_count =  moment(item.createdate, "X").fromNow(true)
          item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
          item.reply_count = item.reply.length
+         if(item.image_topic){
+           item.topic =`<img src='/cdn/image/${item.image_topic}' width=80 height=80> ${item.topic }` ;
+         }
       })
 
       var html_row = hash_replace(template_patient_row, 'pantip', objdata.obj)
@@ -173,31 +184,63 @@
     }
   }
 
-    function new_topic_forum()
+
+
+  function new_topic_forum(obj){
+    if(!$("#new_topic").is(":visible")){
+      $("#new_topic").show();
+      $(obj).removeClass("btn-primary").addClass("btn-warning")
+      return;
+    }
+
+    let content = ""
+
+    if (!$("#forum_topic").val())
     {
-        let content = ""
+        return alert("กรุณากรอกหัวข้อ")
+    }
 
-        if (!$("#forum_topic").val())
-        {
-            return alert("กรุณากรอกหัวข้อ")
+    if (!$("#forum_content_box").val())
+    {
+        content = " -- ไม่มีเนื้อหา -- "
+    }
+    else
+    {
+        content = $("#forum_content_box").val()
+    }
+
+
+    let postdataimage = {
+            topic : $("#forum_topic").val(),
+            content: content,
         }
 
-        if (!$("#forum_content_box").val())
-        {
-            content = " -- ไม่มีเนื้อหา -- "
-        }
-        else
-        {
-            content = $("#forum_content_box").val()
-        }
+    if(!blobdata_v2){
+      return after_check(postdataimage);
+    }
+
+    doUploadImage_v2(blobdata_v2, '/api-backend/admin/faq/add', postdataimage, function(res) {
+      console.log('upload',res)
+      //refresh image tap
+      if (res.result)
+      {
+          alert_success("เพิ่มกระทู้แล้ว")
+          document.getElementById('forum_topic').value = "";
+          document.getElementById('forum_content_box').value = ""
+          return refreshpage()
+      }
+      else
+      {
+          return alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+      }
+    })
+
+  }
+    function after_check(postdataimage)
+    {
 
 
-        let payload = {
-                topic : $("#forum_topic").val(),
-                content: content,
-            }
-
-        $.postJSON(MAINURL + "/api-backend/admin/faq/add",payload,(msg) =>
+        $.postJSON(MAINURL + "/api-backend/admin/faq/add",postdataimage,(msg) =>
         {
             if (msg.result)
             {

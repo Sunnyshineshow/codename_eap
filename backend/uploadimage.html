@@ -1,0 +1,458 @@
+<style>
+  .btn-light.kinstyle {
+    color: #fa7c0f;
+
+  }
+
+  .btn-light.kinstyle:hover {
+    color: #ffffff;
+    background-color: #fa7c0f;
+
+  }
+
+  .btn-light.kinstyle.show:active {
+
+    color: #ffffff;
+    background-color: #fa7c0f;
+  }
+
+  .btn-light:not(:disabled):not(.disabled).active,
+  .btn-light:not(:disabled):not(.disabled):active,
+  .show>.btn-light.dropdown-toggle {
+    color: #ffffff;
+    background-color: #f77b0f;
+    border-color: #ffffff;
+  }
+</style>
+
+<div class="">
+  <div class="col mb-4" style="flex-grow:0" id="temp_mainimage_v2">
+    <div  style="width:100%">
+      <img src="/image/adv-bg-1.jpg" style="width: 100%;" onclick="modalimageadd_v2()" id="show-result_main_v2" class="card-img-top" alt="...">
+      <div class="card-body">
+        <div class="text-center">
+
+          <button type="button" class="btn btn-sm btn-primary rounded rounded-pill" onclick="modalimageadd_v2('false')">
+            <ion-icon name="add-outline"></ion-icon> เพิ่มรูปภาพ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div id="mainimageblock">
+    <div class="col mb-4" style="flex-grow:0;">
+      <div class="card " onclick="modalimageadd_v2('false','main')" style="width:300px;opacity:0.25;height:372px;border:solid 1px;display:block;border-width:2px;border-radius:5px;
+			border-style:dashed;">
+        <div style="display:none"><img id="show-result_addnew" style="width: 100%;object-fit: cover;height: 300px;display: block;"></div>
+        <div class="text-center" style="margin-top:50%">
+          <i class="fas fa-plus-circle fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+
+
+
+<!-- Modal  เพิ่มรูปภาพเมนูอาหาร -->
+<div class="modal fade" id="addFoodImage_v2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">แก้ไขรูปภาพ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <div class="text-center m-auto w-100 uploadCrop_v2">
+          <img id="vanilla-demo_v2" style="width:100%" src="/image/adv-bg-1.jpg" class="far fa-image">
+
+          <!-- <div id="showimage"></div> -->
+          <!-- <i class="far fa-image" id="temp_load" style="font-size: 300px; color: #F8F9FB;"></i> -->
+        </div>
+        <div class="" id="imagetemp_v2"  style="width:100%">
+          <img  style="width:100%" id="tempplateimage_v2" src="/image/adv-bg-1.jpg" class="far fa-image">
+        </div>
+
+        <!-- <div class="text-center m-auto w-75 defaultimage_v2">
+          <img id="vanilla-demo_v2" style="width:100%" src="/image/adv-bg-1.jpg" class="far fa-image">
+        </div> -->
+        <div class="text-center">
+          <button class="vanilla-rotate_v2" data-deg="90" value="left">Rotate Left</button>
+          <button class="vanilla-rotate_v2" data-deg="-90" value="right">Rotate Right</button>
+        </div>
+        <div class="text-center text-secondary mt-1">
+          รูปภาพควรมีขนาดรูปภาพไม่เกิน 2 MB
+          <br>
+          สามารถใช้ Copy + Paste จากหน้าจอได้
+        </div>
+        <a class="btn file-btn" style="position: relative">
+          <span>Upload</span>
+          <input type="file" id="imgInp_v2" value="Choose a file" accept="image/*">
+        </a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary clickbtnall" data-dismiss="modal">
+          <ion-icon name="close-outline"></ion-icon> Close
+        </button>
+        <button type="button" class="btn btn-sm btn-primary vanilla-result clickbtnall" onclick="save_image_fnc_v2()">
+          <ion-icon name="save-outline">
+          </ion-icon> Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div> <!-- // Modal addFoodImage_v2 -->
+<!-- <div class="select2_data"> -->
+<div class="progress" style="display:none">
+  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+    <div class="bar_fill_text" id="pt">%</div>
+  </div>
+</div>
+<script>
+
+  // $.get('https://guy.kapooktopup.com/image/event/welove/:fileid',(res)=>{
+  //   console.log('res',res)
+  // })
+  // function addFoodPrice_v2() {
+  // 	$('#addFoodPrice_v2').toggle();
+  // }
+
+  // var vanilla_v2 = false
+  var vanilla_v2 = ""
+  var tmpimage_v2 = $('.uploadCrop_v2').html()
+  var valuerotae_v2
+  var src_r_v2
+
+  var w1_v2
+  var h1_v2
+  var imagedata_v2
+  function setimage_v2(imagefile_id){
+    var srcimage
+    // console.log('base64Mime(imagefile_id)',base64Mime(imagefile_id))
+    if(imagefile_id){
+      if(base64Mime(imagefile_id)){
+        srcimage = imagedata_v2 = imagefile_id
+      }else{
+        //base64
+        // var db_org = mytoken.db
+        srcimage = imagedata_v2= imagefile_id
+        // console.log('srcimage',srcimage)
+
+      }
+
+    }else{
+       srcimage = "/picture/heart.png"
+    }
+    if(srcimage){
+      // readURL_v2(srcimage)
+      $('#show-result_main_v2').attr('src', srcimage)
+    }
+  }
+  document.onpaste = function (event) {
+      if(!$('#addFoodImage_v2').is(':visible')){
+        return;
+      }
+      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      console.log(JSON.stringify(items)); // might give you mime types
+      for (var index in items) {
+          var item = items[index];
+          if (item.kind === 'file') {
+              var blob = item.getAsFile();
+              var reader = new FileReader();
+              reader.onload = function (event) {
+
+                $('#imagetemp_v2').show()
+                $('.uploadCrop_v2').show()
+                $('.defaultimage_v2').hide()
+                $('.uploadCrop_v2').html(tmpimage_v2)
+                var image = new Image();
+                image.src = event.target.result;
+                image.onload = function() {
+                  w1_v2 = this.width
+                  h1_v2 = this.height
+                  bindimage_v2(event.target.result)
+                };
+
+
+              };
+              reader.readAsDataURL(blob);
+          }
+      }
+  };
+  function base64Mime(encoded) {
+    var result = null;
+
+    if (typeof encoded !== 'string') {
+      return result;
+    }
+
+    var mime = encoded.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
+
+    if (mime && mime.length) {
+      result = mime[1];
+    }
+
+    return result;
+  }
+
+  function readURL_v2(input) {
+
+    // $('#temp_load').hide()
+    // $('#vanilla-demo_v2').show()
+    $('.uploadCrop_v2').html(tmpimage_v2)
+    if (typeof input != "string") {
+      if (input.files && input.files[0]) {
+        valuerotae_v2 = 1
+        var reader = new FileReader();
+        // FileReader
+        reader.onload = function(e) {
+
+
+          if(e.total>2097152){
+            PNotify.error({
+              title:'Image Error',
+              text: 'memery of image is over 2 MB',
+              type: 'error'
+            });
+            var srcimage = $('#imagetemp_v2').attr('src')
+            // $('#imagetemp_v2').hide()
+            bindimage_v2(srcimage)
+            // return false;
+
+          }else{
+            var image = new Image();
+            image.src = reader.result;
+            image.onload = function() {
+              w1_v2 = this.width
+              h1_v2 = this.height
+              // console.log(w1_v2+':'+h1_v2)
+              // if(w1_v2>1920&&h1_v2>1080){
+              //   PNotify.error({
+              //     title:'Image Error',
+              //     text: 'size of image is over 1920x1080 px',
+              //     type: 'error'
+              //   });
+              //   var srcimage = $('#tempplateimage_v2').attr('src')
+              //   // $('#imagetemp_v2').hide()
+              //   bindimage_v2(srcimage)
+              //   // return false
+              // }else{
+              //   bindimage_v2(e.target.result)
+              // }
+              bindimage_v2(e.target.result)
+            };
+
+          }
+          // $('.uploadCrop_v2').html(tmpimage_v2)
+
+
+
+        }
+        // temimage.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(input.files[0]);
+      }
+    } else {
+      // console.log('set src', input)
+      valuerotae_v2 = 1
+      bindimage_v2(input)
+
+    }
+  }
+
+  function bindimage_v2(url) {
+    console.log("BINDING",url)
+    $('#tempplateimage_v2').attr('src', url);
+    var newsizew = document.getElementById("imagetemp_v2").clientWidth
+    var newsizeh = document.getElementById("imagetemp_v2").clientHeight
+    $('#imagetemp_v2').hide()
+    $('#vanilla-demo_v2').attr('src', url);
+    // $('#vanilla-demo_v2').attr('src', url);
+    src_r_v2 = $('#vanilla-demo_v2').attr('src');
+    // console.log('src_r_v2',src_r_v2)
+    var el = document.getElementById('vanilla-demo_v2');
+    var percent = (newsizew/(newsizew+50))*100
+    console.log('percent',percent)
+    var diff = 100-percent
+    console.log('diff',diff)
+    vanilla_v2 = new Croppie(el, {
+      viewport: {
+        width: newsizew-(newsizew*(diff/100)),
+        height: newsizeh-(newsizeh*(diff/100))
+      },
+      boundary: {
+        width: newsizew,
+        height: newsizeh
+      },
+      enableResize: true,
+      // mouseWheelZoom: 'ctrl',
+      enableOrientation: true,
+
+    });
+    // $('#vanilla-demo_v2').croppie('destroy');
+    vanilla_v2.bind({
+      url: src_r_v2,
+      orientation:1,
+      zoom: 0
+    });
+  }
+
+
+  $('.vanilla-rotate_v2').on('click', function(ev) {
+    // vanilla_v2.rotate(parseInt($(this).data('deg')));
+    $('#vanilla-demo_v2').croppie('destroy');
+    var objget = vanilla_v2.get()
+
+    // vanilla_v2.destroy()
+    console.log(objget)
+    console.log($(this).val())
+    var changerotate
+    if ($(this).val() == 'right') {
+      //rotate left
+      console.log('right')
+      if (valuerotae_v2 == 1) {
+        changerotate = 6
+      }
+      if (valuerotae_v2 == 6) {
+        changerotate = 3
+      }
+      if (valuerotae_v2 == 3) {
+        changerotate = 8
+      }
+      if (valuerotae_v2 == 8) {
+        changerotate = 1
+      }
+
+
+    } else if ($(this).val() == 'left') {
+      //rotate right
+      console.log('left')
+      if (valuerotae_v2 == 1) {
+        changerotate = 8
+      }
+      if (valuerotae_v2 == 8) {
+        changerotate = 3
+      }
+      if (valuerotae_v2 == 3) {
+        changerotate = 6
+      }
+      if (valuerotae_v2 == 6) {
+        changerotate = 1
+      }
+
+    }
+    console.log('rotate :', changerotate)
+    valuerotae_v2 = changerotate
+    vanilla_v2.bind({
+      url: src_r_v2,
+      orientation: changerotate,
+      zoom: objget.zoom
+    });
+    return false
+  });
+
+
+
+  $("#imgInp_v2").change(function() {
+    $('#imagetemp_v2').show()
+    $('.uploadCrop_v2').show()
+    $('.defaultimage_v2').hide()
+    setTimeout(()=>{
+      readURL_v2(this);
+    },200)
+  });
+  function modalimageadd_v2() {
+    $('#imagetemp_v2').show()
+    $('.uploadCrop_v2').show()
+    $('.defaultimage_v2').hide()
+    var temppath = $('#show-result_main_v2').attr('src')
+    setTimeout(()=>{
+      readURL_v2(temppath);
+    },200)
+    $('#addFoodImage_v2').modal('show')
+  }
+  var addFoodPrice_v2 = $('#addFoodPrice_v2').html()
+
+  var blobdata_v2
+  function save_image_fnc_v2() {
+    $('#addFoodImage_v2').modal('hide')
+    // alert('save')
+    vanilla_v2.result({
+      type: 'blob',
+      size: 'viewport'
+    }).then(function(blob) {
+      blobdata_v2 = blob
+        $('#show-result_main_v2')[0].src = window.URL.createObjectURL(blob);
+    });
+  }
+
+
+  function removeimage_v2() {
+    if(confirm('คุณต้องการลบ รูปนี้ใช่หรือไม่')==true){
+      imagedata_v2 = null
+      $('#show-result_main_v2').attr('src','/picture/heart.png')
+    }
+    return false
+  }
+
+  function doUploadImage_v2(tempimagefile4upload, upload_url, postdata, cb_whenfinish) {
+    if (typeof(cb_whenfinish) != 'function') {
+      alert("cb_whenfinish Mustbe Function");
+      return;
+    }
+    if (!upload_url) return alert("upload_url must not empty");
+    if (!tempimagefile4upload) return alert("Data Image Not Found");
+    console.log(tempimagefile4upload);
+    var formData = new FormData();
+    formData.append('file', tempimagefile4upload, 'imageupload.png');
+
+
+    if (postdata) {
+      var allhead = Object.keys(postdata);
+      for (var x = 0; x < allhead.length; x++) {
+        var val = postdata[allhead[x]];
+        if (typeof(val) == 'object') {
+          try {
+            val = JSON.stringify(val);
+            console.log("STRINGIFY")
+          } catch (e) {
+
+          }
+        }
+        formData.append(allhead[x], val);
+      }
+    }
+
+
+    //
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if (request.readyState == 4) {
+        tempimagefile4upload = null;
+
+        try {
+          var resp = JSON.parse(request.response);
+        } catch (e) {
+          var resp = {
+            status: 'error',
+            data: 'Unknown error occurred: [' + request.responseText + ']'
+          };
+          alert(request.responseText);
+          return;
+        }
+
+        cb_whenfinish(resp);
+      }
+    };
+    //console.log('mytoken',jwtrawtoken)
+    // request.upload.addEventListener('progress', OnProgress, false);
+    console.log('upload_url',MAINURL+upload_url)
+    request.open('POST', MAINURL+upload_url);
+    request.setRequestHeader("Authorization","Bearer " + ACCESS_TOKEN)
+    request.send(formData);
+    //  console.log("Sending File");
+
+  }
+</script>
