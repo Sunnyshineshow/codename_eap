@@ -187,7 +187,7 @@
                     <td class="text-center table-middle">##SYMPTOMS-exercise_test##</td>
                     <td class="text-center table-middle">##SYMPTOMS-pneumonia_check##</td>
                     <td class="text-center table-middle">##SYMPTOMS-remark##</td>
-                    <td class="text-center table-middle"><a href="##SYMPTOMS-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Gmap</button></a></td>
+                    <td class="text-center table-middle"><a href="##SYMPTOMS-location.link##"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Gmap</button></a></td>
                   </tr>
                 </tbody>
                 <tbody id="row_symptomlist_showing">
@@ -230,10 +230,13 @@
           console.log(res)
           for (let i = 0; i < res.symptoms.length; i++) {
             //Date Time
-            let datetime = new Date(res.symptoms[i].inputdate * 1000)
+            /*let datetime = new Date(res.symptoms[i].inputdate * 1000)
 
             res.symptoms[i].inputdate = datetime.getDate() + "/" +
-              (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+              (datetime.getMonth() + 1) + "/" + datetime.getFullYear()*/
+
+            res.day_count = moment(res.createdate, "X").fromNow(true)
+            res.createdate ? res.createdate = moment(res.createdate, "X").format("DD/MM/YYYY") : "";
 
             //Location href
       
@@ -320,9 +323,11 @@
             res.init_symptoms.exercise_test = "ไม่ทราบค่า"
           }
 
-          Object.assign(res, {
+          /*Object.assign(res, {
             day_count: date_diff(res.createdate * 1000)
-          })
+          })*/
+
+
 
           //Use to replace data
           /*
@@ -349,7 +354,8 @@
           $("#hospital_showing").html(tmp)
         })
       }
-
+      
+      /*
       function date_diff(date1) {
         let dateOnly = new Date()
         console.log(dateOnly)
@@ -358,7 +364,7 @@
         console.log(new Date(date2))
 
         return parseInt((date2 - date1) / 86400000)
-      }
+      }*/
 
       function sendToLine() {
         var patientid = getParameterByName('id', window.location.search);
