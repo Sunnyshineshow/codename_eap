@@ -151,12 +151,12 @@
         item.inputdate? item.inputdate = moment(item.inputdate, "X").format('DD/MM/YYYY') : "";
         item.location ? item.location = { link: "https://www.google.com/maps/search/" + item.location.coordinates[1] + "," + item.location.coordinates[0]} : item.location;
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
-        
+
         typeof(item.patient) == "number" ? item.location = { link: ""} : item.location;
         typeof(item.patient) == "number" ? item.patient = {displayName: "--INACTIVE USER--"} : "";
 
         item.pneumonia_check ? item.pneumonia_check = "เคย" : item.pneumonia_check = "ไม่เคย";
-        
+
         if (item.patient.color == "RED") {
            item.patient.color = '<span style="color: #C70039;">RED</span>'
          } else if (item.patient.color == "YELLOW") {
@@ -180,9 +180,16 @@
          {
           item.breathing = "หายใจลำบาก"
          }
+         if( Number(item.spo_room_air ) < 0 ){
+           item.spo_room_air ='';
+         }
+         if( Number(item.exercise_test ) < 0 ){
+           item.exercise_test ='';
+         }
+
       })
 
-      
+
 
       var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
       $("#show_patientlist").html(html_row);
