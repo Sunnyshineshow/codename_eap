@@ -65,7 +65,14 @@
                     <tbody id="row_stafflist" style="display:none;">
                         <tr>
                             <td class="text-center table-middle">
-                                <img src="##STAFF-pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                                <div class=" position-relative">
+                                    
+                                    <img src="##STAFF-pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                                    ##STAFF-lastactive##
+                                </div>
+                                
+                                
+
                             </td>
                             <td class="text-center table-middle"># ##STAFF-id##</td>
                             <td class="text-center table-middle">##STAFF-displayName##</td>
@@ -121,22 +128,23 @@
             pagesize: 10,
             showfunction: show_staff_list,
             limit: 10,
+            search: {}
         }
         if ($('#search_name').val() !== "") {
-            search_setting.search = {
-                findname: $('#search_name').val()
-            }
+            Object.assign(search_setting.search,{findname: $('#search_name').val()})
         }
+        
         if ($('#search_id').val() !== "") {
-            search_setting.search = {
-                findid: $('#search_id').val()
-            }
+            Object.assign(search_setting.search,{findid: $('#search_id').val()})
         }
+
         if ($('#search_hospital').val() !== "") {
-            search_setting.search = {
-                findhospital: $('#search_hospital').val()
-            }
+            Object.assign(search_setting.search,{findhospital: $('#search_hospital').val()})
         }
+
+        // if () {
+        //     Object.assign(search_setting.search,{findhospital: $('#search_hospital').val()})
+        // }
 
         //date change
         // Object.assign(res, {day_count: date_diff(res.createdate * 1000)})
@@ -165,6 +173,22 @@
                 // console.log(item)
                 item.createdate ? item.createdate = moment(item.createdate / 1000, "X").format('DD/MM/YYYY') : "";
                 // item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+
+                if (item.lastactive)
+                {
+                    if ((Math.floor(new Date() / 1000) - item.lastactive) < 300)
+                    {
+                        item.lastactive = `<span class="position-absolute top-100 start-50 translate-middle p-2 border border-light rounded-circle" style="background-color: #00cc00;"></span>`
+                    }
+                    else
+                    {
+                        item.lastactive = `<span class="position-absolute top-100 start-50 translate-middle p-2 bg-secondary border border-light rounded-circle"></span>`
+                    }
+                }
+                else
+                {
+                    item.lastactive = `<span class="position-absolute top-100 start-50 translate-middle p-2 bg-secondary border border-light rounded-circle"></span>`
+                }
 
                 let affstring = "";
                 for (let j = 0; j < item.affiliation.length; j++)
