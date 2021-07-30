@@ -2,8 +2,154 @@
     <div class="p-2 mr-5 ml-5">
       <div class="container">
   
-        <h3 class="p-0 m-0 mb-3"><b>Forum Reply</b></h3>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                
+            </div>
+            <h3 class="p-0 m-0 mb-3"><b>Thread</b></h3>
+
+        <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+            <div class="card-body" style="text-align: left;">
+            <div id="topic_data" style="display: none;">
+                <h4>##FAQ-topic##</h4>
+              <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+              <div class="card-body">
+                <p>##FAQ-content##</p>
+            </div>
+            <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+            <img src="##FAQ-by.pictureUrl##" alt="User Image" width="2%" height="auto" class="rounded-pill text-center max-auto"> <label>##FAQ-by.displayName##   </label>   <label> ##FAQ-createdate##</label>
+            </div>
+
+            <div id="topic_data_showing">
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+        <br>
+
+        <div id="reply_data" style="display: none;">
+          <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+            <div class="card-body" style="text-align: left;">
+              <div class="card-body">
+                <p>##REPLY-message##</p>
+            </div>
+            <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+            <img src="##REPLY-by.pictureUrl##" alt="User Image" width="2%" height="auto" class="rounded-pill text-center max-auto"> <label>##REPLY-by.displayName##   </label>   <label> ##REPLY-replytime##</label>
+            </div>
+          </div>
+          <br><br>
+        </div>
+
+        <div id="reply_showing">
+
+        </div>
+        
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+        <br>
+        <div class="card shadow-none bg-light" style="max-width: 100% !important;">
+            <div class="card-body" style="text-align: left;">
+
+                <h4>ตอบกลับ</h4>
+              <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+              <div class="card-body">
+                  <div class="form-group col-md-6">
+                    <textarea class="form-control" type="text" id="reply_box" row="4" cols="50" style="font-size: 13px;"></textarea>
+                  </div>
+            </div>
+            <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
+            <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2 position-relative" onclick="click_to_reply()">
+                <i class="fas fa-paper-plane"></i> ตอบกลับ </button>
+
+            </div>
+          </div>
       </div>
     </div>
 </div>
+
+<script>
+
+  function refreshpage()
+  {
+    var id = getParameterByName('id', window.location.search);
+    var template_topic = $('#topic_data').html()
+    var template_reply = $('#reply_data').html()
+
+    $.postJSON(MAINURL + "/api-backend/admin/faq/list_individual", {_id: id}, (msg) =>
+    {
+
+            let date = new Date(msg.detail.createdate * 1000)
+
+            let minute = date.getMinutes()
+
+            if (minute < 10)
+            {
+                minute = "0" + minute
+            }
+
+            msg.detail.createdate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + minute
+
+
+        let tmp;
+
+        tmp = hash_replace(template_topic, "FAQ", msg.detail)
+          $("#topic_data_showing").html(tmp)
+    })
+
+    $.postJSON(MAINURL + "/api-backend/admin/faq/list_reply",{_id: id}, (msg) =>
+  {
+    for (let i = 0; i < msg.detail.length; i++)
+    {
+      let date = new Date(msg.detail[i].replytime * 1000)
+
+      let minute = date.getMinutes()
+
+      if (minute < 10)
+      {
+          minute = "0" + minute
+      }
+
+      msg.detail[i].replytime = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + minute
+    }
+
+    let tmp;
+
+    tmp = hash_replace(template_reply, "REPLY", msg.detail)
+    $("#reply_showing").html(tmp)
+    
+  })
+
+  return false;
+  }
+
+
+    function click_to_reply()
+    {
+
+      if (!$("#reply_box").val())
+      {
+        return null;
+      }
+
+      console.log($("#reply_box").val())
+
+      var id = getParameterByName('id', window.location.search);
+
+      $.postJSON(MAINURL + "/api-backend/admin/faq/reply",{topicid: id,reply: $("#reply_box").val()},(msg) =>
+      {
+        if (msg.result)
+        {
+          alert_success("บันทึกแล้ว")
+          return refreshpage()
+        }
+        else
+        {
+          return alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+        }
+      })
+    }
+</script>
         
