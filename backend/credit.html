@@ -1,20 +1,22 @@
-<br />
-<br />
-<br />
 <center>
+
+<button id="btnShowHide" class="creditbtn" onclick="toggle()" style="background-color: #289de9; color: white; width: 100%; border: none; padding: 15px 32px; font-size: 120%; cursor: pointer;">&#x1D554; &#x1D563; &#x1D556; &#x1D555; &#x1D55A; &#x1D565;</button>
+<div id="showNhide" style="display:none;">
 <div class="card">
   <div class="container">
-  <br />
-	&#x1D554; &#x1D563; &#x1D556; &#x1D555; &#x1D55A; &#x1D565; <br />
 	<p style="font-size: 150%; color: #0d6efd;">
 		โครงการอยู่บ้าน ปอดปลอดภัย <br />
 		Emergency Assistance for Home Stay Patients Project ( EAP )
 	</p>
-    <p style="font-size: 200%; color: #289de9;"><b>ขอขอบคุณเหล่าจิตอาสา <span style="color: red;">&#x02665;</span></b></p>
+    <p style="font-size: 180%; color: #289de9;"><b>ขอขอบคุณเหล่าจิตอาสา <span style="color: red;">&#x02665;</span></b></p>
 	<div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
-	<p style="font-size: 150%; color: #E84545;">Developers</p>
+	  </div>
+</div>
 
-    <p style="font-size: 130%; color: #1EAE98;">
+<div class="card2">
+  <div class="container">
+  <p style="font-size: 130%; color: #E84545;">Developers</p>
+    <p style="font-size: 100%; color: #E84545;">
 		บริษัทเทคโนโลยีสัญชาติไทย ผู้นำในการพัฒนาเทคโนโลยี
 		<br/>
 		<span style="font-size: 80%; color: #2B2B2B;">
@@ -22,7 +24,7 @@
 		</span>
 	</p>
 
-	<p style="font-size: 130%; color: #1EAE98;">
+	<p style="font-size: 100%; color: #E84545;">
 		ทีม Armando
 		<br />
 		<span style="font-size: 80%; color: #2B2B2B;">
@@ -36,11 +38,10 @@
 	<p style="color: #0d6efd;">&#x025B9; &#x025BF; &#x025C3;</p>
   </div>
 </div>
+</div>
 
 </center>
-</div>
-</div>
-</div>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
   * {
@@ -49,12 +50,44 @@
   //card
   .card {
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-	transition: 0.3s;
+	transition: 1s;
 	width: 95%;
 	}
 
   .card:hover {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+	background-color: #B5EAEA;
+	-webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+	}
+
+	.card2 {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 1s;
+	width: 100%;
+	}
+
+	.card2:hover {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+	background-color: #FFE2E2;
+	-webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+	}
+
+	.card3 {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 1s;
+	width: 100%;
+	}
+
+	.card3:hover {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+	background-color: #B5EAEA;
+	-webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
 	}
 
   .container {
@@ -62,4 +95,32 @@
 	}
 	//end card
 
+	//button style
+	.creditbtn {
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  margin: 4px 2px;
+	  cursor: pointer;
+	}
+	//end button style
 </style>
+<script>
+
+function toggle() {
+	let x = document.getElementById("showNhide");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	} else {
+		x.style.display = "none";
+	}
+}
+
+$( window ).on( "load", function() {
+    document.getElementById("showNhide").style.display = "none";
+	toggle()
+});
+</script>
