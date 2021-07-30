@@ -202,7 +202,9 @@
             if (msg.result)
             {
                 alert_success("เพิ่มกระทู้แล้ว")
-                refreshpage()
+                document.getElementById('forum_topic').value = "";
+                document.getElementById('forum_content_box').value = ""
+                return refreshpage()
             }
             else
             {
