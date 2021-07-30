@@ -21,6 +21,8 @@
                   <option value="0">รอคิว</option>
                   <option value="1">ได้คิว</option>
                   <option value="2">ตามเวลานัด</option>
+                  <option value="4">พลาดคิว</option>
+                  <option value="5">ขาดนัด</option>
                 </select>
               </div>
             </div>
@@ -58,14 +60,21 @@
                 Search
               </button>
             </div>
+          </div>
 
+          <!--<div class="row d-flex justify-start">
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                ค้นหาด้วยช่วงเวลา
+              <strong style="text-align: left;" >ค้นหาด้วยช่วงเวลา: </strong>
             </div>
             <div class="form-group">
-              <div class="row d-flex justify-start">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="row">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                    <div class="form-group">
+                      <label>ตั้งแต่ </label>
                   <label><input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น"></label>
+                    </div>
+                  </div>
+                  
                 </div>
                 <div></div>
                 <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -73,8 +82,14 @@
                 </div>
               </div>
             </div>
-
+          </div>-->
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <strong style="text-align: left;" >ค้นหาด้วยช่วงเวลา: </strong>
           </div>
+          <label>ตั้งแต่ </label>
+          <label><input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น"></label>
+          <label>ถึง </label>
+          <label><input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด"></label>
         </div>
       </form>
       <!--
@@ -242,7 +257,8 @@
         working.patient = objdata.obj;
         console.log("OBJDATA: " + objdata.obj)
         
-        var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`]
+        var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
+  
         objdata.obj.map(item => {
           // console.log(item)
           item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY') : "";

@@ -90,6 +90,10 @@
                   <option value="RED" style="color: red;">แดง</option>
                 </select>
                 <br>
+                <label>เหตุผล</label>
+                <input class="form-control" id="reason" type="input" name="reason" placeholder="" value="" maxlength="100" style="font-size: 13px;" />
+                <br>
+                
                 <input type="button" class="btn btn-primary border-0" value="แก้สี" style="background-color: #1597BB;" onclick="colorFix()">
               </div>
             </div>
@@ -162,13 +166,15 @@
               <table class="table table-bordered show_startpage font-weight-light">
                 <thead class="text-center">
                   <tr>
-                    <th scope="col" class="text-secondary">No</th>
-                    <th scope="col" class="text-secondary">Date</th>
-                    <th scope="col" class="text-secondary">Symptoms</th>
-                    <th scope="col" class="text-secondary">Remark</th>
-                    <th scope="col" class="text-secondary">Location</th>
-                    <th scope="col" class="text-secondary">Doctor's Comment</th>
-                    <th scope="col" class="text-secondary">QRcode</th>
+                    <th scope="col" class="text-secondary">ID</th>
+                    <th scope="col" class="text-secondary">วันที่ประเมิน</th>
+                    <th scope="col" class="text-secondary">อาการ</th>
+                    <th scope="col" class="text-secondary">การหายใจ</th>
+                    <th scope="col" class="text-secondary">SpO2 Room Air (%)</th>
+                    <th scope="col" class="text-secondary">ระดับออกซิเจนในเลือดหลังออกกำลังกาย</th>
+                    <th scope="col" class="text-secondary">ปอดอักเสบ</th>
+                    <th scope="col" class="text-secondary">อาการเพิ่มเติม</th>
+                    <th scope="col" class="text-secondary">ตำแหน่ง</th>
                   </tr>
                 </thead>
                 <tbody id="row_symptomlist" style="display: none;">
@@ -176,14 +182,12 @@
                     <td class="text-center table-middle">##SYMPTOMS-id##</td>
                     <td class="text-center table-middle">##SYMPTOMS-inputdate##</td>
                     <td class="text-center table-middle">##SYMPTOMS-symptoms##</td>
+                    <td class="text-center table-middle">##SYMPTOMS-breathing##</td>
+                    <td class="text-center table-middle">##SYMPTOMS-spo_room_air##</td>
+                    <td class="text-center table-middle">##SYMPTOMS-exercise_test##</td>
+                    <td class="text-center table-middle">##SYMPTOMS-pneumonia_check##</td>
                     <td class="text-center table-middle">##SYMPTOMS-remark##</td>
                     <td class="text-center table-middle"><a href="##SYMPTOMS-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Gmap</button></a></td>
-                    <td class="text-center table-middle">##SYMPTOMS-doctorcomment##</td>
-                    <td class="text-center table-middle">
-                      <button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" onclick="showQR()" width="10" height="10">Show QR</button>
-                      <!--<a href="##SYMPTOMS-qr.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" >Show</button></a>-->
-                      <!--<image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>-->
-                    </td>
                   </tr>
                 </tbody>
                 <tbody id="row_symptomlist_showing">
@@ -239,7 +243,26 @@
                   res.symptoms[i].location.coordinates[1] + "," +
                   res.symptoms[i].location.coordinates[0]
               })
+
             }
+
+            res.symptoms[i].pneumonia_check ? res.symptoms[i].pneumonia_check = "เคย" : res.symptoms[i].pneumonia_check = "ไม่เคย"
+
+            if (res.symptoms[i].breathing == "normal")
+            {
+              res.symptoms[i].breathing = "หายใจปกติ"
+            }
+
+            else if (res.symptoms[i].breathing == "heavy")
+            {
+              res.symptoms[i].breathing = "เหนื่อยหอบ"
+            }
+            else if (res.symptoms[i].breathing == "hard")
+            {
+              res.symptoms[i].breathing = "หายใจลำบาก"
+            }
+
+
 
             /*
             let qr = new QRious({
@@ -364,9 +387,14 @@
           }
         var patientid = getParameterByName('id', window.location.search);
         let color = $("#color_picker").val();
+        let reason = $("#reason").val()
 
         if (color == "NA") {
           return alert("กรุณาเลือกสี")
+        }
+
+        if (!reason){
+          return alert("กรุณากรอกเหตุผล");
         }
 
         let payload = {

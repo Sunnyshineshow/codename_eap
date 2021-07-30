@@ -198,6 +198,7 @@
     var TimeStartSpliter =  $('#Startime').val().split(":")
     var TimeEndSpliter =  $('#Endtime').val().split(":")
     var multiple_day = $("multiple_day").val()
+    var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
 
     console.log(DateSpliter)
     console.log(TimeStartSpliter)
@@ -206,6 +207,13 @@
     if (!DateSpliter)
     {
       return alert("กรุณากรอกวันที่")
+    }
+
+    console.log(Math.floor(new Date(DateSpliter) / 1000) + " vs. " + current_date)
+
+    if (Math.floor(new Date(DateSpliter)) <= current_date)
+    {
+      return alert("กรุณากรอกวันที่ให้ถูกต้อง")
     }
 
     if (!TimeStartSpliter)
@@ -228,7 +236,6 @@
     if (Start >= End)
     {
       return alert("โปรดกรอกเวลาที่ถูกต้อง")
-      
     }
     else if(!($('#Freetime_Slot').val())|| !($('#OnDate').val()) || !($('#Startime').val()) || !($('#Endtime').val()) )
     {
