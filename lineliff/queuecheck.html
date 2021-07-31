@@ -313,7 +313,10 @@
         return alert_modal("ไม่สามารถเลือกได้ เนื่องจากทำรายการช้ากว่าเวลาที่กำหนด")
       }
 
+      
       alert_modal("แก้การเดินทางแล้ว")
+      close_popup_show_choosing(id)
+
       return refreshpage();
 
     })
@@ -467,6 +470,8 @@
       }
 
       alert_modal("แก้การเดินทางแล้ว")
+      close_popup_show_self(id)
+      close_popup_show_choosing(id)
       return refreshpage();
     })
   }
