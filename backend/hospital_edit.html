@@ -22,30 +22,21 @@
             <div id="hospital_worktime">
               <strong>Freetime Slot :</strong>
               <!-- <p><span style="color:red " font-size=15px></span></p> -->
-              <form action="/action_page.php">
-                <input  class="form-control" type="input" id="Freetime_Slot" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                <p class="p-0 m-0"><small style="color:red">* กรุณากรอกเป็นหน่วยนาที</small></p>
-              </form>
+                <input  class="form-control" type="input" id="Freetime_Slot" value=60 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                <p class="p-0 m-0"><small style="color:red">* กรุณากรอกเป็นหน่วยนาที (Default 60)</small></p>
               <br />
-              <strong>Date: </strong>
-              <form action="/action_page.php">
+              <strong>Start Date: </strong>
                 <input class="form-control" type="date" id="OnDate" name="appt">
-              </form>
               <br />
               <strong>Starttime :</strong>
-              <form action="/action_page.php">
                 <input class="form-control" type="time" id="Startime" name="appt">
-              </form>
+
               <br />
               <strong>Endtime :</strong>
-              <form action="/action_page.php">
                 <input class="form-control" type="time" id="Endtime" name="appt">
-              </form>
               <br />
-              <strong>Multiple Day :</strong>
-              <form action="/action_page.php">
-                <input class="form-control" type="number" id="multiple_day" name="appt" placeholder= "นัดหลายวันยังไม่พร้อมใช้งาน" disabled>
-              </form>
+              <strong>Multiple Day : (จำนวนวันที่ให้บริการ นับจาก Start Date)</strong>
+                <input class="form-control" type="number" id="multiple_day" name="appt" placeholder= "นัดหลายวันยังไม่พร้อมใช้งาน" value=1 >
               <br />
               <button type="submit" class="btn btn-primary" text-align="center" onclick="Submittime()" width="10" height="10">Submit</button>
             </div>
@@ -106,7 +97,7 @@
 </div>
 
     <!-- table here -->
-    <!-- 
+    <!--
     <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
 
     <div>
@@ -197,7 +188,7 @@
     var DateSpliter = $('#OnDate').val().split("-")
     var TimeStartSpliter =  $('#Startime').val().split(":")
     var TimeEndSpliter =  $('#Endtime').val().split(":")
-    var multiple_day = $("multiple_day").val()
+    var multiple_day = $("#multiple_day").val()
     var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
 
     console.log(DateSpliter)
@@ -213,7 +204,7 @@
 
     if (Math.floor(new Date(DateSpliter)) <= current_date)
     {
-      return alert("กรุณากรอกวันที่ให้ถูกต้อง")
+      return alert("กรุณากรอกวันที่เริ่มให้ถูกต้อง")
     }
 
     if (!TimeStartSpliter)
@@ -250,8 +241,10 @@
       timeslot: parseInt($('#Freetime_Slot').val()),
       hospital: HospitalData._id, // Hospital ID (ดึงจากหน้าเว็บ)
       queuemax: HospitalData.xraycapacity, // xraycapacity (ดึงจากหน้าเว็บ)
+      begindate :Math.floor(new Date(DateSpliter) / 1000),
       startdate: Start,
       enddate: End,
+      totaldays:Number(multiple_day)
     }
     console.log(new_timeslot)
     console.log(new Date(new_timeslot.startdate * 1000))
@@ -292,7 +285,7 @@
     {
       Object.assign(updates,{xraycapacity:$('#edit_capacity').val()})
     }
-    
+
     if($('#edit_latitude').val() == "" && $('#edit_longtitude').val() != "")
     {
       return alert("โปรดกรอกทั้งเส้นรุ้งและเส้นแวง")
@@ -318,12 +311,12 @@
       return alert("ไม่มีค่าใดๆ ที่แก้ไข")
     }
 
-    let payload = 
+    let payload =
     {
       _id: hospital_id,
       updates: updates
     }
-    
+
     $.postJSON(MAINURL + "/api-backend/admin/hospital/hospital_edit",payload,(msg) =>
     {
       if (msg.code == 200)
