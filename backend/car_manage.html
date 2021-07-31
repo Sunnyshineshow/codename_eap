@@ -82,26 +82,15 @@
               <select class="form-select" aria-label="Default select example" id="SearchHospitalList_showing" style="display: none;">
               </select>
             </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+              <div class="form-check">
+                <input type="text" class="form-control" id="car_options" name="car_options" placeholder="ทะเบียนรถ">
+              </div>
+           </div>        
           </div>
           <br>
           <div class= "row d-flex justify-start">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-              <div class="form-check">
-                <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยทะเบียนรถยนต์</label>
-              </div>
-           </div>           
-           
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-              <div id="car_select" style="display: none;">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="vehicle_##VEHICLE-id##" name="car_options_select" value="##VEHICLE-id##">
-                <label class="form-check-label" for="exampleCheck1">##VEHICLE-CarNumber##</label>
-              </div>
-            </div>
-            <div id="car_select_showing">
-          
-            </div>
-          </div>
+               
 
           </div>
             <br>
@@ -188,8 +177,8 @@
 
 <script type="text/javascript">
   var date = new Date()
-  var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 19*3600
-  var shown_date = new Date((current_date + 5*3600) * 1000)
+  var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
+  var shown_date = new Date(current_date * 1000)
   var template_patient_row = $('#row_patientlist').html();
   var template_dropdown = $('#SearchHospitalList').html();
   var searchobj = {};
@@ -212,12 +201,6 @@
 
         // hospitalname = hash_replace(template_hospital_name, 'hospital', msg)
         // $("#HospitalName").html(hospitalname);
-      })
-
-      $.getJSON(MAINURL + "/api-backend/admin/load_vehicle",(msg) =>
-      {
-        vehicle_name = hash_replace($("#car_select").html(), 'VEHICLE', msg)
-        $("#car_select_showing").html(vehicle_name);
       })
 
       $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
@@ -255,25 +238,34 @@
     // console.log(document.getElementsByName('car_options_select'))
 
     console.log(new Date(current_date * 1000))
-    let car_options = document.getElementsByName('car_options_select')
-    let cars = []
-    let haveCar = false
+    // let car_options = document.getElementById('car_options').value
+    // let find_vehicle = [];
 
-    for (let i = 0; i < car_options.length; i++)
-    {
-      if (car_options[i].checked)
-      {
-        // console.log("Option Checked: " + car_options[i].value)
-        cars.push(parseInt(car_options[i].value))
-        haveCar = true
-      }
-    }
+    // if (car_options)
+    // {
+    //   $.postJSON(MAINURL + "/api-backend/admin/load_one_vehicle",{vehicle: car_options},(msg) =>
+    //   {
+    //     for (let i = 0; i < msg.detail.length; i++)
+    //     {
+    //       console.log(msg.detail[i].CarNumber)
+    //       if (i == 0)
+    //       {
+    //         find_vehicle.unshift(msg.detail[i]._id)
+    //       }
+    //       else
+    //       {
+    //         find_vehicle.push(msg.detail[i]._id)
+    //       }
+    //     }
+    //   })
 
-    if (haveCar)
-    {
-      Object.assign(search_setting.search,{find_vehicle: cars})
-      haveCar = false
-    }
+    //   console.log("Find Vehicle: ")
+    //   console.log(find_vehicle)
+    //   console.log(find_vehicle.length)
+    //   Object.assign(search_setting.search,{find_vehicle: find_vehicle})
+    //   console.log("Search Setting")
+    //   console.log(search_setting.search)
+    // }
 
     if ($('#search_idno').val() !== "") {
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
@@ -312,12 +304,14 @@
       var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
       objdata.obj.map(item => {
         let appointid = item._id
-        let vehicle = item.vehicle
+        let vehicle;
+
+        item.vehicle ? vehicle = item.vehicle.CarNumber : "";
         // console.log(item)
         item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY') : "";
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
         item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
-        item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">ID รถ: ${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+        item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">ทะเบียนรถ: ${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
       })
 
       var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
@@ -406,7 +400,7 @@
 
   function changeDate(quantity) {
     current_date += 24 * 3600 * (quantity)
-    shown_date = new Date((current_date + 5*3600) * 1000)
+    shown_date = new Date(current_date * 1000)
     pre_search()
   }
 </script>
