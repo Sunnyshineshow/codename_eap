@@ -148,24 +148,15 @@
       {
         let vehicle = document.getElementById('vehicle_select_choosing').value
 
-        let pickup_date = new Date($('#pickup_date').val())
-        pickup_date = Math.floor(new Date(pickup_date.getFullYear(),pickup_date.getMonth(),pickup_date.getDate()) / 1000)
-
         console.log(vehicle)
         console.log(pickup_date)
-
-        if (pickup_date < Math.floor(new Date() / 1000))
-        {
-          return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
-        }
 
         let payload = 
         {
           _id: appointment_data._id,
           patient: appointment_data.patient,
           hospital: appointment_data.hospital,
-          vehicle: parseInt(vehicle),
-          pickup_date: pickup_date
+          vehicle: parseInt(vehicle)
         }
 
         console.log(payload)
@@ -191,21 +182,9 @@
       function editCar()
       {
         let vehicle = document.getElementById('vehicle_select_choosing').value
-        let pickup_date = Math.floor(new Date() / 1000)
-        
-
-        if (pickup_date < Math.floor(new Date() / 1000))
-        {
-          return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
-        }
 
         let update_data = {
           vehicle: parseInt(vehicle)
-        }
-
-        if (pickup_date)
-        {
-          Object.assign(update_data,{pickup_date: pickup_date})
         }
 
         let payload = 
