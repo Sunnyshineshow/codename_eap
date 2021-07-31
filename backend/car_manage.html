@@ -168,6 +168,10 @@
           </div>
 
             </div>
+
+            <div class="" id="iframe-contents">
+              <div id="map" style="height: 600px;">Please wait map</div>
+            </div>
           </div>
           
 
@@ -175,6 +179,9 @@
     </div>
 </div>
 
+<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwdeP0gegsHLNFUFvHpVFePFwl9Jcy7U&callback=initMap&libraries=&v=weekly">
+</script>
 <script type="text/javascript">
   var date = new Date()
   var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
@@ -189,6 +196,10 @@
   var hospitalname;
   var vehicle_name;
   var staff_name;
+
+  //Map
+  var themarker;
+  var map
   
 
   $(document).ready(() =>
@@ -317,6 +328,67 @@
       var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
       $("#show_patientlist").html(html_row);
 
+      if (themarker) {
+      console.log("Marker Cleared")
+      themarker.clearMarkers();
+    }
+
+    let markers = objdata.obj.map(item => {
+      console.log(item)
+      // patient has GPS
+      if (typeof(item.patient) != "number" && item.patient.location && !item.patient.reappoint)
+      {
+        if (item.patient.pictureUrl) {
+        image = item.patient.pictureUrl
+      }
+      if (item.patient.firstname) {
+        name = item.patient.firstname + "  " + item.patient.lastname
+      } else {
+        name = item.patient.displayName
+      }
+
+      var l = {
+        lat: item.patient.location.coordinates[1],
+        lng: item.patient.location.coordinates[0]
+      };
+
+      var img = {
+        url: image,
+        size: new google.maps.Size(30, 30),
+        scaledSize: new google.maps.Size(30, 30)
+      }
+      if (!img.url) {
+        img = undefined;
+      }
+      var temp = new google.maps.Marker({
+        position: l,
+        //  map: map,
+        icon: img,
+        title: "#" + item._id + ": " + name
+      });
+      const infowindow = new google.maps.InfoWindow({
+        content: temp.getTitle(),
+      });
+      temp.addListener("click", () => {
+
+        infowindow.open(map, temp);
+
+      });
+      return temp;
+      }
+    })
+
+    markers = markers.filter((value,index,arr) =>
+    {
+      return value;
+    })
+
+    console.log("LOOP ALL markers", markers)
+    themarker = new MarkerClusterer(map, markers, {
+      gridSize: 20,
+      imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
+
       // $('.show_startpage').show('slow');
     } else {
       $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
@@ -402,5 +474,22 @@
     current_date += 24 * 3600 * (quantity)
     shown_date = new Date(current_date * 1000)
     pre_search()
+  }
+
+  function initMap() {
+    if (google) {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 8,
+        center: {
+          lat: 13.0376,
+          lng: 101.491373
+        },
+      });
+      if (map) {
+        refreshpage()
+      }
+    } else {
+      console.log("No google")
+    }
   }
 </script>
