@@ -244,37 +244,40 @@
       search: {}
     }
 
-    // console.log(document.getElementsByName('car_options_select'))
+    console.log(document.getElementsByName('car_options_select'))
 
-    // let car_options = document.getElementById('car_options').value
-    // let find_vehicle = [];
+    let car_options = document.getElementById('car_options').value
+    let find_vehicle = [];
 
-    // if (car_options)
-    // {
-    //   $.postJSON(MAINURL + "/api-backend/admin/load_one_vehicle",{vehicle: car_options},(msg) =>
-    //   {
-    //     for (let i = 0; i < msg.detail.length; i++)
-    //     {
-    //       console.log(msg.detail[i].CarNumber)
-    //       if (i == 0)
-    //       {
-    //         find_vehicle.unshift(msg.detail[i]._id)
-    //       }
-    //       else
-    //       {
-    //         find_vehicle.push(msg.detail[i]._id)
-    //       }
-    //     }
-    //   })
+    if (car_options)
+    {
+      $.postJSON(MAINURL + "/api-backend/admin/load_one_vehicle",{vehicle: car_options},(msg) =>
+      {
+        for (let i = 0; i < msg.detail.length; i++)
+        {
+          console.log(msg.detail[i].CarNumber)
+          if (i == 0)
+          {
+            find_vehicle.unshift(msg.detail[i]._id)
+          }
+          else
+          {
+            find_vehicle.push(msg.detail[i]._id)
+          }
+        }
 
-    //   console.log("Find Vehicle: ")
-    //   console.log(find_vehicle)
-    //   console.log(find_vehicle.length)
-    //   Object.assign(search_setting.search,{find_vehicle: find_vehicle})
-    //   console.log("Search Setting")
-    //   console.log(search_setting.search)
-    // }
+        Object.assign(search_setting.search,{find_vehicle: find_vehicle})
+        continue_search(rawdata,clearsearch,search_setting)
+      })
+    }
+    else
+    {
+      continue_search(rawdata,clearsearch,search_setting)
+    }
+  }
 
+  function continue_search(rawdata,clearsearch,search_setting)
+  {
     if ($('#search_idno').val() !== "") {
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
     }
