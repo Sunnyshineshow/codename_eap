@@ -191,8 +191,8 @@
       function editCar()
       {
         let vehicle = document.getElementById('vehicle_select_choosing').value
-        let pickup_date = new Date($('#pickup_date').val())
-        pickup_date = Math.floor(new Date(pickup_date.getFullYear(),pickup_date.getMonth(),pickup_date.getDate()) / 1000)
+        let pickup_date = Math.floor(new Date() / 1000)
+        
 
         if (pickup_date < Math.floor(new Date() / 1000))
         {
