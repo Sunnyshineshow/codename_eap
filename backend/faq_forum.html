@@ -206,7 +206,7 @@
     }
     else
     {
-        content = $("#forum_content_box").val()
+        content = $("#forum_content_box").val().replace(/\r\n|\r|\n/g,"<br />")
     }
 
 

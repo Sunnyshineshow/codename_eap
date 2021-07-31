@@ -130,7 +130,9 @@
       console.log($("#reply_box").val())
 
       var id = getParameterByName('id', window.location.search);
-      var postdata = {topicid: id,reply: $("#reply_box").val()};
+      let reply = $("#reply_box").val().replace(/\r\n|\r|\n/g,"<br />")
+
+      var postdata = {topicid: id,reply: reply};
       if(!blobdata_v2){
         return post_without_image(postdata);
       }
@@ -138,6 +140,7 @@
         if (res.result)
         {
           alert_success("บันทึกแล้ว")
+          document.getElementById("reply_box").value = ""
           return refreshpage()
         }
         else
