@@ -171,7 +171,7 @@
          item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
          item.reply_count = item.reply.length
          if(item.image_topic){
-           item.topic =`<img src='/cdn/image/${item.image_topic}' width=80 height=80> ${item.topic }` ;
+           item.topic =`<img src='/cdn/image/${item.image_topic}' width=80 height=80 onclick="call_modal_image_view(this);" > ${item.topic } ` ;
          }
       })
 

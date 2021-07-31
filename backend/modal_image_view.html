@@ -1,0 +1,67 @@
+<div class="modal fade bd-example-modal-lg" id="modal_imageview" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Image Preview...</h5>
+      </div>
+
+        <div class="modal-body">
+            <img id='image_modal_view_area' class="img-responsive img-thumbnail rounded mx-auto d-block">
+            <br>
+        </div>
+        <div class="modal-footer">
+
+            <button onclick="btn_ok_modal_condition()" class="btn btn-sm btn-blue"><i class="fa fa-fw fa-save"></i> OK </button>
+            <button onclick="$('#modal_imageview').modal('hide');" class="btn btn-sm btn-silver"><i class="fa fa-fw fa-times"></i> Close </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+var tempcbfnc_modal_image_view;
+/*
+.modal-lg {
+    max-width: 800px;
+}
+*/
+
+function call_modal_image_view (setting,cbfnc){
+  $('#image_modal_view_area').attr('src','');
+  if(typeof(setting) =='function') {
+    cbfnc = setting;
+    setting = false;
+  }
+  if(typeof(cbfnc)=='function') {
+   tempcbfnc_modal_image_view =cbfnc;
+  }else{
+
+  tempcbfnc_modal_image_view =false;
+  }
+  if(setting){    // Show old Setting
+
+    var imgsrc=$(setting).attr('src');
+    console.log("GETTING URL",imgsrc);
+    if(imgsrc)imgsrc = imgsrc.replace('/preview','/view');
+    $('#image_modal_view_area').attr('src',imgsrc);
+  }
+  $('#modal_imageview').modal('show');
+
+}
+
+function btn_ok_modal_condition (){
+
+	var detail  = {};
+
+    if(tempcbfnc_modal_image_view){
+      tempcbfnc_modal_image_view(detail);
+    }else{
+    //  console.error("NO CBFNC FOR Image VIEW ");
+    }
+    $('#modal_imageview').modal('hide');
+};
+
+</script>
