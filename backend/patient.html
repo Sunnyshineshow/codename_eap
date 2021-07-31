@@ -228,7 +228,7 @@
           _id: patientid
         }, (res) => {
 
-          if (res.location) {
+          if (res.location && !res.reappoint) {
 
             Object.assign(res.location,{
                   link: "https://www.google.com/maps/search/" +
