@@ -93,7 +93,7 @@
     {
             msg.detail.createdate =moment(msg.detail.createdate, "X").fromNow()
             if(msg.detail.image_topic){
-              msg.detail.showimage = `<img src='/cdn/image/${msg.detail.image_topic}' >`
+              msg.detail.showimage = `<img src='/cdn/image/${msg.detail.image_topic}'  onclick="call_modal_image_view(this);" >`
             }
 
         let tmp;
@@ -105,7 +105,7 @@
               msg.detail.reply.map((r)=>{
                 r.replytime = moment(r.replytime, "X").fromNow()
                 if(r.replyimage){
-                  r.showimage = `<img src='/cdn/image/${r.replyimage}' >`
+                  r.showimage = `<img src='/cdn/image/${r.replyimage}'  onclick="call_modal_image_view(this);" >`
                 }
 
               });

@@ -12,7 +12,7 @@
 
 
 </footer>
-
+<div id="image_modal"></div>
 <div id="lineLogin"></div>
 
 <script>
@@ -103,7 +103,7 @@
     }
 
 
-
+    $('#image_modal').load(PREFIX_MAIN_LOCAL + '/modal_image_view.html');
         function logout() {
             window.localStorage.clear();
             window.location =  PREFIX_URL
