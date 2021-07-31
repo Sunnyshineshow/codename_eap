@@ -61,14 +61,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">แก้ไขรูปภาพ</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="upImage_v2close()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body ">
         <div class="text-center m-auto w-100 uploadCrop_v2">
           <img id="vanilla-demo_v2" style="width:100%" src="/image/adv-bg-1.jpg" class="far fa-image">
-
           <!-- <div id="showimage"></div> -->
           <!-- <i class="far fa-image" id="temp_load" style="font-size: 300px; color: #F8F9FB;"></i> -->
         </div>
@@ -94,7 +93,7 @@
         </a>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-secondary clickbtnall" data-dismiss="modal">
+        <button type="button" class="btn btn-sm btn-secondary clickbtnall" data-dismiss="modal" onclick="upImage_v2close()">
           <ion-icon name="close-outline"></ion-icon> Close
         </button>
         <button type="button" class="btn btn-sm btn-primary vanilla-result clickbtnall" onclick="save_image_fnc_v2()">
@@ -113,19 +112,10 @@
 </div>
 <script>
 
-  // $.get('https://guy.kapooktopup.com/image/event/welove/:fileid',(res)=>{
-  //   console.log('res',res)
-  // })
-  // function addFoodPrice_v2() {
-  // 	$('#addFoodPrice_v2').toggle();
-  // }
-
-  // var vanilla_v2 = false
   var vanilla_v2 = ""
   var tmpimage_v2 = $('.uploadCrop_v2').html()
   var valuerotae_v2
   var src_r_v2
-
   var w1_v2
   var h1_v2
   var imagedata_v2
@@ -150,6 +140,9 @@
       // readURL_v2(srcimage)
       $('#show-result_main_v2').attr('src', srcimage)
     }
+  }
+  function upImage_v2close(){
+    $('#addFoodImage_v2').modal("hide")
   }
   document.onpaste = function (event) {
       if(!$('#addFoodImage_v2').is(':visible')){
@@ -370,7 +363,7 @@
     var temppath = $('#show-result_main_v2').attr('src')
     setTimeout(()=>{
       readURL_v2(temppath);
-    },200)
+    },100)
     $('#addFoodImage_v2').modal('show')
   }
   var addFoodPrice_v2 = $('#addFoodPrice_v2').html()
@@ -404,7 +397,7 @@
     }
     if (!upload_url) return alert("upload_url must not empty");
     if (!tempimagefile4upload) return alert("Data Image Not Found");
-    console.log(tempimagefile4upload);
+    //console.log(tempimagefile4upload);
     var formData = new FormData();
     formData.append('file', tempimagefile4upload, 'imageupload.png');
 
@@ -416,7 +409,7 @@
         if (typeof(val) == 'object') {
           try {
             val = JSON.stringify(val);
-            console.log("STRINGIFY")
+            //console.log("STRINGIFY")
           } catch (e) {
 
           }
