@@ -205,7 +205,6 @@
   $(document).ready(() =>
   {
     $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
-        console.log(msg)
 
          html_row_2 = hash_replace(template_dropdown, 'hospital', msg)
         $("#SearchHospitalList_showing").html(html_row_2);
@@ -215,7 +214,6 @@
       })
 
       $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
-        console.log(msg)
         staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
         $("#staff_list_showing").html(staff_name);
       })
@@ -248,7 +246,6 @@
 
     // console.log(document.getElementsByName('car_options_select'))
 
-    console.log(new Date(current_date * 1000))
     // let car_options = document.getElementById('car_options').value
     // let find_vehicle = [];
 
@@ -282,7 +279,6 @@
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
     }
 
-    console.log("Search: " + $('#search_status').val())
     if ($('#search_status').val() !== "-2") {
         Object.assign(search_setting.search,{find_status: $('#search_status').val()})
     }
@@ -302,7 +298,6 @@
     }
     
     // console.log('SEARCH ', search_setting);
-    console.log(typeof(current_date))
     fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
   }
@@ -334,7 +329,6 @@
     }
 
     let markers = objdata.obj.map(item => {
-      console.log(item)
       // patient has GPS
       if (typeof(item.patient) != "number" && item.patient.location && !item.patient.reappoint)
       {
@@ -479,10 +473,10 @@
   function initMap() {
     if (google) {
       map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 8,
+        zoom: 9,
         center: {
-          lat: 13.0376,
-          lng: 101.491373
+          lat: 13.7563,
+          lng: 100.5018
         },
       });
       if (map) {
