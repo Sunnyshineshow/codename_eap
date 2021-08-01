@@ -674,6 +674,10 @@
 </style>
   <script>
 
+if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("CALLCEN") == -1 && GLOBAL_USER.role.indexOf("XRAY") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1 )){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+
   var hospitalNamelist;
   var appoint_detail_template = $("#hospital").html()
 

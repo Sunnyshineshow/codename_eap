@@ -242,7 +242,7 @@
   function  refreshpage(rawdata,clearsearch) {
 
     console.log("GLOBAL_USER",GLOBAL_USER)
-        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1)){
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1)){
           return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
         }
 
