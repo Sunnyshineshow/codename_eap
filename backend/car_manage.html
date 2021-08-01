@@ -71,27 +71,37 @@
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="CheckOpenSearchBox" onclick="OpenSearchBox('SearchHospitalList_showing')">
+                <input type="text" class="form-control" id="car_options" name="car_options" placeholder="ทะเบียนรถ">
+              </div>
+           </div> 
+
+            </div>
+
+            <div class="row d-flex justify-start">
+
+            </div>  
+                
+          </div>
+          <br>
+          <div class= "row d-flex justify-start">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+              <div class="form-check">
                 <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยชื่อโรงพยาบาล</label>
               </div>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <select class="form-select" aria-label="Default select example" id="SearchHospitalList" style="display: none;">
-                <option value="##hospital-id##">##hospital-name##</option>
-              </select>
-              <select class="form-select" aria-label="Default select example" id="SearchHospitalList_showing" style="display: none;">
-              </select>
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-              <div class="form-check">
-                <input type="text" class="form-control" id="car_options" name="car_options" placeholder="ทะเบียนรถ">
+              <div id="hospital_select" style="display: none;">
+                <div class="col-md-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="hospital_##HOSPITAL-id##" name="hospital_select" value="##HOSPITAL-id##">
+                            <label class="form-check-label" for="hospital_##HOSPITAL-id##">##HOSPITAL-name##</label>
+                        </div>
+                </div>
               </div>
-           </div>        
-          </div>
-          <br>
-          <div class= "row d-flex justify-start">
-               
-
+              <div id="hospital_select_showing">
+                
+              </div>
+            </div>
           </div>
             <br>
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -189,7 +199,7 @@
   var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
   var shown_date = new Date(current_date * 1000)
   var template_patient_row = $('#row_patientlist').html();
-  var template_dropdown = $('#SearchHospitalList').html();
+  var template_dropdown = $('#hospital_select').html();
   var searchobj = {};
   var fncsearch;
   var template_hospital_name = $('#HospitalName').html();
@@ -208,8 +218,8 @@
   {
     $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
 
-         html_row_2 = hash_replace(template_dropdown, 'hospital', msg)
-        $("#SearchHospitalList_showing").html(html_row_2);
+         html_row_2 = hash_replace(template_dropdown, 'HOSPITAL', msg)
+        $("#hospital_select_showing").html(html_row_2);
 
         // hospitalname = hash_replace(template_hospital_name, 'hospital', msg)
         // $("#HospitalName").html(hospitalname);
@@ -283,6 +293,23 @@
 
   function continue_search(rawdata,clearsearch,search_setting)
   {
+
+    let hospital_arr = [];
+    let hospital = document.getElementsByName("hospital_select")
+
+    for (let i = 0; i < hospital.length; i++)
+    {
+      if (hospital[i].checked)
+      {
+        hospital_arr.push(parseInt(hospital[i].value))
+      }
+    }
+
+    if (hospital_arr.length > 0)
+    {
+      Object.assign(search_setting.search,{find_hospital: hospital_arr})
+    }
+
     if ($('#search_idno').val() !== "") {
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
     }
@@ -291,11 +318,11 @@
         Object.assign(search_setting.search,{find_status: $('#search_status').val()})
     }
 
-    if (document.getElementById('CheckOpenSearchBox').checked) {
-      if ($('#SearchHospitalList_showing').val() !== "") {
-        Object.assign(search_setting.search,{find_hospital: $('#SearchHospitalList_showing').val()})
-      }
-    }
+    // if (document.getElementById('CheckOpenSearchBox').checked) {
+    //   if ($('#SearchHospitalList_showing').val() !== "") {
+    //     Object.assign(search_setting.search,{find_hospital: $('#SearchHospitalList_showing').val()})
+    //   }
+    // }
 
     Object.assign(search_setting.search,{find_date: parseInt(current_date)})
     //getSelectedname();
@@ -434,14 +461,6 @@
   function choose_car(appointid)
   {
     go2View("car_choose?id=" + appointid)
-  }
-
-  function OpenSearchBox(Object) {
-    var x = document.getElementById(Object);
-    if (x.style.display === "none")
-      x.style.display = "block";
-    else
-      x.style.display = "none";
   }
 
   function SendData()
