@@ -132,9 +132,10 @@
                   <th scope="col" class="text-secondary">Display Name</th>
                   <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
                   <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
-                  <th scope="col" class="text-secondary">รายละเอียด</th>
                   <th scope="col" class="text-secondary">สถานะ</th>
+                  <th scope="col" class="text-secondary">ประเภท</th>
                   <th scope="col" class="text-secondary">รถที่จะไปรับ</th>
+                  <th scope="col" class="text-secondary">ทะเบียนรถ</th>
                   <th scope="col" class="text-secondary">Action</th>
                 </tr>
               </thead>
@@ -150,9 +151,10 @@
                   </td>
                   <td class="text-center table-middle">##patient-appointtime##</td>
                   <td class="text-center table-middle">##patient-hospital.name##</td>
-                  <td class="text-center table-middle">##patient-comment##</td>
                   <td class="text-center table-middle">##patient-status##</td>
+                  <td class="text-center table-middle">##patient-travel##</td>
                   <td class="text-center table-middle">##patient-vehicle##</td>
+                  <td class="text-center table-middle">##patient-selfcar##</td>
                   <td class="text-center table-middle">
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
@@ -235,6 +237,9 @@
 
         document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
 
+        console.log(new Date(shown_date) + " " + new Date(current_date * 1000))
+
+
     var search_setting = {
       posturl: '/api-backend/admin/vehiclelist',
       paginationDIV: $('.pagination_bar'),
@@ -292,7 +297,7 @@
       }
     }
 
-    Object.assign(search_setting.search,{find_date: current_date})
+    Object.assign(search_setting.search,{find_date: parseInt(current_date)})
     //getSelectedname();
 
     var pagenumber = getParameterByName('page', window.location.search);
@@ -317,17 +322,30 @@
 
         item.vehicle ? vehicle = item.vehicle.CarNumber : "";
         // console.log(item)
-        item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY') : "";
+        item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
         item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
-        item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">ทะเบียนรถ: ${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+        (item.vehicle && item.travel == "STAFF") ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+        (item.selfcar == "NONE" || item.travel == "SELF") ? item.vehicle = "" : item.vehicle;
+
+        if (item.travel == "STAFF")
+        {
+          item.travel = "รถเจ้าหน้าที่"
+        }
+        else if (item.travel == "SELF")
+        {
+          item.travel = "รถส่วนตัว"
+        }
+        else
+        {
+          item.travel = "ไม่มี"
+        }
       })
 
       var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
       $("#show_patientlist").html(html_row);
 
       if (themarker) {
-      console.log("Marker Cleared")
       themarker.clearMarkers();
     }
 

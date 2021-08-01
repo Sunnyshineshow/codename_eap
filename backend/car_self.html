@@ -108,8 +108,8 @@
 
 <script>
     var date = new Date()
-    var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 19*3600
-    var shown_date = new Date((current_date + 5*3600) * 1000)
+    var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
+    var shown_date = new Date(current_date * 1000)
     var template_patient_row = $('#row_patientlist').html();
     var template_dropdown = $('#SearchHospitalList').html();
     var searchobj = {};
