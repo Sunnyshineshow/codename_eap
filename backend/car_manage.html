@@ -354,6 +354,7 @@
         item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
         (item.vehicle && item.travel == "STAFF") ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
         (item.selfcar == "NONE" || item.travel == "SELF") ? item.vehicle = "" : item.vehicle;
+        typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
 
         if (item.travel == "STAFF")
         {
