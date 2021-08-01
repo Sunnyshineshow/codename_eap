@@ -22,9 +22,10 @@
                   <p class="m-0 p-0"><strong>อายุ:</strong> ##PATIENT-age##</p>
                   <p class="m-0 p-0"><strong>วันเกิด:</strong> ##PATIENT-birthday##</p>
                   <p class="m-0 p-0"><strong>เพศ:</strong> ##PATIENT-gender##</p>
+                  <p class="m-0 p-0"><strong>เลขบัตรประจำตัวประชาชน / Passport:</strong> ##PATIENT-idcard##</p>
                   <p class="m-0 p-0 mt-3"><strong>แพ้ยา:</strong> ##PATIENT-allergic##</p>
                   <p class="m-0 p-0 mt-3"><strong>ที่อยู่:</strong></p>
-                  <p class="m-0 p-0">##PATIENT-address.address## ##PATIENT-address.lane## ##PATIENT-address.road## ##PATIENT-address.subdistrict## ##PATIENT-address.district## ##PATIENT-address.province## ##PATIENT-address.zipcode##</p>
+                  <p class="m-0 p-0">##PATIENT-address.address## ##PATIENT-address.subdistrict## ##PATIENT-address.district## ##PATIENT-address.province## ##PATIENT-address.zipcode##</p>
                   <p class="m-0 p-0 mt-3"><strong>Email:</strong> ##PATIENT-email##</p>
                   <p class="m-0 p-0"><strong>เบอร์โทร:</strong> ##PATIENT-mobileno##</p>
                   <p class="m-0 p-0 mt-3"><strong><span style="color: #C70039;">ข้อมูลติดต่อฉุกเฉิน</span></strong></p>
@@ -34,6 +35,9 @@
                     <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
                   </svg> ตรวจสอบ</button>
                   <button type="button" class="btn btn-primary mt-4 mb-3" onclick="open_first_map('##PATIENT-location.link##')"><i class="fas fa-map-marker-alt"></i> ตำแหน่ง</button>
+                  <button type="button" class="btn btn-primary mt-4 mb-3" onclick="open_edit_console()"><i class="fas fa-edit"></i> แก้ไข</button>
+                  <br>
+                  <br>
                 </div>
               </div>
             </div>
@@ -65,6 +69,54 @@
         </div>
         <div id="patient_description_showing">
         </div>
+        <br>
+      <div id="patient_edit_console" style="display: none;" >
+        <div class="card shadow-none bg-light">
+          <div class="card-body" style=" text-align: left;">
+            
+              <h4 style="color: #289de9;">แก้ไขข้อมูลผู้ป่วย</h4>
+
+              <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:50px;"></div>
+    
+              <label for="nametitle_edit">คำนำหน้าชื่อ: </label>
+              <select id="nametitle_edit" class="form-control" name="nametitle">
+                <option value="">กรุณาเลือก</option>
+                <option value="เด็กชาย">เด็กชาย</option>
+                <option value="เด็กหญิง">เด็กหญิง</option>
+                <option value="นาย">นาย</option>
+                <option value="นางสาว">นางสาว</option>
+                <option value="นาง">นาง</option>
+              </select>
+              <br>
+              <label for="firstname_edit">ชื่อจริง: </label><input id="firstname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="lastname_edit">นามสกุล: </label><input id="lastname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="id_type_edit">ประเภทบัตร: </label>
+              <select id="id_type_edit" class="form-control" id="type_idcard">
+                <option value="">กรุณาเลือก</option>
+                <option value="รหัสประชาชน">บัตรประชาชน</option>
+                <option value="พาสปอร์ต">พาสปอร์ต</option>
+              </select>                  <br>
+              <label for="idcard_edit">เลขบัตรประจำตัวประชาชน / Passport: </label><input id="idcard_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');">                  <br>
+              <label for="age_edit">อายุ: </label><input id="age_edit" type="text" inputmode="numeric" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="3">                  <br>
+              <label for="birthday_edit">วันเกิด: </label><input id="birthday_edit" type="date" class="form-control">                  <br>
+              <label for="allergic_edit">แพ้ยา: </label><input id="allergic_edit" type="text" class="form-control">                  <br>
+              <label for="address_edit">ที่อยู่โดยละเอียด: </label><input id="address_edit" type="text" class="form-control" maxlength="100">                  <br>
+              <label for="subdistrict_edit">ตำบล / แขวง: </label><input id="subdistrict_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="district_edit">อำเภอ / เขต: </label><input id="district_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="province_edit">จังหวัด: </label><input id="province_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="zipcode_edit">รหัสไปรษณีย์: </label><input id="zipcode_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5">                  <br>
+              <label for="email_edit">อีเมล: </label><input id="email_edit" type="text" class="form-control" maxlength="30" >                  <br>
+              <label for="mobileno_edit">เบอร์โทร: </label><input id="mobileno_edit" type="text" class="form-control"inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">                  <br>
+              <label for="em_firstname_edit">ชื่อฉุกเฉิน: </label><input id="em_firstname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="em_lastname_edit">นามสกุลฉุกเฉิน: </label><input id="em_lastname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
+              <label for="em_tel_edit">เบอร์โทรฉุกเฉิน: </label><input id="em_tel_edit" type="text" class="form-control" inputmode="numeric" name="tel" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"><br>                
+              <input type="button" class="btn btn-success" value="ยืนยัน">
+              
+            </div>
+          </div>
+        </div>
+
+
         <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:50px;"></div>
 
         <div class="row">
@@ -579,5 +631,20 @@
         }
 
         return window.open(link, "_blank")
+      }
+
+      function open_edit_console()
+      {
+        console.log("Function 1")
+        if (document.getElementById('patient_edit_console').style.display == "none")
+        {
+          console.log("Function 2")
+          document.getElementById('patient_edit_console').style.display = "block"
+        }
+        else
+        {
+          console.log("Function 3")
+          document.getElementById('patient_edit_console').style.display = "none"
+        }
       }
     </script>
