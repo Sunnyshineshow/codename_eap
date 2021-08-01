@@ -144,7 +144,7 @@
       Object.assign(search_setting.search,{findsymptom: $('#search_bysymptom').val().split(",")})
     }
 
-    if ($('#search_breathing').val() !== "NONE") {
+    if ($('#search_breathing').val() != "NONE") {
       Object.assign(search_setting.search,{find_breathing: $('#search_breathing').val()})
     }
     console.log("Searching..",search_setting)
