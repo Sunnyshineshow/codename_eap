@@ -1,0 +1,157 @@
+<div class="md-range-event" mbsc-form>
+    <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+      <div class="mbsc-header-txt mbsc-align-center">
+        <div class="mbsc-align-center" style="margin-top:8px;">
+          <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการอยู่บ้าน ปอดปลอดภัย</p>
+          <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="none_order" style="width:80%;margin:auto;" class="mbsc-align-center">
+  <span style="color: #81B214; text-align: right;">&#10003; ลงทะเบียนเสร็จสมบูรณ์ - ข้อมูลของท่านได้รับการบันทึกเรียบร้อยแล้วตามที่แสดงผลด้านล่าง</span>
+  <br>
+  <span style="color: #E48900; text-align: right;">&#9657; คำแนะนำ อยู่บ้าน ปอดปลอดภัย</span>
+  </div>
+  <br> <br>
+  <div id="patient_description" style="display: none;">
+    <div class="card">
+      <div class="card-body" style="text-align: left;">
+        <h4 style="color: #289de9;">รายละเอียด</h4>
+          <strong>ID:</strong> ##PATIENT-id##
+          <br />
+          <strong>ชื่อ:</strong>  ##PATIENT-nametitle####PATIENT-firstname##  ##PATIENT-lastname##
+          <br />
+          <strong>อายุ:</strong> ##PATIENT-age##
+          <br />
+          <strong>วันเกิด:</strong> ##PATIENT-birthday##
+          <br />
+          <strong>เพศ:</strong> ##PATIENT-gender##
+          <br />
+          <strong>แพ้ยา:</strong> ##PATIENT-allergic##
+          <br />
+          <br>
+          <strong>ที่อยู่:</strong>
+          <br>##PATIENT-address.address## <br>แขวง/ตำบล: ##PATIENT-address.subdistrict##<br>เขต/อำเภอ: ##PATIENT-address.district## <br> จังหวัด: ##PATIENT-address.province## ##PATIENT-address.zipcode##
+          <br />
+          <br>
+          <strong>Email:</strong> ##PATIENT-email##
+          <br>
+          <strong>เบอร์โทร:</strong> ##PATIENT-mobileno##
+          <br><br>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-body" style="text-align: left;">
+          <h4 class="card-title" style="color: #289de9;">อาการเมื่อปัจจุบัน </h4>
+          <br />
+          <strong>อาการข้างต้น:</strong> ##PATIENT-init_symptoms.symptoms##
+          <br><br>
+          <strong>โรคประจำตัวที่มี<span style="color: #C70039;">ความเสี่ยง</span>:</strong>
+          <br> <span style="text-align: justify;">##PATIENT-init_symptoms.disease##</span>
+          <br><br>
+          <strong>spO2:</strong>
+          <span style="text-align: justify;">##PATIENT-init_symptoms.spo_room_air##</span> <br><br>
+          <strong>ระดับออกซิเจนในเลือดหลังออกกำลังกาย:</strong>
+          <span style="text-align: justify;">##PATIENT-init_symptoms.exercise_test##</span> <br>
+          <br><br>
+          <strong>สีของผู้ป่วย:</strong>
+          <br> <br><h5><span id="patient_color" style="text-align: justify;">##PATIENT-color##</span> </h5> <br>
+          <br><br>
+      </div>
+    </div>
+  </div>
+  <div id="patient_description_showing">
+
+  </div>
+  
+    
+    <br>
+
+  <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 75%;
+      margin: auto;
+      text-align: center;
+      font-family: arial;
+    }
+  </style>
+  <script>
+   var template_main_paitient_info = $('#main_paitient_info').html();
+   var template_symptomlist = $("#row_symptomlist").html()
+
+   function refreshpage(rawdata) {
+  
+       $.getJSON(MAINURL + '/api-web/line/patient',(res)=>{
+
+          console.log(res)
+
+          //Date Time
+          let datetime = new Date(res.createdate)
+
+          res.createdate = datetime.getDate() + "/"
+          + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+
+         if (res.color == "RED")
+         {
+             res.color = '<span style="color: #C70039;">แดง</span>'
+         }
+         else if (res.color == "YELLOW")
+         {
+             res.color = '<span style="color: #fcba03;">เหลือง</span>'
+         }
+         else if (res.color == "GREEN")
+         {
+             res.color = '<span style="color: green;">เขียว</span>'
+         }
+         else
+         {
+             Object.assign(res, {color: "N/A"})
+         }
+
+         if (res.init_symptoms.spo_room_air == -1)
+         {
+             res.init_symptoms.spo_room_air = "ไม่ทราบค่า"
+         }
+
+         if (res.init_symptoms.exercise_test == -1)
+         {
+             res.init_symptoms.exercise_test= "ไม่ทราบค่า"
+         }
+
+         if (!res.location)
+         {
+           alert_modal("โปรดเลือกสถานพยาบาลที่ท่านสะดวกในเมนู \"ตรวจสอบคิว\" และทำการเลือกวิธีการเดินทาง")
+         }
+
+         Object.assign(res, {day_count: date_diff(res.init_symptoms.checkdate)})
+
+         //Use to replace data
+         /*
+         รูปแบบการเรียกใช้
+         1.#   hash_replace ( object หลักที่ต้องการให้ไปค้นหา# แล้วเปลี่ยน ,   "PREFIX ของคำแรกที่ต้องการค้นหา ตามด้วยชื่อ field และหรือ . ของ field ย่อยๆ " , Data)
+         2.    hash_replace (  HTML STRING ต้องการให้ไปค้นหา# แล้วเปลี่ยน ,   "PREFIX ของคำแรกที่ต้องการค้นหา ตามด้วยชื่อ field และหรือ . ของ field ย่อยๆ " , Data)
+
+         ข้อ 2 จะ return มาเป็น HTML อีกที
+         */
+
+         let tmp;
+         tmp = hash_replace($('#patient_description'),"PATIENT",res)
+         $("#patient_description_showing").html(tmp)
+
+   })
+ }
+
+ function date_diff(date1)
+    {
+      let dateOnly = new Date()
+      console.log(dateOnly)
+
+      let date2 = Date.parse(new Date(dateOnly.getFullYear(), dateOnly.getMonth(), dateOnly.getDate()))
+      console.log(new Date(date2))
+
+      return parseInt((date2 - date1) / 86400000)
+    }
+     </script>
