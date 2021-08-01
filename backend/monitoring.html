@@ -25,7 +25,7 @@
               <option value="NONE">โปรดเลือกการหายใจ</option>
               <option value="normal">หายใจปกติ</option>
               <option value="heavy">เหนื่อยหอบ</option>
-              <option value="hard">หายใจแรง</option>
+              <option value="hard">หายใจลำบาก</option>
             </select>
           </div>
 
@@ -147,7 +147,7 @@
     if ($('#search_breathing').val() !== "NONE") {
       Object.assign(search_setting.search,{find_breathing: $('#search_breathing').val()})
     }
-
+    console.log("Searching..",search_setting)
 
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
