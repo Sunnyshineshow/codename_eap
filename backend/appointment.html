@@ -10,10 +10,12 @@
           <div class="row d-flex justify-start">
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
               <div class="form-group">
+                <label for="ID No">Appointment ID:</label>
                 <input type="text" class="form-control" id="search_idno" placeholder="ID No">
               </div>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <label for="search_status">สถานะ</label>
               <div class="form-group">
                 <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_status">
                   <option value="-2">โปรดเลือก</option>
@@ -27,20 +29,22 @@
               </div>
             </div>
 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <label for="SearchDate_Start">ตั้งแต่</label>
+              <input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <label for="SearchDate_End">ถึง </label>
+              <input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด">
+            </div>
+
             <div class="row d-flex justify-start">
-              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                <label for="SearchDate_Start">ตั้งแต่</label>
-                <input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น">
-              </div>
-              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                <label for="SearchDate_End">ถึง </label>
-                <input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด">
-              </div>
+              
             </div>
 
             <div class="row d-flex justify-start">
               <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-                <strong style="text-align: left;" ><br>ค้นหาด้วยชื่อโรงพยาบาล: </strong> <br>
+                <strong style="text-align: left;" ><br>ค้นหาด้วยชื่อสถานพยาบาล: </strong> <br>
                 <div id="hospital_select" style="display: none;">
                   <div class="col-md-12">
                           <div class="form-check">
