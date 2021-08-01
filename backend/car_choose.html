@@ -102,10 +102,10 @@
 
         appointment_data = res
 
-        if (appointment_data.vehicle)
+        if (appointment_data.vehicle && appointment_data.vehicle != 0)
         {
-          let appoint_vehicle = appointment_data.vehicle
-          document.getElementById('confirm_button').innerHTML = `<button class="btn btn-primary mt-4 mb-3" onclick="editCar()">แก้ไข</button><br><br><span style="color: #C70039;">ID รถ: ${appoint_vehicle}</span>`
+          let appoint_vehicle = appointment_data.vehicle.CarNumber
+          document.getElementById('confirm_button').innerHTML = `<button class="btn btn-primary mt-4 mb-3" onclick="editCar()">แก้ไข</button><br><br><span style="color: #C70039;">ทะเบียนรถ: ${appoint_vehicle}</span>`
         }
 
         //Use to replace data
@@ -149,7 +149,6 @@
         let vehicle = document.getElementById('vehicle_select_choosing').value
 
         console.log(vehicle)
-        console.log(pickup_date)
 
         let payload = 
         {

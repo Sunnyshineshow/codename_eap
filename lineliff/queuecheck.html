@@ -392,7 +392,7 @@
           {
             msg[i].travel = "คิวยกเลิก"
           }
-          else if (!msg[i].travel)
+          else if (!msg[i].travel || msg[i].travel == "NONE")
           {
             Object.assign(msg[i], {travel : "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"popup_show_choosing('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +"โปรดเลือก"+"</span></p></button>"})
           }

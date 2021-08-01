@@ -446,11 +446,13 @@ function get_geolocation()  {
       location: geo_location
     }
 
+    console.log("Sending Data")
     $.postJSON(MAINURL + "/api-web/line/report_symptoms/submit/",payload,(msg) =>
     {
       if (msg.status == 200)
       {
-        return alert_modal("บันทึกข้อมูลเรียบร้อย")
+        alert_modal("บันทึกข้อมูลเรียบร้อย")
+        return go2View("alreadyregister")
       }
       else
       {
