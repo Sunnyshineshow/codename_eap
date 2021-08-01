@@ -25,7 +25,7 @@
           <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
             <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
               <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
-                <input id="medicine" name = "treatment_option" mbsc-checkbox type="radio">
+                <input id="medicine" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
               </div>
               <div class="mbsc-col-9">
                 <span style="font-size:14px;font-weight:400;">จ่ายยา</span>
@@ -33,7 +33,7 @@
             </div>
             <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
               <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
-                <input id="xray" name = "treatment_option" mbsc-checkbox type="radio">
+                <input id="xray" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
               </div>
               <div class="mbsc-col-9">
                 <span style="font-size:14px;font-weight:400;"> X-Ray</span>
@@ -48,9 +48,46 @@
         <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> รายละเอียด</span>
       </div>
 
+      <div id="show_on_med_check" style="display: none;">
+        <div id="input_affiliation" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">หน่วยงาน<span style="color:red"> *</span></p>
+          <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+            <div id="inputbox_firstname">
+              <label>
+                <input class="mbsc-align-left" mbsc-input id="affiliation" type="text" name="affiliation" placeholder="" value="" style="font-size: 13px;" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div id="input_amount" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">จำนวน<span style="color:red"> *</span></p>
+          <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+            <div id="inputbox_firstname">
+              <label>
+                <input class="mbsc-align-left" mbsc-input id="amount" type="number" name="amount" placeholder="" value="" style="font-size: 13px;" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div id="input_lotno" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">Lot No.<span style="color:red"> *</span></p>
+          <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+            <div id="inputbox_firstname">
+              <label>
+                <input class="mbsc-align-left" mbsc-input id="lot_no" type="text" name="lot_no" placeholder="" value="" style="font-size: 13px;" />
+              </label>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
       <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
         <div class="mbsc-col-12" style="padding:0px;margin:0px;">
           <div id="input_comment" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">รายละเอียดเพิ่มเติม</p>
             <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;margin-top:5px;">
               <div id="inputbox_comment">
                 <label>
@@ -100,14 +137,56 @@
     function optionConfirmed()
     {
         let option;
+        let payload;
 
         if (document.getElementById('medicine').checked)
         {
+          if (!$("#affiliation").val())
+          {
+            return alert("กรุณากรอกหน่วยงาน")
+          }
+
+          if (!$("#amount").val())
+          {
+            return alert("กรุณากรอกจำนวน")
+          }
+
+          if (!$("#lot_no").val())
+          {
+            return alert("กรุณากรอก Lot No.")
+          }
+
+
             option = "MEDICINE"
+            payload = 
+            {
+                _id : appoint_id,
+                patient: patient_id,
+                treatment: {
+                    option: option,
+                    comment: $("#comment").val(),
+                    location: geo_location
+                    },
+                medicine: {
+                  aff_custom: $("#affiliation").val(),
+                  amount: parseInt($("#amount").val()),
+                  lot_no: $("#lot_no").val()
+                }
+            }
         }
         else if (document.getElementById('xray').checked)
         {
             option = "XRAY"
+            payload = 
+            {
+                _id : appoint_id,
+                patient: patient_id,
+                treatment: {
+                    option: option,
+                    comment: $("#comment").val(),
+                    location: geo_location
+                    }
+            }
         }
         else
         {
@@ -116,17 +195,7 @@
 
         //Edit here
         
-        let payload = 
-        {
-            _id : appoint_id,
-            patient: patient_id,
-            treatment: {
-                option: option,
-                comment: $("#comment").val(),
-                location: geo_location
-                }
-
-        }
+        
 
         console.log(payload)
         console.log(MAINURL)
@@ -150,6 +219,18 @@
     function optionCancel()
     {
         go2View("admin_qr")
+    }
+
+    function show_on_med_check()
+    {
+      if (document.getElementById('medicine').checked)
+      {
+        document.getElementById('show_on_med_check').style.display = "block"
+      }
+      else
+      {
+        document.getElementById('show_on_med_check').style.display = "none"
+      }
     }
 
 </script>
