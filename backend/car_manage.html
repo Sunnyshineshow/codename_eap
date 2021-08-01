@@ -86,7 +86,7 @@
           <div class= "row d-flex justify-start">
             <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
               <div class="form-check">
-                <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยชื่อโรงพยาบาล</label>
+                <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยชื่อสถานพยาบาล</label>
               </div>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -145,7 +145,7 @@
                   <th scope="col" class="text-secondary">สถานะ</th>
                   <th scope="col" class="text-secondary">ประเภท</th>
                   <th scope="col" class="text-secondary">รถที่จะไปรับ</th>
-                  <th scope="col" class="text-secondary">ทะเบียนรถ</th>
+                  <th scope="col" class="text-secondary">ทะเบียนรถส่วนตัว</th>
                   <th scope="col" class="text-secondary">Action</th>
                 </tr>
               </thead>
@@ -168,6 +168,7 @@
                   <td class="text-center table-middle">
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
+                    <a href="##patient-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Map</button></a>
                   </td>
                 </tr>
               </tbody>
@@ -346,15 +347,22 @@
       objdata.obj.map(item => {
         let appointid = item._id
         let vehicle;
-
+        console.log("Inside Obj")
+        console.log(item)
+        console.log(item.patient.displayName)
+        console.log(item.patient.location.coordinates[0])
+        console.log(item.patient.location.coordinates[1])
         item.vehicle ? vehicle = item.vehicle.CarNumber : "";
-        // console.log(item)
+        
         item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
         item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
         (item.vehicle && item.travel == "STAFF") ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
         (item.selfcar == "NONE" || item.travel == "SELF") ? item.vehicle = "" : item.vehicle;
         typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
+
+        item.location ? item.location = { link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[0] + "," + item.patient.location.coordinates[1]} : item.location;        
+        console.log(item.location)
 
         if (item.travel == "STAFF")
         {
@@ -526,5 +534,5 @@
     } else {
       console.log("No google")
     }
-  }
+  }  
 </script>

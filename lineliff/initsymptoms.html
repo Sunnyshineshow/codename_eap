@@ -1,3 +1,4 @@
+<div id="StartHere">
 <div class="md-range-event" mbsc-form>
     <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
       <div class="mbsc-header-txt mbsc-align-center">
@@ -13,7 +14,7 @@
   <div mbsc-form>
 
     <div class="mbsc-align-center" style="margin-top:20px;">
-      <p id="title_address" style="margin-top:3px;margin-bottom:8px;"> อาการเบื้องต้น</p>
+      <p id="title_address" style="margin-top:3px;margin-bottom:8px;" > อาการเบื้องต้น</p>
     </div>
 
     <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
@@ -308,7 +309,7 @@
       </div>
     </div>
   </div>
-
+</div>
   <script>
 
     $('#tags').adv_tags();
@@ -335,7 +336,9 @@
       document.getElementById('checkdate').innerHTML = datetime.getDate() + "/"
       + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
 
-      $("#title_address").scrollTop();
+
+
+      document.getElementById("StartHere").scrollTop = 0;
 
     })
 
