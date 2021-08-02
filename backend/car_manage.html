@@ -1,562 +1,562 @@
 <div class="main_page mb-5" style="margin-top:120px;">
-    <div class="p-2 mr-5 ml-5">
-      <div class="container">
-        
-        <h3 class="p-0 m-0 mb-3"><b>Vehicle Management (อยู่ระหว่างการพัฒนา)</b></h3>
-        
-        <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clickToSelf()"><i class="fas fa-car"></i> ดูเลขทะเบียนรถผู้มาเอง</button>
-        <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="OpenSearchBox('Register_car')"><i class="fas fa-car"></i> ลงทะเบียนรถรับส่ง</button>
+  <div class="p-2 mr-5 ml-5">
+    <div class="container">
+      
+      <h3 class="p-0 m-0 mb-3"><b>Vehicle Management (อยู่ระหว่างการพัฒนา)</b></h3>
+      
+      <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clickToSelf()"><i class="fas fa-car"></i> ดูเลขทะเบียนรถผู้มาเอง</button>
+      <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="OpenSearchBox('Register_car')"><i class="fas fa-car"></i> ลงทะเบียนรถรับส่ง</button>
 
-        <div id="Register_car" style="display: none;">
-        <br>
-        <h3 style="color: #0d6efd;"><b>ลงทะเบียนรถรับส่ง</b></h3>
-        <br>
-        <div class="card bg-light">
-          <div class="card-body">
-            <div id="hospital_information">
+      <div id="Register_car" style="display: none;">
+      <br>
+      <h3 style="color: #0d6efd;"><b>ลงทะเบียนรถรับส่ง</b></h3>
+      <br>
+      <div class="card bg-light">
+        <div class="card-body">
+          <div id="hospital_information">
 
-              <p class="p-0 m-0"><strong>เชื่อมบัญชีผู้ขับ</strong>  <br>              
-                <select class="form-select" aria-label="Staff Select" id="staff_list" style="display: none;">
-                  <option value="##staff-id##">##staff-displayName##</option>
-                </select>
-                <select class="form-select" aria-label="Staff" id="staff_list_showing">
-                </select>
-              </p> 
+            <p class="p-0 m-0"><strong>เชื่อมบัญชีผู้ขับ</strong>  <br>              
+              <select class="form-select" aria-label="Staff Select" id="staff_list" style="display: none;">
+                <option value="##staff-id##">##staff-displayName##</option>
+              </select>
+              <select class="form-select" aria-label="Staff" id="staff_list_showing">
+              </select>
+            </p> 
 
-              <p class="p-0 m-0"><strong>ชื่อ-นามสกุล:</strong> 
-                <input class="form-control" id="Driver_Fullname" type="text" placeholder="*ใช้สำหรับเกิดเหตุร้องเรียน" maxlength="20" style="font-size: 13px;" size="20"/>
-              </p>
+            <p class="p-0 m-0"><strong>ชื่อ-นามสกุล:</strong> 
+              <input class="form-control" id="Driver_Fullname" type="text" placeholder="*ใช้สำหรับเกิดเหตุร้องเรียน" maxlength="20" style="font-size: 13px;" size="20"/>
+            </p>
 
-              <p class="p-0 m-0"><strong>เบอร์ติดต่อนัดหมาย:</strong> 
-              <input class="form-control" id="Driver_tel" type="text" placeholder="หมายเลขโทรศัพท์" 
-              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" size="20"/>
-              </p>
+            <p class="p-0 m-0"><strong>เบอร์ติดต่อนัดหมาย:</strong> 
+            <input class="form-control" id="Driver_tel" type="text" placeholder="หมายเลขโทรศัพท์" 
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" size="20"/>
+            </p>
 
-              <p class="p-0 m-0"><strong>เลขทะเบียนรถยนต์:</strong>                     
-                <input class="form-control"  id="Driver_carnum" type="text" placeholder="เลขทะเบียนรถยนต์" maxlength="15" style="font-size: 13px;" size="20"/>
-              </p> 
+            <p class="p-0 m-0"><strong>เลขทะเบียนรถยนต์:</strong>                     
+              <input class="form-control"  id="Driver_carnum" type="text" placeholder="เลขทะเบียนรถยนต์" maxlength="15" style="font-size: 13px;" size="20"/>
+            </p> 
 
-              <br>
-              <input type="submit" class="btn btn-primary" onclick="SendData()">
-             
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
-        <div class="row mb-1 d-flex justify-content-start">
-            <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <form class="form-row" style="width: 100%;" onsubmit="return pre_search();">
-        <div class="form-group">
-
-          <!-- <div class="row d-flex justify-content-center"> -->
-          <div class="row d-flex justify-start">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <div class="form-group">
-                <input type="text" class="form-control" id="search_idno" placeholder="ID No">
-              </div>
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <div class="form-group">
-                <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_status">
-                  <option value="-2">โปรดเลือก</option>
-                  <option value="-1">ยกเลิก</option>
-                  <option value="0">รอคิว</option>
-                  <option value="1">ได้คิว</option>
-                  <option value="2">ตามเวลานัด</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-              <div class="form-check">
-                <input type="text" class="form-control" id="car_options" name="car_options" placeholder="ทะเบียนรถ">
-              </div>
-           </div> 
-
-            </div>
-
-            <div class="row d-flex justify-start">
-
-            </div>  
-                
-          </div>
-          <br>
-          <div class= "row d-flex justify-start">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
-              <div class="form-check">
-                <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยชื่อสถานพยาบาล</label>
-              </div>
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <div id="hospital_select" style="display: none;">
-                <div class="col-md-12">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="hospital_##HOSPITAL-id##" name="hospital_select" value="##HOSPITAL-id##">
-                            <label class="form-check-label" for="hospital_##HOSPITAL-id##">##HOSPITAL-name##</label>
-                        </div>
-                </div>
-              </div>
-              <div id="hospital_select_showing">
-                
-              </div>
-            </div>
-          </div>
             <br>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-                Search
-              </button>
-            </div>
+            <input type="submit" class="btn btn-primary" onclick="SendData()">
+           
           </div>
         </div>
-        <br>
-      </form>
-
-      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
-
-    <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
-      <div class="btn-group" style="text-align: left;">
-        <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
-        <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
-      </div>
-
-          <div class="row mt-4">
-            <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="pagination_bar pb-3"></div>
-            </div>
-          </div>
-
-          <br>
-
-          
-
-          <div class="table-responsive">
-            <table class="table table-bordered show_startpage font-weight-light">
-              <thead class="text-center">
-                <tr>
-                  <th scope="col" class="text-secondary">Profile</th>
-                  <th scope="col" class="text-secondary">เลขที่นัดหมาย</th>
-                  <th scope="col" class="text-secondary">Display Name</th>
-                  <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
-                  <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
-                  <th scope="col" class="text-secondary">สถานะ</th>
-                  <th scope="col" class="text-secondary">ประเภท</th>
-                  <th scope="col" class="text-secondary">รถที่จะไปรับ</th>
-                  <th scope="col" class="text-secondary">ทะเบียนรถส่วนตัว</th>
-                  <th scope="col" class="text-secondary">Action</th>
-                </tr>
-              </thead>
-              <tbody id="row_patientlist" style="display:none;">
-                <tr>
-                  <td class="text-center table-middle">
-                    <img src="##patient-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
-                  </td>
-                  <td class="text-center table-middle"># ##patient-id##</td>
-                  <td class="text-center table-middle">##patient-patient.displayName##
-                    <br>
-                    ##patient-patient.firstname## ##patient-patient.lastname##
-                  </td>
-                  <td class="text-center table-middle">##patient-appointtime##</td>
-                  <td class="text-center table-middle">##patient-hospital.name##</td>
-                  <td class="text-center table-middle">##patient-status##</td>
-                  <td class="text-center table-middle">##patient-travel##</td>
-                  <td class="text-center table-middle">##patient-vehicle##</td>
-                  <td class="text-center table-middle">##patient-selfcar##</td>
-                  <td class="text-center table-middle">
-                    <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
-                    <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
-                    <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-sm btn-outline-secondary" ><i class="fas fa-map-marker-alt"></i> Map</button></a> 
-                  </td>
-                </tr>
-              </tbody>
-              <tbody id="show_patientlist">
-                <tr>
-    
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-            </div>
-
-            <div class="" id="iframe-contents">
-              <div id="map" style="height: 600px;">Please wait map</div>
-            </div>
-          </div>
-          
-
       </div>
     </div>
+
+
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+      <div class="row mb-1 d-flex justify-content-start">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form class="form-row" style="width: 100%;" onsubmit="return pre_search();">
+      <div class="form-group">
+
+        <!-- <div class="row d-flex justify-content-center"> -->
+        <div class="row d-flex justify-start">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <div class="form-group">
+              <input type="text" class="form-control" id="search_idno" placeholder="ID No">
+            </div>
+          </div>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <div class="form-group">
+              <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_status">
+                <option value="-2">โปรดเลือก</option>
+                <option value="-1">ยกเลิก</option>
+                <option value="0">รอคิว</option>
+                <option value="1">ได้คิว</option>
+                <option value="2">ตามเวลานัด</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+            <div class="form-check">
+              <input type="text" class="form-control" id="car_options" name="car_options" placeholder="ทะเบียนรถ">
+            </div>
+         </div> 
+
+          </div>
+
+          <div class="row d-flex justify-start">
+
+          </div>  
+              
+        </div>
+        <br>
+        <div class= "row d-flex justify-start">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+            <div class="form-check">
+              <label class="form-check-label" for="exampleCheck1">ค้นหาด้วยชื่อสถานพยาบาล</label>
+            </div>
+          </div>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <div id="hospital_select" style="display: none;">
+              <div class="col-md-12">
+                      <div class="form-check">
+                          <input type="checkbox" class="form-check-input" id="hospital_##HOSPITAL-id##" name="hospital_select" value="##HOSPITAL-id##">
+                          <label class="form-check-label" for="hospital_##HOSPITAL-id##">##HOSPITAL-name##</label>
+                      </div>
+              </div>
+            </div>
+            <div id="hospital_select_showing">
+              
+            </div>
+          </div>
+        </div>
+          <br>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </form>
+
+    <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+
+  <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
+    <div class="btn-group" style="text-align: left;">
+      <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
+      <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
+    </div>
+
+        <div class="row mt-4">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="pagination_bar pb-3"></div>
+          </div>
+        </div>
+
+        <br>
+
+        
+
+        <div class="table-responsive">
+          <table class="table table-bordered show_startpage font-weight-light">
+            <thead class="text-center">
+              <tr>
+                <th scope="col" class="text-secondary">Profile</th>
+                <th scope="col" class="text-secondary">เลขที่นัดหมาย</th>
+                <th scope="col" class="text-secondary">Display Name</th>
+                <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
+                <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
+                <th scope="col" class="text-secondary">สถานะ</th>
+                <th scope="col" class="text-secondary">ประเภท</th>
+                <th scope="col" class="text-secondary">รถที่จะไปรับ</th>
+                <th scope="col" class="text-secondary">ทะเบียนรถส่วนตัว</th>
+                <th scope="col" class="text-secondary">Action</th>
+              </tr>
+            </thead>
+            <tbody id="row_patientlist" style="display:none;">
+              <tr>
+                <td class="text-center table-middle">
+                  <img src="##patient-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                </td>
+                <td class="text-center table-middle"># ##patient-id##</td>
+                <td class="text-center table-middle">##patient-patient.displayName##
+                  <br>
+                  ##patient-patient.firstname## ##patient-patient.lastname##
+                </td>
+                <td class="text-center table-middle">##patient-appointtime##</td>
+                <td class="text-center table-middle">##patient-hospital.name##</td>
+                <td class="text-center table-middle">##patient-status##</td>
+                <td class="text-center table-middle">##patient-travel##</td>
+                <td class="text-center table-middle">##patient-vehicle##</td>
+                <td class="text-center table-middle">##patient-selfcar##</td>
+                <td class="text-center table-middle">
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
+                  <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-sm btn-outline-secondary" ><i class="fas fa-map-marker-alt"></i> Map</button></a> 
+                </td>
+              </tr>
+            </tbody>
+            <tbody id="show_patientlist">
+              <tr>
+  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+          </div>
+
+          <div class="" id="iframe-contents">
+            <div id="map" style="height: 600px;">Please wait map</div>
+          </div>
+        </div>
+        
+
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwdeP0gegsHLNFUFvHpVFePFwl9Jcy7U&callback=initMap&libraries=&v=weekly">
 </script>
 <script type="text/javascript">
-  var date = new Date()
-  var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
-  var shown_date = new Date(current_date * 1000)
-  var template_patient_row = $('#row_patientlist').html();
-  var template_dropdown = $('#hospital_select').html();
-  var searchobj = {};
-  var fncsearch;
-  var template_hospital_name = $('#HospitalName').html();
+var date = new Date()
+var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
+var shown_date = new Date(current_date * 1000)
+var template_patient_row = $('#row_patientlist').html();
+var template_dropdown = $('#hospital_select').html();
+var searchobj = {};
+var fncsearch;
+var template_hospital_name = $('#HospitalName').html();
 
-  var html_row_2;
-  var hospitalname;
-  var vehicle_name;
-  var staff_name;
+var html_row_2;
+var hospitalname;
+var vehicle_name;
+var staff_name;
 
-  //Map
-  var themarker;
-  var map
+//Map
+var themarker;
+var map
+
+
+$(document).ready(() =>
+{
+  $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
+
+       html_row_2 = hash_replace(template_dropdown, 'HOSPITAL', msg)
+      $("#hospital_select_showing").html(html_row_2);
+
+      // hospitalname = hash_replace(template_hospital_name, 'hospital', msg)
+      // $("#HospitalName").html(hospitalname);
+    })
+
+    $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
+      staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
+      $("#staff_list_showing").html(staff_name);
+    })
+})
+
+function pre_search(){
+  // clear search url from lastsearch
+
+  refreshpage(undefined,true);
+  return false;
+}
+
+function  refreshpage(rawdata,clearsearch) {
+
+  if (!clearsearch)
+  {
+    clearsearch = true
+  }
+
+  console.log("GLOBAL_USER",GLOBAL_USER)
+      if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1)){
+        return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+      }
+
+      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
+      console.log(new Date(shown_date) + " " + new Date(current_date * 1000))
+
+
+  var search_setting = {
+    posturl: '/api-backend/admin/vehiclelist',
+    paginationDIV: $('.pagination_bar'),
+    pagesize: 10,
+    showfunction: show_patient_list,
+    limit: 10,
+    search: {}
+  }
+
+  console.log(document.getElementsByName('car_options_select'))
+
+  let car_options = document.getElementById('car_options').value
+  let find_vehicle = [];
+
+  if (car_options)
+  {
+    $.postJSON(MAINURL + "/api-backend/admin/load_one_vehicle",{vehicle: car_options},(msg) =>
+    {
+      for (let i = 0; i < msg.detail.length; i++)
+      {
+        console.log(msg.detail[i].CarNumber)
+        if (i == 0)
+        {
+          find_vehicle.unshift(msg.detail[i]._id)
+        }
+        else
+        {
+          find_vehicle.push(msg.detail[i]._id)
+        }
+      }
+
+      Object.assign(search_setting.search,{find_vehicle: find_vehicle})
+      continue_search(rawdata,clearsearch,search_setting)
+    })
+  }
+  else
+  {
+    continue_search(rawdata,clearsearch,search_setting)
+  }
+  console.log("Clearsearch B:" + clearsearch)
+}
+
+function continue_search(rawdata,clearsearch,search_setting)
+{
+
+  let hospital_arr = [];
+  let hospital = document.getElementsByName("hospital_select")
+
+  for (let i = 0; i < hospital.length; i++)
+  {
+    if (hospital[i].checked)
+    {
+      hospital_arr.push(parseInt(hospital[i].value))
+    }
+  }
+
+  if (hospital_arr.length > 0)
+  {
+    Object.assign(search_setting.search,{find_hospital: hospital_arr})
+  }
+
+  if ($('#search_idno').val() !== "") {
+    Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
+  }
+
+  if ($('#search_status').val() !== "-2") {
+      Object.assign(search_setting.search,{find_status: $('#search_status').val()})
+  }
+
+  // if (document.getElementById('CheckOpenSearchBox').checked) {
+  //   if ($('#SearchHospitalList_showing').val() !== "") {
+  //     Object.assign(search_setting.search,{find_hospital: $('#SearchHospitalList_showing').val()})
+  //   }
+  // }
+
+  console.log("Current Date: ")
+  console.log(new Date(current_date * 1000))
+  Object.assign(search_setting.search,{find_date: parseInt(current_date)})
+  //getSelectedname();
+
+  var pagenumber = getParameterByName('page', window.location.search);
+  if (pagenumber > 1) {
+    search_setting.page = pagenumber;
+  }
+  
+  console.log("Clearsearch C:" + clearsearch)
+  // console.log('SEARCH ', search_setting);
+  fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+  return false;
+}
+
+function show_patient_list(objdata, totalrecord) {
+  console.log('objdata', objdata);
+  if (objdata.result && totalrecord > 0) {
+    working.patient = objdata.obj;
+    console.log("OBJDATA: " + objdata.obj)
+    var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
+    objdata.obj.map(item => {
+      let appointid = item._id
+      let vehicle;
+      // console.log("Inside Obj")
+      // console.log(item)
+      // console.log(item.patient.displayName)
+      item.vehicle ? vehicle = item.vehicle.CarNumber : "";
+      
+      item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
+      item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+      item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
+      
+      if (item.travel == "NONE" || item.travel == "SELF" || !item.travel)
+      {
+        null;
+      }
+      else if (item.travel == "STAFF")
+      {
+        item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+      }
+      else
+      {
+        item.travel = "NONE"
+      }
+
+      typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
   
 
-  $(document).ready(() =>
-  {
-    $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
+      if (item.patient.location && item.patient.location.coordinates)
+      {
+        Object.assign(item.patient.location,{link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[1] + "," + item.patient.location.coordinates[0]})
+      }
 
-         html_row_2 = hash_replace(template_dropdown, 'HOSPITAL', msg)
-        $("#hospital_select_showing").html(html_row_2);
+      if (item.travel == "STAFF")
+      {
+        item.travel = "รถเจ้าหน้าที่"
+      }
+      else if (item.travel == "SELF")
+      {
+        item.travel = "รถส่วนตัว"
+      }
+      else
+      {
+        item.travel = "ไม่มี"
+      }
+    })
 
-        // hospitalname = hash_replace(template_hospital_name, 'hospital', msg)
-        // $("#HospitalName").html(hospitalname);
-      })
+    var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
+    $("#show_patientlist").html(html_row);
 
-      $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
-        staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
-        $("#staff_list_showing").html(staff_name);
-      })
+    if (themarker) {
+    themarker.clearMarkers();
+  }
+
+
+
+  let markers = objdata.obj.map(item => {
+    // patient has GPS
+    if (typeof(item.patient) != "number" && item.patient.location && !item.patient.reappoint)
+    {
+      if (item.patient.pictureUrl) {
+      image = item.patient.pictureUrl
+    }
+    if (item.patient.firstname) {
+      name = item.patient.firstname + "  " + item.patient.lastname
+    } else {
+      name = item.patient.displayName
+    }
+
+    var l = {
+      lat: item.patient.location.coordinates[1],
+      lng: item.patient.location.coordinates[0]
+    };
+
+    var img = {
+      url: image,
+      size: new google.maps.Size(30, 30),
+      scaledSize: new google.maps.Size(30, 30)
+    }
+    if (!img.url) {
+      img = undefined;
+    }
+    var temp = new google.maps.Marker({
+      position: l,
+      //  map: map,
+      icon: img,
+      title: "#" + item._id + ": " + name
+    });
+    const infowindow = new google.maps.InfoWindow({
+      content: temp.getTitle(),
+    });
+    temp.addListener("click", () => {
+
+      infowindow.open(map, temp);
+
+    });
+    return temp;
+    }
   })
 
-  function pre_search(){
-    // clear search url from lastsearch
-
-    refreshpage(undefined,true);
-    return false;
-  }
-
-  function  refreshpage(rawdata,clearsearch) {
-
-    if (!clearsearch)
-    {
-      clearsearch = true
-    }
-
-    console.log("GLOBAL_USER",GLOBAL_USER)
-        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1)){
-          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
-        }
-
-        document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
-
-        console.log(new Date(shown_date) + " " + new Date(current_date * 1000))
-
-
-    var search_setting = {
-      posturl: '/api-backend/admin/vehiclelist',
-      paginationDIV: $('.pagination_bar'),
-      pagesize: 10,
-      showfunction: show_patient_list,
-      limit: 10,
-      search: {}
-    }
-
-    console.log(document.getElementsByName('car_options_select'))
-
-    let car_options = document.getElementById('car_options').value
-    let find_vehicle = [];
-
-    if (car_options)
-    {
-      $.postJSON(MAINURL + "/api-backend/admin/load_one_vehicle",{vehicle: car_options},(msg) =>
-      {
-        for (let i = 0; i < msg.detail.length; i++)
-        {
-          console.log(msg.detail[i].CarNumber)
-          if (i == 0)
-          {
-            find_vehicle.unshift(msg.detail[i]._id)
-          }
-          else
-          {
-            find_vehicle.push(msg.detail[i]._id)
-          }
-        }
-
-        Object.assign(search_setting.search,{find_vehicle: find_vehicle})
-        continue_search(rawdata,clearsearch,search_setting)
-      })
-    }
-    else
-    {
-      continue_search(rawdata,clearsearch,search_setting)
-    }
-    console.log("Clearsearch B:" + clearsearch)
-  }
-
-  function continue_search(rawdata,clearsearch,search_setting)
+  markers = markers.filter((value,index,arr) =>
   {
+    return value;
+  })
 
-    let hospital_arr = [];
-    let hospital = document.getElementsByName("hospital_select")
+  console.log("LOOP ALL markers", markers)
+  themarker = new MarkerClusterer(map, markers, {
+    gridSize: 20,
+    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+  });
 
-    for (let i = 0; i < hospital.length; i++)
-    {
-      if (hospital[i].checked)
-      {
-        hospital_arr.push(parseInt(hospital[i].value))
-      }
+    // $('.show_startpage').show('slow');
+  } else {
+    $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+  }
+}
+
+function clickToSelf() {
+      go2View("car_self");
     }
 
-    if (hospital_arr.length > 0)
-    {
-      Object.assign(search_setting.search,{find_hospital: hospital_arr})
-    }
+function view_symptom(patient_id) {
 
-    if ($('#search_idno').val() !== "") {
-      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
-    }
+  go2View("patient?id=" + patient_id)
 
-    if ($('#search_status').val() !== "-2") {
-        Object.assign(search_setting.search,{find_status: $('#search_status').val()})
-    }
+}
 
-    // if (document.getElementById('CheckOpenSearchBox').checked) {
-    //   if ($('#SearchHospitalList_showing').val() !== "") {
-    //     Object.assign(search_setting.search,{find_hospital: $('#SearchHospitalList_showing').val()})
-    //   }
-    // }
+function appointment(patient_id) {
 
-    console.log("Current Date: ")
-    console.log(new Date(current_date * 1000))
-    Object.assign(search_setting.search,{find_date: parseInt(current_date)})
-    //getSelectedname();
+  go2View("appoint_patient?id=" + patient_id)
 
-    var pagenumber = getParameterByName('page', window.location.search);
-    if (pagenumber > 1) {
-      search_setting.page = pagenumber;
-    }
-    
-    console.log("Clearsearch C:" + clearsearch)
-    // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
-    return false;
+}
+
+function settingpatient(dataid) {
+  working.active_patientid = dataid;
+  go2View('patient-edit');
+}
+
+function choose_car(appointid)
+{
+  go2View("car_choose?id=" + appointid)
+}
+
+function SendData()
+{ 
+  if(!($("#Driver_Fullname").val()))
+  {
+    alert("กรุณากรอกชื่อคนขับด้วยครับ")
+  }
+  if(!($("#Driver_tel").val()))
+  {
+    alert("กรุณากรอกเบอร์ติดต่อด้วยครับ")
+  }
+  if(!($("#Driver_carnum").val()))
+  {
+    alert("กรุณากรอกทะเบียนด้วยครับ")
   }
 
-  function show_patient_list(objdata, totalrecord) {
-    console.log('objdata', objdata);
-    if (objdata.result && totalrecord > 0) {
-      working.patient = objdata.obj;
-      console.log("OBJDATA: " + objdata.obj)
-      var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
-      objdata.obj.map(item => {
-        let appointid = item._id
-        let vehicle;
-        // console.log("Inside Obj")
-        // console.log(item)
-        // console.log(item.patient.displayName)
-        item.vehicle ? vehicle = item.vehicle.CarNumber : "";
-        
-        item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
-        item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
-        item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
-        
-        if (item.travel == "NONE" || item.travel == "SELF" || !item.travel)
-        {
-          null;
-        }
-        else if (item.travel == "STAFF")
-        {
-          item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
-        }
-        else
-        {
-          item.travel = "NONE"
-        }
-
-        typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
-    
-
-        if (item.patient.location && item.patient.location.coordinates)
-        {
-          Object.assign(item.patient.location,{link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[1] + "," + item.patient.location.coordinates[0]})
-        }
-
-        if (item.travel == "STAFF")
-        {
-          item.travel = "รถเจ้าหน้าที่"
-        }
-        else if (item.travel == "SELF")
-        {
-          item.travel = "รถส่วนตัว"
-        }
-        else
-        {
-          item.travel = "ไม่มี"
-        }
-      })
-
-      var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
-      $("#show_patientlist").html(html_row);
-
-      if (themarker) {
-      themarker.clearMarkers();
+  if($("#Driver_Fullname").val()|| $("#Driver_tel").val() || $("#Driver_carnum").val())
+  {
+    let staff = parseInt(document.getElementById('staff_list_showing').value);
+    let Fullname = $("#Driver_Fullname").val() 
+    let payload = {
+        Fullname: Fullname,
+        Tel: $("#Driver_tel").val(),
+        CarNumber: $("#Driver_carnum").val(),
+        staff: staff
     }
+    console.log(payload)
+    console.log(Fullname)
+    console.log($("#Driver_name").val())
+    console.log($("#Driver_surname").val())
+    console.log($("#Driver_tel").val())
+    console.log($("#Driver_carnum").val())
+    console.log(GLOBAL_USER.UserID)
 
-
-
-    let markers = objdata.obj.map(item => {
-      // patient has GPS
-      if (typeof(item.patient) != "number" && item.patient.location && !item.patient.reappoint)
-      {
-        if (item.patient.pictureUrl) {
-        image = item.patient.pictureUrl
-      }
-      if (item.patient.firstname) {
-        name = item.patient.firstname + "  " + item.patient.lastname
-      } else {
-        name = item.patient.displayName
-      }
-
-      var l = {
-        lat: item.patient.location.coordinates[1],
-        lng: item.patient.location.coordinates[0]
-      };
-
-      var img = {
-        url: image,
-        size: new google.maps.Size(30, 30),
-        scaledSize: new google.maps.Size(30, 30)
-      }
-      if (!img.url) {
-        img = undefined;
-      }
-      var temp = new google.maps.Marker({
-        position: l,
-        //  map: map,
-        icon: img,
-        title: "#" + item._id + ": " + name
-      });
-      const infowindow = new google.maps.InfoWindow({
-        content: temp.getTitle(),
-      });
-      temp.addListener("click", () => {
-
-        infowindow.open(map, temp);
-
-      });
-      return temp;
-      }
-    })
-
-    markers = markers.filter((value,index,arr) =>
+    $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
     {
-      return value;
+      alert("Send data Complete!")
     })
+  }
+  
+}
 
-    console.log("LOOP ALL markers", markers)
-    themarker = new MarkerClusterer(map, markers, {
-      gridSize: 20,
-      imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+function changeDate(quantity) {
+  current_date += 24 * 3600 * (quantity)
+  shown_date = new Date(current_date * 1000)
+  pre_search()
+}
+
+function initMap() {
+  if (google) {
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 9,
+      center: {
+        lat: 13.7563,
+        lng: 100.5018
+      },
     });
-
-      // $('.show_startpage').show('slow');
-    } else {
-      $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+    if (map) {
+      pre_search()
     }
+  } else {
+    console.log("No google")
   }
-
-  function clickToSelf() {
-        go2View("car_self");
-      }
-
-  function view_symptom(patient_id) {
-
-    go2View("patient?id=" + patient_id)
-
-  }
-
-  function appointment(patient_id) {
-
-    go2View("appoint_patient?id=" + patient_id)
-
-  }
-
-  function settingpatient(dataid) {
-    working.active_patientid = dataid;
-    go2View('patient-edit');
-  }
-
-  function choose_car(appointid)
-  {
-    go2View("car_choose?id=" + appointid)
-  }
-
-  function SendData()
-  { 
-    if(!($("#Driver_Fullname").val()))
-    {
-      alert("กรุณากรอกชื่อคนขับด้วยครับ")
-    }
-    if(!($("#Driver_tel").val()))
-    {
-      alert("กรุณากรอกเบอร์ติดต่อด้วยครับ")
-    }
-    if(!($("#Driver_carnum").val()))
-    {
-      alert("กรุณากรอกทะเบียนด้วยครับ")
-    }
-
-    if($("#Driver_Fullname").val()|| $("#Driver_tel").val() || $("#Driver_carnum").val())
-    {
-      let staff = parseInt(document.getElementById('staff_list_showing').value);
-      let Fullname = $("#Driver_Fullname").val() 
-      let payload = {
-          Fullname: Fullname,
-          Tel: $("#Driver_tel").val(),
-          CarNumber: $("#Driver_carnum").val(),
-          staff: staff
-      }
-      console.log(payload)
-      console.log(Fullname)
-      console.log($("#Driver_name").val())
-      console.log($("#Driver_surname").val())
-      console.log($("#Driver_tel").val())
-      console.log($("#Driver_carnum").val())
-      console.log(GLOBAL_USER.UserID)
-
-      $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
-      {
-        alert("Send data Complete!")
-      })
-    }
-    
-  }
-
-  function changeDate(quantity) {
-    current_date += 24 * 3600 * (quantity)
-    shown_date = new Date(current_date * 1000)
-    pre_search()
-  }
-
-  function initMap() {
-    if (google) {
-      map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 9,
-        center: {
-          lat: 13.7563,
-          lng: 100.5018
-        },
-      });
-      if (map) {
-        pre_search()
-      }
-    } else {
-      console.log("No google")
-    }
-  }  
+}  
 </script>
