@@ -295,10 +295,10 @@
             
           for (let i = 0; i < res.symptoms.length; i++) {
             //Date Time
-            /*let datetime = new Date(res.symptoms[i].inputdate * 1000)
+            let datetime = new Date(res.symptoms[i].inputdate * 1000)
 
             res.symptoms[i].inputdate = datetime.getDate() + "/" +
-              (datetime.getMonth() + 1) + "/" + datetime.getFullYear()*/
+              (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
             
               //push purpose
 
@@ -445,7 +445,7 @@
         {
           _id: patientid
         }
-
+        /*
         if ($("#nametitle_edit").val() != "NONE" || $("#nametitle_edit").val() != ""){
           Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
         }
@@ -503,7 +503,7 @@
         if ($("#em_tel_edit").val() != ""){
           Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
         }
-
+*/
       }
 
       function sendToLine() {
