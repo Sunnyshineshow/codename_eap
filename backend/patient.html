@@ -91,7 +91,7 @@
               <label for="firstname_edit">ชื่อจริง: </label><input id="firstname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
               <label for="lastname_edit">นามสกุล: </label><input id="lastname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
               <label for="id_type_edit">ประเภทบัตร: </label>
-              <select id="id_type_edit" class="form-control" id="type_idcard">
+              <select id="id_type_edit" class="form-control" name="type_idcard">
                 <option value="">กรุณาเลือก</option>
                 <option value="รหัสประชาชน">บัตรประชาชน</option>
                 <option value="พาสปอร์ต">พาสปอร์ต</option>
@@ -110,7 +110,7 @@
               <label for="em_firstname_edit">ชื่อฉุกเฉิน: </label><input id="em_firstname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
               <label for="em_lastname_edit">นามสกุลฉุกเฉิน: </label><input id="em_lastname_edit" type="text" class="form-control" oninput="this.value = this.value.replace(/[^A-zก-ฮะ-์]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');" maxlength="60">                  <br>
               <label for="em_tel_edit">เบอร์โทรฉุกเฉิน: </label><input id="em_tel_edit" type="text" class="form-control" inputmode="numeric" name="tel" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"><br>                
-              <input type="button" class="btn btn-success" value="ยืนยัน">
+              <input type="button" class="btn btn-success" value="ยืนยัน" onclick="checkAndSubmit()">
               
             </div>
           </div>
@@ -435,6 +435,76 @@
 
         return parseInt((date2 - date1) / 86400000)
       }*/
+
+      function checkAndSubmit()
+      {
+        console.log("Clicked")
+        var patientid = getParameterByName('id', window.location.search);
+       
+        let payload =
+        {
+          _id: patientid
+        }
+
+        if ($("#nametitle_edit").val() != "NONE" || $("#nametitle_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#firstname_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#lastname_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#id_type_edit").val() != "NONE" || $("#nametitle_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#idcard_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#age_edit_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#birthday_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#allergic_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+
+        if ($("#address_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#subdistrict_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#district_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#province_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#zipcode_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+
+        if ($("#email_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#mobileno_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+
+        if ($("#em_firstname_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#em_lastname_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+        if ($("#em_tel_edit").val() != ""){
+          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        }
+
+      }
 
       function sendToLine() {
         var patientid = getParameterByName('id', window.location.search);
