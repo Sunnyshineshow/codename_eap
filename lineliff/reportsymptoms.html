@@ -451,8 +451,9 @@ function get_geolocation()  {
     {
       if (msg.status == 200)
       {
-        alert_modal("บันทึกข้อมูลเรียบร้อย")
-        return go2View("alreadyregister")
+        return alert_modal("บันทึกข้อมูลเรียบร้อย")
+        // alert_modal("บันทึกข้อมูลเรียบร้อย")
+        // return go2View("alreadyregister")
       }
       else
       {

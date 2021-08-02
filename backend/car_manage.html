@@ -168,7 +168,7 @@
                   <td class="text-center table-middle">
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
-                    <a href="##patient-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Map</button></a>
+                    <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Map</button></a> 
                   </td>
                 </tr>
               </tbody>
@@ -350,19 +350,33 @@
         console.log("Inside Obj")
         console.log(item)
         console.log(item.patient.displayName)
-        console.log(item.patient.location.coordinates[0])
-        console.log(item.patient.location.coordinates[1])
         item.vehicle ? vehicle = item.vehicle.CarNumber : "";
         
         item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
         item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
-        (item.vehicle && item.travel == "STAFF") ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
-        (item.selfcar == "NONE" || item.travel == "SELF") ? item.vehicle = "" : item.vehicle;
+        
+        if (item.travel == "NONE" || item.travel == "SELF" || !item.travel)
+        {
+          null;
+        }
+        else if (item.travel == "STAFF")
+        {
+          item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+        }
+        else
+        {
+          item.travel = "NONE"
+        }
+
         typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
 
-        item.location ? item.location = { link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[0] + "," + item.patient.location.coordinates[1]} : item.location;        
-        console.log(item.location)
+        item.patient.location ? item.patient.location = { link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[1] + "," + item.patient.location.coordinates[0]} : "";        
+        if (item.patient.location)
+        {
+        console.log(item.patient.location.link)
+        console.log("Link Above")
+        }
 
         if (item.travel == "STAFF")
         {
