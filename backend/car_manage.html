@@ -168,7 +168,7 @@
                   <td class="text-center table-middle">
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
                     <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
-                    <a href="##patient-location.link##" target="_blank"><button type="button" class="btn btn-primary border-0" style="background-color: #1597BB;" ><i class="fas fa-map-marker-alt"></i> Map</button></a>
+                    <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-sm btn-outline-secondary" ><i class="fas fa-map-marker-alt"></i> Map</button></a> 
                   </td>
                 </tr>
               </tbody>
@@ -241,6 +241,11 @@
 
   function  refreshpage(rawdata,clearsearch) {
 
+    if (!clearsearch)
+    {
+      clearsearch = true
+    }
+
     console.log("GLOBAL_USER",GLOBAL_USER)
         if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1)){
           return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
@@ -290,6 +295,7 @@
     {
       continue_search(rawdata,clearsearch,search_setting)
     }
+    console.log("Clearsearch B:" + clearsearch)
   }
 
   function continue_search(rawdata,clearsearch,search_setting)
@@ -325,6 +331,8 @@
     //   }
     // }
 
+    console.log("Current Date: ")
+    console.log(new Date(current_date * 1000))
     Object.assign(search_setting.search,{find_date: parseInt(current_date)})
     //getSelectedname();
 
@@ -333,6 +341,7 @@
       search_setting.page = pagenumber;
     }
     
+    console.log("Clearsearch C:" + clearsearch)
     // console.log('SEARCH ', search_setting);
     fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
@@ -347,22 +356,35 @@
       objdata.obj.map(item => {
         let appointid = item._id
         let vehicle;
-        console.log("Inside Obj")
-        console.log(item)
-        console.log(item.patient.displayName)
-        console.log(item.patient.location.coordinates[0])
-        console.log(item.patient.location.coordinates[1])
+        // console.log("Inside Obj")
+        // console.log(item)
+        // console.log(item.patient.displayName)
         item.vehicle ? vehicle = item.vehicle.CarNumber : "";
         
         item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
         item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
-        (item.vehicle && item.travel == "STAFF") ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
-        (item.selfcar == "NONE" || item.travel == "SELF") ? item.vehicle = "" : item.vehicle;
-        typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
+        
+        if (item.travel == "NONE" || item.travel == "SELF" || !item.travel)
+        {
+          null;
+        }
+        else if (item.travel == "STAFF")
+        {
+          item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+        }
+        else
+        {
+          item.travel = "NONE"
+        }
 
-        item.location ? item.location = { link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[0] + "," + item.patient.location.coordinates[1]} : item.location;        
-        console.log(item.location)
+        typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
+    
+
+        if (item.patient.location && item.patient.location.coordinates)
+        {
+          Object.assign(item.patient.location,{link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[1] + "," + item.patient.location.coordinates[0]})
+        }
 
         if (item.travel == "STAFF")
         {
@@ -384,6 +406,8 @@
       if (themarker) {
       themarker.clearMarkers();
     }
+
+
 
     let markers = objdata.obj.map(item => {
       // patient has GPS
@@ -529,7 +553,7 @@
         },
       });
       if (map) {
-        refreshpage()
+        pre_search()
       }
     } else {
       console.log("No google")
