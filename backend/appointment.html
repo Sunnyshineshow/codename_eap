@@ -30,12 +30,8 @@
             </div>
 
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <label for="SearchDate_Start">ตั้งแต่</label>
-              <input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น">
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <label for="SearchDate_End">ถึง </label>
-              <input type="datetime-local" class="form-control" id="SearchDate_End" placeholder="ช่วงเวลาสิ้นสุด">
+              <label for="SearchDate_Start">วันที่</label>
+              <input type="date" class="form-control" id="search_date" placeholder="ช่วงเวลา">
             </div>
 
             <div class="row d-flex justify-start">
@@ -113,6 +109,11 @@
       -->
       
       <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+      <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
+      <div class="btn-group" style="text-align: left;">
+        <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
+        <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
+      </div>
 
       <div class="row mt-4 mb-2">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -171,6 +172,9 @@
     var searchobj = {};
     var fncsearch;
     var template_hospital_name = $('#HospitalName').html();
+    var date = new Date()
+    var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000)
+    var shown_date = new Date(current_date * 1000)
 
     var html_row_2;
     var hospitalname
@@ -197,6 +201,10 @@
 
     function refreshpage(rawdata,clearsearch) {
 
+      if (!clearsearch)
+      {
+        clearsearch = true
+      }
       console.log("GLOBAL_USER",GLOBAL_USER)
 
 
@@ -209,6 +217,7 @@
         search: {}
       }
 
+
       let hospital = []
       let hospital_element = document.getElementsByName('hospital_select')
 
@@ -220,6 +229,22 @@
         }
       }
 
+      if ($("#search_date").val() != "")
+      {
+        console.log($("#search_date").val())
+        current_date = Math.floor(new Date($("#search_date").val()) / 1000)
+        shown_date = new Date(current_date * 1000)
+        document.getElementById('search_date').value = ""
+      }
+
+      search_setting.search = 
+      {
+        find_date: current_date
+      }
+
+      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
+
       console.log(hospital)
 
       if (hospital.length > 0) {
@@ -230,18 +255,18 @@
         Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
       }
 
-      if ($('#SearchDate_Start').val() !== ""  && $('#SearchDate_End').val() !== "") {
+      // if ($('#SearchDate_Start').val() !== ""  && $('#SearchDate_End').val() !== "") {
 
-        let starttime = Math.floor(new Date($('#SearchDate_Start').val()) / 1000)
-        let endtime = Math.floor(new Date($('#SearchDate_End').val()) / 1000)
-        let timepayload = 
-        {
-          starttime: starttime,
-          endtime: endtime
-        }
+      //   let starttime = Math.floor(new Date($('#SearchDate_Start').val()) / 1000)
+      //   let endtime = Math.floor(new Date($('#SearchDate_End').val()) / 1000)
+      //   let timepayload = 
+      //   {
+      //     starttime: starttime,
+      //     endtime: endtime
+      //   }
 
-        Object.assign(search_setting.search,{find_time: timepayload})
-      }
+      //   Object.assign(search_setting.search,{find_time: timepayload})
+      // }
 
       console.log("Search: " + $('#search_status').val())
       if ($('#search_status').val() !== "-2") {
@@ -345,5 +370,11 @@
         console.log("TestOutput")
         console.log(msg)    
       })
+    }
+
+    function changeDate(quantity) {
+      current_date += 24 * 3600 * (quantity)
+      shown_date = new Date(current_date * 1000)
+      pre_search()
     }
   </script>
