@@ -11,33 +11,33 @@
   <div id="none_order" style="width:80%;margin:auto;" class="mbsc-align-center">
   <span style="color: #81B214; text-align: right;">&#10003;ข้อมูลของท่านได้รับการบันทึกเรียบร้อยแล้วตามที่แสดงผลด้านล่าง</span>
   <br>
-  <span style="color: #E48900; text-align: right;">&#9657; คำแนะนำ อยู่บ้าน ปอดปลอดภัย</span>
+  <span style="color: #E48900; text-align: right;">&#9657;คำแนะนำ อยู่บ้าน ปอดปลอดภัย</span>
   </div>
   <br> <br>
   <div id="patient_description" style="display: none;">
     <div class="card">
       <div class="card-body" style="text-align: left;">
         <h4 style="color: #289de9;">รายละเอียด</h4>
-          <strong>ID:</strong> ##PATIENT-id##
+          <strong>ID:</strong> ##PATIENT-patient.id##
           <br />
-          <strong>ชื่อ:</strong>  ##PATIENT-nametitle####PATIENT-firstname##  ##PATIENT-lastname##
+          <strong>ชื่อ:</strong>  ##PATIENT-patient.firstname##  ##PATIENT-patient.lastname##
           <br />
-          <strong>อายุ:</strong> ##PATIENT-age##
+          <strong>อายุ:</strong> ##PATIENT-patient.age##
           <br />
-          <strong>วันเกิด:</strong> ##PATIENT-birthday##
+          <strong>วันเกิด:</strong> ##PATIENT-patient.birthday##
           <br />
-          <strong>เพศ:</strong> ##PATIENT-gender##
+          <strong>เพศ:</strong> ##PATIENT-patient.gender##
           <br />
-          <strong>แพ้ยา:</strong> ##PATIENT-allergic##
+          <strong>แพ้ยา:</strong> ##PATIENT-patient.allergic##
           <br />
           <br>
           <strong>ที่อยู่:</strong>
-          <br>##PATIENT-address.address## <br>แขวง/ตำบล: ##PATIENT-address.subdistrict##<br>เขต/อำเภอ: ##PATIENT-address.district## <br> จังหวัด: ##PATIENT-address.province## ##PATIENT-address.zipcode##
+          <br>##PATIENT-patient.address.address## <br>แขวง/ตำบล: ##PATIENT-patient.address.subdistrict##<br>เขต/อำเภอ: ##PATIENT-patient.address.district## <br> จังหวัด: ##PATIENT-patient.address.province## ##PATIENT-patient.address.zipcode##
           <br />
           <br>
-          <strong>Email:</strong> ##PATIENT-email##
+          <strong>Email:</strong> ##PATIENT-patient.email##
           <br>
-          <strong>เบอร์โทร:</strong> ##PATIENT-mobileno##
+          <strong>เบอร์โทร:</strong> ##PATIENT-patient.mobileno##
           <br><br>
       </div>
     </div>
@@ -46,18 +46,18 @@
       <div class="card-body" style="text-align: left;">
           <h4 class="card-title" style="color: #289de9;">อาการเมื่อปัจจุบัน </h4>
           <br />
-          <strong>อาการข้างต้น:</strong> ##PATIENT-init_symptoms.symptoms##
+          <strong>อาการข้างต้น:</strong> ##PATIENT-symptoms##
           <br><br>
           <strong>โรคประจำตัวที่มี<span style="color: #C70039;">ความเสี่ยง</span>:</strong>
-          <br> <span style="text-align: justify;">##PATIENT-init_symptoms.disease##</span>
+          <br> <span style="text-align: justify;">##PATIENT-patient.init_symptoms.disease##</span>
           <br><br>
           <strong>spO2:</strong>
-          <span style="text-align: justify;">##PATIENT-init_symptoms.spo_room_air##</span> <br><br>
+          <span style="text-align: justify;">##PATIENT-spo_room_air##</span> <br><br>
           <strong>ระดับออกซิเจนในเลือดหลังออกกำลังกาย:</strong>
-          <span style="text-align: justify;">##PATIENT-init_symptoms.exercise_test##</span> <br>
+          <span style="text-align: justify;">##PATIENT-exercise_test##</span> <br>
           <br><br>
           <strong>สีของผู้ป่วย:</strong>
-          <br> <br><h5><span id="patient_color" style="text-align: justify;">##PATIENT-color##</span> </h5> <br>
+          <br> <br><h5><span id="patient_color" style="text-align: justify;">##PATIENT-patient.color##</span> </h5> <br>
           <br><br>
       </div>
     </div>
@@ -83,50 +83,56 @@
    var template_symptomlist = $("#row_symptomlist").html()
 
    function refreshpage(rawdata) {
-  
-       $.getJSON(MAINURL + '/api-web/line/patient',(res)=>{
+    console.log(GLOBALUSER)
+    console.log(GLOBALUSER.userId)      
+    console.log(GLOBALUSER._id)
+     
 
+       $.getJSON(MAINURL + '/api-web/line/report_symptoms/load/',(res)=>{
           console.log(res)
-
+          /*
           //Date Time
           let datetime = new Date(res.createdate)
 
           res.createdate = datetime.getDate() + "/"
           + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-
-         if (res.color == "RED")
+        */
+       
+        if (res.detail.patient.color == "RED")
          {
-             res.color = '<span style="color: #C70039;">แดง</span>'
+             res.detail.patient.color = '<span style="color: #C70039;">แดง</span>'
          }
-         else if (res.color == "YELLOW")
+         else if (res.detail.patient.color == "YELLOW")
          {
-             res.color = '<span style="color: #fcba03;">เหลือง</span>'
+             res.detail.patient.color = '<span style="color: #fcba03;">เหลือง</span>'
          }
-         else if (res.color == "GREEN")
+         else if (res.detail.patient.color == "GREEN")
          {
-             res.color = '<span style="color: green;">เขียว</span>'
-         }
+             res.detail.patient.color = '<span style="color: green;">เขียว</span>'
+         }  
          else
          {
-             Object.assign(res, {color: "N/A"})
+             Object.assign(res.detail.patient, {color: "N/A"})
          }
+       
 
-         if (res.init_symptoms.spo_room_air == -1)
+         if (res.detail.spo_room_air == -1)
          {
-             res.init_symptoms.spo_room_air = "ไม่ทราบค่า"
+             res.detail.spo_room_air = "ไม่ทราบค่า"
          }
 
-         if (res.init_symptoms.exercise_test == -1)
+         if (res.detail.exercise_test == -1)
          {
-             res.init_symptoms.exercise_test= "ไม่ทราบค่า"
+             res.detail.exercise_test= "ไม่ทราบค่า"
          }
 
-         if (!res.location)
+         
+         if (!res.detail.location)
          {
            alert_modal("โปรดเลือกสถานพยาบาลที่ท่านสะดวกในเมนู \"ตรวจสอบคิว\" และทำการเลือกวิธีการเดินทาง")
          }
 
-         Object.assign(res, {day_count: date_diff(res.init_symptoms.checkdate)})
+        // Object.assign(res, {day_count: date_diff(res.init_symptoms.checkdate)})
 
          //Use to replace data
          /*
@@ -138,7 +144,7 @@
          */
 
          let tmp;
-         tmp = hash_replace($('#patient_description'),"PATIENT",res)
+         tmp = hash_replace($('#patient_description'),"PATIENT",res.detail)
          $("#patient_description_showing").html(tmp)
 
    })
