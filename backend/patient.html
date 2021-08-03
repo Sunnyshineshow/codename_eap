@@ -201,6 +201,7 @@
             <div class="card shadow-none bg-light" style="max-width: 100% !important;">
               <div class="card-body" style="text-align: center;">
                 <strong>จัดการผู้ป่วย</strong><br><br>
+                <button type="submit" class="btn btn-secondary" onclick="completePatient()" width="10" height="10">สิ้นสุดกระบวนการ</button>
                 <button type="submit" class="btn btn-danger" onclick="deletePatient()" width="10" height="10">ลบผู้ป่วย</button>
               </div>
             </div>
@@ -365,7 +366,9 @@
             res.color = '<span style="color: #fcba03;">เหลือง</span>'
           } else if (res.color == "GREEN") {
             res.color = '<span style="color: green;">เขียว</span>'
-          } else {
+          } else if (res.color == "WHITE") {
+            res.color = 'สิ้งสุดกระบวนการ'
+          }else {
             Object.assign(res, {
               color: "N/A"
             })
@@ -621,6 +624,31 @@
             else 
             {
               return alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง")
+            }
+          })
+        }
+      }
+
+      function completePatient()
+      {
+        if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1)
+        {
+          return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
+        }
+
+        var patientid = getParameterByName('id', window.location.search);
+
+        let payload = {
+          _id: patientid
+        }
+
+        if (confirm("ผู้ป่วยคนนี้สิ้นสุดกระบวนการแล้วจริงหรือไม่")) {
+          $.postJSON(MAINURL + "/api-backend/admin/patient_complete", payload, (msg) => {
+            if (msg.code == 200) {
+              alert_success("ผู้ป่วยสิ้นสุดกระบวนการแล้ว")
+              return go2View('patientlist')
+            } else {
+              return alert("เกิดข้อผิดพลาดระหว่างดำเนินการ โปรดลองใหม่อีกครั้ง")
             }
           })
         }
