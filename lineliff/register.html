@@ -493,12 +493,19 @@
 
       if(mobileno.length < 9 || mobileno.length > 10)
       {
-        return alert_modal("กรุณากรอกเบอร์โทรศัพท์");
+        return alert_modal("กรุณากรอกเบอร์โทรศัพท์ของผู้ป่วยให้ถูกต้อง");
       }
 
       if(!(mobileno.match(/^[0-9]+$/)))
       {
-        return alert_modal("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง");
+        return alert_modal("กรุณากรอกเบอร์โทรศัพท์ของผู้ป่วยให้ถูกต้อง");
+      }
+
+      if(email)
+      {
+        if(!(email.indexOf('@') > -1)){
+          return alert_modal("กรุณากรอกอีเมลที่ถูกต้อง")
+        }
       }
 
       if(!address)

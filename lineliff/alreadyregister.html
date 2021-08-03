@@ -39,6 +39,10 @@
           <br>
           <strong>เบอร์โทร:</strong> ##PATIENT-mobileno##
           <br><br>
+          <strong>ชื่อผู้ติดต่อกรณีฉุกเฉิน:</strong> ##PATIENT-emergency.firstname_contact## ##PATIENT-emergency.lastname_contact##
+          <br>
+          <strong>เบอร์โทรกรณีฉุกเฉิน:</strong> ##PATIENT-emergency.tel##
+          <br><br>
       </div>
     </div>
     <br>
@@ -123,7 +127,7 @@
 
          if (!res.location)
          {
-           alert_modal("โปรดเลือกสถานพยาบาลที่ท่านสะดวกในเมนู \"ตรวจสอบคิว\" และทำการเลือกวิธีการเดินทาง")
+           alert_modal("โปรดเลือกสถานพยาบาลที่ท่านสะดวกในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
          }
 
          Object.assign(res, {day_count: date_diff(res.init_symptoms.checkdate)})
