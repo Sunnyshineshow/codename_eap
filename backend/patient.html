@@ -169,6 +169,7 @@
                       <option value="NONE">เลือกหน้าที่</option>
                       <option value="SUPERADMIN">หัวหน้าแอดมิน</option>
                       <option value="DEVELOPER">นักพัฒนา</option>
+                      <option value="SITEADMIN">แอดมินประจำไซต์</option>
                       <option value="XRAY">หน่วย X-Ray</option>
                       <option value="CALLCEN">คอลเซ็นเตอร์</option>
                       <option value="VOLUNTEER">อาสาสมัคร</option>
@@ -536,7 +537,7 @@
       }
 
       function colorFix() {
-        if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("CALLCEN") == -1)
+        if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)
           {
             return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
           }
