@@ -136,13 +136,15 @@
       search_setting.search = {
         findname: $('#search_name').val()
       }
+      
     }
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
-    // console.log('SEARCH ', search_setting);
+    console.log('SEARCH ', search_setting);
     fncsearch = ADV_search(search_setting); // Defult always search at first
+    document.getElementById("search_name").value = ""
     return false;
   }
 
