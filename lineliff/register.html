@@ -105,7 +105,7 @@
                   <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
                     <div id="inputbox_idcard">
                       <label>
-                        <input class="mbsc-align-left" mbsc-input id="idcard" type="text"  placeholder="" value="" oninput="this.value = this.value.replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');"
+                        <input class="mbsc-align-left" mbsc-input id="idcard" type="text"  placeholder="" value="" oninput="this.value = this.value.replace(/[^A-z0-9]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');"
                           style="font-size: 13px;" />
                       </label>
                     </div>

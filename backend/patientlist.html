@@ -49,8 +49,16 @@
                 <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_surname" placeholder="นามสกุล">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
               </div>
+
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_passport" placeholder="เลขที่พาสปอร์ต">
+              </div>
+              
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
               </div>
@@ -175,6 +183,10 @@
       Object.assign(search_setting.search,{findname: $('#search_name').val()})
     }
 
+    if ($('#search_surname').val() !== "") {
+      Object.assign(search_setting.search,{find_surname: $('#search_surname').val()})
+    }
+
     if ($('#search_idno').val() !== "") {
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
     }
@@ -182,6 +194,10 @@
     if ($('#search_cid').val() !== "") {
       Object.assign(search_setting.search,{find_idcard: $('#search_cid').val()})
     }
+
+    if ($('#search_passport').val() !== "") {
+      Object.assign(search_setting.search,{find_passport: $('#search_passport').val()})
+    }    
 
     if ($('#search_tel').val() !== "") {
       Object.assign(search_setting.search,{find_tel: $('#search_tel').val()})

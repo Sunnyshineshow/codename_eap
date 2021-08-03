@@ -36,7 +36,7 @@
                 <input class="form-control" type="time" id="Endtime" name="appt">
               <br />
               <strong>Multiple Day : (จำนวนวันที่ให้บริการ นับจาก Start Date)</strong>
-                <input class="form-control" type="number" id="multiple_day" name="appt" placeholder= "นัดหลายวันยังไม่พร้อมใช้งาน" value=1 >
+                <input class="form-control" type="number" id="multiple_day" name="appt" placeholder= "นัดหลายวันยังไม่พร้อมใช้งาน" value=1 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
               <br />
               <button type="submit" class="btn btn-primary" text-align="center" onclick="Submittime()" width="10" height="10">Submit</button>
             </div>
@@ -239,6 +239,16 @@
     else if (TimeStartSpliter[0] > TimeEndSpliter[0])
     {
       return alert("ไม่สามารถกรอกเวลาข้ามวันได้")
+    }
+
+    if(parseInt($('#Freetime_Slot').val()) >= 0)
+    {
+      return alert("ไม่สามารถกรอกที่เวลานัดที่น้อยขนาดนั้นได้")
+    }
+
+    if(Number(multiple_day) > 1)
+    {
+      return alert("ไม่สามารถกรอกที่จำนวนการนัดที่ต่ำกว่า 1 ได้")
     }
 
     var new_timeslot = {
