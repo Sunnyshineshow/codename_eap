@@ -4,14 +4,7 @@
       <h3><b>Affiliation List</b></h3>
       <div class="row mb-1">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <form class="form-row" onsubmit="return refreshpage();">
-            <div class="row d-flex justify-content-end">
-              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2" align="right">
-                <button type="submit" class="btn btn-primary" onclick="AddDataHospital()">
-                  <i class="fas fa-plus"></i> เพิ่มสถานพยาบาล
-                </button>
-              </div>
-            </div>
+          <form class="form-row" onsubmit="return pre_search();">
             <div class="row">
               <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
                 <input type="text" class="form-control" id="search_name" placeholder="ค้นหาชื่อสถานพยาบาล">
@@ -23,6 +16,15 @@
                 </button>
               </div>
             </div>
+          </form>
+
+          <div class="row d-flex justify-content-end">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2" align="right">
+              <button type="submit" class="btn btn-primary" onclick="AddDataHospital()">
+                <i class="fas fa-plus"></i> เพิ่มสถานพยาบาล
+              </button>
+            </div>
+          </div>
 
             <div id="AddData" style="display: none;">
               <div class="card mt-5 bg-light">
@@ -67,7 +69,6 @@
                 </div>
               </div>
             </div>
-          </form>
 
           <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
 
@@ -120,8 +121,19 @@
   var searchobj = {};
   var fncsearch;
 
+  function pre_search(){
+    // clear search url from lastsearch
 
-  function refreshpage(rawdata) {
+    refreshpage(undefined,true);
+    return false;
+  }
+
+  function refreshpage(rawdata,clearsearch) {
+
+    if (!clearsearch)
+    {
+      clearsearch = true
+    }
 
     console.log("GLOBAL_USER",GLOBAL_USER)
         
@@ -142,9 +154,13 @@
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
+    // console.log('SEARCH ', search_setting);
+    /*
     console.log('SEARCH ', search_setting);
     fncsearch = ADV_search(search_setting); // Defult always search at first
     document.getElementById("search_name").value = ""
+    */
+    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
   }
 

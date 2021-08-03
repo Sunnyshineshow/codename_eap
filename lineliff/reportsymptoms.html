@@ -1,15 +1,15 @@
-  <div  id = "page_content">
-    <div class="md-range-event" mbsc-form>
-      <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
-        <div class="mbsc-header-txt mbsc-align-center">
-          <div class="mbsc-align-center" style="margin-top:8px;">
-            <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการอยู่บ้าน ปอดปลอดภัย</p>
-            <p style="padding:0px 5px;margin:0px;font-weight:400;font-size:12px;color:white;">Emergency Assistance for Home stay Patients Project ( EAP )</p>
-          </div>
-        </div>
+<div class="md-range-event" mbsc-form>
+  <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+    <div class="mbsc-header-txt mbsc-align-center">
+      <div class="mbsc-align-center" style="margin-top:8px;">
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการอยู่บ้าน ปอดปลอดภัย</p>
       </div>
     </div>
+  </div>
+</div>
 
+<div id = "page_content" style="display: none;">
+  <div>
 
     <div mbsc-form >
 
@@ -32,7 +32,6 @@
                     <div class="mbsc-form-group-title"></div>
 
                 </div> -->
-            </div>
             </div>
 
             <!---  select อันนี้ไม่สามารถอยู่ใน mobiscroll form ได้  มันจะแสดงค่าที่เลือก ให้เห็น-->
@@ -241,6 +240,8 @@
 
         </div>
 </div>
+</div>
+
 <script>
 
 var patient;
@@ -259,9 +260,21 @@ var patient;
       else
       {
         $.get(MAINURL + "/api-web/line/report_symptoms/init/",(msg) =>{
-          patient = msg.patient;
-          $('#page_content').show();
-          get_geolocation();
+          console.log(msg)
+          if (msg.code == 200)
+          {
+            patient = msg.patient;
+            $('#page_content').show();
+            get_geolocation();
+          }
+          else if (msg.code == 429)
+          {
+            return alert_modal("ท่านสามารถกรอกได้แค่ 1 ครั้งต่อชั่วโมงเท่านั้น\nครั้งล่าสุดที่กรอกไป " + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm"))
+          }
+          else
+          {
+            return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+          }
         });
 
       }
@@ -451,7 +464,7 @@ function get_geolocation()  {
     {
       if (msg.status == 200)
       {
-        alert_modal("บันทึกข้อมูลเรียบร้อย")
+        alert_modal("บันทึกข้อมูลเรียบร้อย กรุณากดปิดหน้าต่างเพื่อกลับเข้าเมนูหลักใน LINE \"อยู่บ้าน ปอดปลอยภัย\"")
         return go2View("alreadyregister2")
       }
       else

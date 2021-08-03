@@ -201,6 +201,7 @@
             <div class="card shadow-none bg-light" style="max-width: 100% !important;">
               <div class="card-body" style="text-align: center;">
                 <strong>จัดการผู้ป่วย</strong><br><br>
+                <button type="submit" class="btn btn-secondary" onclick="completePatient()" width="10" height="10">สิ้นสุดกระบวนการ</button>
                 <button type="submit" class="btn btn-danger" onclick="deletePatient()" width="10" height="10">ลบผู้ป่วย</button>
               </div>
             </div>
@@ -365,7 +366,9 @@
             res.color = '<span style="color: #fcba03;">เหลือง</span>'
           } else if (res.color == "GREEN") {
             res.color = '<span style="color: green;">เขียว</span>'
-          } else {
+          } else if (res.color == "WHITE") {
+            res.color = 'สิ้งสุดกระบวนการ'
+          }else {
             Object.assign(res, {
               color: "N/A"
             })
@@ -432,7 +435,7 @@
           tmp = hash_replace($('#hospital'), "HOSPITAL", msg)
           $("#hospital_showing").html(tmp)
         })
-        
+        return false;
       }
 
       /*
@@ -448,72 +451,85 @@
 
       function checkAndSubmit()
       {
-        console.log("Clicked")
         var patientid = getParameterByName('id', window.location.search);
        
         let payload =
         {
           _id: patientid
         }
-        /*
+
         if ($("#nametitle_edit").val() != "NONE" || $("#nametitle_edit").val() != ""){
           Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
         }
         if ($("#firstname_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {firstname: $("#firstname_edit").val()})
         }
         if ($("#lastname_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {lastname: $("#lastname_edit").val()})
         }
-        if ($("#id_type_edit").val() != "NONE" || $("#nametitle_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        if ($("#id_type_edit").val() != "NONE" || $("#id_type_edit").val() != ""){
+          Object.assign(payload, {type_idcard: $("#id_type_edit").val()})
         }
         if ($("#idcard_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {idcard: $("#idcard_edit").val()})
         }
-        if ($("#age_edit_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+        if ($("#age_edit").val() != ""){
+          Object.assign(payload, {age: $("#age_edit").val()})
         }
         if ($("#birthday_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {birthday: $("#birthday_edit").val()})
         }
         if ($("#allergic_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {allergic: $("#allergic_edit").val()})
         }
 
         if ($("#address_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {full_address: $("#address_edit").val()})
         }
         if ($("#subdistrict_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {subdistrict: $("#subdistrict_edit").val()})
         }
         if ($("#district_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {district: $("#district_edit").val()})
         }
         if ($("#province_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {province: $("#province_edit").val()})
         }
         if ($("#zipcode_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {zipcode: $("#zipcode_edit").val()})
         }
 
         if ($("#email_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {email: $("#email_edit").val()})
         }
         if ($("#mobileno_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {mobileno: $("#mobileno_edit").val()})
         }
 
         if ($("#em_firstname_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {firstname_contact: $("#em_firstname_edit").val()})
         }
         if ($("#em_lastname_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {lastname_contact: $("#em_lastname_edit").val()})
         }
         if ($("#em_tel_edit").val() != ""){
-          Object.assign(payload, {nametitle: $("#nametitle_edit").val()})
+          Object.assign(payload, {tel: $("#em_tel_edit").val()})
         }
-*/
+
+        console.log("Data Sent")
+        $.postJSON(MAINURL + "/api-backend/admin/patient_edit", payload, (msg) =>
+        {
+          if (msg.code == 200)
+          {
+            alert_success("แก้ไขข้อมูลสำเร็จ")
+            return refreshpage()
+          }
+          else
+          {
+            return alert("เกิดข้อผิดพลาดระหว่างแก้ไขข้อมูล โปรดลองใหม่อีกครั้ง")
+          }
+        })
+
       }
 
       function sendToLine() {
@@ -626,6 +642,31 @@
         }
       }
 
+      function completePatient()
+      {
+        if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1)
+        {
+          return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
+        }
+
+        var patientid = getParameterByName('id', window.location.search);
+
+        let payload = {
+          _id: patientid
+        }
+
+        if (confirm("ผู้ป่วยคนนี้สิ้นสุดกระบวนการแล้วจริงหรือไม่")) {
+          $.postJSON(MAINURL + "/api-backend/admin/patient_complete", payload, (msg) => {
+            if (msg.code == 200) {
+              alert_success("ผู้ป่วยสิ้นสุดกระบวนการแล้ว")
+              return go2View('patientlist')
+            } else {
+              return alert("เกิดข้อผิดพลาดระหว่างดำเนินการ โปรดลองใหม่อีกครั้ง")
+            }
+          })
+        }
+      }
+
       function deletePatient() {
         if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1)
         {
@@ -721,15 +762,12 @@
 
       function open_edit_console()
       {
-        console.log("Function 1")
         if (document.getElementById('patient_edit_console').style.display == "none")
         {
-          console.log("Function 2")
           document.getElementById('patient_edit_console').style.display = "block"
         }
         else
         {
-          console.log("Function 3")
           document.getElementById('patient_edit_console').style.display = "none"
         }
       }
