@@ -32,6 +32,7 @@
           </div>
         </div>
       </div>
+      
 
       <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
 
@@ -61,6 +62,7 @@
                     <option value="GREEN">เขียว</option>
                     <option value="YELLOW">เหลือง</option>
                     <option value="RED">แดง</option>
+                    <option value="WHITE">สิ้นสุด</option>
                   </select>
                 </div>
               </div>
@@ -215,7 +217,7 @@
     if (objdata.result && totalrecord > 0) {
       working.patient = objdata.obj;
       console.log("OBJDATA: " + objdata.obj)
-      var STATUSSHOW =["--ไม่มีข้อมูล--","ยังไม่ได้ลงทะเบียน","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ"]
+      var STATUSSHOW =["--ไม่มีข้อมูล--","ยังไม่ได้ลงทะเบียน","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ","สิ้นสุดกระบวนการ"]
       objdata.obj.map(item => {
         // console.log(item)
         // let datetime = new Date(res.symptoms[i].inputdate)
@@ -231,7 +233,9 @@
            item.color = '<span style="color: #fcba03;">YELLOW</span>'
          } else if (item.color == "GREEN") {
            item.color = '<span style="color: green;">GREEN</span>'
-         }else{
+         }else if (item.color == "WHITE") {
+            item.color = 'สิ้งสุดกระบวนการ'
+          }else{
            item.color = "N/A"
          }
         // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
