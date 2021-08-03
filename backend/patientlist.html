@@ -215,13 +215,14 @@
     if (objdata.result && totalrecord > 0) {
       working.patient = objdata.obj;
       console.log("OBJDATA: " + objdata.obj)
-      var STATUSSHOW =["--ไม่มีข้อมูล--","ยังไม่ได้ลง","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ"]
+      var STATUSSHOW =["--ไม่มีข้อมูล--","ยังไม่ได้ลงทะเบียน","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ"]
       objdata.obj.map(item => {
         // console.log(item)
         // let datetime = new Date(res.symptoms[i].inputdate)
         // res.symptoms[i].inputdate = datetime.getDate() + "/"
         // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-         item.day_count =  moment(item.createdate, "X").fromNow(true)
+        item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
+         
          item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
          item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
          if (item.color == "RED") {

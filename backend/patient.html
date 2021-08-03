@@ -291,7 +291,16 @@
               }
 
           console.log(res)
-          res.day_count = moment(res.createdate, "X").fromNow(true)
+          if (res.init_symptoms)
+          {
+            // console.log(new Date(res.init_symptoms.checkdate * 1000))
+            // res.day_count = new Date(res.init_symptoms.checkdate * 1000)
+            res.day_count = moment(res.init_symptoms.checkdate, "X").fromNow(true)
+          }
+          else
+          {
+            res.day_count = "!! ยังไม่ลงทะเบียน !!"
+          }
             
           for (let i = 0; i < res.symptoms.length; i++) {
             //Date Time

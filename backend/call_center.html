@@ -169,7 +169,7 @@
         // let datetime = new Date(res.symptoms[i].inputdate)
         // res.symptoms[i].inputdate = datetime.getDate() + "/"
         // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-         item.day_count =  moment(item.createdate, "X").fromNow(true)
+        item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
          item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
          if (item.color == "RED") {
            item.color = '<span style="color: #C70039;">RED</span>'

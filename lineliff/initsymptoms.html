@@ -270,9 +270,10 @@
 
       <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
         <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">วันที่พบอาการ (Date of Symptoms) <span style="color:red"> *</span></p>
           <div id="input_checkdate" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">วันที่พบอาการ (Date of Symptoms) <span style="color:red"> *</span></p>
-            <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>            
+           <!-- <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>  -->          
+           <input class="mbsc-align-left" mbsc-input data-input-style="box" id="checkdate" type="text" name="checkdate" placeholder="" value="" style="font-size: 13px;" />
           </div>
         </div>
       </div>
@@ -324,17 +325,17 @@
     }
 
     $(document).ready(function() {
-      // $('#checkdate').mobiscroll().calendar({
-      //   dateFormat: 'dd/mm/yyyy',
-      //   display: 'center',
-      //   touchUi: false,
-      //   max: new Date(new Date().setDate(new Date().getDate())),
-      // })
+      $('#checkdate').mobiscroll().calendar({
+        dateFormat: 'dd/mm/yyyy',
+        display: 'center',
+        touchUi: false,
+        max: new Date(new Date().setDate(new Date().getDate())),
+      })
 
-      let datetime = new Date()
+      // let datetime = new Date()
 
-      document.getElementById('checkdate').innerHTML = datetime.getDate() + "/"
-      + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
+      // document.getElementById('checkdate').innerHTML = datetime.getDate() + "/"
+      // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
 
 
 
@@ -482,16 +483,27 @@
             return alert_modal("กรุณาระบุว่าเคยได้รับแจ้งว่ามีอาการปอดอักเสบมาก่อนหรือไม่")
         }
 
+        //checkdate
+        if (!$("#checkdate").val())
+        {
+          return alert_modal("กรุณาระบุวันที่พบอาการ")
+        }
+
+        let date = $("#checkdate").val().split("/")
+        let checkdate = Math.floor(new Date(parseInt(date[2]),parseInt(date[1]) - 1,parseInt(date[0])) / 1000)
+
+        console.log(checkdate)
+
         let initial_symptoms =
             {
-            symptoms : symptoms.symptom,
-            disease: disease,
-            breathing: breathing,
-            spo_room_air: spo_room_air,
-            exercise_test: exercise_test,
-            pneumonia_check: pneumonia_check,
-            checkdate: Math.floor((new Date()) / 1000),
-            comment: comment
+              symptoms : symptoms.symptom,
+              disease: disease,
+              breathing: breathing,
+              spo_room_air: spo_room_air,
+              exercise_test: exercise_test,
+              pneumonia_check: pneumonia_check,
+              checkdate: checkdate,
+              comment: comment
             }
 
             document.getElementById('btn_register').disabled = true;
