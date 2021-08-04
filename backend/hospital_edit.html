@@ -241,7 +241,7 @@
       return alert("ไม่สามารถกรอกเวลาข้ามวันได้")
     }
 
-    if(parseInt($('#Freetime_Slot').val()) >= 0)
+    if(parseInt($('#Freetime_Slot').val()) <= 0)
     {
       return alert("ไม่สามารถกรอกที่เวลานัดที่น้อยขนาดนั้นได้")
     }
