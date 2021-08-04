@@ -66,12 +66,12 @@
                         <tr>
                             <td class="text-center table-middle">
                                 <div class=" position-relative">
-                                    
+
                                     <img src="##STAFF-pictureUrl##" style="max-width:50px;" class="rounded-circle">
                                     ##STAFF-lastactive##
                                 </div>
-                                
-                                
+
+
 
                             </td>
                             <td class="text-center table-middle"># ##STAFF-id##</td>
@@ -127,13 +127,13 @@
             paginationDIV: $('.pagination_bar'),
             pagesize: 10,
             showfunction: show_staff_list,
-            limit: 10,
+            limit: 20,
             search: {}
         }
         if ($('#search_name').val() !== "") {
             Object.assign(search_setting.search,{findname: $('#search_name').val()})
         }
-        
+
         if ($('#search_id').val() !== "") {
             Object.assign(search_setting.search,{findid: $('#search_id').val()})
         }
@@ -164,7 +164,7 @@
     refreshpage(undefined,true);
     return false;
   }
-  
+
     function show_staff_list(objdata, totalrecord) {
         // console.log('objdata', objdata);
         if (objdata.result && totalrecord > 0) {

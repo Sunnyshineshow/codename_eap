@@ -32,7 +32,7 @@
           </div>
         </div>
       </div>
-      
+
 
       <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
 
@@ -59,7 +59,7 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_passport" placeholder="เลขที่พาสปอร์ต">
               </div>
-              
+
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
               </div>
@@ -178,7 +178,7 @@
       paginationDIV: $('.pagination_bar'),
       pagesize: 10,
       showfunction: show_patient_list,
-      limit: 10,
+      limit: 20,
       search: {}
     }
     if ($('#search_name').val() !== "") {
@@ -199,7 +199,7 @@
 
     if ($('#search_passport').val() !== "") {
       Object.assign(search_setting.search,{find_passport: $('#search_passport').val()})
-    }    
+    }
 
     if ($('#search_tel').val() !== "") {
       Object.assign(search_setting.search,{find_tel: $('#search_tel').val()})
@@ -240,7 +240,7 @@
         // res.symptoms[i].inputdate = datetime.getDate() + "/"
         // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
         item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
-         
+
          item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
          item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
          if (item.color == "RED") {

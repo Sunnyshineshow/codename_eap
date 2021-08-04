@@ -7,23 +7,6 @@
     </div>
   </div>
 </div>
-<div id="warn_select_patient"  style="display: none;"  class="mbsc-align-center mbsc-btn-group-justified">
-
-
-    <button  mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="check_otherpatient()"
-      style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
-      <div class="mbsc-form-grid">
-        <div class="mbsc-grid">
-          <div class="mbsc-row">
-            <div class="mbsc-col-12">
-              <p style="padding:0px;margin:0px;" id="text_edit_inbtn" >กรุณาเลือกผู้ป่วยที่ลงทะเบียนไว้</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </button>
-
-</div>
 
 <div id = "page_content" style="display: none;">
   <div>
@@ -276,18 +259,6 @@ var patient;
       }
       else
       {
-        if(Array.isArray(GLOBALUSER.otherpatient) && GLOBALUSER.otherpatient.length > 0 ){
-          if(!ACTIVEPATIENT){
-
-              check_otherpatient();
-
-              return ;
-          }else{    //already choose ACTIVEPATIENT
-
-          }
-
-
-        }
         $.get(MAINURL + "/api-web/line/report_symptoms/init/",(msg) =>{
           console.log(msg)
           if (msg.code == 200)
@@ -336,21 +307,7 @@ function get_geolocation()  {
       + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
 
   })
-  function check_otherpatient(){
-    $('#warn_select_patient').show();
-      $.get(MAINURL + "/api-web/otherpatient/list",(msg) =>{
-        var name = [GLOBALUSER]
-          name = name.concat(msg.obj)
-          console.log("Other : ",name)
-          select_patient_modal(name,(select_id)=>{
-              $('#warn_select_patient').hide();
-              ACTIVEPATIENT = name[select_id]
-              console.log("ACTIVEPATIENT",ACTIVEPATIENT)
-          });
-          //select_patient_modal("กรุณาเลือกผู้ป่วยที่ต้องการ")
-      })
 
-  }
   function checkToDisable()
     {
         if (document.getElementById("spO2_unknown").checked)
