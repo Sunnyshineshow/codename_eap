@@ -269,7 +269,7 @@ var patient;
           }
           else if (msg.code == 429)
           {
-            return alert_modal("ท่านสามารถกรอกได้แค่ 1 ครั้งต่อชั่วโมงเท่านั้น\nครั้งล่าสุดที่กรอกไป " + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm"))
+            return alert_modal("คุณเพิ่งทำแบบประเมินไปเมื่อ\n" + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm") + "\nคุณสามารถแจ้งได้อีกครั้งภายใน 1 ชั่วโมง")
           }
           else
           {
