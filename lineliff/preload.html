@@ -18,7 +18,7 @@
     var page = window.location.pathname.split('/')[URL_PAGE_POSITION+2];
     console.log("PAGE = ",page)
     var alreadyinit = false;
-    var LINE_USER;var GLOBALUSER;
+    var LINE_USER;var GLOBALUSER; var ACCESS_TOKEN;
     var working={setting:{} }
     if(!myLiffId){
       console.error("No LINE LIFF");
@@ -129,6 +129,7 @@
         $.postJSON(MAINURL + '/api-web/line/userdata', userdata, (msg) => {
           if (msg.result) {
             GLOBALUSER = msg.data;
+            ACCESS_TOKEN=msg.token;
             ajax_settoken(msg.token);
             console.log("New Header Set",msg.token)
             go2View(starturl);

@@ -104,7 +104,7 @@
                   <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
                     <div id="inputbox_idcard">
                       <label>
-                        <input class="mbsc-align-left" mbsc-input id="idcard" type="text"  placeholder="" value="" oninput="this.value = this.value.replace(/[^A-z0-9]/g, '').replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');"
+                        <input class="mbsc-align-left" mbsc-input id="idcard" type="text"  placeholder="" value="" oninput="this.value = this.value.replace(/[~`!@#$%\^&*()+=\-_฿\[\]\\';,/{}|\\:<>\?]/g , '');"
                           style="font-size: 13px;" />
                       </label>
                     </div>
@@ -341,6 +341,12 @@
               <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ข้อมูลเพิ่มเติม</span>
             </div>
 
+
+            <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px"  >
+                <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">รูปบัตรประชาชนหรือ Passport <span style="color:red"> *</span></p>
+            <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;margin-top:5px;" id="imageuoload">
+              </div>
+              </div>
             <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
               <div class="mbsc-col-12" style="padding:0px;margin:0px;">
                 <div id="input_allergic" style="border-radius:0px !important;padding:0px;margin-top:10px;">
@@ -375,7 +381,8 @@
       </div>
     </div>
   </div>
-  </div>
+
+
 
 
   <script>
@@ -392,6 +399,10 @@
       function refreshpage() {
           //console.log("GLOBALUSER",GLOBALUSER)
           if(GLOBALUSER.status ==1){
+            $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
+              console.log("Load image cached")
+            });
+
             $('#main_form_register').show();
           }
           else if (GLOBALUSER.status == 3)
@@ -400,6 +411,9 @@
           }
           else
           {
+            $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
+              console.log("Load image cached")
+            });
             go2View("alreadyregister")
           }
       }
@@ -437,6 +451,14 @@
       let lastname_contact = $("#lastname_contact").val()
       let tel = $("#tel").val()
       let allergic = $("#allergic").val()
+
+
+      if(!blobdata_v2){
+        return alert_modal("กรุณาแนบรูปบัตรประชาชน หรือ Passport")
+      }else{
+        //alert_modal("Found image")
+        //  return ;
+      }
 
 
       if(!nametitle)
@@ -597,16 +619,33 @@
               location:geo_location,
               verify: false
             }
+
             console.log("POST DATA",payload)
             document.getElementById('btn_register').disabled = true;
             document.getElementById('text_edit_inbtn').innerHTML = "โปรดรอซักครู่"
             //Check Submit here
-            $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
-            {
-                console.log(msg);
-                go2View("initsymptoms");
 
+
+            doUploadImage_v2(blobdata_v2, "/api-web/line/regis_submit", payload, function(res) {
+              console.log('upload',res)
+              //refresh image tap
+              if (res)
+              {              
+                go2View("initsymptoms");
+              }
+              else
+              {
+                  return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+              }
             })
+
+            //
+            // $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
+            // {
+            //     console.log(msg);
+            //     go2View("initsymptoms");
+            //
+            // })
 
     }
     $(document).ready(function() {

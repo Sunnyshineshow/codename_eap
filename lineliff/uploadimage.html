@@ -60,7 +60,7 @@
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">แก้ไขรูปภาพ</h5>
+        <h5 class="modal-title" id="exampleModalLabel">เลือกรูปาภาพ กด Choose File</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="upImage_v2close()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -75,19 +75,15 @@
           <img  style="width:100%" id="tempplateimage_v2" src="/picture/noimage.png" class="far fa-image">
         </div>
 
-
         <div class="text-center">
           <button class="vanilla-rotate_v2" data-deg="90" value="left">Rotate Left</button>
           <button class="vanilla-rotate_v2" data-deg="-90" value="right">Rotate Right</button>
         </div>
         <div class="text-center text-secondary mt-1">
           รูปภาพควรมีขนาดรูปภาพไม่เกิน 2 MB
-          <br>
-          สามารถใช้ Copy + Paste จากหน้าจอได้
         </div>
         <a class="btn file-btn" style="position: relative">
-          <span>Upload</span>
-          <input type="file" id="imgInp_v2" value="Choose a file" accept="image/*">
+          <input type="file" id="imgInp_v2" name="Upload รูปภาพ" value="Upload รูปภาพ" accept="image/*">
         </a>
       </div>
       <div class="modal-footer">
@@ -132,7 +128,7 @@
       }
 
     }else{
-       srcimage = "/picture/heart.png"
+       srcimage = "/picture/noimage.png"
     }
     if(srcimage){
       // readURL_v2(srcimage)
@@ -202,7 +198,7 @@
         reader.onload = function(e) {
 
 
-          if(e.total>2097152){
+          if(false) { //e.total>2097152){
             PNotify.error({
               title:'Image Error',
               text: 'memery of image is over 2 MB',
