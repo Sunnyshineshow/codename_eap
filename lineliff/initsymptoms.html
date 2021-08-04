@@ -505,28 +505,28 @@
               comment: comment
             }
 
-            // document.getElementById('btn_register').disabled = true;
-            // document.getElementById('text_edit_inbtn').innerHTML = "โปรดรอซักครู่"
-            // $.postJSON(MAINURL + "/api-web/line/regis_symptoms/", initial_symptoms, (msg) =>
-            // {
-            //     var responselinemsg =[{
-            //         type: "text",
-            //         text: "ลงทะเบียนสำเร็จ"
-            //     }]
-            //     if(msg.responselinemsg){
-            //        responselinemsg= msg.responselinemsg;
-            //     }
-            //     liff.sendMessages(responselinemsg).then(() =>
-            //     {
-            //         console.log("Logged to patient's Line")
-            //     }).catch((err) => {
-            //         console.log('error', err)
-            //     })
+            document.getElementById('btn_register').disabled = true;
+            document.getElementById('text_edit_inbtn').innerHTML = "โปรดรอซักครู่"
+            $.postJSON(MAINURL + "/api-web/line/regis_symptoms/", initial_symptoms, (msg) =>
+            {
+                var responselinemsg =[{
+                    type: "text",
+                    text: "ลงทะเบียนสำเร็จ"
+                }]
+                if(msg.responselinemsg){
+                   responselinemsg= msg.responselinemsg;
+                }
+                liff.sendMessages(responselinemsg).then(() =>
+                {
+                    console.log("Logged to patient's Line")
+                }).catch((err) => {
+                    console.log('error', err)
+                })
 
-            //     go2View("alreadyregister")
-            //     return alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
+                go2View("alreadyregister")
+                return alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
 
-            // })
+            })
     }
 
   </script>
