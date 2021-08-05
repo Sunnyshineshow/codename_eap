@@ -1,0 +1,15 @@
+<script>
+    var appointmentid = getParameterByName('id', window.location.search);
+    $.postJSON(MAINURL + "", {_id: appointmentid}, (msg)=>
+    {
+        if (msg.code == 200)
+        {
+            alert_modal("ยืนยันนัดเรียบร้อยแล้ว")
+            go2View("appointment?id=" + appointmentid);
+        }
+        else
+        {
+            return alert_modal("เกิดข้อผิดพลาดระหว่างยืนยันนัด โปรดลองใหม่อีกครั้ง")
+        }
+    })
+</script>
