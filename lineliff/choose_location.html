@@ -95,8 +95,11 @@
 
             let hospital = parseInt($('#hospital_showing').val())
 
+            var patientid = getParameterByName('id', window.location.search);
+
             let payload = 
             {
+                patient: patientid,
                 hospital: hospital,
                 location: location
             }

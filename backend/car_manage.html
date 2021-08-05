@@ -36,6 +36,15 @@
               <input class="form-control"  id="Driver_carnum" type="text" placeholder="เลขทะเบียนรถยนต์" maxlength="15" style="font-size: 13px;" size="20"/>
             </p> 
 
+            <p class="p-0 m-0"><strong>ประเภทรถยนต์</strong>  <br>              
+              <select class="form-select" aria-label="Staff Select" id="Vehicle_type">
+                <option value="1">Ambulance Taxi (6 ที่นั่ง)</option>
+                <option value="2">Van (5 ที่นั่ง)</option>
+                <option value="3">Van (10 ที่นั่ง)</option>
+                <option value="4">สองแถว ( 12 ที่นั่ง)</option>
+              </select>                          
+            </p>                     
+
             <br>
             <input type="submit" class="btn btn-primary" onclick="SendData()">
            
@@ -229,7 +238,7 @@ $(document).ready(() =>
     $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
       staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
       $("#staff_list_showing").html(staff_name);
-    })
+    })    
 })
 
 function pre_search(){
@@ -510,8 +519,33 @@ function SendData()
   {
     alert("กรุณากรอกทะเบียนด้วยครับ")
   }
+  if(!($("#Vehicle_type").val()))
+  {
+    alert("กรุณากรอกประเภทรถโดยสารด้วยครับ")
+  }
+  var Maxcapacity = 0
+  var Car_type = ""
+  /*
+  <option value="1">Ambulance Taxi (6 ที่นั่ง)</option>
+  <option value="2">Van (5 ที่นั่ง)</option>
+  <option value="3">Van (9-10 ที่นั่ง)</option>
+  <option value="4">สองแถว ( 12 ที่นั่ง)</option>
+  */ 
+  
+  switch(parseInt(document.getElementById('Vehicle_type').value))
+  {
+    case 1: Maxcapacity = 6 ; Car_type = "Ambulance Taxi" ;break;
+    case 2: Maxcapacity = 5 ; Car_type = "Van_5seat" ;break;
+    case 3: Maxcapacity = 10 ; Car_type = "Van_10seat" ;break;
+    case 4: Maxcapacity = 12 ; Car_type = "สองแถว" ;break;
+  }
 
-  if($("#Driver_Fullname").val()|| $("#Driver_tel").val() || $("#Driver_carnum").val())
+  console.log("TestnewData")
+  console.log(Maxcapacity)
+  console.log(Car_type)
+  console.log($("#Vehicle_type").val())
+  console.log(parseInt(document.getElementById('Vehicle_type').value))
+  if($("#Driver_Fullname").val()|| $("#Driver_tel").val() || $("#Driver_carnum").val() || $("#Vehicle_type").val())
   {
     let staff = parseInt(document.getElementById('staff_list_showing').value);
     let Fullname = $("#Driver_Fullname").val() 
@@ -519,7 +553,9 @@ function SendData()
         Fullname: Fullname,
         Tel: $("#Driver_tel").val(),
         CarNumber: $("#Driver_carnum").val(),
-        staff: staff
+        staff: staff,
+        car_type: Car_type,
+        maxcapacity: Maxcapacity       
     }
     console.log(payload)
     console.log(Fullname)
@@ -529,10 +565,12 @@ function SendData()
     console.log($("#Driver_carnum").val())
     console.log(GLOBAL_USER.UserID)
 
+    
     $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
     {
       alert("Send data Complete!")
     })
+    
   }
   
 }

@@ -16,7 +16,7 @@
                     </div>
                     <p class="m-0 p-0 mt-3"><strong>ID:</strong> ##PATIENT-patient.id##</p>
                     <p class="m-0 p-0 mt-3"><strong>เลขที่นัด:</strong> ##PATIENT-id##</p>
-                    <p class="m-0 p-0 mt-3"><strong>วันที่นัด:</strong> ##PATIENT-appointtime##</p>
+                    <p class="m-0 p-0 mt-3"><strong>วันที่นัด:</strong> ##PATIENT-FormatDate##</p>
                     <p class="m-0 p-0 mt-3"><strong>ชื่อ:</strong> ##PATIENT-patient.nametitle####PATIENT-patient.firstname## ##PATIENT-patient.lastname##</p>
                     <p class="m-0 p-0"><strong>อายุ:</strong> ##PATIENT-patient.age##</p>
                     <p class="m-0 p-0"><strong>เพศ:</strong> ##PATIENT-patient.gender##</p>
@@ -58,7 +58,7 @@
                       </div>
                   </div>-->
                   <div id="confirm_button" style="text-align: center;">
-                    <button class="btn btn-primary mt-4 mb-3" onclick="chooseCar()">ยืนยัน</button>
+                    <button class="btn btn-primary mt-4 mb-3" onclick="Check_Capacity()">ยืนยัน</button>
                   </div>
                   </div>
                 </div>
@@ -129,6 +129,15 @@
             })
           }
 
+        console.log("Test Time")
+        console.log(res.appointtime)
+        var date = new Date( res.appointtime * 1000 )        
+
+        var Format = date.getDate() + "/" + (date.getMonth()+1 )+ "/" + date.getFullYear()
+        console.log(Format)
+        res.createdate = Format
+        Object.assign(res, {FormatDate: Format }) 
+
         let tmp;
         tmp = hash_replace($('#patient_description'), "PATIENT", res)
         $("#patient_description_showing").html(tmp)
@@ -144,11 +153,43 @@
         window.open("https://www.google.com/maps/search/" + lat + ","+ lng, '_blank')
       }
 
+      function Check_Capacity()
+      {      
+        let vehicleID = document.getElementById('vehicle_select_choosing').value
+
+        let Send =
+        {
+          vehicle:parseInt(vehicleID),
+          pickupdate:appointment_data.appointtime
+        }
+        console.log(Send)
+        
+        $.postJSON(MAINURL + "/api-backend/admin/capacity_check",Send,(msg) =>
+        {
+          console.log("Checking capacity")    
+          console.log(msg)               
+          
+          if(msg.code == 200)
+          {            
+            if(msg.detail == "" || msg.detail == "null")         
+            {
+              chooseCar()
+            }                          
+          }
+          if(msg.code == 404)
+          {
+            alert("เกิดข้อผิดพลาดบางอย่าง")
+          }
+         
+        })
+        
+      }
+
       function chooseCar()
       {
         let vehicle = document.getElementById('vehicle_select_choosing').value
 
-        console.log(vehicle)
+        console.log("ChooseCar process")
 
         let payload = 
         {
@@ -156,9 +197,11 @@
           patient: appointment_data.patient,
           hospital: appointment_data.hospital,
           vehicle: parseInt(vehicle)
+
         }
 
         console.log(payload)
+        
         $.postJSON(MAINURL + "/api-backend/admin/queue_vehicle", payload,(msg) =>
         {
           console.log("Test")
@@ -176,7 +219,9 @@
             alert("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
           }
         })
+        
       }
+      
 //
       function editCar()
       {
