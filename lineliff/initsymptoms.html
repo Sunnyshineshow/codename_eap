@@ -127,7 +127,7 @@
 
       <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
         <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">3.</span>
-        <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> อาการที่ต้องตรวจประมิน</span>
+        <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> อาการที่ต้องตรวจประเมิน</span>
       </div>
 
       <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;margin-bottom:12px;">
@@ -168,7 +168,7 @@
       </div>
 
       <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
-        <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">2. ค่าออกซิเจนในเลือด (SpO2 room air) .%<span style="color:red"> *</span></p>
+        <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">2. ระดับออกซิเจนในเลือดในสภาวะปกติ (%) (SpO2 Room Air)<span style="color:red"> *</span></p>
       </div>
 
       <div style="padding:0px;margin:0px;">
@@ -201,7 +201,7 @@
       </div>
 
       <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:12px;">
-        <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">3. ทดสอบภาวะการขาดออกซิเจน โดยการออกกำลังกาย .%<span style="color:red"> *</span></p>
+        <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">3. ระดับออกซิเจนในเลือดหลังจากออกกำลังกาย (%)<span style="color:red"> *</span></p>
       </div>
 
       <div style="padding:0px;margin:0px;">
@@ -263,6 +263,45 @@
                   <label for="pneumonia_false"><span style="font-size:14px;font-weight:400;"> ไม่เคย</span></label>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <br>
+
+      <div mbsc-card style="display:none;margin-top:0px;margin-bottom:0px;border-radius:0px;">
+        <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:12px;margin-bottom:12px;">
+          <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">ท่านเคยได้รับการเอกซเรย์ปอดมาแล้วได้รับแจ้งว่ามีอาการปอดอักเสบหรือไม่ </p>
+        </div>
+        <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
+          <div style="padding:0px;margin:0px;">
+            <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
+              <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                  <input id="xray_pneumonia_true" name = "xray_pneumonia" mbsc-checkbox type="radio" onchange="opendate()">
+                </div>
+                <div class="mbsc-col-9">
+                  <label for="xray_pneumonia_true"><span style="font-size:14px;font-weight:400;"> เคย</span></label>
+                </div>
+              </div>
+              <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                  <input id="xray_pneumonia_false" name = "xray_pneumonia" mbsc-checkbox type="radio">
+                </div>
+                <div class="mbsc-col-9">
+                  <label for="xray_pneumonia_false"><span style="font-size:14px;font-weight:400;"> ไม่เคย</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="xray_checkdate" class="mbsc-row" style="display: none;padding:0px;margin:0px;margin-top:5px">
+          <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:12px;">วันที่ได้รับแจ้งว่ามีอาการปอดอักเสบหรือผิดปกติ <span style="color:red"> *</span></p>
+            <div style="border-radius:0px !important;padding:0px;margin-top:10px;">
+             <!-- <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>  -->
+             <input class="mbsc-align-left" mbsc-input data-input-style="box" id="xraydate" type="text" name="xraydate" placeholder="" value="" style="font-size: 13px;" />
             </div>
           </div>
         </div>
@@ -484,6 +523,26 @@
             return alert_modal("กรุณาระบุว่าเคยได้รับแจ้งว่ามีอาการปอดอักเสบมาก่อนหรือไม่")
         }
 
+        //xray
+        if (document.getElementById("xray_pneumonia_true").checked)
+        {
+          xray_pneumonia_check = true;
+          opendate();
+          if (!$("#xraydate").val())
+          {
+            return alert_modal("กรุณาระบุวันที่ได้รับแจ้งว่ามีอาการปอดอักเสบหรือผิดปกติ")
+          }
+        }
+        else if (document.getElementById("xray_pneumonia_false").checked)
+        {
+          xray_pneumonia_check = false;
+        }
+        else
+        {
+          //โยน Error
+          return alert_modal("กรุณาระบุว่าเคยได้รับการเอกซเรย์ปอดมาแล้วได้รับแจ้งว่ามีอาการปอดอักเสบหรือไม่")
+        }
+
         //checkdate
         if (!$("#checkdate").val())
         {
@@ -503,6 +562,7 @@
               spo_room_air: spo_room_air,
               exercise_test: exercise_test,
               pneumonia_check: pneumonia_check,
+              xray_pneumonia_check: xray_pneumonia_check,
               checkdate: checkdate,
               comment: comment
             }
@@ -538,6 +598,16 @@
                 return alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
 
             })
+    }
+
+    function opendate()
+    {
+      if (document.getElementById("xray_checkdate").style.display == "none"){
+            document.getElementById("xray_checkdate").style.display = "block"
+          }
+          else{
+            document.getElementById("xray_checkdate").style.display == "none"
+          }
     }
 
   </script>
