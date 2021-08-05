@@ -10,7 +10,7 @@
   <div mbsc-form>
     <div mbsc-form id="form_display">
       <div class="mbsc-align-center" style="margin-top:20px;">
-        <p style="margin-top:3px;margin-bottom:8px;;">ลงทะเบียนผู้ป่วย</p>
+        <p style="margin-top:3px;margin-bottom:8px;;"> <font color="red">ลงทะเบียนแทน หรือ เพิ่มผู้ป่วย ในครอบครัว </font></p>
       </div>
 
       <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
@@ -398,24 +398,24 @@
 
       function refreshpage() {
           //console.log("GLOBALUSER",GLOBALUSER)
-          if(GLOBALUSER.status ==1){
-            $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
-              console.log("Load image cached")
-            });
 
-            $('#main_form_register').show();
+          if(GLOBALUSER.status ==1){
+              go2View("register");
           }
           else if (GLOBALUSER.status == 3)
           {
-            go2View('initsymptoms');
+            alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน")
+            go2View("initsymptoms")
+            return;
           }
-          else
+          else    // Registed already
           {
             $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
               console.log("Load image cached")
             });
-            go2View("alreadyregister")
+            $('#main_form_register').show();
           }
+
       }
 
     function checkAndSubmit()
@@ -617,7 +617,9 @@
               },
               allergic:allergic,
               location:geo_location,
-              verify: false
+              verify: false,
+              register4other:true
+
             }
 
             console.log("POST DATA",payload)
@@ -630,8 +632,8 @@
               console.log('upload',res)
               //refresh image tap
               if (res)
-              {              
-                go2View("initsymptoms");
+              {
+                go2View("initsymptoms4other");
               }
               else
               {

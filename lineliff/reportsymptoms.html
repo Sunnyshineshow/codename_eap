@@ -7,6 +7,23 @@
     </div>
   </div>
 </div>
+<div id="warn_select_patient"  style="display: none;"  class="mbsc-align-center mbsc-btn-group-justified">
+
+
+    <button  mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="check_otherpatient()"
+      style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
+      <div class="mbsc-form-grid">
+        <div class="mbsc-grid">
+          <div class="mbsc-row">
+            <div class="mbsc-col-12">
+              <p style="padding:0px;margin:0px;" id="text_edit_inbtn" >กรุณาเลือกผู้ป่วยที่ลงทะเบียนไว้</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </button>
+
+</div>
 
 <div id = "page_content" style="display: none;">
   <div>
@@ -14,7 +31,8 @@
     <div mbsc-form >
 
           <div class="mbsc-align-center" style="margin-top:20px;">
-            <p style="margin-top:3px;margin-bottom:8px;;">รายงาน ติดตาม อาการเบื้องต้น</p>
+            <p style="margin-top:3px;margin-bottom:8px;">รายงาน ติดตาม อาการเบื้องต้น</p>
+            <p style="margin-top:3px;margin-bottom:8px;color:red;" id="other_patient_name" ></p>
           </div>
 
           <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
@@ -214,7 +232,7 @@
                 <div class="mbsc-form-group-inset">
                   <div id="inputbox_date">
                     <label>
-                      
+
                     </label>
                   </div>
                 </div>
@@ -250,6 +268,7 @@ var patient;
       //console.log("GLOBALUSER",GLOBALUSER)
       if(GLOBALUSER.status ==1){
           go2View("register");
+          return;
       }
       else if (GLOBALUSER.status == 3)
       {
@@ -257,28 +276,37 @@ var patient;
         go2View("initsymptoms")
         return;
       }
-      else
-      {
-        $.get(MAINURL + "/api-web/line/report_symptoms/init/",(msg) =>{
-          console.log(msg)
-          if (msg.code == 200)
-          {
-            patient = msg.patient;
-            $('#page_content').show();
-            get_geolocation();
-          }
-          else if (msg.code == 429)
-          {
-            return alert_modal("คุณเพิ่งทำแบบประเมินไปเมื่อ\n" + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm") + "\nคุณสามารถแจ้งได้อีกครั้งภายใน 1 ชั่วโมง")
-          }
-          else
-          {
-            return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
-          }
-        });
+        if(Array.isArray(GLOBALUSER.otherpatient) && GLOBALUSER.otherpatient.length > 0 ){
+          if(!ACTIVEPATIENT || ACTIVEPATIENT.status !=2){
+              check_otherpatient();
+              return ;
+          }    //already choose ACTIVEPATIENT
+            check_and_show(ACTIVEPATIENT._id);
+            return;
+        }
+        check_and_show(GLOBALUSER._id)
 
-      }
   }
+
+function check_and_show(patient_id){
+  $.get(MAINURL + "/api-web/line/report_symptoms/init/"+patient_id,(msg) =>{
+    console.log(msg)
+    if (msg.code == 200)
+    {
+      patient = msg.patient;
+      $('#page_content').show();
+      get_geolocation();
+    }
+    else if (msg.code == 429)
+    {
+      return alert_modal("คุณเพิ่งทำแบบประเมินไปเมื่อ\n" + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm") + "\nคุณสามารถแจ้งได้อีกครั้งภายใน 1 ชั่วโมง")
+    }
+    else
+    {
+      return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+    }
+  });
+}
 
   var geo_location;
 
@@ -307,7 +335,31 @@ function get_geolocation()  {
       + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
 
   })
+  function check_otherpatient(){
+    $('#warn_select_patient').show();
+      $.get(MAINURL + "/api-web/otherpatient/list",(msg) =>{
+        var name = [GLOBALUSER]
+          name = name.concat(msg.obj)
+          console.log("Other : ",name)
+          select_patient_modal(name,(select_id)=>{
+            ACTIVEPATIENT = name[select_id]
+              if(ACTIVEPATIENT.status == 1 ){  // Not Reigster
+                  return go2View("register4other");
+              }
+              if(ACTIVEPATIENT.status == 3 ){  // Not finish
+                return go2View("initsymptoms");
+              }
+              $('#warn_select_patient').hide();
 
+              $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
+              check_and_show(ACTIVEPATIENT._id);
+
+              console.log("ACTIVEPATIENT",ACTIVEPATIENT)
+          });
+          //select_patient_modal("กรุณาเลือกผู้ป่วยที่ต้องการ")
+      })
+
+  }
   function checkToDisable()
     {
         if (document.getElementById("spO2_unknown").checked)
@@ -421,7 +473,7 @@ function get_geolocation()  {
             {
                 exercise_test = -1;
             }
-        
+
 
         //pneumonia
         if (document.getElementById("pneumonia_true").checked)
@@ -444,7 +496,7 @@ function get_geolocation()  {
         //     return alert_modal("โปรดอนุญาตให้มีการเก็บข้อมูลตำแหน่งที่อยู่")
         // }
 
-        
+
 
     let payload =
     {
@@ -460,7 +512,14 @@ function get_geolocation()  {
     }
 
     console.log("Sending Data")
-    $.postJSON(MAINURL + "/api-web/line/report_symptoms/submit/",payload,(msg) =>
+    var call_url = MAINURL + "/api-web/line/report_symptoms/submit/";
+    if(ACTIVEPATIENT){  // ทำรายการแทนกัน
+      call_url  += ACTIVEPATIENT._id
+    }else{
+      call_url  += GLOBALUSER._id
+    }
+
+    $.postJSON(call_url,payload,(msg) =>
     {
       if (msg.status == 200)
       {
