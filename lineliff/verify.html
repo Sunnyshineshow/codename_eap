@@ -24,7 +24,7 @@
                     ทั้งนี้โครงการมีข้อจำกัดไม่สามารถให้บริการแก่ผู้ป่วยติดเชื้อ COVID-19 สถานะสีแดง หรือผู้ป่วยที่ไม่สามารถช่วยเหลือตัวเองได้
                 </p>
                 <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">
-                    เพื่อที่จะสามารถให้บริการต่อผู้ป่วยได้เหมาะสมกับอาการและเพื่อให้ผู้ป่วยทุกท่านมีความปลอดภัยเมื่อเช้ารับบริการ จึงขอให้ผู้ป่วยทุกท่านกรอกข้อมูลตามจริง
+                    เพื่อที่จะสามารถให้บริการต่อผู้ป่วยได้เหมาะสมกับอาการและเพื่อให้ผู้ป่วยทุกท่านมีความปลอดภัยเมื่อเข้ารับบริการ จึงขอให้ผู้ป่วยทุกท่านกรอกข้อมูลตามจริง
                 </p>
                 <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">หากพบข้อมูลเท็จ โครงการขอสงวนสิทธิ์ในการให้บริการ</p>
                 <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
@@ -32,8 +32,9 @@
                 </div>
                 <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">ข้าพเจ้า (ชื่อ-นามสกุล)</p>
                 <div style="border-radius:0px !important;padding:0px;margin-top:10px;">
-                    <input class="mbsc-align-left" mbsc-input data-input-style="box" id="xraydate" type="text" name="xraydate" placeholder="" value="" style="font-size: 13px;" />
+                    <input class="mbsc-align-left" mbsc-input data-input-style="box" id="name" type="text" name="name" placeholder="" value="" style="font-size: 13px;" />
                 </div>
+
                 <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:10px;">
                     <div mbsc-form class="mbsc-col-2 mbsc-checkbox" style="padding-left:0px;margin:0px;background-color:transparent;">
                         <input id="accept_conditions" mbsc-checkbox type="checkbox">
@@ -45,10 +46,191 @@
             </div>
         </div>
 
+        
+
         <div class="mbsc-align-center" style="margin-top:20px;">
             <p id="requirment" style="margin-top:3px;margin-bottom:8px;" >ข้อมูลเพิ่มเติม</p>
         </div>
+        
+        <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+            <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1.</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านเป็นผู้ป่วยติดเชื้อ COVID-19 และมีผลตรวจที่ยืนยันได้</span>
+        </div>
+        <div mbsc-card style="display:none;margin-top:0px;margin-bottom:0px;border-radius:0px;">
+            <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
+                <div style="padding:0px;margin:0px;">
+                    <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
+                        <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                            <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                                <input id="infected_true" name = "infection" mbsc-checkbox type="radio">
+                            </div>
+                            <div class="mbsc-col-9">
+                                <label for="infected_true"><span style="font-size:16px;font-weight:400;"> ใช่</span></label>
+                            </div>
+                        </div>
+                        <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                            <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                                <input id="infected_false" name = "infection" mbsc-checkbox type="radio">
+                            </div>
+                            <div class="mbsc-col-9">
+                                <label for="infected_false"><span style="font-size:16px;font-weight:400;"> ไม่ใช่</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+            <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">2.</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านได้รับการตรวจหาเชื้อ COVID-19 เมื่อวันที่เท่าไหร่</span>
+        </div>
+        <div style="border-radius:0px !important;padding:0px;margin-top:10px;">
+            <input class="mbsc-align-left" mbsc-input data-input-style="box" id="checkdate" type="text" name="checkdate" placeholder="" value="" style="font-size: 13px;" />
+        </div>
+
+        <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+            <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">3.</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านได้รับการตรวจหาเชื้อ COVID-19 ด้วยวิธีใด</span>
+        </div>
+        <div mbsc-card style="display:none;margin-top:10px;margin-bottom:0px;border-radius:0px;">
+            <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
+                <div style="padding:0px;margin:0px;">
+                    <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
+                        <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                            <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                                <input id="RTPCR" name = "checkmethod" mbsc-checkbox type="radio">
+                            </div>
+                            <div class="mbsc-col-9">
+                                <label for="RTPCR"><span style="font-size:16px;font-weight:400;"> ตรวจแบบ RT-PCR โดยเจ้าหน้าที่หรือหน่วยงานด้านสาธารณสุข</span></label>
+                            </div>
+                        </div>
+                        <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                            <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                                <input id="ATK" name = "checkmethod" mbsc-checkbox type="radio">
+                            </div>
+                            <div class="mbsc-col-9">
+                                <label for="ATK"><span style="font-size:16px;font-weight:400;"> ตรวจแบบ ATK โดยเจ้าหน้าที่หรือหน่วยงานด้านสาธารณสุข</span></label>
+                            </div>
+                        </div>
+                        <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                            <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                                <input id="ST" name = "checkmethod" mbsc-checkbox type="radio">
+                            </div>
+                            <div class="mbsc-col-9">
+                                <label for="ST"><span style="font-size:16px;font-weight:400;"> ตรวจแบบ ATK ด้วยตนเอง</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
+            <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">4.</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> กรุณาส่งหลักฐานผลการตรวจเชื้อ (สามารถอัพโหลดเป็นไฟล์ภาพถ่าย หรือเอกสารอิเล็กทรอนิคส์เชื่อไฟล์ pdf)</span>
+        </div>
+
+        <div id="show_btn_save" class="mbsc-align-center mbsc-btn-group-justified">
+            <button id="btn_next" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick=""
+              style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
+              <div class="mbsc-form-grid">
+                <div class="mbsc-grid">
+                  <div class="mbsc-row">
+                    <div class="mbsc-col-12">
+                      <p style="padding:0px;margin:0px;" id="text_edit_inbtn" onclick="nextStep()">ขั้นต่อไป</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
 
     </div>
-
 </div>
+
+<script>
+
+    function nextStep()
+    {
+        let name = $("#name").val()
+        let accept_conditions = document.getElementById("accept_conditions").checked
+        let checkdate = $("#checkdate").val()
+
+        if(!name)
+        {
+            return alert_modal("กรุณากรอกชื่อและนามสกุลของท่าน")
+        }
+        if(!accept_conditions)
+        {
+            return alert_modal("กรุณากดยอดรับเงื่อนไขและข้อตกลง")
+        }
+
+        //infection
+        if(document.getElementById('infected_true').checked)
+        {
+            covid = true;
+        }
+        else if(document.getElementById('infected_false').checked)
+        {
+            covid = false;
+        }
+        else
+        {
+            //error
+            return alert_modal("กรุณาระบุว่าท่านเป็นผู้ป่วยติดเชื้อ COVID-19 หรือไม่")
+        }
+
+        //date
+        if(!checkdate)
+        {
+            return alert_modal("กรุณาระบุวันที่ท่านได้รับการตรวจหาเชื้อ COVID-19")
+        }
+
+        //method
+        if(document.getElementById('RTPCR').checked)
+        {
+            priority = 2
+        }
+        else if(document.getElementById('ATK').checked)
+        {
+            priority = 1
+        }
+        else if(document.getElementById('ST').checked)
+        {
+            priority = 0
+        }
+        else
+        {
+            //error
+            return alert_modal("กรุณาเลือกวิธีการที่ท่านใช้ตรวจหาเชื้อ COVID-19")
+        }
+
+        //document&pic !NOT FINISH!
+
+        if(covid = true)
+        {
+            go2View("register");
+        }
+        else{
+            go2View("reject");
+        }
+
+        let payload =
+        {
+            certdate: checkdate,
+            priority: priority
+        }
+    }
+
+    $(document).ready(function()
+    {
+        $('#checkdate').mobiscroll().calendar({
+        dateFormat: 'dd/mm/yyyy',
+        display: 'center',
+        touchUi: false,
+        max: new Date(new Date().setDate(new Date().getDate())),
+      })
+    })
+
+</script>
