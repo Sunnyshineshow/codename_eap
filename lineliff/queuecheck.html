@@ -186,7 +186,7 @@
   function refreshpage() {
       console.log("GLOBALUSER",GLOBALUSER)
       if(GLOBALUSER.status == 1){
-          go2View("register");
+          return go2View("register");
       }
       else if (GLOBALUSER.status == 3)
       {
@@ -194,24 +194,56 @@
         go2View("initsymptoms")
         return;
       }
+      if(Array.isArray(GLOBALUSER.otherpatient) && GLOBALUSER.otherpatient.length > 0 ){
+        if(!ACTIVEPATIENT || ACTIVEPATIENT.status !=2){
+            check_otherpatient();
+            return ;
+        }    //already choose ACTIVEPATIENT
+          check_and_show(ACTIVEPATIENT._id);
+          return;
+      }
+      check_and_show(GLOBALUSER._id)
+
+  }
+  function check_and_show(patient_id){
+    $.getJSON(MAINURL + "/api-web/line/appoint_load_patient/"+patient_id,(msg) =>
+    {
+      if (!msg.location)
+      {
+        console.log("Location not available");
+        go2View("choose_location")
+      }
       else
       {
-        $.getJSON(MAINURL + "/api-web/line/appoint_load_patient",(msg) =>
-        {
-          if (!msg.location)
-          {
-            console.log("Location not available");
-            go2View("choose_location")
-          }
-          else
-          {
-            get_queue();
-          }
-        })
-        
+        get_queue();
       }
+    })
   }
+  function check_otherpatient(){
+    $('#warn_select_patient').show();
+      $.get(MAINURL + "/api-web/otherpatient/list",(msg) =>{
+        var name = [GLOBALUSER]
+          name = name.concat(msg.obj)
+          console.log("Other : ",name)
+          select_patient_modal(name,(select_id)=>{
+            ACTIVEPATIENT = name[select_id]
+              if(ACTIVEPATIENT.status == 1 ){  // Not Reigster
+                  return go2View("register4other");
+              }
+              if(ACTIVEPATIENT.status == 3 ){  // Not finish
+                return go2View("initsymptoms");
+              }
+              $('#warn_select_patient').hide();
 
+              $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
+              check_and_show(ACTIVEPATIENT._id);
+
+              console.log("ACTIVEPATIENT",ACTIVEPATIENT)
+          });
+          //select_patient_modal("กรุณาเลือกผู้ป่วยที่ต้องการ")
+      })
+
+  }
   //modal confirm order
   function popup_show_detail(id) {
     let popupstr  = "#popup_details_hospital_" + id
@@ -315,7 +347,7 @@
         return alert_modal("ไม่สามารถเลือกได้ เนื่องจากทำรายการช้ากว่าเวลาที่กำหนด")
       }
 
-      
+
       alert_modal("แก้การเดินทางแล้ว")
       close_popup_show_choosing(id)
 
@@ -326,7 +358,13 @@
 
   function get_queue()
   {
-    $.getJSON(MAINURL + "/api-web/line/appoint_load", (msg) =>
+    var call_url = MAINURL + "/api-web/line/appoint_load/"
+    if(ACTIVEPATIENT){  // ทำรายการแทนกัน
+      call_url  += ACTIVEPATIENT._id
+    }else{
+      call_url  += GLOBALUSER._id
+    }
+    $.getJSON(call_url, (msg) =>
     {
       console.log(msg)
 

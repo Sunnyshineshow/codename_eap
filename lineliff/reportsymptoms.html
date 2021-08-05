@@ -31,7 +31,8 @@
     <div mbsc-form >
 
           <div class="mbsc-align-center" style="margin-top:20px;">
-            <p style="margin-top:3px;margin-bottom:8px;;">รายงาน ติดตาม อาการเบื้องต้น</p>
+            <p style="margin-top:3px;margin-bottom:8px;">รายงาน ติดตาม อาการเบื้องต้น</p>
+            <p style="margin-top:3px;margin-bottom:8px;color:red;" id="other_patient_name" ></p>
           </div>
 
           <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
@@ -267,6 +268,7 @@ var patient;
       //console.log("GLOBALUSER",GLOBALUSER)
       if(GLOBALUSER.status ==1){
           go2View("register");
+          return;
       }
       else if (GLOBALUSER.status == 3)
       {
@@ -274,40 +276,37 @@ var patient;
         go2View("initsymptoms")
         return;
       }
-      else
-      {
         if(Array.isArray(GLOBALUSER.otherpatient) && GLOBALUSER.otherpatient.length > 0 ){
-          if(!ACTIVEPATIENT){
-
+          if(!ACTIVEPATIENT || ACTIVEPATIENT.status !=2){
               check_otherpatient();
-
               return ;
-          }else{    //already choose ACTIVEPATIENT
-
-          }
-
-
+          }    //already choose ACTIVEPATIENT
+            check_and_show(ACTIVEPATIENT._id);
+            return;
         }
-        $.get(MAINURL + "/api-web/line/report_symptoms/init/",(msg) =>{
-          console.log(msg)
-          if (msg.code == 200)
-          {
-            patient = msg.patient;
-            $('#page_content').show();
-            get_geolocation();
-          }
-          else if (msg.code == 429)
-          {
-            return alert_modal("คุณเพิ่งทำแบบประเมินไปเมื่อ\n" + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm") + "\nคุณสามารถแจ้งได้อีกครั้งภายใน 1 ชั่วโมง")
-          }
-          else
-          {
-            return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
-          }
-        });
+        check_and_show(GLOBALUSER._id)
 
-      }
   }
+
+function check_and_show(patient_id){
+  $.get(MAINURL + "/api-web/line/report_symptoms/init/"+patient_id,(msg) =>{
+    console.log(msg)
+    if (msg.code == 200)
+    {
+      patient = msg.patient;
+      $('#page_content').show();
+      get_geolocation();
+    }
+    else if (msg.code == 429)
+    {
+      return alert_modal("คุณเพิ่งทำแบบประเมินไปเมื่อ\n" + moment(msg.inputdate, "X").format("DD/MM/YYYY HH:mm") + "\nคุณสามารถแจ้งได้อีกครั้งภายใน 1 ชั่วโมง")
+    }
+    else
+    {
+      return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+    }
+  });
+}
 
   var geo_location;
 
@@ -343,8 +342,18 @@ function get_geolocation()  {
           name = name.concat(msg.obj)
           console.log("Other : ",name)
           select_patient_modal(name,(select_id)=>{
+            ACTIVEPATIENT = name[select_id]
+              if(ACTIVEPATIENT.status == 1 ){  // Not Reigster
+                  return go2View("register4other");
+              }
+              if(ACTIVEPATIENT.status == 3 ){  // Not finish
+                return go2View("initsymptoms");
+              }
               $('#warn_select_patient').hide();
-              ACTIVEPATIENT = name[select_id]
+
+              $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
+              check_and_show(ACTIVEPATIENT._id);
+
               console.log("ACTIVEPATIENT",ACTIVEPATIENT)
           });
           //select_patient_modal("กรุณาเลือกผู้ป่วยที่ต้องการ")
@@ -503,7 +512,14 @@ function get_geolocation()  {
     }
 
     console.log("Sending Data")
-    $.postJSON(MAINURL + "/api-web/line/report_symptoms/submit/",payload,(msg) =>
+    var call_url = MAINURL + "/api-web/line/report_symptoms/submit/";
+    if(ACTIVEPATIENT){  // ทำรายการแทนกัน
+      call_url  += ACTIVEPATIENT._id
+    }else{
+      call_url  += GLOBALUSER._id
+    }
+
+    $.postJSON(call_url,payload,(msg) =>
     {
       if (msg.status == 200)
       {

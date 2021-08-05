@@ -14,6 +14,7 @@
 
     <div class="mbsc-align-center" style="margin-top:20px;">
       <p id="title_address" style="margin-top:3px;margin-bottom:8px;" > อาการเบื้องต้น</p>
+      <p style="margin-top:3px;margin-bottom:8px;color:red;" id="other_patient_name" ></p>
     </div>
 
     <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
@@ -25,13 +26,13 @@
       <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> อาการเบื้องต้น (Initial Symptoms)</span> <label style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ถ้ามี (if any)</label>
       <!-- <div class="mbsc-form-group-title"><span style="color:red"> *</span> ถ้ามี (if any)</div> -->
     </div>
-  
+
     <div style="padding:0px;margin:0px;">
       <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
         <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
           <div class="mbsc-col-12" style="padding:0px;margin:0px;">
             <div id="input_nametitle" style="border-radius:0px !important;padding:0px;margin-top:15px;">
-              
+
             </div>
           </div>
         </div>
@@ -271,7 +272,7 @@
         <div class="mbsc-col-12" style="padding:0px;margin:0px;">
           <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">วันที่พบอาการ (Date of Symptoms) <span style="color:red"> *</span></p>
           <div id="input_checkdate" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-           <!-- <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>  -->          
+           <!-- <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>  -->
            <input class="mbsc-align-left" mbsc-input data-input-style="box" id="checkdate" type="text" name="checkdate" placeholder="" value="" style="font-size: 13px;" />
           </div>
         </div>
@@ -331,23 +332,24 @@
         max: new Date(new Date().setDate(new Date().getDate())),
       })
 
-      // let datetime = new Date()
-
-      // document.getElementById('checkdate').innerHTML = datetime.getDate() + "/"
-      // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-
-
-
       document.getElementById("StartHere").scrollTop = 0;
 
     })
+    function refreshpage() {
+      if(ACTIVEPATIENT){    // ลงทะเบียนแทนผู้อื่น
+        console.log("ACTIVEPATIENT",ACTIVEPATIENT)
+        $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
+      }else{
+          console.log("Normal init")
+      }
+    }
 
     function checkToDisable()
     {
         if (document.getElementById("spO2_unknown").checked)
         {
-          document.getElementById('spO2_input').disabled = true;                
-          document.getElementById("spO2_input").style.display = "none";         
+          document.getElementById('spO2_input').disabled = true;
+          document.getElementById("spO2_input").style.display = "none";
         }
         else
         {
@@ -357,13 +359,13 @@
 
         if (document.getElementById("X2O_unknown").checked)
         {
-          document.getElementById('X2O_input').disabled = true;           
-          document.getElementById("X2O_input").style.display = "none";         
+          document.getElementById('X2O_input').disabled = true;
+          document.getElementById("X2O_input").style.display = "none";
         }
         else
         {
           document.getElementById('X2O_input').disabled = false;
-          document.getElementById("X2O_input").style.display = "block"; 
+          document.getElementById("X2O_input").style.display = "block";
         }
     }
 
@@ -507,7 +509,16 @@
 
             document.getElementById('btn_register').disabled = true;
             document.getElementById('text_edit_inbtn').innerHTML = "โปรดรอซักครู่"
-            $.postJSON(MAINURL + "/api-web/line/regis_symptoms/", initial_symptoms, (msg) =>
+
+            var call_url = MAINURL + "/api-web/line/regis_symptoms/";
+            if(ACTIVEPATIENT){  // ทำรายการแทนกัน
+              call_url  += ACTIVEPATIENT._id
+            }else{
+              call_url  += GLOBALUSER._id
+            }
+
+
+            $.postJSON(call_url, initial_symptoms, (msg) =>
             {
                 var responselinemsg =[{
                     type: "text",
