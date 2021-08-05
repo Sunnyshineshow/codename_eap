@@ -55,6 +55,7 @@
 <div>
   <div class="mbsc-align-center" style="margin-top:20px;margin-bottom:12px;">
     <p style="margin-top:3px;margin-bottom:8px;font-weight:400;"> ตารางนัดหมาย</p>
+      <p style="margin-top:3px;margin-bottom:8px;color:red;" id="other_patient_name" ></p>
   </div>
 </div>
 
@@ -74,7 +75,6 @@
       </td>
       <td style="text-align:center;">
         ##APPOINT-hospital.name##
-        </button>
       </td>
       <td style="text-align:center;color:#0b9fd5;">
         ##APPOINT-comment##
@@ -211,7 +211,7 @@
       if (!msg.location)
       {
         console.log("Location not available");
-        go2View("choose_location")
+        go2View("choose_location?id=" + patient_id)
       }
       else
       {
@@ -370,18 +370,7 @@
 
       for (let i = 0; i < msg.length; i++)
       {
-          let datetime = new Date(msg[i].appointtime * 1000)
-
-          let minuteStr = datetime.getMinutes();
-
-          if (minuteStr < 10)
-          {
-              minuteStr = "0" + (datetime.getMinutes()).toString();
-          }
-
-          msg[i].appointtime = datetime.getDate() + "/"
-          + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " "
-          + datetime.getHours() + ":" + minuteStr
+          msg[i].appointtime =  moment(msg[i].appointtime , "X").format("DD/MM/YYYY HH:mm") ;
 
           Object.assign(msg[i].hospital, {nameonly: msg[i].hospital.name})
 
