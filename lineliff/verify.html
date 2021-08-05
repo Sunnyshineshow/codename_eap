@@ -169,11 +169,11 @@
         //infection
         if(document.getElementById('infected_true').checked)
         {
-            covid = true;
+            go2View("register");
         }
         else if(document.getElementById('infected_false').checked)
         {
-            covid = false;
+            go2View("rejectservice");
         }
         else
         {
@@ -208,13 +208,13 @@
 
         //document&pic !NOT FINISH!
 
-        if(covid = true)
+        /*if(covid = true)
         {
             go2View("register");
         }
         else{
-            go2View("reject");
-        }
+            go2View("rejectservice");
+        }*/
 
         let payload =
         {
