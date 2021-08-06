@@ -7,8 +7,7 @@
       </div>
     </div>
   </div>
-  <div id="warn_select_patient"  style="display: none;"  class="mbsc-align-center mbsc-btn-group-justified">
-  
+  <div id="warn_select_patient"  style="display: none;"  class="mbsc-align-center mbsc-btn-group-justified">  
   
       <button  mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="check_otherpatient()"
         style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
@@ -16,22 +15,71 @@
           <div class="mbsc-grid">
             <div class="mbsc-row">
               <div class="mbsc-col-12">
-                <p style="padding:0px;margin:0px;" id="text_edit_inbtn" >หน้าสำหรับยกเลิกนัด กำลังทำอยู่ครับ</p>
+                <p style="padding:0px;margin:0px;" id="text_edit_inbtn" >หน้าสำหรับยกเลิกนัด</p>
               </div>
             </div>
           </div>
         </div>
       </button>
-  <A></A>
-  </div>
-  
-  
+
+      <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
+        <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+          <div id="input_allergic" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">เหตุผมสำหรับการยกเลิกนัดหมาย</p>
+            <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;margin-top:5px;">
+              <div id="inputbox_allergic">
+                <label>
+                  <textarea id="Cancel_reason" type="text" name="allergic" rows="3" cols="266" class="mbsc-align-left" style="font-size: 13px;"></textarea>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="show_btn_save" class="mbsc-align-center mbsc-btn-group-justified">
+        <button id="btn_register" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="checkAndSubmit()"
+          style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
+          <div class="mbsc-form-grid">
+            <div class="mbsc-grid">
+              <div class="mbsc-row">
+                <div class="mbsc-col-12">
+                  <p style="padding:0px;margin:0px;" id="text_edit_inbtn">บันทึก</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div> 
+
+  </div>  
 </div>
   
-  <script>
-  
-  
-  
+<script>
+  var patient_id = getParameterByName('patient', window.location.search);
+  var appoint_id = getParameterByName('id', window.location.search); 
+
+  function checkAndSubmit()
+  {
+    if(!Cancel_reason)
+    {
+      alert("กรุณากรอกเหตุผลด้วยครับ")
+    }
+
+    console.log(GLOBALUSER)
+    var payload =
+    {      
+      editor: GLOBALUSER.id,      
+      vehicle : "Cancel",
+      reason: $("#Cancel_reason").val()      
+    }
+
+    $.postJSON(MAINURL + '/api-web/line/report_symptoms/load/',payload,(msg)=>{
+
+
+
+    })
+  }    
     
-  </script>
+</script>
   
