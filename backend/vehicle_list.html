@@ -1,0 +1,341 @@
+<div class="main_page mb-5" style="margin-top:120px;">
+    <div class="p-2 mr-5 ml-5">
+      <div class="container">
+        
+        <h3 class="p-0 m-0 mb-3"><b>Vehicle List</b></h3>
+        <br>
+        <button id="car_add" type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="OpenSearchBox('Register_car')"><i class="fas fa-car"></i> ลงทะเบียนรถรับส่ง</button>
+
+        <div id="Register_car" style="display: none;">
+        <br>
+        <h3 style="color: #0d6efd;"><b>ลงทะเบียนรถรับส่ง</b></h3>
+        <br>
+        <div class="card bg-light">
+            <div class="card-body">
+            <div id="hospital_information">
+
+                <p class="p-0 m-0"><strong>เชื่อมบัญชีผู้ขับ</strong>  <br>              
+                <select class="form-select" aria-label="Staff Select" id="staff_list" style="display: none;">
+                    <option value="##staff-id##">##staff-displayName##</option>
+                </select>
+                <select class="form-select" aria-label="Staff" id="staff_list_showing">
+                </select>
+                </p> 
+
+                <p class="p-0 m-0"><strong>ชื่อ-นามสกุล:</strong> 
+                <input class="form-control" id="Driver_Fullname" type="text" placeholder="*ใช้สำหรับเกิดเหตุร้องเรียน" maxlength="20" style="font-size: 13px;" size="20"/>
+                </p>
+
+                <p class="p-0 m-0"><strong>เบอร์ติดต่อนัดหมาย:</strong> 
+                <input class="form-control" id="Driver_tel" type="text" placeholder="หมายเลขโทรศัพท์" 
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" size="20"/>
+                </p>
+
+                <p class="p-0 m-0"><strong>เลขทะเบียนรถยนต์:</strong>                     
+                <input class="form-control"  id="Driver_carnum" type="text" placeholder="เลขทะเบียนรถยนต์" maxlength="15" style="font-size: 13px;" size="20"/>
+                </p> 
+
+                <p class="p-0 m-0"><strong>ประเภทรถยนต์</strong>  <br>              
+                <select class="form-select" aria-label="Staff Select" id="Vehicle_type">
+                    <option value="1">Ambulance Taxi (6 ที่นั่ง)</option>
+                    <option value="2">Van (5 ที่นั่ง)</option>
+                    <option value="3">Van (10 ที่นั่ง)</option>
+                    <option value="4">สองแถว ( 12 ที่นั่ง)</option>
+                </select>                          
+                </p>                     
+
+                <br>
+                <input type="submit" class="btn btn-primary" onclick="SendData()">
+            
+            </div>
+            </div>
+        </div>
+        </div> 
+  
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div> 
+        
+
+        <h3 class="p-0 m-0 mb-3"><b>Search Bar</b></h3>
+        
+        <div class="row mb-1 d-flex justify-content-start">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form class="form-row" onsubmit="return pre_search();">
+              <div class="row d-flex justify-content-center ">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="search_idno" placeholder="ID">
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                    <input type="text" class="form-control" id="search_carnumber" placeholder="ทะเบียนรถ">
+                  </div>
+                
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary border-0">
+                      <i class="fas fa-search"></i>
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+  
+        <!-- add patients -->
+        <br>       
+  
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+  
+        <!-- แบ่งหน้า -->
+        <div class="row mt-4">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="pagination_bar pb-3"></div>
+          </div>
+        </div>
+        <!-- // แบ่งหน้า -->
+  
+        <div class="table-responsive mt-2">
+          <table class="table table-bordered table-hover show_startpage font-weight-light" >
+            <thead class="text-center">
+              <tr>
+                <th scope="col" class="text-secondary">Profile</th>
+                <th scope="col" class="text-secondary">ID</th>
+                <th scope="col" class="text-secondary">Display Name</th>
+                <th scope="col" class="text-secondary">Tel</th>
+                <th scope="col" class="text-secondary">Car Number</th>
+                <th scope="col" class="text-secondary">Car type</th>
+                <th scope="col" class="text-secondary"> Max Capacity</th>
+              </tr>
+            </thead>
+            <tbody id="row_patientlist" style="display:none;">
+              <tr>
+                <td class="text-center table-middle">
+                  <img src="##vehicle-Picture##" style="max-width:50px;" class="rounded-circle">
+                </td>
+                <td class="text-center table-middle"># ##vehicle-id##</td>
+                <td class="text-center table-middle">##vehicle-Fullname##</td>                                   
+                <td class="text-center table-middle">##vehicle-Tel##</td>
+                <td class="text-center table-middle">##vehicle-CarNumber##</td>
+                <td class="text-center table-middle">##vehicle-car_type##</td>
+                <td class="text-center table-middle">##vehicle-maxcapacity##</td>                          
+              </tr>
+            </tbody>
+            <tbody id="show_patientlist">
+              <tr>
+  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- // end table -->      
+  
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var template_patient_row = $('#row_patientlist').html();
+    var searchobj = {};
+    var fncsearch;
+    // var global_color;
+
+    $(document).ready(() =>
+    {        
+        $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
+        staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
+        $("#staff_list_showing").html(staff_name);
+        })    
+    })
+  
+    function pre_search(){
+      // clear search url from lastsearch
+  
+      refreshpage(undefined,true);
+      return false;
+    }
+    function refreshpage(rawdata,clearsearch) {
+      console.log("GLOBAL_USER",GLOBAL_USER)
+  
+      var search_setting = {
+        posturl: '/api-backend/admin/vehicledata_list',
+        paginationDIV: $('.pagination_bar'),
+        pagesize: 10,
+        showfunction: show_patient_list,
+        limit: 20,
+        search: {}
+      }
+      
+      if ($('#search_name').val() !== "") {
+        Object.assign(search_setting.search,{findname: $('#search_name').val()})
+      }
+  
+      if ($('#search_idno').val() !== "") {
+        Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
+      }  
+  
+      if ($('#search_tel').val() !== "") {
+        Object.assign(search_setting.search,{find_tel: $('#search_tel').val()})
+      }
+
+      if ($('#search_carnumber').val() !== "") {
+        Object.assign(search_setting.search,{find_carnumber: $('#search_carnumber').val()})
+      }
+  
+      
+      //console.log("Searching..",search_setting)
+     
+  
+      //console.log(search_setting.search)
+  
+      var pagenumber = getParameterByName('page', window.location.search);
+      if (pagenumber > 1) {
+        search_setting.page = pagenumber;
+      }
+      // console.log('SEARCH ', search_setting);
+      fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+      return false;
+    }
+  
+    function show_patient_list(objdata, totalrecord) {
+      // console.log('objdata', objdata);
+      if (objdata.result && totalrecord > 0) {
+        working.patient = objdata.obj;
+
+        console.log("Object Income here!")
+        console.log(objdata.obj)                 
+  
+        var html_row = hash_replace(template_patient_row, 'vehicle', objdata.obj)
+        $("#show_patientlist").html(html_row);
+        // $('.show_startpage').show('slow');
+  
+      } else {
+        $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+      }
+    }
+  
+    function view_symptom(patient_id) {
+  
+      go2View("patient?id=" + patient_id)
+  
+    }
+  
+    function appointment(patient_id) {
+  
+      go2View("appoint_patient?id=" + patient_id)
+  
+    }
+  
+    function settingpatient(dataid) {
+      working.active_patientid = dataid;
+      go2View('patient-edit');
+    }
+  
+    function AddDataPatient(){
+      go2View('patient_form');
+    }
+  
+    function date_diff(date1) {
+      let dateOnly = new Date()
+      console.log(dateOnly)
+  
+      let date2 = Date.parse(new Date(dateOnly.getFullYear(), dateOnly.getMonth(), dateOnly.getDate()))
+      console.log(new Date(date2))
+  
+      return parseInt((date2 - date1) / 86400000)
+    }
+
+    function SendData()
+    { 
+        if(!($("#Driver_Fullname").val()))
+        {
+            alert("กรุณากรอกชื่อคนขับด้วยครับ")
+        }
+        if(!($("#Driver_tel").val()))
+        {
+            alert("กรุณากรอกเบอร์ติดต่อด้วยครับ")
+        }
+        if(!($("#Driver_carnum").val()))
+        {
+            alert("กรุณากรอกทะเบียนด้วยครับ")
+        }
+        if(!($("#Vehicle_type").val()))
+        {
+            alert("กรุณากรอกประเภทรถโดยสารด้วยครับ")
+        }
+        var Maxcapacity = 0
+        var Car_type = ""
+        /*
+        <option value="1">Ambulance Taxi (6 ที่นั่ง)</option>
+        <option value="2">Van (5 ที่นั่ง)</option>
+        <option value="3">Van (9-10 ที่นั่ง)</option>
+        <option value="4">สองแถว ( 12 ที่นั่ง)</option>
+        */ 
+        
+        switch(parseInt(document.getElementById('Vehicle_type').value))
+        {
+            case 1: Maxcapacity = 6 ; Car_type = "Ambulance Taxi" ;break;
+            case 2: Maxcapacity = 5 ; Car_type = "Van_5seat" ;break;
+            case 3: Maxcapacity = 10 ; Car_type = "Van_10seat" ;break;
+            case 4: Maxcapacity = 12 ; Car_type = "สองแถว" ;break;
+        }
+
+        console.log("TestnewData")
+        console.log(Maxcapacity)
+        console.log(Car_type)
+        console.log($("#Vehicle_type").val())
+        console.log(parseInt(document.getElementById('Vehicle_type').value))
+        if($("#Driver_Fullname").val()|| $("#Driver_tel").val() || $("#Driver_carnum").val() || $("#Vehicle_type").val())
+        {
+            let staff = parseInt(document.getElementById('staff_list_showing').value);
+            let Fullname = $("#Driver_Fullname").val() 
+            let payload = {
+                Fullname: Fullname,
+                Tel: $("#Driver_tel").val(),
+                CarNumber: $("#Driver_carnum").val(),
+                staff: staff,
+                car_type: Car_type,
+                maxcapacity: Maxcapacity       
+            }
+            console.log(payload)
+            console.log(Fullname)
+            console.log($("#Driver_name").val())
+            console.log($("#Driver_surname").val())
+            console.log($("#Driver_tel").val())
+            console.log($("#Driver_carnum").val())
+            console.log(GLOBAL_USER.UserID)
+
+            
+            $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
+            {
+            alert("Send data Complete!")
+            })
+            
+        }             
+    }
+
+    function OpenSearchBox(id)
+    {
+        if (document.getElementById(id).style.display == "none")
+        {
+            document.getElementById(id).style.display = "block"
+        }
+        else
+        {
+            document.getElementById(id).style.display = "none"
+        }
+            
+    }   
+  
+  
+</script>
+  
