@@ -9,7 +9,7 @@
 
     <div mbsc-form>
         <div class="mbsc-align-center" style="margin-top:20px;">
-            <p id="terms_and_conditions" style="margin-top:3px;margin-bottom:8px;" >Terms and Conditions</p>
+            <p id="terms_and_conditions" style="margin-top:3px;margin-bottom:8px;" >Terms and Conditions (ลงทะเบียนแทน)</p>
             <p style="margin-top:3px;margin-bottom:8px;color:red;" id="other_patient_name" ></p>
         </div>
 
@@ -233,7 +233,8 @@
         let payload =
         {
             certdate: certdate,
-            priority: priority
+            priority: priority,
+            register4other: true
         }
 
         console.log(payload)
@@ -242,7 +243,7 @@
               //refresh image tap
               if (res.code == 200)
               {              
-                go2View("register");
+                go2View("register4other?id=" + res.patient);
               }
               else if (res.code == 403)
               {

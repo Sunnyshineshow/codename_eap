@@ -580,6 +580,7 @@
           return alert_modal("โปรดอนุญาตให้มีการเก็บข้อมูลตำแหน่งที่อยู่")
       }
 
+      var patientid = getParameterByName('id', window.location.search);
             //Submission
             let payload =
             {
@@ -618,7 +619,7 @@
               allergic:allergic,
               location:geo_location,
               verify: false,
-              register4other:true
+              register4other: parseInt(patientid)
 
             }
 

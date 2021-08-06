@@ -343,12 +343,13 @@ function get_geolocation()  {
           console.log("Other : ",name)
           select_patient_modal(name,(select_id)=>{
             ACTIVEPATIENT = name[select_id]
-              if(ACTIVEPATIENT.status == 1 ){  // Not Reigster
-                  return go2View("register4other");
+              if(ACTIVEPATIENT.status != 2 ){  // Not yet register
+                  alert_modal("ผู้ป่วยลงทะเบียนไม่เสร็จ / ไม่สมบูรณ์")
+                  return go2View("check_register");
               }
-              if(ACTIVEPATIENT.status == 3 ){  // Not finish
-                return go2View("initsymptoms");
-              }
+              // if(ACTIVEPATIENT.status == 3 ){  // Not finish
+              //   return go2View("initsymptoms");
+              // }
               $('#warn_select_patient').hide();
 
               $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)

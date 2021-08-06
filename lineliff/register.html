@@ -398,24 +398,26 @@
 
       function refreshpage() {
           //console.log("GLOBALUSER",GLOBALUSER)
-          if(GLOBALUSER.status ==1){
             $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
               console.log("Load image cached")
             });
 
             $('#main_form_register').show();
-          }
-          else if (GLOBALUSER.status == 3)
-          {
-            go2View('initsymptoms');
-          }
-          else
-          {
-            $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
-              console.log("Load image cached")
-            });
-            go2View("alreadyregister")
-          }
+          // else if (GLOBALUSER.status == 3)
+          // {
+          //   go2View('initsymptoms');
+          // }
+          // else if (GLOBALUSER.status == 1)
+          // {
+          //   go2View('verify');
+          // }
+          // else
+          // {
+          //   $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
+          //     console.log("Load image cached")
+          //   });
+          //   go2View("alreadyregister")
+          // }
       }
 
     function checkAndSubmit()
@@ -617,7 +619,6 @@
               },
               allergic:allergic,
               location:geo_location,
-              verify: false
             }
 
             console.log("POST DATA",payload)

@@ -19,7 +19,7 @@
       </div>
       <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
         <div  class="mbsc-align-center mbsc-btn-group-justified">
-          <button  mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="go2View('register4other')"
+          <button  mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="go2View('verify4other')"
             style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
             <div class="mbsc-form-grid">
               <div class="mbsc-grid">
@@ -47,6 +47,11 @@
       {
         alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน")
         go2View("initsymptoms")
+        return;
+      }
+      else if (GLOBALUSER.status == 4)
+      {
+        go2View("register")
         return;
       }
 
