@@ -62,39 +62,37 @@
 
     $(document).ready(() =>
     {
+      // if (liff.getOS() != "android")
+      //     {
+      //       console.log("OS not support: " + liff.getOS())
+      //       document.getElementById('not_support_showing').style.display = "block"
+
+      //       return;
+      //     }
         console.log(GLOBALUSER,"GLOBALUSER.role")
         if(!Array.isArray(GLOBALUSER.role)){
           console.log("Access Denied");
           document.getElementById('none_order').style.display = "block"
           return;
         }
-        if(GLOBALUSER.role.indexOf("DEVELOPER") == -1 && GLOBALUSER.role.indexOf("XRAY") == -1 && GLOBALUSER.role.indexOf("DRIVER") == -1){  // found DEVELOPER
-          if (!liff.scanCode) {
-            document.getElementById('not_support_showing').style.display = "block"
-            return;
-          }
-
-          // if (liff.getOS() == "android")
-          // {
-          //     console.log("OS Supported")
-          //     $("#ui_showing").html($("#ui").html())
-          // }
-          // else
-          // {
-          //     console.log("OS not support: " + liff.getOS())
-          //     document.getElementById('not_support_showing').style.display = "block"
+        if(GLOBALUSER.role.indexOf("SUPERADMIN") == -1 && GLOBALUSER.role.indexOf("SITEADMIN") == -1 && GLOBALUSER.role.indexOf("DEVELOPER") == -1 && GLOBALUSER.role.indexOf("XRAY") == -1 && GLOBALUSER.role.indexOf("VOLUNTEER") == -1 && GLOBALUSER.role.indexOf("DRIVER") == -1){  // found DEVELOPER
+          
+          // if (!liff.scanCode) {
+          //   alert("Liff Scancode Not Supported")
+          //   document.getElementById('not_support').style.display = "block"
+          //   return;
           // }
 
         console.log("Access Denied");
         document.getElementById('none_order').style.display = "block"
         return;
     }
-          if (GLOBALUSER.role.indexOf("DEVELOPER") !== -1)
+          if (GLOBALUSER.role.indexOf("DEVELOPER") !== -1 || GLOBALUSER.role.indexOf("SUPERADMIN") !== -1 || GLOBALUSER.role.indexOf("SITEADMIN") !== -1)
           {
             $("#ui_showing").html($("#ui").html())
           }
 
-          else if (GLOBALUSER.role.indexOf("XRAY") !== -1)
+          else if (GLOBALUSER.role.indexOf("XRAY") !== -1 || GLOBALUSER.role.indexOf("VOLUNTEER") == -1)
           {
             go2View("staff_xray")
           }
