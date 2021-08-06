@@ -279,7 +279,7 @@
             <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
               <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
                 <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
-                  <input id="xray_pneumonia_true" name = "xray_pneumonia" mbsc-checkbox type="radio" onchange="checkToDisable()">
+                  <input id="xray_pneumonia_true" name = "xray_pneumonia" mbsc-checkbox type="radio" onchange="xray_checkToDisabled()">
                 </div>
                 <div class="mbsc-col-9">
                   <label for="xray_pneumonia_true"><span style="font-size:14px;font-weight:400;"> เคย</span></label>
@@ -287,7 +287,7 @@
               </div>
               <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
                 <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
-                  <input id="xray_pneumonia_false" name = "xray_pneumonia" mbsc-checkbox type="radio" onchange="checkToDisable()">
+                  <input id="xray_pneumonia_false" name = "xray_pneumonia" mbsc-checkbox type="radio" onchange="xray_checkToDisabled()">
                 </div>
                 <div class="mbsc-col-9">
                   <label for="xray_pneumonia_false"><span style="font-size:14px;font-weight:400;"> ไม่เคย</span></label>
@@ -302,6 +302,43 @@
             <div style="border-radius:0px !important;padding:0px;margin-top:10px;">
              <!-- <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>  -->
              <input class="mbsc-align-left" mbsc-input data-input-style="box" id="xraydate" type="text" name="xraydate" placeholder="" value="" style="font-size: 13px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div mbsc-card style="margin-top:0px;margin-bottom:0px;border-radius:0px;">
+        <div id="title_more_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:12px;margin-bottom:12px;">
+          <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">ท่านเคยได้รับยาต้านไวรัสมาก่อนหรือไม่ <span style="color:red"> *</span></p>
+        </div>
+        <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
+          <div style="padding:0px;margin:0px;">
+            <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
+              <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                  <input id="virusmed_true" name = "virusmed" mbsc-checkbox type="radio" onchange="virusmed_checkToDisabled()">
+                </div>
+                <div class="mbsc-col-9">
+                  <label for="virusmed_true"><span style="font-size:14px;font-weight:400;"> เคย</span></label>
+                </div>
+              </div>
+              <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+                <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                  <input id="virusmed_false" name = "virusmed" mbsc-checkbox type="radio" onchange="virusmed_checkToDisabled()">
+                </div>
+                <div class="mbsc-col-9">
+                  <label for="virusmed_false"><span style="font-size:14px;font-weight:400;"> ไม่เคย</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="virusmed_box" class="mbsc-row" style="display: none;padding:0px;margin:0px;margin-top:5px">
+          <div class="mbsc-col-12" style="padding:0px;margin:0px;">
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:12px;">ท่านทานยามาแล้วกี่วัน <span style="color:red"> *</span></p>
+            <div style="border-radius:0px !important;padding:0px;margin-top:10px;">
+             <!-- <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" style="font-size: 13px;" value="" readonly></label>  -->
+             <input class="mbsc-align-left" mbsc-input data-input-style="box" id="virusmed_amount" type="number" name="virusmed_amount" placeholder="" value="" style="font-size: 13px;" />
             </div>
           </div>
         </div>
@@ -370,6 +407,7 @@
         touchUi: false,
         max: new Date(new Date().setDate(new Date().getDate())),
       })
+
       $('#xraydate').mobiscroll().calendar({
         dateFormat: 'dd/mm/yyyy',
         display: 'center',
@@ -446,6 +484,8 @@
         let exercise_test = $("#X2O_input").val();
         let pneumonia_check;
         let comment = $("#comment").val()
+        let xraydate = -1;
+        let virusmed = -1;
 
         //Disease
         let keys = Object.keys(diseaseDict);
@@ -559,6 +599,34 @@
           return alert_modal("กรุณาระบุว่าเคยได้รับการเอกซเรย์ปอดมาแล้วได้รับแจ้งว่ามีอาการปอดอักเสบหรือไม่")
         }
 
+        if (document.getElementById('xray_pneumonia_true').checked && !$("#xraydate").val())
+            {
+              return alert_modal("กรุญาระบุวันที่ได้รับการ X-ray")
+            }
+            else if (document.getElementById('xray_pneumonia_true').checked && $("#xraydate").val())
+            {
+              let date = $("#xraydate").val().split("/")
+              xraydate = Math.floor(new Date(parseInt(date[2]),(parseInt(date[1]) - 1),parseInt(date[0])) / 1000)
+            }
+            else if (!(document.getElementById('xray_pneumonia_false').checked) && !(document.getElementById('xray_pneumonia_true').checked))
+            {
+              return alert_modal("กรุณาระบุการได้รับ X-ray")
+            }
+
+        
+            if (document.getElementById('virusmed_true').checked && !$("#virusmed_amount").val())
+            {
+              return alert_modal("กรุญาระบุจำนวนวันที่ได้รับยาต้านไว้รัส")
+            }
+            else if (document.getElementById('virusmed_true').checked && $("#virusmed_amount").val())
+            {
+              virusmed = $("#virusmed_amount").val()
+            }
+            else if (!(document.getElementById('virusmed_true').checked) && !(document.getElementById('virusmed_false').checked))
+            {
+              return alert_modal("กรุญาระบุการได้รับยาต้านไวรัส")
+            }
+
         //checkdate
         if (!$("#checkdate").val())
         {
@@ -567,8 +635,6 @@
 
         let date = $("#checkdate").val().split("/")
         let checkdate = Math.floor(new Date(parseInt(date[2]),parseInt(date[1]) - 1,parseInt(date[0])) / 1000)
-        let xdate = $("#xraydate").val().split("/")
-        let xraydate = Math.floor(new Date(parseInt(date[2]),parseInt(date[1]) - 1,parseInt(date[0])) / 1000)
 
         console.log(checkdate)
 
@@ -580,8 +646,8 @@
               spo_room_air: spo_room_air,
               exercise_test: exercise_test,
               pneumonia_check: pneumonia_check,
-              xray_pneumonia_check: xray_pneumonia_check,
               checkdate: checkdate,
+              virusmed: virusmed,
               xraydate: xraydate,
               comment: comment
             }
@@ -637,4 +703,27 @@
       }
     }
 
+    function xray_checkToDisabled()
+        {
+          if (document.getElementById('xray_pneumonia_true').checked)
+          {
+            document.getElementById('xray_checkdate').style.display = "block"
+          }
+          else
+          {
+            document.getElementById('xray_checkdate').style.display = "none"
+          }
+        }
+
+        function virusmed_checkToDisabled()
+        {
+          if (document.getElementById('virusmed_true').checked)
+          {
+            document.getElementById('virusmed_box').style.display = "block"
+          }
+          else
+          {
+            document.getElementById('virusmed_box').style.display = "none"
+          }
+        }
   </script>
