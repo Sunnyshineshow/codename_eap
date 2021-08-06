@@ -1,0 +1,182 @@
+<style>
+
+.md-timeline-template .mbsc-schedule-event.mbsc-ltr {
+    height: auto !important;
+}
+
+.md-timeline-template-event {
+    border: 1px solid transparent;
+    margin: 2px 0;
+}
+
+.md-timeline-template-event-cont {
+    background: rgba(255, 255, 255, .8);
+    font-size: 15px;
+    height: 32px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.md-timeline-template-event-cont .mbsc-icon {
+    padding: 5px;
+    box-sizing: content-box;
+}
+
+.mbsc-timeline-event-start .md-timeline-template-event,
+.mbsc-timeline-event-start .md-timeline-template-event-cont,
+.mbsc-timeline-event-start .md-timeline-template-event-cont .mbsc-icon {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.mbsc-timeline-event-end .md-timeline-template-event,
+.mbsc-timeline-event-end .md-timeline-template-event-cont,
+.mbsc-timeline-event-end .md-timeline-template-event-cont .mbsc-icon {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.md-timeline-template-event-cont .mbsc-icon:before {
+    color: #fff;
+    font-size: 18px;
+}
+
+.md-timeline-template-time {
+    margin: 0 10px;
+}
+
+.md-timeline-template-title {
+    color: #666;
+}
+
+.md-timeline-template .mbsc-timeline-column,
+.md-timeline-template .mbsc-timeline-header-column {
+    min-width: 100px;
+}
+
+.md-timeline-template .mbsc-timeline-resource,
+.md-timeline-template .mbsc-timeline-row {
+    min-height: 100px;
+}
+  </style>
+<div class="main_page mb-12" style="margin-top:100px;">
+
+        <div class="container">
+            <h4 class="p-0 m-0 mb-3"><b>ตารางงานเดินรถ</b></h4>
+            <div id="car-working" style="height:100%;"></div>
+        </div>
+
+</div>
+
+<script>
+
+
+  function pre_search(){
+    // clear search url from lastsearch
+
+    refreshpage(undefined,true);
+    return false;
+  }
+
+  function  refreshpage(rawdata,clearsearch) {
+
+    console.log("GLOBAL_USER",GLOBAL_USER)
+        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1)){
+          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+        }
+        mobiscroll.setOptions({
+        locale: mobiscroll.localeTh,
+        theme: 'ios',
+        themeVariant: 'light',
+        clickToCreate: true,
+        dragToCreate: true,
+        dragToMove: true,
+        dragToResize: true
+    });
+
+    $(function () {
+        $('#car-working').mobiscroll().eventcalendar({
+            view: {
+                timeline: {
+                    type: 'day'
+                }
+            },
+            renderScheduleEvent: function (data) {
+                var ev = data.original;
+                var color = data.color;
+
+                return '<div class="md-timeline-template-event" style="border-color:' + color + ';background:' + color + '">' +
+                    '<div class="md-timeline-template-event-cont">' +
+                    '<span class="mbsc-icon mbsc-font-icon mbsc-icon-' + ev.taskType + '" style="background:' + color + '"></span>' +
+                    '<span class="md-timeline-template-time" style="color:' + color + ';">' + data.start + '</span>' +
+                    '<span class="md-timeline-template-title">' + ev.title + '</span></div></div>';
+            },
+            extendDefaultEvent: function () {
+                return {
+                    taskType: 'cogs'
+                };
+            },
+            data: [{
+                start: '2021-08-06T10:30',
+                end: '2021-08-06T13:00',
+                title: 'Tire change',
+                color: '#7a5886',
+                taskType: 'material-repeat',
+                resource: 1
+            }, {
+                start: '2021-08-06T07:00',
+                end: '2021-08-06T10:00',
+                title: 'Brake maintenance',
+                color: '#9da721',
+                taskType: 'cogs',
+                resource: 2
+            }, {
+                start: '2021-08-06T13:30',
+                end: '2021-08-06T16:30',
+                title: 'Fluid maintenance',
+                color: '#cd6957',
+                taskType: 'cogs',
+                resource: 1
+            }, {
+                start: '2021-08-06T11:00',
+                end: '2021-08-06T14:00',
+                title: 'Oil change',
+                color: '#637e57',
+                taskType: 'material-repeat',
+                resource: 3
+            }, {
+                start: '2021-08-06T08:00',
+                end: '2021-08-06T12:00',
+                title: 'Engine inspection',
+                color: '#6c5d45',
+                taskType: 'material-search',
+                resource: 3
+            }, {
+                start: '2021-08-06T14:00',
+                end: '2021-08-06T19:00',
+                title: 'Car painting',
+                color: '#50789d',
+                taskType: 'material-format-paint',
+                resource: 2
+            }],
+            resources: [{
+                id: 1,
+                name: 'Ryan',
+                color: '#239a21'
+            }, {
+                id: 2,
+                name: 'Kate',
+                color: '#01adff'
+            }, {
+                id: 3,
+                name: 'John',
+                color: '#ff0101'
+            }]
+        });
+    });
+    return false;
+  }
+
+
+</script>
