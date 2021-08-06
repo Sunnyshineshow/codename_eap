@@ -197,7 +197,7 @@
           </div>
           <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
             <div mbsc-form class="mbsc-col-2 mbsc-checkbox-success" style="padding-left:0px;margin:0px;background-color:transparent;">
-              <input id="spO2_unknown" mbsc-checkbox type="checkbox" onclick="checkToDisable()">
+              <input id="spO2_unknown" mbsc-checkbox type="checkbox" onchange="checkToDisable()">
             </div>
             <div class="mbsc-col-9">
               <label for="spO2_unknown"><span style="font-size:14px;font-weight:400;"> ไม่ทราบค่า</span></label>
@@ -230,7 +230,7 @@
           </div>
           <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
             <div mbsc-form class="mbsc-col-2 mbsc-checkbox-success" style="padding-left:0px;margin:0px;background-color:transparent;">
-              <input id="X2O_unknown" mbsc-checkbox type="checkbox" onclick="checkToDisable()">
+              <input id="X2O_unknown" mbsc-checkbox type="checkbox" onchange="checkToDisable()">
             </div>
             <div class="mbsc-col-9">
               <label for="X2O_unknown"><span style="font-size:14px;font-weight:400;"> ไม่ทราบค่า</span></label>
@@ -461,17 +461,6 @@
         {
           document.getElementById('X2O_input').disabled = false;
           document.getElementById("X2O_input").style.display = "block";
-        }
-
-        if(document.getElementById('xray_pneumonia_true').checked)
-        {
-          document.getElementById('xray_checkdate').disabled = false;
-          document.getElementById("xray_checkdate").style.display = "block";
-        }
-        else
-        {
-          document.getElementById('X2O_input').disabled = true;
-          document.getElementById("X2O_input").style.display = "none";
         }
     }
 
