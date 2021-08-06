@@ -27,7 +27,9 @@
                 <input id="medicine" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
               </div>
               <div class="mbsc-col-9">
-                <span style="font-size:14px;font-weight:400;">จ่ายยา</span>
+                <label for="medicine" >
+                <span style="font-size:14px;font-weight:400;">จ่ายยา ให้ผู้ป่วย</span>
+                </label>
               </div>
             </div>
             <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
@@ -35,7 +37,9 @@
                 <input id="xray" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
               </div>
               <div class="mbsc-col-9">
-                <span style="font-size:14px;font-weight:400;"> X-Ray</span>
+                <label for="xray" >
+                <span style="font-size:14px;font-weight:400;">รับคิวผู้ป่วยเข้า X-Ray</span>
+                </label>
               </div>
             </div>
           </div>
@@ -48,39 +52,32 @@
       </div>
 
       <div id="show_on_med_check" style="display: none;">
-        <div id="input_affiliation" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">หน่วยงาน<span style="color:red"> *</span></p>
-          <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
-            <div id="inputbox_firstname">
-              <label>
-                <input class="mbsc-align-left" mbsc-input id="affiliation" type="text" name="affiliation" placeholder="" value="" style="font-size: 13px;" />
-              </label>
-            </div>
-          </div>
-        </div>
+        <div class="mbsc-row">
+          <div class="mbsc-col-sm-12 mbsc-col-md-6">
+           <label>
+               ยาฟาวิพิราเวียร์
+               <select mbsc-dropdown id="medic_favipilavia" data-input-style="box">
+                  <option value="0" disabled selected>กรุณาเลือก </option>
+                   <option value="60">60 เม็ดสำรับผู้มีน้ำหนัก น้อยกว่า 90 กก</option>
+                   <option value="64">64 เม็ดสำรับผู้มีน้ำหนัก มากกว่า 90 กก</option>
+               </select>
+           </label>
+         </div>
+       </div>
+       <div class="mbsc-row">
+         <div class="mbsc-col-sm-12 mbsc-col-md-6">
 
-        <div id="input_amount" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">จำนวน<span style="color:red"> *</span></p>
-          <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
-            <div id="inputbox_firstname">
-              <label>
-                <input class="mbsc-align-left" mbsc-input id="amount" type="number" name="amount" placeholder="" value="" style="font-size: 13px;" />
-              </label>
-            </div>
-          </div>
-        </div>
+           <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ยาอื่นๆ หากมี <span style="color:red"> *</span></p>
+           <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+             <div >
+               <label>
+                 <input class="mbsc-align-left" mbsc-input id="medic_other" type="text" name="medic_other" placeholder="กรุณาระบุ ชื่อ และขนาดการให้ยา " value="" style="font-size: 13px;" />
+               </label>
+             </div>
 
-        <div id="input_lotno" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-          <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">Lot No.<span style="color:red"> *</span></p>
-          <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
-            <div id="inputbox_firstname">
-              <label>
-                <input class="mbsc-align-left" mbsc-input id="lot_no" type="text" name="lot_no" placeholder="" value="" style="font-size: 13px;" />
-              </label>
-            </div>
-          </div>
+         </div>
+         </div>
         </div>
-        
       </div>
 
       <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
@@ -89,9 +86,9 @@
             <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">รายละเอียดเพิ่มเติม</p>
             <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;margin-top:5px;">
               <div id="inputbox_comment">
-                <label>
-                  <textarea id="comment" type="text" name="comment" rows="3" cols="266" class="mbsc-align-left" style="font-size: 13px;"></textarea>
-                </label>
+
+                  <textarea id="comment" type="text" mbsc-input  name="comment" rows="3" cols="266" class="mbsc-align-left" style="font-size: 13px;"></textarea>
+
               </div>
             </div>
           </div>
@@ -102,7 +99,7 @@
       <div class="mbsc-align-center">
         <p><strong id="waiting"></strong></p>
       </div>
-      
+
       <div class="mbsc-form-group">
             <div class="mbsc-btn-group-justified">
                 <button mbsc-button class="mbsc-btn-success" id = "confirm" onclick="optionConfirmed()">ยืนยัน</button>
@@ -123,9 +120,15 @@
 
     $(document).ready(() =>
     {
+      $('#demo-mobile').mobiscroll().select({
+          display: 'bubble'
+      });
+
+
+
       navigator.geolocation.getCurrentPosition((position) =>
       {
-        geo_location = 
+        geo_location =
         {
           type: "Point",
           coordinates: [position.coords.longitude ,position.coords.latitude]
@@ -140,24 +143,15 @@
 
         if (document.getElementById('medicine').checked)
         {
-          if (!$("#affiliation").val())
+          if (!$("#medic_favipilavia").val())
           {
             return alert("กรุณากรอกหน่วยงาน")
           }
 
-          if (!$("#amount").val())
-          {
-            return alert("กรุณากรอกจำนวน")
-          }
-
-          if (!$("#lot_no").val())
-          {
-            return alert("กรุณากรอก Lot No.")
-          }
 
 
             option = "MEDICINE"
-            payload = 
+            payload =
             {
                 _id : appoint_id,
                 patient: patient_id,
@@ -167,16 +161,15 @@
                     location: geo_location
                     },
                 medicine: {
-                  aff_custom: $("#affiliation").val(),
-                  amount: parseInt($("#amount").val()),
-                  lot_no: $("#lot_no").val()
+                  medic_favipilavia: $("#medic_favipilavia").val(),
+                  medic_other:  $("#medic_other").val() | ""
                 }
             }
         }
         else if (document.getElementById('xray').checked)
         {
             option = "XRAY"
-            payload = 
+            payload =
             {
                 _id : appoint_id,
                 patient: patient_id,
@@ -193,8 +186,8 @@
         }
 
         //Edit here
-        
-        
+
+
 
         console.log(payload)
         console.log(MAINURL)
