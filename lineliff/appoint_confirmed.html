@@ -1,9 +1,10 @@
 <script>
     var appointmentid = getParameterByName('id', window.location.search);
-    $.postJSON(MAINURL + "", {_id: appointmentid}, (msg)=>
+    $.postJSON(MAINURL + "/api-web/line/appoint_confirmed/", {_id: parseInt(appointmentid)}, (msg)=>
     {
         if (msg.code == 200)
         {
+            console.log("Line 7 Debug")
             return alert_modal("ยืนยันนัดเรียบร้อยแล้ว")
         }
         else
