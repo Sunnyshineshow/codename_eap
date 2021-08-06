@@ -299,10 +299,10 @@
         var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
   
         objdata.obj.map(item => {
-          // console.log(item)
-          item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY') : "";
+          console.log(item)
+          item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
           item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>`: item.status = ITEMSTATUS[item.status];
-          typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : item.patient;
+          (typeof(item.patient) == "number" || !item.patient) ? item.patient = {displayName : "-- INACTIVE USER --"} : item.patient;
 
         })
 
