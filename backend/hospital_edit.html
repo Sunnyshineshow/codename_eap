@@ -193,7 +193,7 @@
     var TimeStartSpliter =  $('#Startime').val().split(":")
     var TimeEndSpliter =  $('#Endtime').val().split(":")
     var multiple_day = $("#multiple_day").val()
-    var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
+    var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()-1))
 
     console.log(DateSpliter)
     console.log(TimeStartSpliter)
@@ -246,7 +246,7 @@
       return alert("ไม่สามารถกรอกที่เวลานัดที่น้อยขนาดนั้นได้")
     }
 
-    if(Number(multiple_day) > 1)
+    if(Number(multiple_day) < 1)
     {
       return alert("ไม่สามารถกรอกที่จำนวนการนัดที่ต่ำกว่า 1 ได้")
     }
@@ -280,7 +280,7 @@
     if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
           return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
         }
-        
+
     var hospital_id = getParameterByName('id', window.location.search);
     let updates = {}
 

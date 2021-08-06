@@ -153,7 +153,7 @@
   </div>
 
 
-  <div id="external-event-dialog" class="mbsc-cloak">
+  <div id="external-event-dialog" class="mbsc-cloak" style="display:none">
     <div mbsc-form>
       <div class="mbsc-form-group-inset">
           <label >
@@ -377,6 +377,7 @@
               })
             });
         }
+        if(data_resouse.length == 0 ) return;
         var all_event =[]
         if(Array.isArray(msg.q)){
           msg.q.map((q)=>{
