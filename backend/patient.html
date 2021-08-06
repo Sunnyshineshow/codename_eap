@@ -63,6 +63,7 @@
                   <p class="m-0 p-0 mt-3"><strong>จำนวนวันตั้งแต่ที่มีอาการ:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-day_count##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>วันที่ได้รับการตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-certdate##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>วิธีการที่ใช้ตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-priority##</span></p>
+                  <p class="m-0 p-0 mt-3"><strong>หลักฐานการตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-cert_image##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>อาการปอดอักเสบ:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.pneumonia_check##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>วันที่ X-Ray ปอดและได้รับแจ้งว่ามีอาการปอดอักเสบหรือผิดปกติ:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.xraydate##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>จำนวนวันที่ได้รับยาต้านไวรัส:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.virusmed##</span></p>
@@ -383,17 +384,17 @@
             })
           }
 
-          if (res.priority = 2){
+          if (res.priority == 2){
             res.priority = 'RT-PCR โดยเจ้าหน้าที่'
-          } else if (res.priority = 1){
+          } else if (res.priority == 1){
             res.priority = 'ATK โดยเจ้าหน้าที่'
-          } else {
+          } else if(res.priority == 0) {
             res.priority = 'ATK ด้วยตนเอง'
           }
 
-          if (res.init_symptoms.pneumonia_check = true){
+          if (res.init_symptoms.pneumonia_check == true){
             res.init_symptoms.pneumonia_check = 'เคยเป็น'
-          } else {
+          } else if(res.init_symptoms.pneumonia_check == false) {
             res.init_symptoms.pneumonia_check = 'ไม่เคยเป็น'
           }
 
@@ -432,10 +433,10 @@
             res.init_symptoms.exercise_test = "ไม่ทราบค่า"
           }
 
-          console.log("Certdate: " + res.certdate)
           res.certdate ? res.certdate = moment(res.certdate, "X").format("DD/MM/YYYY") : "";
-          console.log("Certdate: " + res.certdate)
-          res.init_symptoms.xraydate ? res.init_symptoms.xraydate = moment(res.init_symptoms.xraydate, "X").format("DD/MM/YYYY") : "";
+          if (res.init_symptoms){
+            res.init_symptoms.xraydate ? res.init_symptoms.xraydate = moment(res.init_symptoms.xraydate, "X").format("DD/MM/YYYY") : "";
+          }
 
           /*Object.assign(res, {
             day_count: date_diff(res.createdate * 1000)
