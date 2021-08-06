@@ -337,6 +337,9 @@
 
   function go_option(id,travel)
   {
+    console.log("Sending data List")
+    console.log(id)
+    console.log(travel)
     $.postJSON(MAINURL + "/api-web/line/travel_method",{_id:id,travel:travel} ,(msg) =>
     {
       if (msg.code == 400)
