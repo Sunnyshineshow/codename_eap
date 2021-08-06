@@ -17,7 +17,7 @@
             <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
                 <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">เรียนผู้ป่วยทุกท่าน</p>
                 <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">
-                    โครงการอยู่บ้าน ปอดปลอดภัย จัดตั้งขึ้นเพื่อให้ผู้ป่วยติดเชื่อ COVID-19 (สถานะสีเหลืองและเขียว) ได้รับการตรวจเช็คปอดด้วยวิธี X-Ray
+                    โครงการอยู่บ้าน ปอดปลอดภัย จัดตั้งขึ้นเพื่อให้ผู้ป่วยติดเชื้อ COVID-19 (สถานะสีเหลืองและเขียว) ได้รับการตรวจเช็คปอดด้วยวิธี X-Ray
                     ในระหว่างที่ท่านพักรักษาตัวที่บ้าน หรือ ระหว่างคอยการเข้ารับรักษาพยาบาล และจ่ายยาหากพบความผิดปกติจากผลการตรวจปอด
                 </p>
                 <p style="padding:0px;margin:0px;font-weight:400;font-size:14px;margin-top:12px;">
@@ -40,7 +40,15 @@
                         <input id="accept_conditions" mbsc-checkbox type="checkbox" onchange="acceptCondition()">
                     </div>
                     <div class="mbsc-col-9">
-                        <label for="accept_conditions"><span style="font-size:14px;font-weight:400;"> ยอมรับเงื่อนไขในการใช้บริการโครงอยู่บ้าน ปอดปลอดภัย</span></label>
+                        <label for="accept_conditions"><span style="font-size:14px;font-weight:400;"> ยอมรับเงื่อนไขในการใช้บริการโครงการอยู่บ้าน ปอดปลอดภัย</span></label>
+                    </div>
+                </div>
+                <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:10px;">
+                    <div mbsc-form class="mbsc-col-2 mbsc-checkbox" style="padding-left:0px;margin:0px;background-color:transparent;">
+                        <input id="accept_conditions_2" mbsc-checkbox type="checkbox" onchange="acceptCondition()">
+                    </div>
+                    <div class="mbsc-col-9">
+                        <label for="accept_conditions_2"><span style="font-size:14px;font-weight:400;"> ฉันสามารถเดินเข้ามารับบริการ X-Ray ได้ด้วยตนเอง</span></label>
                     </div>
                 </div>
             </div>
@@ -55,7 +63,7 @@
         
         <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
             <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1.</span>
-            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านเป็นผู้ป่วยติดเชื้อ COVID-19 และมีผลตรวจที่ยืนยันได้</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านเป็นผู้ป่วยติดเชื้อ COVID-19 และมีผลตรวจที่ยืนยันได้ <span style="color:red"> *</span></span>
         </div>
         <div mbsc-card style="display:none;margin-top:0px;margin-bottom:0px;border-radius:0px;">
             <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
@@ -84,7 +92,7 @@
 
         <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
             <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">2.</span>
-            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านได้รับการตรวจหาเชื้อ COVID-19 เมื่อวันที่เท่าไหร่</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านได้รับการตรวจหาเชื้อ COVID-19 เมื่อวันที่เท่าไหร่ <span style="color:red"> *</span></span>
         </div>
         <div style="border-radius:0px !important;padding:0px;margin-top:10px;">
             <input class="mbsc-align-left" mbsc-input data-input-style="box" id="checkdate" type="text" name="checkdate" placeholder="" value="" style="font-size: 13px;" />
@@ -92,7 +100,7 @@
 
         <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
             <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">3.</span>
-            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านได้รับการตรวจหาเชื้อ COVID-19 ด้วยวิธีใด</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านได้รับการตรวจหาเชื้อ COVID-19 ด้วยวิธีใด <span style="color:red"> *</span></span>
         </div>
         <div mbsc-card style="display:none;margin-top:10px;margin-bottom:0px;border-radius:0px;">
             <div class="mbsc-card-content" style="padding-top:0px;margin-top:0px;border-radius:0px;">
@@ -129,7 +137,7 @@
 
         <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
             <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">4.</span>
-            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> กรุณาส่งหลักฐานผลการตรวจเชื้อ (สามารถอัพโหลดเป็นไฟล์ภาพถ่าย หรือเอกสารอิเล็กทรอนิคส์เชื่อไฟล์ pdf)</span> <span style="color:red"> *</span>
+            <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> กรุณาส่งหลักฐานผลการตรวจเชื้อ (สามารถอัพโหลดเป็นไฟล์ภาพถ่าย หรือเอกสารอิเล็กทรอนิคส์เช่นไฟล์ pdf)</span> <span style="color:red"> *</span>
         </div>
         <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px"  >
            
@@ -159,7 +167,7 @@
 
     function acceptCondition()
     {
-        if (document.getElementById('accept_conditions').checked)
+        if ((document.getElementById('accept_conditions').checked) && (document.getElementById('accept_conditions_2').checked))
         {
             document.getElementById('additional_info').style.display = "block"
         }
@@ -172,17 +180,17 @@
     function nextStep()
     {
         let name = $("#consent_name").val()
-        let accept_conditions = document.getElementById("accept_conditions").checked
+        //let accept_conditions = document.getElementById("accept_conditions").checked
         let checkdate = $("#checkdate").val()
 
         if(!name)
         {
             return alert_modal("กรุณากรอกชื่อและนามสกุลของท่าน")
         }
-        if(!accept_conditions)
+        /*if(!accept_conditions)
         {
             return alert_modal("กรุณากดยอดรับเงื่อนไขและข้อตกลง")
-        }
+        }*/
 
         //infection
         if(document.getElementById('infected_false').checked)

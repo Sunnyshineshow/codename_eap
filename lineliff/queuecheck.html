@@ -199,6 +199,7 @@
             check_otherpatient();
             return ;
         }    //already choose ACTIVEPATIENT
+          $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
           check_and_show(ACTIVEPATIENT._id);
           return;
       }
