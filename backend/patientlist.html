@@ -76,6 +76,16 @@
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
+                  <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
+                    <option value="NONE">โปรดเลือกการเปลี่ยนแปลง</option>
+                    <option value="-1">ดีขึ้น</option>
+                    <option value="0">ปกติ</option>
+                    <option value="1">แย่ลง</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
                   <button type="submit" class="btn btn-primary border-0">
                     <i class="fas fa-search"></i>
                     Search
@@ -118,6 +128,7 @@
               <th scope="col" class="text-secondary">Create Date</th>
               <th scope="col" class="text-secondary">Day Count</th>
               <th scope="col" class="text-secondary">Color</th>
+              <th scope="col" class="text-secondary">Change</th>
               <th scope="col" class="text-secondary">Register Status</th>
               <th scope="col" class="text-secondary">Action</th>
             </tr>
@@ -136,6 +147,7 @@
               <td class="text-center table-middle">##patient-createDate##</td>
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
+              <td class="text-center table-middle"><span id="patient_color">##patient-color_change##</span></td>
               <td class="text-center table-middle">##patient-status##</td>
               <td class="text-center">
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')"><i class="fas fa-calendar-week"></i> นัดหมาย</button>
@@ -255,6 +267,22 @@
            item.color = "N/A"
          }
         // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
+        if (item.color_change > 0)
+        {
+          item.color_change = '<span style="color: #C70039;"> +' + item.color_change +'</span>'
+        }
+        else if (item.color_change < 0)
+        {
+          item.color_change = '<span style="color: green;">' + item.color_change +'</span>'
+        }
+        else if (item.color_change == 0)
+        {
+          item.color_change == 0
+        }
+        else
+        {
+          item.color_change = "-"
+        }
 
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
       })
