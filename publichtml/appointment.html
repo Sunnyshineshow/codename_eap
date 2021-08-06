@@ -57,7 +57,8 @@
     var patient_id = getParameterByName('patient', window.location.search);
     var appoint_id = getParameterByName('id', window.location.search);
 
-    $.postJSON(MAINURL + "/api-public/patient_data/",{_id:appoint_id,patient:patient_id},(msg) =>
+    console.log(patient_id + " " + appoint_id)
+    $.postJSON(MAINURL + "/api-public/patient_data/",{_id:parseInt(appoint_id),patient:parseInt(patient_id)},(msg) =>
     {
         if (msg.code == 200)
         {
