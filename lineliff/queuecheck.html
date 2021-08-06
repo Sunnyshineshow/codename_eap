@@ -199,6 +199,7 @@
             check_otherpatient();
             return ;
         }    //already choose ACTIVEPATIENT
+          $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
           check_and_show(ACTIVEPATIENT._id);
           return;
       }
@@ -467,11 +468,11 @@
       {
         let qr = new QRious({
           element: document.getElementById('qr_' + msg[i]._id + "_" +  msg[i].patient),
-          value: 'https://eap.advws.com/public/appointment?id=' +  msg[i]._id + '&patient=' +  msg[i].patient
+          value: 'https://covidx.narenthorn.or.th/public/appointment?id=' +  msg[i]._id + '&patient=' +  msg[i].patient
         })
 
         console.log('qr_' + msg[i]._id + "_" +  msg[i].patient)
-        console.log('https://eap.advws.com/public/appointment?id=' +  msg[i]._id + '&patient=' +  msg[i].patient)
+        console.log('https://covidx.narenthorn.or.th/appointment?id=' +  msg[i]._id + '&patient=' +  msg[i].patient)
       }
     })
 
