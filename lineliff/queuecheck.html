@@ -101,7 +101,8 @@
 </table>
 <br>
 
-<span style="color: #C70039;">* QR Code สำหรับเจ้าหน้าที่อยู่ในปุ่มโรงพยาบาล</span>
+<span style="color: #C70039;">* QR Code สำหรับเจ้าหน้าที่อยู่ในปุ่มโรงพยาบาล</span><br>
+<span style="color: #C70039;">**ขอ<strong>สงวนสิทธิ์ในการให้บริการ</strong>ผู้ป่วยที่เดินทางมาด้วย<strong>รถสาธารณะ</strong> โดยไม่มีข้อยกเว้น</span>
 
 <div id="none_order" style="width:80%;margin:auto;" class="mbsc-align-center">
   <div id = "no_app" class="mbsc-card-content mbsc-align-center" style="background-color:white !important;padding: 20px 20px !important;margin:auto !important;border-radius:15px !important; positio !important">
@@ -186,6 +187,9 @@
   function refreshpage() {
       console.log("GLOBALUSER",GLOBALUSER)
       if(GLOBALUSER.status == 1){
+          return go2View("verify");
+      }
+      else if(GLOBALUSER.status == 4){
           return go2View("register");
       }
       else if (GLOBALUSER.status == 3)

@@ -568,7 +568,14 @@ function SendData()
     
     $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
     {
-      alert("Send data Complete!")
+      if (msg.code == 403 || msg.code == 400)
+      {
+       return alert("เกิดข้อผิดพลาดในระบบ")
+      }
+      else if (msg.code == 200)
+      {
+        return alert_success("ลงทะเบียนรถสำเร็จ")
+      }
     })
     
   }
