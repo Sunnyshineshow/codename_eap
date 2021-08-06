@@ -41,10 +41,29 @@
 
             <div id="title_address" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
 
-                <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1. </span>
-                <span style="font-size:14px;font-weight:400;color:#0b9fd5;">  อาการเบื้องต้น (Initial Symptoms)</span> <label class="mbsc-form-group-title"> ถ้ามี (if any)</label>
-            </div>
+                <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1.</span>
 
+                <span style="font-size:14px;font-weight:400;color:#0b9fd5;">  อาการเบื้องต้น (Initial Symptoms)</span>
+            </div>
+            <div style="padding:0px;margin:0px;">
+              <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
+                <label>
+                                ถ้ามีอาการ (if any)
+                                <select mbsc-dropdown name="Category" id="input_nametitle" multiple data-input-style="box" data-label-style="stacked">
+                                    <option value="มีไข้">มีไข้</option>
+                                    <option value="ไอ">ไอ</option>
+                                    <option value="ไม่สามารถรับรสได้" >ไม่สามารถรับรสได้</option>
+                                    <option value="ไม่สามารถรับกลิ่นได้" >ไม่สามารถรับกลิ่นได้</option>
+                                    <option value="ตาแดง">ตาแดง</option>
+                                    <option value="ถ่ายเหลว">ถ่ายเหลว</option>
+                                    <option value="เจ็บคอ">เจ็บคอ</option>
+                                    <option value="มีน้ำมูก">มีน้ำมูก</option>
+                                    <option value="ปวดศรึษะ">ปวดศรึษะ</option>
+                                    <option value="ผื่น">ผื่น</option>
+                                </select>
+                            </label>
+              </div>
+            </div>
             <!-- <div mbsc-form>
                 <div class="mbsc-form-group">
                     <div class="mbsc-form-group-title"></div>
@@ -52,12 +71,8 @@
                 </div> -->
             </div>
 
-            <!---  select อันนี้ไม่สามารถอยู่ใน mobiscroll form ได้  มันจะแสดงค่าที่เลือก ให้เห็น-->
-            <select multiple="multiple" class="form-control tag-keyword" placeholder="kiosk tags" id="tags" rows="3"></select>
-
-
               <div mbsc-form>
-            <br>
+
             <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
               <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">2.</span>
               <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> อาการที่ต้องตรวจประเมิน</span>
@@ -244,7 +259,7 @@
           </div>
 
             <div id="show_btn_save" class="mbsc-align-center mbsc-btn-group-justified">
-                <!--<button id="btn_register" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick=""
+              <button id="btn_register" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick=""
                   style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
                   <div class="mbsc-form-grid">
                     <div class="mbsc-grid">
@@ -255,8 +270,9 @@
                       </div>
                     </div>
                   </div>
-                </button>-->
+                </button>
             </div>
+            <br>
 
         </div>
 </div>
@@ -331,6 +347,9 @@ function get_geolocation()  {
     //   max: new Date(new Date().setDate(new Date().getDate()))
     // })
 
+        $('#input_nametitle').mobiscroll().select({
+            display: 'bubble'
+      });
     let datetime = new Date()
 
       document.getElementById('date').innerHTML = datetime.getDate() + "/"
@@ -394,11 +413,10 @@ function get_geolocation()  {
         }
     }
 
-  $('#tags').adv_tags();
 
   function checksymptoms(){
       var postData = {
-        symptom :$('#tags').adv_gettags()
+        symptom : $('#input_nametitle').val()
       }
       symptomSubmit(postData)
   }
@@ -479,19 +497,19 @@ function get_geolocation()  {
 
 
         //pneumonia
-        if (document.getElementById("pneumonia_true").checked)
-        {
-            pneumonia_check = true;
-        }
-        else if (document.getElementById("pneumonia_false").checked)
-        {
-            pneumonia_check = false;
-        }
-        else
-        {
-            //โยน Error
-            return alert_modal("กรุณาระบุว่าเคยได้รับแจ้งว่ามีอาการปอดอักเสบมาก่อนหรือไม่")
-        }
+        // if (document.getElementById("pneumonia_true").checked)
+        // {
+        //     pneumonia_check = true;
+        // }
+        // else if (document.getElementById("pneumonia_false").checked)
+        // {
+        //     pneumonia_check = false;
+        // }
+        // else
+        // {
+        //     //โยน Error
+        //     return alert_modal("กรุณาระบุว่าเคยได้รับแจ้งว่ามีอาการปอดอักเสบมาก่อนหรือไม่")
+        // }
 
         // if (!geo_location.coordinates || geo_location.length == 0)
         // {
@@ -527,7 +545,10 @@ function get_geolocation()  {
       if (msg.status == 200)
       {
         alert_modal("บันทึกข้อมูลเรียบร้อย กรุณากดปิดหน้าต่างเพื่อกลับเข้าเมนูหลักใน LINE \"อยู่บ้าน ปอดปลอยภัย\"")
-        return go2View("alreadyregister2")
+        setTimeout(()=>{
+          liff.closeWindow()
+        },4000)
+        return;// go2View("alreadyregister2")
       }
       else
       {

@@ -23,27 +23,33 @@
 
     <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
       <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1.</span>
-      <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> อาการเบื้องต้น (Initial Symptoms)</span> <label style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ถ้ามี (if any)</label>
+      <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> อาการเบื้องต้น (Initial Symptoms)</span>
+
       <!-- <div class="mbsc-form-group-title"><span style="color:red"> *</span> ถ้ามี (if any)</div> -->
     </div>
 
     <div style="padding:0px;margin:0px;">
       <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
-        <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
-          <div class="mbsc-col-12" style="padding:0px;margin:0px;">
-            <div id="input_nametitle" style="border-radius:0px !important;padding:0px;margin-top:15px;">
-
-            </div>
-          </div>
-        </div>
+        <label>
+                        ถ้ามี (if any)
+                        <select mbsc-dropdown name="Category" id="input_nametitle" multiple data-input-style="box" data-label-style="stacked">
+                            <option value="มีไข้">มีไข้</option>
+                            <option value="ไอ">ไอ</option>
+                            <option value="ไม่สามารถรับรสได้" >ไม่สามารถรับรสได้</option>
+                            <option value="ไม่สามารถรับกลิ่นได้" >ไม่สามารถรับกลิ่นได้</option>
+                            <option value="ตาแดง">ตาแดง</option>
+                            <option value="ถ่ายเหลว">ถ่ายเหลว</option>
+                            <option value="เจ็บคอ">เจ็บคอ</option>
+                            <option value="มีน้ำมูก">มีน้ำมูก</option>
+                            <option value="ปวดศรึษะ">ปวดศรึษะ</option>
+                            <option value="ผื่น">ผื่น</option>
+                        </select>
+                    </label>
       </div>
     </div>
   </div>
 
   <!---  select อันนี้ไม่สามารถอยู่ใน mobiscroll form ได้  มันจะแสดงค่าที่เลือก ให้เห็น-->
-  <div>
-    <select multiple="multiple" class="form-control tag-keyword" placeholder="kiosk tags" id="tags" rows="3" style="margin:10px 10px !important;"></select>
-  </div>
 
   <div mbsc-form>
     <div mbsc-form id="form_display">
@@ -267,7 +273,7 @@
           </div>
         </div>
       </div>
-  
+
       <br>
 
       <div mbsc-card style="display:none;margin-top:0px;margin-bottom:0px;border-radius:0px;">
@@ -389,18 +395,24 @@
 </div>
   <script>
 
-    $('#tags').adv_tags();
 
     function checksymptoms() {
-      $('#tags').adv_tags();
+
+      console.log("got",$('#input_nametitle').val());
+
       var postData = {
-        symptom: $('#tags').adv_gettags()
+        symptom: $('#input_nametitle').val()
       }
       console.log(postData)
       initSymptomSubmit(postData)
     }
 
     $(document).ready(function() {
+
+      $('#input_nametitle').mobiscroll().select({
+          display: 'bubble'
+      });
+
       $('#checkdate').mobiscroll().calendar({
         dateFormat: 'dd/mm/yyyy',
         display: 'center',
@@ -613,7 +625,7 @@
               return alert_modal("กรุณาระบุการได้รับ X-ray")
             }
 
-        
+
             if (document.getElementById('virusmed_true').checked && !$("#virusmed_amount").val())
             {
               return alert_modal("กรุญาระบุจำนวนวันที่ได้รับยาต้านไว้รัส")
