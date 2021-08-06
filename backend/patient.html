@@ -302,11 +302,6 @@
               }
 
           console.log(res)
-          res.createdate ? res.createdate = moment(res.createdate, "X").format("DD/MM/YYYY") : "";
-            console.log("Certdate: " + res.certdate)
-            res.certdate ? res.certdate = moment(res.certdate, "X").format("DD/MM/YYYY") : "";
-            console.log("Certdate: " + res.certdate)
-            res.init_symptoms.xraydate ? res.init_symptoms.xraydate = moment(res.init_symptoms.xraydate, "X").format("DD/MM/YYYY") : "";
           if (res.init_symptoms)
           {
             // console.log(new Date(res.init_symptoms.checkdate * 1000))
@@ -341,6 +336,8 @@
               })
 
             }
+
+            res.createdate ? res.createdate = moment(res.createdate, "X").format("DD/MM/YYYY") : "";
 
             res.symptoms[i].pneumonia_check ? res.symptoms[i].pneumonia_check = "เคย" : res.symptoms[i].pneumonia_check = "ไม่เคย"
 
@@ -434,6 +431,11 @@
           if (res.init_symptoms.exercise_test == -1) {
             res.init_symptoms.exercise_test = "ไม่ทราบค่า"
           }
+
+          console.log("Certdate: " + res.certdate)
+          res.certdate ? res.certdate = moment(res.certdate, "X").format("DD/MM/YYYY") : "";
+          console.log("Certdate: " + res.certdate)
+          res.init_symptoms.xraydate ? res.init_symptoms.xraydate = moment(res.init_symptoms.xraydate, "X").format("DD/MM/YYYY") : "";
 
           /*Object.assign(res, {
             day_count: date_diff(res.createdate * 1000)
