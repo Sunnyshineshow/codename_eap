@@ -48,7 +48,7 @@
                 <div class="card-body" style="text-align: left;">
                   <h4 class="card-title" style="color: #289de9;">อาการเมื่อลงทะเบียน </h4>
                   <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 10px;margin-bottom:20px;"></div>
-                  <p class="m-0 p-0"><strong>อาการข้างต้น:</strong> ##PATIENT-init_symptoms.symptoms##</p>
+                  <p class="m-0 p-0"><strong>อาการเบื้องต้น:</strong> ##PATIENT-init_symptoms.symptoms##</p>
                   <p class="m-0 p-0 mt-3"><strong>โรคประจำตัวที่มี<span style="color: #C70039;">ความเสี่ยง</span>:</strong></p>
                   <p class="m-0 p-0"><span style="text-align: justify;">##PATIENT-init_symptoms.disease##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>spO2:</strong>
@@ -61,6 +61,11 @@
                   <p class="m-0 p-0"><span style="text-align: justify;">##PATIENT-init_symptoms.comment##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>สีของผู้ป่วย:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-color##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>จำนวนวันตั้งแต่ที่มีอาการ:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-day_count##</span></p>
+                  <p class="m-0 p-0 mt-3"><strong>วันที่ได้รับการตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-certdate##</span></p>
+                  <p class="m-0 p-0 mt-3"><strong>วิธีการที่ใช้ตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-priority##</span></p>
+                  <p class="m-0 p-0 mt-3"><strong>อาการปอดอักเสบ:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.pneumonia_check##</span></p>
+                  <p class="m-0 p-0 mt-3"><strong>วันที่ X-Ray ปอดและได้รับแจ้งว่ามีอาการปอดอักเสบหรือผิดปกติ:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.xraydate##</span></p>
+                  <p class="m-0 p-0 mt-3"><strong>จำนวนวันที่ได้รับยาต้านไวรัส:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.virusmed##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>Call Center Verify:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-verify##</span></p>
                   <p class="m-0 p-0 mt-3"><strong>Call Center Comment:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-call_cen_comment##</span></p>
                   <button type="button" class="btn btn-primary mt-4 mb-3" onclick="clickToAppoint()"><i class="fas fa-calendar-check"></i> คลิกเพื่อทำการนัดหมาย</button>
@@ -333,6 +338,8 @@
             }
 
             res.createdate ? res.createdate = moment(res.createdate, "X").format("DD/MM/YYYY") : "";
+            res.certdate ? res.certdate = moment(res.certdate, "X").format("DD/MM/YYYY") : "";
+            res.xraydate ? res.xraydate = moment(res.xraydate, "X").format("DD/MM/YYYY") : "";
 
             res.symptoms[i].pneumonia_check ? res.symptoms[i].pneumonia_check = "เคย" : res.symptoms[i].pneumonia_check = "ไม่เคย"
 
@@ -378,6 +385,20 @@
             })
           }
 
+          if (res.priority = 2){
+            res.priority = 'RT-PCR โดยเจ้าหน้าที่'
+          } else if (res.priority = 1){
+            res.priority = 'ATK โดยเจ้าหน้าที่'
+          } else {
+            res.priority = 'ATK ด้วยตนเอง'
+          }
+
+          if (res.init_symptoms.pneumonia_check = true){
+            res.init_symptoms.pneumonia_check = 'เคยเป็น'
+          } else {
+            res.init_symptoms.pneumonia_check = 'ไม่เคยเป็น'
+          }
+
           if(res.is_staff)
           {
             document.getElementById('submit_addstaff').disabled = true
@@ -396,7 +417,10 @@
           if (!res.init_symptoms) {
             let init_symptom = {
               spo_room_air: "!! ยังไม่ลงทะเบียน !!",
-              exercise_test: "!! ยังไม่ลงทะเบียน !!"
+              exercise_test: "!! ยังไม่ลงทะเบียน !!",
+              pneumonia_check: "!! ยังไม่ลงทะเบียน !!",
+              xraydate: "!! ยังไม่ลงทะเบียน !!",
+              virusmed: "!! ยังไม่ลงทะเบียน !!"
             };
             Object.assign(res, {
               init_symptoms: init_symptom
