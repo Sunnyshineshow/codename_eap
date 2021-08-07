@@ -141,7 +141,7 @@
 
           </div>
      <div class="mbsc-col-sm-3">
-       <div class="mbsc-form-group-title" >ผู้ป่วยรอคิวรถ</div>
+       <div class="mbsc-form-group-title" >ผู้ป่วยรอคิวรถ (10 Maxshow )</div>
        <div id="patient_waiting" ></div>
 
         </div>
@@ -188,15 +188,10 @@
           </label>
         <hr>
 
-          <br>
-
-          <label for="external-event-job">
-              ใส่หมายเหตุ
-          </label>
           <label for="external-event-details">
               <textarea id="external-event-details" mbsc-textarea data-label="Details" placeholder="หมายเหตุ"></textarea>
           </label>
-          <br>
+  <br>
           <font color='red'><span id="warntext" > </span></font>
             <label>
               <button type="button" class="btn btn-primary " onclick="lockevent()" id="btn_lockevent">
@@ -204,8 +199,7 @@
                   Confirm Lock jobs
               </button>
             </label>
-            <br>
-                <br>
+
                     <br>
             <label id="display_unlock" style="display:none">
               <button type="button" class="btn btn-danger " onclick="unlockevent()" id="btn_unlockevent">
@@ -257,13 +251,31 @@
     });
 
     $(function () {
-
+        var begin = new Date().getDay();
+        begin = (begin -1) %7
+        console.log("DAY ",new Date().getDate())
         carcalendar = $('#car-working').mobiscroll().eventcalendar({
             view: {
                 timeline: {
-                    type: 'day'
+                    type: 'week',
+                    startDay: begin,
+                    endDay: (begin+6) %7,
+                    timeCellStep: 120  ,
+                    timeLabelStep: 120
                 }
-            },
+            },invalid: [{
+            start: '00:00',
+            end: '06:00',
+            recurring: {
+                repeat: 'daily',
+            }
+        }, {
+            start: '22:00',
+            end: '23:59',
+            recurring: {
+                repeat: 'daily',
+            }
+        }],
             renderResource: function (resource) {
                 return '<div class="md-work-week-cont">' +
                     '<div class="md-work-week-name">'+ resource.title + '</div>' +
@@ -273,15 +285,20 @@
                     '</div>';
             },
             renderScheduleEvent: function (data) {
+                console.log("Reding data",data)
                 var ev = data.original;
                 var color = data.color;
-
-                return '<div class="md-timeline-template-event" style="border-color:' + color + ';background:' + color + '">' +
-                    '<div class="md-timeline-template-event-cont">' +
-                    //'<span class="mbsc-icon mbsc-font-icon mbsc-icon-' + ev.taskType + '" style="background:' + color + '"></span>' +
+                var html = `<div class="md-timeline-template-event" style="border-color:${color};background:${color}">
+                    <div class="md-timeline-template-event-cont">`;
+                if(ev.status == 1){
+                    html+=`<span class="mbsc-icon mbsc-font-icon mbsc-icon-save" style="background:${color}"></span> `
+                }
+                  html += `<span class="md-timeline-template-time" style="color:${color};">${data.start}</span>
+                            <span class="md-timeline-template-title">${ev.title}</span></div></div>`
+                return html;
+                    //'
                   //  (ev.unsave || '') +
-                    '<span class="md-timeline-template-time" style="color:' + color + ';">' + data.start + '</span>' +
-                    '<span class="md-timeline-template-title">' + ev.title + '</span></div></div>';
+
             },
             extendDefaultEvent: function () {
                 return {
@@ -327,20 +344,20 @@
         }).mobiscroll('getInst');
 
            function fillDialog(args) {
-               console.log("arg",args)
                var res = getobjbyid(current_car,args.event.resource)
                var q = args.event;
-               console.log("GOT Res",res)
                var start =new Date(q.start)/1000;
                var end =new Date(q.end)/1000;
                $('#display_unlock').hide();
                $('#btn_lockevent').hide();
+               $("#warntext").html("")
+               $('#pickup_date').html(moment(q.pickup_date,"X").format("DD-MM-YY HH:mm"));
+
                if(q.status == 1){
                  $('#display_unlock').show();
                }else if(q.pickup_date >= start && q.pickup_date <= end){
-                  $('#pickup_date').html(moment(q.pickup_date,"X").format("DD-MM-YY HH:mm"));
                   $('#btn_lockevent').show();
-                  $("#warntext").html("")
+
                }else{
                   $('#pickup_date').html("<font color='red'>"+ moment(q.pickup_date,"X").format("DD-MM-YY HH:mm")) + "</font>";
                   $("#warntext").html("เลือกวันที่ให้ตรงกับวันนัดหมาย ก่อนการบันทึก")
@@ -376,7 +393,7 @@
       editingobj.force_edit = true;
   }
   function lockevent(){
-    console.log(editingobj);
+
     // update to server
     var res = getobjbyid(current_car,editingobj.resource)
     var postdata = {
@@ -387,7 +404,7 @@
       comments: $("#external-event-details").val(),
       force_edit:editingobj.force_edit
     };
-    console.log("Posting",postdata)
+
 
     $.postJSON(MAINURL + "/api-backend/admin/assing_driver_job",postdata  ,(msg) => {
       if(msg.result){
@@ -432,7 +449,7 @@
           });
 
         }
-        console.log("all_event",msg.q)
+
         set_event(data_resouse,msg.q)
 
 
@@ -442,7 +459,7 @@
   function get_unqueue(dataseaerch,cb){
     if(!dataseaerch) dataseaerch = {};
     $.postJSON(MAINURL + "/api-backend/admin/apooint_car_free",dataseaerch  ,(msg) => {
-        console.log("q",msg)
+
         var waiting = []
         var html_queue ='';
         if(Array.isArray(msg)){

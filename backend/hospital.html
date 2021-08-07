@@ -44,7 +44,7 @@
                       <input class="form-control" mbsc-input id="Add_Tel" type="text" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" />
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="exampleInputPassword1">ความจุผู้ป่วย <span style="color:red"> *</span></label>
+                      <label for="exampleInputPassword1">ความจุผู้ป่วย/Hour<span style="color:red"> *</span></label>
                       <input class="form-control" mbsc-input id="Add_capacity" type="text" placeholder="" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" />
                     </div>
 
@@ -65,7 +65,7 @@
                     <br>
 
                     <button type="submit" class="btn btn-primary" onclick="AddDataToDB()" width="10" height="10">Submit</button>
-        
+
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@
               <th scope="col" class="text-secondary">ชื่อสถานพยาบาล</th>
               <th scope="col" class="text-secondary">ที่อยู่</th>
               <th scope="col" class="text-secondary">สายด่วน</th>
-              <th scope="col" class="text-secondary">ความจุผู้ป่วย</th>
+              <th scope="col" class="text-secondary">ความจุผู้ป่วย/hr</th>
               <th scope="col" class="text-secondary">Action</th>
             </tr>
           </thead>
