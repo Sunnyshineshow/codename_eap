@@ -203,6 +203,11 @@
 
     function refreshpage(rawdata,clearsearch) {
 
+      if (!clearsearch)
+      {
+        clearsearch = true
+      }
+
       console.log("GLOBAL_USER",GLOBAL_USER)
 
 
@@ -239,10 +244,7 @@
         document.getElementById('search_date').value = ""
       }
 
-      // search_setting.search =
-      //   {
-      //     find_date: current_date
-      //   }
+      Object.assign(search_setting.search,{find_date: current_date})
 
       console.log("Current Date")
       console.log(search_setting.search.current_date)
