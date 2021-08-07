@@ -91,6 +91,7 @@
             {
                 $.postJSON(MAINURL + "/api-web/line/admin_loadqrdata", {_id:id,patient:patient},(msg)=>
                 {
+                    alert(id + " " + patient)
                     if (msg.code == 200)
                     {
                         go2View("admin_option?id=" +  id + '&patient=' +  patient);
