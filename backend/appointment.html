@@ -203,10 +203,6 @@
 
     function refreshpage(rawdata,clearsearch) {
 
-      if (!clearsearch)
-      {
-        clearsearch = true
-      }
       console.log("GLOBAL_USER",GLOBAL_USER)
 
 
@@ -219,6 +215,10 @@
         search: {}
       }
 
+        var limit = getParameterByName('limit', window.location.search);
+        if(limit > 0){
+          search_setting.limit = 100;
+        }
 
       let hospital = []
       let hospital_element = document.getElementsByName('hospital_select')
@@ -239,10 +239,10 @@
         document.getElementById('search_date').value = ""
       }
 
-      search_setting.search =
-        {
-          find_date: current_date
-        }
+      // search_setting.search =
+      //   {
+      //     find_date: current_date
+      //   }
 
       console.log("Current Date")
       console.log(search_setting.search.current_date)
