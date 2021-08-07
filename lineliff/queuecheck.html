@@ -204,7 +204,7 @@
             check_otherpatient();
             return ;
         }    //already choose ACTIVEPATIENT
-          $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
+          $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname + " ( #" + ACTIVEPATIENT._id + " )")
           check_and_show(ACTIVEPATIENT._id);
           return;
       }
@@ -242,7 +242,7 @@
               // }
               $('#warn_select_patient').hide();
 
-              $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname)
+              $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname + " ( #" + ACTIVEPATIENT._id + " )")
               check_and_show(ACTIVEPATIENT._id);
 
               console.log("ACTIVEPATIENT",ACTIVEPATIENT)

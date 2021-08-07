@@ -235,11 +235,15 @@
         current_date = Math.floor(new Date($("#search_date").val()) / 1000)
         shown_date = new Date(current_date * 1000)
         document.getElementById('search_date').value = ""
-        search_setting.search =
+      }
+
+      search_setting.search =
         {
           find_date: current_date
         }
-      }
+
+      console.log("Current Date")
+      console.log(search_setting.search.current_date)
 
 
 
