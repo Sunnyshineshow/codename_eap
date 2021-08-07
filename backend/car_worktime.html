@@ -174,13 +174,22 @@
           </label>
           <br>
           <label >
-              รับที่:  <span id="pickup_org"> </span>
+              รวมเวลาที่ใช้ :  <span id="pickup_usetime" style="color:green">  </span> นาที
           </label>
           <br>
+          <hr>
+          <label >
+              รับที่:  <span id="pickup_org"> </span> <span id="gpstext"></span>
+          </label>
+          <hr>
+
           <label >
               ส่งที่:  <span id="send_org"> </span>
           </label>
+        <hr>
+
           <br>
+
           <label for="external-event-job">
               ใส่หมายเหตุ
           </label>
@@ -190,12 +199,25 @@
           <br>
           <font color='red'><span id="warntext" > </span></font>
             <label>
-              <button type="button" class="btn btn-primary "onclick="lockevent()" id="btn_lockevent">
+              <button type="button" class="btn btn-primary " onclick="lockevent()" id="btn_lockevent">
                 <i class="fas fa-save"></i>
                   Confirm Lock jobs
               </button>
-          </label>
+            </label>
+            <br>
+                <br>
+                    <br>
+            <label id="display_unlock" style="display:none">
+              <button type="button" class="btn btn-danger " onclick="unlockevent()" id="btn_unlockevent">
 
+                  Confirm UN Lock jobs
+              </button>
+              ** unlock ต้องประสานงานแจ้งทั้งผู้ป่วยและคิวรถ ด้วยตนเองด้วยนะครับ กรุณาตรวจสอบก่อนทำรายการนี้
+              <br>
+              <font color='red'> <small>
+                เมื่อกดแล้ว เลื่อนย้าย แล้ว ต้อง Lock อีกครั้งเพื่อบันทึกการเปลี่ยนแปลง
+              </small></font>
+            </label>
 
       </div>
       </div>
@@ -257,7 +279,7 @@
                 return '<div class="md-timeline-template-event" style="border-color:' + color + ';background:' + color + '">' +
                     '<div class="md-timeline-template-event-cont">' +
                     //'<span class="mbsc-icon mbsc-font-icon mbsc-icon-' + ev.taskType + '" style="background:' + color + '"></span>' +
-                    (ev.unsave || '') +
+                  //  (ev.unsave || '') +
                     '<span class="md-timeline-template-time" style="color:' + color + ';">' + data.start + '</span>' +
                     '<span class="md-timeline-template-title">' + ev.title + '</span></div></div>';
             },
@@ -311,27 +333,47 @@
                console.log("GOT Res",res)
                var start =new Date(q.start)/1000;
                var end =new Date(q.end)/1000;
-               if(q.pickup_date >= start && q.pickup_date <= end){
+               $('#display_unlock').hide();
+               $('#btn_lockevent').hide();
+               if(q.status == 1){
+                 $('#display_unlock').show();
+               }else if(q.pickup_date >= start && q.pickup_date <= end){
                   $('#pickup_date').html(moment(q.pickup_date,"X").format("DD-MM-YY HH:mm"));
-                  $('#btn_lockevent').attr("disabled",false)
+                  $('#btn_lockevent').show();
                   $("#warntext").html("")
                }else{
-                 $('#btn_lockevent').attr("disabled",true)
                   $('#pickup_date').html("<font color='red'>"+ moment(q.pickup_date,"X").format("DD-MM-YY HH:mm")) + "</font>";
                   $("#warntext").html("เลือกวันที่ให้ตรงกับวันนัดหมาย ก่อนการบันทึก")
                }
-
+               if(q.location){
+                   var gps=`<div><a href="https://www.google.com/maps/search/${q.location.coordinates[1]},${q.location.coordinates[0]}"   target="_blank">
+                       <button type="button" class="btn btn-sm btn-primary"><i class="fas fa-map-marker-alt"></i> Map</button></a></div>
+                     `
+                     $("#gpstext").html(gps);
+               }else{
+                  $("#gpstext").html("");
+               }
+               start = moment(q.start,"X");
+               end = moment(q.end,"X");
+               $('#pickup_usetime').html(end.diff(start,'minutes'));
                $('#patientname').html(q._id +":"+ q.patient.firstname + " " + q.patient.mobileno);
                $("#external-event-details").val(q.comments || "");
                $('#pickup_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
                $('#pickup_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
-               $('#pickup_org').html("บ้านผู้ป่วย");
-               $('#send_org').html("X-ray");
+               $('#pickup_org').html(`บ้านผู้ป่วย : ${q.address.address} ${q.address.subdistrict}  ${q.address.district}`);
+               $('#send_org').html(q.hospital.name);
                dialog.open();
            }
     });
-
     return false;
+  }
+  function unlockevent(){
+      $('#display_unlock').hide('slow');
+      $("#warntext").html("")
+      $('#external-event-dialog').mobiscroll("getInst").close();
+      editingobj.editable = true;
+      editingobj.status=0;
+      editingobj.force_edit = true;
   }
   function lockevent(){
     console.log(editingobj);
@@ -342,8 +384,8 @@
       starttime : Math.floor(editingobj.start/1000),
       endtime : Math.floor(editingobj.end/1000),
       vehicle:res._id,
-      comments: $("#external-event-details").val()
-
+      comments: $("#external-event-details").val(),
+      force_edit:editingobj.force_edit
     };
     console.log("Posting",postdata)
 
