@@ -70,37 +70,37 @@
       //       return;
       //     }
         console.log(GLOBALUSER,"GLOBALUSER.role")
-        if(!Array.isArray(GLOBALUSER.role)){
-          console.log("Access Denied");
-          document.getElementById('none_order').style.display = "block"
-          return;
-        }
-        if(GLOBALUSER.role.indexOf("SUPERADMIN") == -1 && GLOBALUSER.role.indexOf("SITEADMIN") == -1 && GLOBALUSER.role.indexOf("DEVELOPER") == -1 && GLOBALUSER.role.indexOf("XRAY") == -1 && GLOBALUSER.role.indexOf("VOLUNTEER") == -1 && GLOBALUSER.role.indexOf("DRIVER") == -1){  // found DEVELOPER
+        // if(!Array.isArray(GLOBALUSER.role)){
+        //   console.log("Access Denied");
+        //   document.getElementById('none_order').style.display = "block"
+        //   return;
+        // }
+    //     if(GLOBALUSER.role.indexOf("SUPERADMIN") == -1 && GLOBALUSER.role.indexOf("SITEADMIN") == -1 && GLOBALUSER.role.indexOf("DEVELOPER") == -1 && GLOBALUSER.role.indexOf("XRAY") == -1 && GLOBALUSER.role.indexOf("VOLUNTEER") == -1 && GLOBALUSER.role.indexOf("DRIVER") == -1){  // found DEVELOPER
           
-          // if (!liff.scanCode) {
-          //   alert("Liff Scancode Not Supported")
-          //   document.getElementById('not_support').style.display = "block"
-          //   return;
+    //       // if (!liff.scanCode) {
+    //       //   alert("Liff Scancode Not Supported")
+    //       //   document.getElementById('not_support').style.display = "block"
+    //       //   return;
+    //       // }
+
+    //     console.log("Access Denied");
+    //     document.getElementById('none_order').style.display = "block"
+    //     return;
+    // }
+          //if (GLOBALUSER.role.indexOf("DEVELOPER") !== -1 || GLOBALUSER.role.indexOf("SUPERADMIN") !== -1 || GLOBALUSER.role.indexOf("SITEADMIN") !== -1)
+         // {
+            $("#ui_showing").html($("#ui").html())
+          //}
+
+          // else if (GLOBALUSER.role.indexOf("XRAY") !== -1 || GLOBALUSER.role.indexOf("VOLUNTEER") == -1)
+          // {
+          //   go2View("staff_xray")
           // }
 
-        console.log("Access Denied");
-        document.getElementById('none_order').style.display = "block"
-        return;
-    }
-          if (GLOBALUSER.role.indexOf("DEVELOPER") !== -1 || GLOBALUSER.role.indexOf("SUPERADMIN") !== -1 || GLOBALUSER.role.indexOf("SITEADMIN") !== -1)
-          {
-            $("#ui_showing").html($("#ui").html())
-          }
-
-          else if (GLOBALUSER.role.indexOf("XRAY") !== -1 || GLOBALUSER.role.indexOf("VOLUNTEER") == -1)
-          {
-            go2View("staff_xray")
-          }
-
-          else if (GLOBALUSER.role.indexOf("DRIVER") !== -1)
-          {
-            go2View("staff_driver")
-          }
+          // else if (GLOBALUSER.role.indexOf("DRIVER") !== -1)
+          // {
+          //   go2View("staff_driver")
+          // }
   })
 
     function qrCodeScanner()

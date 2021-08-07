@@ -35,7 +35,7 @@
             </div>
 
             <div class="row d-flex justify-start">
-              
+
             </div>
 
             <div class="row d-flex justify-start">
@@ -52,7 +52,7 @@
                 <div id="hospital_select_showing"></div>
               </div>
             </div>
-            
+
 
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2"></div>
             <!--<div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
@@ -81,7 +81,7 @@
                   <label><input type="datetime-local" class="form-control" id="SearchDate_Start" placeholder="ช่วงเวลาเริ่มต้น"></label>
                     </div>
                   </div>
-                  
+
                 </div>
                 <div></div>
                 <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -107,7 +107,7 @@
         </div>
       </div>
       -->
-      
+
       <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
       <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
       <div class="btn-group" style="text-align: left;">
@@ -239,10 +239,15 @@
         document.getElementById('search_date').value = ""
       }
 
-      search_setting.search = 
-      {
-        find_date: current_date
-      }
+      search_setting.search =
+        {
+          find_date: current_date
+        }
+
+      console.log("Current Date")
+      console.log(search_setting.search.current_date)
+
+
 
       document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
 
@@ -261,7 +266,7 @@
 
       //   let starttime = Math.floor(new Date($('#SearchDate_Start').val()) / 1000)
       //   let endtime = Math.floor(new Date($('#SearchDate_End').val()) / 1000)
-      //   let timepayload = 
+      //   let timepayload =
       //   {
       //     starttime: starttime,
       //     endtime: endtime
@@ -286,7 +291,7 @@
       if (pagenumber > 1) {
         search_setting.page = pagenumber;
       }
-      
+
       // console.log('SEARCH ', search_setting);
       fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
       return false;
@@ -297,9 +302,9 @@
       if (objdata.result && totalrecord > 0) {
         working.patient = objdata.obj;
         console.log("OBJDATA: " + objdata.obj)
-        
+
         var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
-  
+
         objdata.obj.map(item => {
           console.log(item)
           item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
@@ -370,7 +375,7 @@
       console.log(payload)
       $.postJSON(MAINURL + "/api-backend/admin/appoint/searching_date",payload,(msg) => {
         console.log("TestOutput")
-        console.log(msg)    
+        console.log(msg)
       })
     }
 

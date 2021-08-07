@@ -1,0 +1,24 @@
+Loading
+<script>
+    var id = getParameterByName('id', window.location.search);
+    var patient = getParameterByName('patient', window.location.search);
+$.postJSON(MAINURL + "/api-web/line/admin_loadqrdata", {_id:id,patient:patient},(msg)=>
+                {
+                    if (msg.code == 200)
+                    {
+                        go2View("admin_option?id=" +  id + '&patient=' +  patient);
+                    }
+                    else if (msg.code == 404)
+                    {
+                        alert_modal("ไม่พบข้อมูลนัดหมาย โปรดติดต่อเจ้าหน้าที่ฝ่ายพัฒนา")
+                    }
+                    else if (msg.code == 403)
+                    {
+                        return alert_modal("นัดหมายนี้ถูกยกเลิก<br><br>หากคิดว่านี่คือข้อผิดพลาด<br>โปรดติดต่อเจ้าหน้าที่ฝ่ายพัฒนา")
+                    }
+                    else
+                    {
+                        alert_modal("เกิดข้อผิดพลาดบางอย่าง โปรดลองใหม่อีกครั้ง")
+                    }
+                })
+</script>

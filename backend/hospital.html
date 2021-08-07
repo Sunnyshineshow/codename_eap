@@ -65,7 +65,7 @@
                     <br>
 
                     <button type="submit" class="btn btn-primary" onclick="AddDataToDB()" width="10" height="10">Submit</button>
-                    </from>
+        
                 </div>
               </div>
             </div>
@@ -136,7 +136,7 @@
     }
 
     console.log("GLOBAL_USER",GLOBAL_USER)
-        
+
     var search_setting = {
       posturl: '/api-backend/admin/HospitalList',
       paginationDIV: $('.pagination_bar'),
@@ -148,7 +148,7 @@
       search_setting.search = {
         findname: $('#search_name').val()
       }
-      
+
     }
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
@@ -200,12 +200,12 @@
         }
 
     if (($(Add_Hospitalname).val()) || ($(Add_Address).val()) || ($(Add_Tel).val()) || $(latitude).val() || $(longtitude).val() || $(Add_capacity).val()) {
-      
+
       if ($(latitude).val() == "" || $(longtitude).val() == "")
       {
         return alert("กรุณากรอก Latitude / Longtitude ของสถานพยาบาล")
       }
-      
+
       var payload = {
         name: $(Add_Hospitalname).val(),
         address: $(Add_Address).val(),

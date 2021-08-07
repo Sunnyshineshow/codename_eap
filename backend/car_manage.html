@@ -1,60 +1,8 @@
 <div class="main_page mb-5" style="margin-top:120px;">
   <div class="p-2 mr-5 ml-5">
     <div class="container">
-      
-      <h3 class="p-0 m-0 mb-3"><b>Vehicle Management (อยู่ระหว่างการพัฒนา)</b></h3>
-      
-      <!--<button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clickToSelf()"><i class="fas fa-car"></i> ดูเลขทะเบียนรถผู้มาเอง</button>-->
-      <button id="car_add" type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="OpenSearchBox('Register_car')"><i class="fas fa-car"></i> ลงทะเบียนรถรับส่ง</button>
 
-      <div id="Register_car" style="display: none;">
-      <br>
-      <h3 style="color: #0d6efd;"><b>ลงทะเบียนรถรับส่ง</b></h3>
-      <br>
-      <div class="card bg-light">
-        <div class="card-body">
-          <div id="hospital_information">
-
-            <p class="p-0 m-0"><strong>เชื่อมบัญชีผู้ขับ</strong>  <br>              
-              <select class="form-select" aria-label="Staff Select" id="staff_list" style="display: none;">
-                <option value="##staff-id##">##staff-displayName##</option>
-              </select>
-              <select class="form-select" aria-label="Staff" id="staff_list_showing">
-              </select>
-            </p> 
-
-            <p class="p-0 m-0"><strong>ชื่อ-นามสกุล:</strong> 
-              <input class="form-control" id="Driver_Fullname" type="text" placeholder="*ใช้สำหรับเกิดเหตุร้องเรียน" maxlength="20" style="font-size: 13px;" size="20"/>
-            </p>
-
-            <p class="p-0 m-0"><strong>เบอร์ติดต่อนัดหมาย:</strong> 
-            <input class="form-control" id="Driver_tel" type="text" placeholder="หมายเลขโทรศัพท์" 
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" style="font-size: 13px;" size="20"/>
-            </p>
-
-            <p class="p-0 m-0"><strong>เลขทะเบียนรถยนต์:</strong>                     
-              <input class="form-control"  id="Driver_carnum" type="text" placeholder="เลขทะเบียนรถยนต์" maxlength="15" style="font-size: 13px;" size="20"/>
-            </p> 
-
-            <p class="p-0 m-0"><strong>ประเภทรถยนต์</strong>  <br>              
-              <select class="form-select" aria-label="Staff Select" id="Vehicle_type">
-                <option value="1">Ambulance Taxi (6 ที่นั่ง)</option>
-                <option value="2">Van (5 ที่นั่ง)</option>
-                <option value="3">Van (10 ที่นั่ง)</option>
-                <option value="4">สองแถว ( 12 ที่นั่ง)</option>
-              </select>                          
-            </p>                     
-
-            <br>
-            <input type="submit" class="btn btn-primary" onclick="SendData()">
-           
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
+      <h3 class="p-0 m-0 mb-3"><b>Queue List (รายการ Queue ทั้งหมด)</b></h3>
       <div class="row mb-1 d-flex justify-content-start">
           <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <form class="form-row" style="width: 100%;" onsubmit="return pre_search();">
@@ -82,14 +30,14 @@
             <div class="form-check">
               <input type="text" class="form-control" id="car_options" name="car_options" placeholder="ทะเบียนรถ">
             </div>
-         </div> 
+         </div>
 
           </div>
 
           <div class="row d-flex justify-start">
 
-          </div>  
-              
+          </div>
+
         </div>
         <br>
         <div class= "row d-flex justify-start">
@@ -108,7 +56,7 @@
               </div>
             </div>
             <div id="hospital_select_showing">
-              
+
             </div>
           </div>
         </div>
@@ -140,7 +88,7 @@
 
         <br>
 
-        
+
 
         <div class="table-responsive">
           <table class="table table-bordered show_startpage font-weight-light">
@@ -148,7 +96,7 @@
               <tr>
                 <th scope="col" class="text-secondary">Profile</th>
                 <th scope="col" class="text-secondary">เลขที่นัดหมาย</th>
-                <th scope="col" class="text-secondary">Display Name</th>
+                <th scope="col" class="text-secondary">ผู้ป่วย</th>
                 <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
                 <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
                 <th scope="col" class="text-secondary">สถานะ</th>
@@ -172,18 +120,16 @@
                 <td class="text-center table-middle">##patient-hospital.name##</td>
                 <td class="text-center table-middle">##patient-status##</td>
                 <td class="text-center table-middle">##patient-travel##</td>
-                <td class="text-center table-middle">##patient-vehicle##</td>
+                <td class="text-center table-left">###patient-vehicle.id##:##patient-vehicle.Fullname##</td>
                 <td class="text-center table-middle">##patient-selfcar##</td>
                 <td class="text-center table-middle">
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
-                  <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-sm btn-outline-secondary" ><i class="fas fa-map-marker-alt"></i> Map</button></a> 
+                      <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-sm btn-outline-secondary" ><i class="fas fa-map-marker-alt"></i> Map</button></a>
                 </td>
               </tr>
             </tbody>
             <tbody id="show_patientlist">
               <tr>
-  
+
               </tr>
             </tbody>
           </table>
@@ -195,7 +141,7 @@
             <div id="map" style="height: 600px;">Please wait map</div>
           </div>
         </div>
-        
+
 
     </div>
   </div>
@@ -238,7 +184,7 @@ $(document).ready(() =>
     $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
       staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
       $("#staff_list_showing").html(staff_name);
-    })    
+    })
 })
 
 function pre_search(){
@@ -266,11 +212,11 @@ function  refreshpage(rawdata,clearsearch) {
 
 
   var search_setting = {
-    posturl: '/api-backend/admin/vehiclelist',
+    posturl: '/api-backend/admin/get_current_job',
     paginationDIV: $('.pagination_bar'),
     pagesize: 10,
     showfunction: show_patient_list,
-    limit: 10,
+    limit: 20,
     search: {}
   }
 
@@ -349,7 +295,7 @@ function continue_search(rawdata,clearsearch,search_setting)
   if (pagenumber > 1) {
     search_setting.page = pagenumber;
   }
-  
+
   console.log("Clearsearch C:" + clearsearch)
   // console.log('SEARCH ', search_setting);
   fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
@@ -369,18 +315,18 @@ function show_patient_list(objdata, totalrecord) {
       // console.log(item)
       // console.log(item.patient.displayName)
       item.vehicle ? vehicle = item.vehicle.CarNumber : "";
-      
-      item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
-      item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+
+      item.appointtime ? item.pickup_date = moment(item.pickup_date, "X").format('DD/MM/YYYY HH:mm') : "";
+      //item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
       item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
-      
+
       if (item.travel == "NONE" || item.travel == "SELF" || !item.travel)
       {
         null;
       }
       else if (item.travel == "STAFF")
       {
-        item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
+        //item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
       }
       else
       {
@@ -388,7 +334,7 @@ function show_patient_list(objdata, totalrecord) {
       }
 
       typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
-  
+
 
       if (item.patient.location && item.patient.location.coordinates)
       {
@@ -505,75 +451,6 @@ function choose_car(appointid)
   go2View("car_choose?id=" + appointid)
 }
 
-function SendData()
-{ 
-  if(!($("#Driver_Fullname").val()))
-  {
-    alert("กรุณากรอกชื่อคนขับด้วยครับ")
-  }
-  if(!($("#Driver_tel").val()))
-  {
-    alert("กรุณากรอกเบอร์ติดต่อด้วยครับ")
-  }
-  if(!($("#Driver_carnum").val()))
-  {
-    alert("กรุณากรอกทะเบียนด้วยครับ")
-  }
-  if(!($("#Vehicle_type").val()))
-  {
-    alert("กรุณากรอกประเภทรถโดยสารด้วยครับ")
-  }
-  var Maxcapacity = 0
-  var Car_type = ""
-  /*
-  <option value="1">Ambulance Taxi (6 ที่นั่ง)</option>
-  <option value="2">Van (5 ที่นั่ง)</option>
-  <option value="3">Van (9-10 ที่นั่ง)</option>
-  <option value="4">สองแถว ( 12 ที่นั่ง)</option>
-  */ 
-  
-  switch(parseInt(document.getElementById('Vehicle_type').value))
-  {
-    case 1: Maxcapacity = 6 ; Car_type = "Ambulance Taxi" ;break;
-    case 2: Maxcapacity = 5 ; Car_type = "Van_5seat" ;break;
-    case 3: Maxcapacity = 10 ; Car_type = "Van_10seat" ;break;
-    case 4: Maxcapacity = 12 ; Car_type = "สองแถว" ;break;
-  }
-
-  console.log("TestnewData")
-  console.log(Maxcapacity)
-  console.log(Car_type)
-  console.log($("#Vehicle_type").val())
-  console.log(parseInt(document.getElementById('Vehicle_type').value))
-  if($("#Driver_Fullname").val()|| $("#Driver_tel").val() || $("#Driver_carnum").val() || $("#Vehicle_type").val())
-  {
-    let staff = parseInt(document.getElementById('staff_list_showing').value);
-    let Fullname = $("#Driver_Fullname").val() 
-    let payload = {
-        Fullname: Fullname,
-        Tel: $("#Driver_tel").val(),
-        CarNumber: $("#Driver_carnum").val(),
-        staff: staff,
-        car_type: Car_type,
-        maxcapacity: Maxcapacity       
-    }
-    console.log(payload)
-    console.log(Fullname)
-    console.log($("#Driver_name").val())
-    console.log($("#Driver_surname").val())
-    console.log($("#Driver_tel").val())
-    console.log($("#Driver_carnum").val())
-    console.log(GLOBAL_USER.UserID)
-
-    
-    $.postJSON(MAINURL + "/api-backend/admin/vehicle/add", payload, (msg) => 
-    {
-      alert("Send data Complete!")
-    })
-    
-  }
-  
-}
 
 function changeDate(quantity) {
   current_date += 24 * 3600 * (quantity)
@@ -596,7 +473,7 @@ function initMap() {
   } else {
     console.log("No google")
   }
-}  
+}
 
 function OpenSearchBox(id)
 {
@@ -608,6 +485,6 @@ function OpenSearchBox(id)
   {
     document.getElementById(id).style.display = "none"
   }
-  
+
 }
 </script>

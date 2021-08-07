@@ -630,7 +630,7 @@
             doUploadImage_v2(blobdata_v2, "/api-web/line/regis_submit", payload, function(res) {
               console.log('upload',res)
               //refresh image tap
-              if (res)
+              if (res.code == 200)
               {              
                 go2View("initsymptoms");
               }

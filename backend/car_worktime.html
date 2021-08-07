@@ -1,5 +1,52 @@
 <style>
 
+  .external-event-calendar {
+      border-right: 1px solid #ccc;
+  }
+
+  .external-event-task {
+      color: #fff;
+      padding: 10px;
+      margin: 20px;
+      border-radius: 8px;
+      font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+
+  .demo-external-event-presets.demo-wrapper,
+  .demo-external-event-presets .mbsc-grid,
+  .demo-external-event-presets .mbsc-row,
+  .demo-external-event-presets .external-event-calendar {
+      height: 100%;
+  }
+
+
+
+
+
+  .md-work-week-cont {
+      position: relative;
+      padding-left: 50px;
+  }
+
+  .md-work-week-avatar {
+      position: absolute;
+      max-height: 50px;
+      max-width: 50px;
+      top: 21px;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      left: 20px;
+  }
+
+  .md-work-week-name {
+      font-size: 16px;
+  }
+
+  .md-work-week-title {
+      font-size: 12px;
+      margin-top: 5px;
+  }
+
 .md-timeline-template .mbsc-schedule-event.mbsc-ltr {
     height: auto !important;
 }
@@ -64,43 +111,166 @@
 
         <div class="container">
             <h4 class="p-0 m-0 mb-3"><b>ตารางงานเดินรถ</b></h4>
-            <div id="car-working" style="height:100%;"></div>
-        </div>
+            <form class="form-row" onsubmit="return pre_search();">
+              <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                  <input type="text" class="form-control" id="search_name" placeholder="ค้นหา ชื่อคนขับ หรือ เลขทะเบียน">
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                  <input type="text" class="form-control" id="search_tag" placeholder="ค้นหาตาม Tags">
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                  <input type="text" class="form-control" id="search_appointid" placeholder="ค้นหา ตาม Appointment ID">
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
 
+            <div class="mbsc-row">
+              ** ระบบค้นหารถมากที่สุด เพียง 10 คน
+              </div>
+<div class="mbsc-grid mbsc-no-padding">
+    <div class="mbsc-row">
+    <div class="mbsc-col-sm-9 external-event-calendar">
+            <div id="car-working" style="height:100%;"></div>
+
+          </div>
+     <div class="mbsc-col-sm-3">
+       <div class="mbsc-form-group-title" >ผู้ป่วยรอคิวรถ</div>
+       <div id="patient_waiting" ></div>
+
+        </div>
+      </div>
 </div>
+    </div>
+
+
+  </div>
+
+
+  <div id="external-event-dialog" class="mbsc-cloak" style="display:none">
+    <div mbsc-form>
+      <div class="mbsc-form-group-inset">
+          <label >
+              นัดหมาย #  <span id="patientname"> </span>
+          </label>
+          <br>
+          <label >
+              เวลานัดหมาย:  <span id="pickup_date"> </span>
+
+          </label>
+          <br>
+          <label >
+              เวลาเริ่มต้นเดินรถ:  <span id="pickup_begin"> </span>
+          </label>
+          <br>
+          <label >
+              เวลาเริ่มสิ้นสุดเดินรถ:  <span id="pickup_end"> </span>
+          </label>
+          <br>
+          <label >
+              รวมเวลาที่ใช้ :  <span id="pickup_usetime" style="color:green">  </span> นาที
+          </label>
+          <br>
+          <hr>
+          <label >
+              รับที่:  <span id="pickup_org"> </span> <span id="gpstext"></span>
+          </label>
+          <hr>
+
+          <label >
+              ส่งที่:  <span id="send_org"> </span>
+          </label>
+        <hr>
+
+          <br>
+
+          <label for="external-event-job">
+              ใส่หมายเหตุ
+          </label>
+          <label for="external-event-details">
+              <textarea id="external-event-details" mbsc-textarea data-label="Details" placeholder="หมายเหตุ"></textarea>
+          </label>
+          <br>
+          <font color='red'><span id="warntext" > </span></font>
+            <label>
+              <button type="button" class="btn btn-primary " onclick="lockevent()" id="btn_lockevent">
+                <i class="fas fa-save"></i>
+                  Confirm Lock jobs
+              </button>
+            </label>
+            <br>
+                <br>
+                    <br>
+            <label id="display_unlock" style="display:none">
+              <button type="button" class="btn btn-danger " onclick="unlockevent()" id="btn_unlockevent">
+
+                  Confirm UN Lock jobs
+              </button>
+              ** unlock ต้องประสานงานแจ้งทั้งผู้ป่วยและคิวรถ ด้วยตนเองด้วยนะครับ กรุณาตรวจสอบก่อนทำรายการนี้
+              <br>
+              <font color='red'> <small>
+                เมื่อกดแล้ว เลื่อนย้าย แล้ว ต้อง Lock อีกครั้งเพื่อบันทึกการเปลี่ยนแปลง
+              </small></font>
+            </label>
+
+      </div>
+      </div>
+  </div>
 
 <script>
 
-
+  var carcalendar;
+  var editingobj;
+  var current_appoint;
+  var current_car;
   function pre_search(){
     // clear search url from lastsearch
-
-    refreshpage(undefined,true);
+    getvehicle({
+      search_name : $('#search_name').val(),
+      search_appointid :$('#search_appointid').val()
+    });
+    //refreshpage(undefined,true);
     return false;
   }
-
+  var randcolor = ["#7a5886","#9da721","#cd6957","#637e57","#50789d","#6c5d45"]
   function  refreshpage(rawdata,clearsearch) {
 
     console.log("GLOBAL_USER",GLOBAL_USER)
         if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("DRIVER") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1)){
           return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
         }
+        get_unqueue()
+        getvehicle();
+
+  }
+  function set_event(obj,all_event){
         mobiscroll.setOptions({
         locale: mobiscroll.localeTh,
         theme: 'ios',
         themeVariant: 'light',
-        clickToCreate: true,
-        dragToCreate: true,
-        dragToMove: true,
-        dragToResize: true
     });
 
     $(function () {
-        $('#car-working').mobiscroll().eventcalendar({
+
+        carcalendar = $('#car-working').mobiscroll().eventcalendar({
             view: {
                 timeline: {
                     type: 'day'
                 }
+            },
+            renderResource: function (resource) {
+                return '<div class="md-work-week-cont">' +
+                    '<div class="md-work-week-name">'+ resource.title + '</div>' +
+          //          '<div class="md-work-week-title">' + resource.title + '</div>' +
+                    '<div class="md-work-week-avatar" ><a href="/admin/vehicle_list?find_id='+resource.id+'" target="_blank">#'+ resource.id +"</a>:</div>" +
+                    //  `<div><small>unsave</small></div>`+
+                    '</div>';
             },
             renderScheduleEvent: function (data) {
                 var ev = data.original;
@@ -108,7 +278,8 @@
 
                 return '<div class="md-timeline-template-event" style="border-color:' + color + ';background:' + color + '">' +
                     '<div class="md-timeline-template-event-cont">' +
-                    '<span class="mbsc-icon mbsc-font-icon mbsc-icon-' + ev.taskType + '" style="background:' + color + '"></span>' +
+                    //'<span class="mbsc-icon mbsc-font-icon mbsc-icon-' + ev.taskType + '" style="background:' + color + '"></span>' +
+                  //  (ev.unsave || '') +
                     '<span class="md-timeline-template-time" style="color:' + color + ';">' + data.start + '</span>' +
                     '<span class="md-timeline-template-title">' + ev.title + '</span></div></div>';
             },
@@ -117,66 +288,192 @@
                     taskType: 'cogs'
                 };
             },
-            data: [{
-                start: '2021-08-06T10:30',
-                end: '2021-08-06T13:00',
-                title: 'Tire change',
-                color: '#7a5886',
-                taskType: 'material-repeat',
-                resource: 1
-            }, {
-                start: '2021-08-06T07:00',
-                end: '2021-08-06T10:00',
-                title: 'Brake maintenance',
-                color: '#9da721',
-                taskType: 'cogs',
-                resource: 2
-            }, {
-                start: '2021-08-06T13:30',
-                end: '2021-08-06T16:30',
-                title: 'Fluid maintenance',
-                color: '#cd6957',
-                taskType: 'cogs',
-                resource: 1
-            }, {
-                start: '2021-08-06T11:00',
-                end: '2021-08-06T14:00',
-                title: 'Oil change',
-                color: '#637e57',
-                taskType: 'material-repeat',
-                resource: 3
-            }, {
-                start: '2021-08-06T08:00',
-                end: '2021-08-06T12:00',
-                title: 'Engine inspection',
-                color: '#6c5d45',
-                taskType: 'material-search',
-                resource: 3
-            }, {
-                start: '2021-08-06T14:00',
-                end: '2021-08-06T19:00',
-                title: 'Car painting',
-                color: '#50789d',
-                taskType: 'material-format-paint',
-                resource: 2
-            }],
-            resources: [{
-                id: 1,
-                name: 'Ryan',
-                color: '#239a21'
-            }, {
-                id: 2,
-                name: 'Kate',
-                color: '#01adff'
-            }, {
-                id: 3,
-                name: 'John',
-                color: '#ff0101'
-            }]
+            clickToCreate: false,
+            dragToCreate: false,
+            dragToResize: true,
+            dragToMove: true,
+            externalDrop: true,
+
+            onEventCreated: function (args) {
+                $(".appoint_id" +args.event._id).hide("slow");
+                var res = getobjbyid(current_car,args.event.resource)
+                args.event.color = res.color;
+                console.log("Created",args)
+            //    fillDialog(args);
+            },
+            onEventClick: function (args) {
+                       editingobj = args.event
+                       console.log("click",args.event)
+                       fillDialog(args);
+
+                   },
+            onEventCreateFailed: function () {
+                alert( 'Can\'t create event on this date');
+            },
+            onEventUpdateFailed: function () {
+                alert( 'Can\'t add event on this date');
+            },
+            data: all_event  ,
+            resources:obj
         });
+
+        var dialog = $('#external-event-dialog').mobiscroll().popup({
+            display: 'center',
+            width: 400,
+            contentPadding: false,
+            touchUi: false,
+            headerText: 'Assign task',
+            buttons: ['close'],
+        }).mobiscroll('getInst');
+
+           function fillDialog(args) {
+               console.log("arg",args)
+               var res = getobjbyid(current_car,args.event.resource)
+               var q = args.event;
+               console.log("GOT Res",res)
+               var start =new Date(q.start)/1000;
+               var end =new Date(q.end)/1000;
+               $('#display_unlock').hide();
+               $('#btn_lockevent').hide();
+               if(q.status == 1){
+                 $('#display_unlock').show();
+               }else if(q.pickup_date >= start && q.pickup_date <= end){
+                  $('#pickup_date').html(moment(q.pickup_date,"X").format("DD-MM-YY HH:mm"));
+                  $('#btn_lockevent').show();
+                  $("#warntext").html("")
+               }else{
+                  $('#pickup_date').html("<font color='red'>"+ moment(q.pickup_date,"X").format("DD-MM-YY HH:mm")) + "</font>";
+                  $("#warntext").html("เลือกวันที่ให้ตรงกับวันนัดหมาย ก่อนการบันทึก")
+               }
+               if(q.location){
+                   var gps=`<div><a href="https://www.google.com/maps/search/${q.location.coordinates[1]},${q.location.coordinates[0]}"   target="_blank">
+                       <button type="button" class="btn btn-sm btn-primary"><i class="fas fa-map-marker-alt"></i> Map</button></a></div>
+                     `
+                     $("#gpstext").html(gps);
+               }else{
+                  $("#gpstext").html("");
+               }
+               start = moment(q.start,"X");
+               end = moment(q.end,"X");
+               $('#pickup_usetime').html(end.diff(start,'minutes'));
+               $('#patientname').html(q._id +":"+ q.patient.firstname + " " + q.patient.mobileno);
+               $("#external-event-details").val(q.comments || "");
+               $('#pickup_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
+               $('#pickup_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
+               $('#pickup_org').html(`บ้านผู้ป่วย : ${q.address.address} ${q.address.subdistrict}  ${q.address.district}`);
+               $('#send_org').html(q.hospital.name);
+               dialog.open();
+           }
     });
     return false;
   }
+  function unlockevent(){
+      $('#display_unlock').hide('slow');
+      $("#warntext").html("")
+      $('#external-event-dialog').mobiscroll("getInst").close();
+      editingobj.editable = true;
+      editingobj.status=0;
+      editingobj.force_edit = true;
+  }
+  function lockevent(){
+    console.log(editingobj);
+    // update to server
+    var res = getobjbyid(current_car,editingobj.resource)
+    var postdata = {
+      _id:editingobj._id,
+      starttime : Math.floor(editingobj.start/1000),
+      endtime : Math.floor(editingobj.end/1000),
+      vehicle:res._id,
+      comments: $("#external-event-details").val(),
+      force_edit:editingobj.force_edit
+    };
+    console.log("Posting",postdata)
+
+    $.postJSON(MAINURL + "/api-backend/admin/assing_driver_job",postdata  ,(msg) => {
+      if(msg.result){
+        editingobj.editable = false;
+        alert_success("บันทึกคิวแล้ว");
+        $('#external-event-dialog').mobiscroll("getInst").close();
+      }else{
+        alert(msg.detail)
+      }
+    });
+
+
+  }
+  function getvehicle(dataseaerch){
+    if(!dataseaerch) dataseaerch = {};
+    $.postJSON(MAINURL + "/api-backend/admin/vehicle_list",dataseaerch  ,(msg) => {
+        console.log("v",msg)
+        var data_resouse = []
+        if(Array.isArray(msg.vehicle)){
+          current_car =msg.vehicle;
+            current_car.map((car)=>{
+              data_resouse.push({
+                id: car._id,
+                title: car.Fullname,
+                name:car.staff.displayName,
+                img: car.Picture,
+                color: randcolor[ car._id % 5]
+
+              })
+            });
+        }
+        if(data_resouse.length == 0 ) return;
+        var all_event =[]
+        if(Array.isArray(msg.q)){
+          msg.q.map((q)=>{
+            q.start = new Date(q.starttime*1000);
+            q.end = new Date(q.endtime*1000);
+            q.title = q.patient.firstname ? q.patient.firstname : "PatientID:" + q.patient ;
+            q.resource =  q.vehicle;
+            q.editable = false;
+
+          });
+
+        }
+        console.log("all_event",msg.q)
+        set_event(data_resouse,msg.q)
+
+
+    });
+  }
+
+  function get_unqueue(dataseaerch,cb){
+    if(!dataseaerch) dataseaerch = {};
+    $.postJSON(MAINURL + "/api-backend/admin/apooint_car_free",dataseaerch  ,(msg) => {
+        console.log("q",msg)
+        var waiting = []
+        var html_queue ='';
+        if(Array.isArray(msg)){
+            current_appoint= msg;
+            msg.map((q)=>{
+              q.title = q.patient.firstname ? q.patient.firstname : "PatientID:" + q.patient;
+              q.color = randcolor[ q._id % 5];
+              q.start =  new Date(q.pickup_date*1000);
+              q.end  = new Date( (q.pickup_date + 7200)*1000 );
+              html_queue+=`<div class="external-event-task appoint_id${q._id}" style="background: ${q.color};">
+                  <div>#${q._id}:${q.title}</div>
+                  <div>นัดหมายเวลา: ${moment(q.pickup_date,"X").format("DD-MM-YY HH:mm")}</div>
+                  <div>${q.address.address} ${q.address.district} ${q.address.province}</div>`
+                    if(q.location){
+                        html_queue+=`<div><a href="https://www.google.com/maps/search/${q.location.coordinates[1]},${q.location.coordinates[0]}"   target="_blank">
+                            <button type="button" class="btn btn-sm btn-primary"><i class="fas fa-map-marker-alt"></i> Map</button></a></div>
+                          `
+                    }
+                    html_queue+= `</div>`
+            })
+            $('#patient_waiting').html(html_queue)
+            $('.external-event-task').each(function (i, o) {
+               $(o).mobiscroll().draggable({ dragData: current_appoint[i] });
+           });
+
+        }
+    });
+  }
+
+
+
 
 
 </script>

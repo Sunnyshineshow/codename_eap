@@ -22,18 +22,6 @@
               <div class = "mbsc-btn-group-block">
                 <button mbsc-button onclick="qrCodeScanner()">สแกน QRCode ของผู้ป่วย</button>
               </div>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
           </div>
       </div>
 
@@ -42,6 +30,39 @@
   <div mbsc-form id="ui_showing">
 
   </div>
+  <div mbsc-form>
+    <p>หรือกรอกข้อมูลผู้ป่วยด้านล่าง</p>
+    <div class="mbsc-col-3" style="padding:0px;margin:0px;">
+      <div id="input_patient" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+        <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">PATIENT ID<span style="color:red"> *</span></p>
+        <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+          <div id="inputbox_patient">
+            <label>
+              <input class="mbsc-align-left" id="patient_in" type="number"placeholder="" style="font-size: 13px;" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="mbsc-col-3" style="padding:0px;margin:0px;">
+      <div id="input_appointment" style="border-radius:0px !important;padding:0px;margin-top:10px;">
+        <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">APPOINTMENT ID<span style="color:red"> *</span></p>
+        <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+          <div id="inputbox_patient">
+            <label>
+              <input class="mbsc-align-left" id="appointment_in" type="number" placeholder="" style="font-size: 13px;" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <button mbsc-button onclick="qrlessConfirm()">ยืนยัน</button>
+  </div>
+  
+
 
 <script>
 
@@ -70,6 +91,7 @@
             {
                 $.postJSON(MAINURL + "/api-web/line/admin_loadqrdata", {_id:id,patient:patient},(msg)=>
                 {
+                    alert(id + " " + patient)
                     if (msg.code == 200)
                     {
                         go2View("admin_option?id=" +  id + '&patient=' +  patient);
@@ -90,6 +112,45 @@
 
             }
         });
+
+    }
+
+    function qrlessConfirm()
+    {
+
+        if (!$("#patient_in").val())
+        {
+            return alert_modal("โปรดระบุเลขที่ผู้ป่วย")
+        }
+        
+        if (!$("#appointment_in").val())
+        {
+            return alert_modal("โปรดระบุเลขที่ผู้ป่วย")
+        }
+
+        let id = parseInt($("#appointment_in").val())
+        let patient = parseInt($("#patient_in").val())
+
+        $.postJSON(MAINURL + "/api-web/line/admin_loadqrdata", {_id:id,patient:patient},(msg)=>
+                {
+                    if (msg.code == 200)
+                    {
+                        go2View("admin_option?id=" +  id + '&patient=' +  patient);
+                    }
+                    else if (msg.code == 404)
+                    {
+                        alert_modal("ไม่พบข้อมูลนัดหมาย โปรดติดต่อเจ้าหน้าที่ฝ่ายพัฒนา")
+                    }
+                    else if (msg.code == 403)
+                    {
+                        return alert_modal("นัดหมายนี้ถูกยกเลิก<br><br>หากคิดว่านี่คือข้อผิดพลาด<br>โปรดติดต่อเจ้าหน้าที่ฝ่ายพัฒนา")
+                    }
+                    else
+                    {
+                        alert_modal("เกิดข้อผิดพลาดบางอย่าง โปรดลองใหม่อีกครั้ง")
+                    }
+                })
+
 
     }
 </script>
