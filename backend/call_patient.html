@@ -50,7 +50,15 @@
                     <p class="m-0 p-0 mt-3"><strong>ข้อมูลเพิ่มเติม:</strong></p>
                     <p class="m-0 p-0"><span style="text-align: justify;">##PATIENT-init_symptoms.comment##</span></p>
                     <p class="m-0 p-0 mt-3"><strong>สีของผู้ป่วย:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-color##</span></p>
+
                     <p class="m-0 p-0 mt-3"><strong>จำนวนวันตั้งแต่ที่มีอาการ:</strong> <span id="patient_color" style="text-align: justify;">##PATIENT-day_count##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>วันที่ได้รับการตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-certdate##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>วิธีการที่ใช้ตรวจเชื้อ COVID-19:</strong> <span style="text-align: justify;">##PATIENT-priority##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>หลักฐานการตรวจเชื้อ COVID-19:</strong><br> <span style="text-align: justify;"><img src='/cdn/image/##PATIENT-cert_image##' width=80 height=80 onclick="call_modal_image_view(this);" ></span></p>
+                    <p class="m-0 p-0 mt-3"><strong>อาการปอดอักเสบ:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.pneumonia_check##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>วันที่ X-Ray ปอดและได้รับแจ้งว่ามีอาการปอดอักเสบหรือผิดปกติ:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.xraydate##</span></p>
+                    <p class="m-0 p-0 mt-3"><strong>จำนวนวันที่ได้รับยาต้านไวรัส:</strong> <span style="text-align: justify;">##PATIENT-init_symptoms.virusmed##</span></p>
+
                     <button type="button" class="btn btn-primary mt-4 mb-3" onclick="clickToAppoint()"> ดูรายละเอียดเพิ่มเติม</button>
                   </div>
                 </div>
@@ -139,7 +147,7 @@
             symptoms: {}
           })
 
-        if (!res.init_symptoms) {
+        /*if (!res.init_symptoms) {
           let init_symptom = {
             spo_room_air: -1,
             exercise_test: -1,
@@ -159,7 +167,7 @@
           }
         }
         else
-        {
+        {*/
           if (res.init_symptoms.spo_room_air == -1) {
             res.init_symptoms.spo_room_air = "ไม่ทราบค่า"
           }
@@ -167,7 +175,7 @@
           if (res.init_symptoms.exercise_test == -1) {
             res.init_symptoms.exercise_test = "ไม่ทราบค่า"
           }
-        }
+        //}
 
         if (res.symptoms)
         {
@@ -218,6 +226,36 @@
             color: "N/A"
           })
         }
+
+        if (res.priority == 2){
+            res.priority = 'RT-PCR โดยเจ้าหน้าที่'
+          } else if (res.priority == 1){
+            res.priority = 'ATK โดยเจ้าหน้าที่'
+          } else if(res.priority == 0) {
+            res.priority = 'ATK ด้วยตนเอง'
+          }
+
+          if (res.init_symptoms)
+          {
+              if (res.init_symptoms.pneumonia_check == true){
+                res.init_symptoms.pneumonia_check = 'เคยเป็น'
+            } else if(res.init_symptoms.pneumonia_check == false) {
+                res.init_symptoms.pneumonia_check = 'ไม่เคยเป็น'
+            }
+          }
+
+          res.certdate ? res.certdate = moment(res.certdate, "X").format("DD/MM/YYYY") : "";
+
+          if (res.init_symptoms){
+            if (res.init_symptoms.xraydate == -1) {
+              res.init_symptoms.xraydate = "ไม่เคย X-Ray"
+            }
+            else if (res.init_symptoms.xraydate)
+            {
+              res.init_symptoms.xraydate = moment(res.init_symptoms.xraydate, "X").format("DD/MM/YYYY")
+            }
+            res.init_symptoms.virusmed == -1 ? res.init_symptoms.virusmed = "ไม่เคยได้รับ" : res.init_symptoms.virusmed
+          }
 
 
         if (res.verify)
