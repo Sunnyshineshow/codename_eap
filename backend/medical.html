@@ -1,6 +1,39 @@
 <div class="main_page mb-5" style="margin-top:120px;">
     <div class="p-2 mr-5 ml-5">
       <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-4 mt-2" style="text-align: center;">
+                <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+                  <div class="card-body text-black">
+                    <h3>Normal Dose</h3>
+                    <h1 id="normal_dose_num">Loading</h1>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mt-2" style="text-align: center;">
+                <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+                  <div class="card-body text-black">
+                    <h3>90kg Dose</h3>
+                    <h1 id="large_dose_num">Loading</h1>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4 mt-2" style="text-align: center;">
+                <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+                  <div class="card-body text-black">
+                    <h3>Total Normal / 90kg</h3>
+                    <h1 id="total_dose_num">Loading</h1>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <br>
+
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
   
         <h3 class="p-0 m-0 mb-3"><b>Treatment (อยู่ระหว่างการพัฒนา)</b></h3>
         <h4 class="p-0 m-0 mb-3"><b>Medical</b></h4>
@@ -55,6 +88,12 @@
   
         <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
   
+        <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
+        <div class="btn-group" style="text-align: left;">
+            <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
+            <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
+          </div>
+
         <!-- แบ่งหน้า -->
         <div class="row mt-4">
           <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -71,6 +110,7 @@
                 <th scope="col" class="text-secondary">Appointment ID</th>
                 <th scope="col" class="text-secondary">Patient ID</th>
                 <th scope="col" class="text-secondary">Name</th>
+                <th scope="col" class="text-secondary">Age</th>
                 <th scope="col" class="text-secondary">Date</th>
                 <th scope="col" class="text-secondary">Favipilavia</th>
                 <th scope="col" class="text-secondary">Other</th>
@@ -88,6 +128,7 @@
                   <br>
                   ##MED-patient.firstname## ##MED-patient.lastname##
                 </td>
+                <td class="text-center table-middle">##MED-patient.age##</td>
                 <td class="text-center table-middle">##MED-createdate##</td>
                 <td class="text-center table-middle">##MED-medicine.medic_favipilavia##</td>
                 <td class="text-center table-middle">##MED-medicine.medic_other##</td>
@@ -98,12 +139,32 @@
             </tbody>
             <tbody id="show_patientlist">
               <tr>
-  
+
               </tr>
             </tbody>
           </table>
         </div>
         <!-- // end table -->
+
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+
+        <h4 class="p-0 m-0 mb-3"><b>Daily Summary</b></h4>
+        <table class="table table-bordered table-hover show_startpage font-weight-light" >
+            <thead class="text-center">
+              <tr>
+                <th scope="col" class="text-secondary">Normal Dose</th>
+                <th scope="col" class="text-secondary">90kg Dose</th>
+                <th scope="col" class="text-secondary">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center table-middle" id="normal_table"></td>
+                <td class="text-center table-middle" id="large_table"></td>
+                <td class="text-center table-middle" id="total_table"></td>
+              </tr>
+            </tbody>
+          </table>
   
       </div>
     </div>
@@ -113,6 +174,9 @@
     var template_patient_row = $('#row_patientlist').html();
     var searchobj = {};
     var fncsearch;
+    var date = new Date();
+    var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000)
+    var shown_date = new Date(current_date * 1000)
     // var global_color;
   
     function pre_search(){
@@ -123,6 +187,13 @@
     }
     function refreshpage(rawdata,clearsearch) {
       console.log("GLOBAL_USER",GLOBAL_USER)
+
+      console.log(current_date)
+
+      if (!clearsearch)
+      {
+        clearsearch = true
+      }
   
       var search_setting = {
         posturl: '/api-backend/admin/treatment_medlist',
@@ -140,6 +211,19 @@
         Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
       }
   
+    //   if ($("#search_date").val() != "")
+    //   {
+    //     console.log($("#search_date").val())
+    //     current_date = Math.floor(new Date($("#search_date").val()) / 1000)
+    //     shown_date = new Date(current_date * 1000)
+    //     document.getElementById('search_date').value = ""
+    //   }
+
+    Object.assign(search_setting.search,{find_date: current_date})
+
+    shown_date = new Date(current_date * 1000)
+        document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
       console.log("Searching..",search_setting)
       // else
       // {
@@ -166,6 +250,9 @@
         working.patient = objdata.obj;
         console.log("OBJDATA: " + objdata.obj)
   
+        let normal_dose = 0
+        let large_dose = 0
+
         objdata.obj.map(item => {
           // console.log(item)
           // let datetime = new Date(res.symptoms[i].inputdate)
@@ -174,6 +261,15 @@
           // item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
   
           item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY HH:mm") : "";
+          
+          if (item.medicine.medic_favipilavia == 50)
+          {
+              normal_dose++
+          }
+          else if (item.medicine.medic_favipilavia == 64)
+          {
+              large_dose++
+          }
           //  item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
           //  if (item.color == "RED") {
           //    item.color = '<span style="color: #C70039;">RED</span>'
@@ -205,13 +301,47 @@
           // }
   
         })
+
+        document.getElementById('normal_dose_num').innerHTML = normal_dose
+        document.getElementById('large_dose_num').innerHTML = large_dose
+
+        document.getElementById('normal_table').innerHTML = normal_dose
+        document.getElementById('large_table').innerHTML = large_dose
+        document.getElementById('total_table').innerHTML = normal_dose + large_dose
   
         var html_row = hash_replace(template_patient_row, 'MED', objdata.obj)
         $("#show_patientlist").html(html_row);
         // $('.show_startpage').show('slow');
-  
       } else {
         $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
       }
+    }
+
+    $(document).ready(() =>
+    {
+        $.getJSON(MAINURL + "/api-backend/admin/treatment_medquery", (msg) =>
+        {
+            let normal = 0;
+            let large = 0;
+            for (let i = 0; i < msg.length; i++)
+            {
+                if (msg[i]._id.favi == 50)
+                {
+                    normal++;
+                }
+                else if (msg[i]._id.favi == 64)
+                {
+                    large++;
+                }
+            }
+
+            document.getElementById('total_dose_num').innerHTML = normal + "/" + large
+        })
+    })
+
+    function changeDate(quantity) {
+      current_date += 24 * 3600 * (quantity)
+      shown_date = new Date(current_date * 1000)
+      pre_search()
     }
   </script>
