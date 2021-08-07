@@ -132,7 +132,7 @@
       </div>
       <div class="modal-body" >
         <label >
-            นัดหมาย #   <span id="qid"> </span>
+            นัดหมาย Slot#   <span id="qid"> </span>
         </label>
         <br>
         <label >
@@ -151,7 +151,15 @@
                 <th scope="row"><img src="##q-patient.pictureUrl##" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;" >               </th>
                 <td> ##q-patient.firstname##</td>
                 <td><a href="/admin/patient?id=##q-patient.id##" target="_blank"> <button type="button" class="btn btn-sm btn-secondary" >Detail </button> </a></td>
-                <td> <button type="button" class="btn btn-sm btn-outline-warning">ย้ายไปเวลาอื่น </button></td>
+                <td> <button type="button" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้ายไปเวลาอื่น </button>
+
+                  <ul class="dropdown-menu all_timelist" aria-labelledby="Moveit">
+                    <li><a class="dropdown-item" href="#" onclick="return moveslotto(this,'##slot-id##');" >##slot-startshow## - ##slot-endshow##</a></li>
+
+                  </ul>
+
+                </td>
+
 
               </tr>
               </tbody>
@@ -176,6 +184,8 @@
   var qcalendar;
   var randcolor = ["#7a5886","#9da721","#cd6957","#637e57","#50789d","#6c5d45"]
   var template_modalbody = $('#mobdal_body').html();
+  var template_all_timelist = $('.all_timelist').html();
+  var workingslot;
   function refreshpage(rawdata,clearsearch) {
 
     if (!clearsearch)
@@ -345,6 +355,7 @@
 function fillDialog(args) {
     var res = getobjbyid(current_hosp,args.event.resource)
     var q = args.event;
+    workingslot = q;
     $('#qid').html(q._id);
     $('#t_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
     $('#t_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
@@ -355,14 +366,59 @@ function fillDialog(args) {
     }
     $.postJSON(MAINURL + "/api-backend/admin/appoin_slot_tlist", postdata, (msg) => {
         console.log("gotBack",msg)
+
         var html = hash_replace(template_modalbody,"q",msg.obj.obj);
           $('#mobdal_body').html(html)
+          getdaylist(q.hospital,q._id);
           $('#external-event-dialog').modal("show")
     });
 
-
-
-
    // dialog.open();
+}
+
+function getdaylist(hospitalid,main_id){
+    console.log("CHECK",hospitalid)
+
+    $.postJSON(MAINURL + "/api-backend/admin/appoint/get7daysslot", {hospitalid:hospitalid}, (msg) => {
+        msg.map((l)=>{
+            l.startshow = moment(l.timestart,'X').format("D/MM HH:SS")
+            l.endshow = moment(l.timeend,'X').format("HH:SS")
+            if(l._id == main_id){
+                l.startshow="<font color='red'>ปัจจุบัน"
+                l.endshow =" เวลานี้ </font>"
+            }
+        })
+
+        var html = hash_replace(template_all_timelist,"slot",msg);
+
+      $('.all_timelist').html(html);
+      console.log("7day,",msg)
+    });
+}
+function moveslotto(obj,slotid){
+  confirm("ยืนยันการย้าย ?")
+  var testobj = $(obj).parents('td').find('.button_moveslot')
+  console.log('html',testobj.html())
+  var movefrom = testobj.data('movefrom')
+  var movepatient =testobj.data('movepatient')
+  var postData = {
+        patient:movepatient,
+        appointment:movefrom,
+        from:workingslot._id,
+        to:slotid
+    }
+    if(postData.from == postData.to){
+      alert("Same TIME")
+      return;
+    }
+  $.postJSON(MAINURL + "/api-backend/admin/appoint/move_appoint_slot",postData,(result)=>{
+    $('#external-event-dialog').modal("hide")
+    if(result.result){
+      refreshpage();
+    }else{
+      alert(result.detail)
+    }
+  });
+  console.log("moveslotto",slotid,movefrom,movepatient)
 }
 </script>
