@@ -1,5 +1,6 @@
 <script>
     var appointmentid = getParameterByName('id', window.location.search);
+    console.log("เข้าหน้าเว็บ")
     $.postJSON(MAINURL + "/api-web/line/appoint_confirmed/", {_id: parseInt(appointmentid)}, (msg)=>
     {
         if (msg.code == 200)
