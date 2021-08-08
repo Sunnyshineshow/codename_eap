@@ -284,7 +284,11 @@ var patient;
 
   function refreshpage() {
       //console.log("GLOBALUSER",GLOBALUSER)
-      if(GLOBALUSER.status ==1){
+      if(GLOBALUSER.status == 1){
+          go2View("check_register");
+          return;
+      }
+      else if(GLOBALUSER.status == 4){
           go2View("register");
           return;
       }

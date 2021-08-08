@@ -634,6 +634,10 @@
               {              
                 go2View("initsymptoms");
               }
+              else if (res.code == 401)
+              {
+                return alert_modal("เกิดข้อผิดพลาดในระบบ หรือท่านยังไม่ได้ยืนยันผลตรวจ\nโปรดยืนยันผลตรวจก่อนทำการลงทะเบียน" + "\nDetail: " + res.detail)
+              }
               else
               {
                   return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")

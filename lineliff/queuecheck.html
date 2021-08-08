@@ -92,6 +92,9 @@
       <td style="text-align:center;">
           <p style="padding:0px;margin:0px;"><span>##APPOINT-type##</span></p>
       </td>
+      <td style="text-align:center;">
+        ##APPOINT-confirmed##
+      </td>
     </tr>
   </tbody>
 
@@ -443,6 +446,15 @@
           {
             msg[i].travel = "รถส่วนตัว"
           }
+
+          if (!msg[i].confirmed)
+          {
+            msg[i].confirmed = "<button mbsc-button type=\"button\" class=\"mbsc-btn-outline\" onclick=\"appoint_confirmed('" +msg[i]._id+"')\" style=\"padding:5px 0px;margin:0px;color:white !important; border:none !important ; border-radius:10px;background-color: #206eb8 ;\"><p style=\"padding:0px;margin:0px;\"><i class=\"fa fa-hand-pointer-o\" style=\"padding:0px;margin:0px;font-size:15px;\"></i> <span>" +"ยืนยัน"+"</span></p></button>"
+          }
+          else
+          {
+            msg[i].confirmed = "ยืนยันแล้ว"
+          }
       }
 
       if (msg.length == 0)
@@ -461,7 +473,8 @@
       <td style="text-align:center; width:10%;">สถานะ</td>
       <!-- <td style="text-align:center; width:20%;">เจ้าหน้าที่</td> -->
       <td style="text-align:center; width:20%;">การเดินทาง</td>
-      <td style="text-align:center; width:20%;">ประเภท</td>
+      <td style="text-align:center; width:10%;">ประเภท</td>
+      <td style="text-align:center; width:10%;">ยืนยัน</td>
     </tr>`
         var que_data_template = $("#que_data").html()
 
@@ -514,5 +527,24 @@
       return refreshpage();
     })
   }
+
+  function appoint_confirmed(id)
+  {
+    id = parseInt(id)
+
+    $.postJSON(MAINURL + "/api-web/line/appoint_confirmed", {_id: id},(msg) =>
+    {
+      if (msg.code == 200)
+      {
+        alert_modal("ยืนยันสำเร็จ")
+      }
+      else
+      {
+        alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+      }
+      return refreshpage();
+    })
+  }
+
   // alert_modal(ท่านยังไม่มีรายการนัดหมาย);
 </script>
