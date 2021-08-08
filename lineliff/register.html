@@ -631,7 +631,7 @@
               console.log('upload',res)
               //refresh image tap
               if (res.code == 200)
-              {              
+              {
                 go2View("initsymptoms");
               }
               else if (res.code == 401)
@@ -641,6 +641,9 @@
               }
               else
               {
+                  if(res && res.detail){
+                      return alert_modal(res.detail)
+                  }
                   return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
               }
             })
