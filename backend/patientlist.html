@@ -55,9 +55,8 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
               </div>
-
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                <input type="text" class="form-control" id="search_passport" placeholder="เลขที่พาสปอร์ต">
+                <input type="text" class="form-control" id="search_comment" placeholder="ค้าหาตามหมายเหตุ">
               </div>
 
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -124,7 +123,9 @@
               <th scope="col" class="text-secondary">Profile</th>
               <th scope="col" class="text-secondary">ID</th>
               <th scope="col" class="text-secondary">Display Name</th>
-              <th scope="col" class="text-secondary">Area</th>
+              <th scope="col" class="text-secondary">ชื่อ-นามสกุล /บัตร</th>
+              <th scope="col" class="text-secondary">ที่อยู่</th>
+              <th scope="col" class="text-secondary">เบอร์โทร</th>
               <th scope="col" class="text-secondary">Create Date</th>
               <th scope="col" class="text-secondary">Day Count</th>
               <th scope="col" class="text-secondary">Color</th>
@@ -140,18 +141,27 @@
               </td>
               <td class="text-center table-middle"># ##patient-id##</td>
               <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
-                <br>
-                ##patient-firstname## ##patient-lastname##
               </td>
-              <td class="text-center table-middle">ต.##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province##</td>
+
+              <td class="text-center table-middle" nowrap="nowarp">##patient-firstname## ##patient-lastname##
+                <br>##patient-idcard##
+
+              </td>
+
+              <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province##</td>
+              <td class="text-center table-middle">##patient-mobileno##</td>
               <td class="text-center table-middle">##patient-createDate##</td>
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color_change##</span></td>
-              <td class="text-center table-middle">##patient-status##</td>
+              <td class="text-center table-middle">##patient-status##
+                <br>
+<font color='blue'>##patient-comment##</font>
+              </td>
               <td class="text-center">
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')"><i class="fas fa-calendar-week"></i> นัดหมาย</button>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="update_comment('##patient-id##')">ใส่หมายเหตุ</button>
               </td>
             </tr>
           </tbody>
@@ -170,6 +180,24 @@
     </div>
   </div>
 </div>
+<div class="modal" tabindex="-1" id="p_comment">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ใส่หมายเหตุ สำหรับผู้ป่วยรายนี้</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="finish_comment()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
   var searchobj = {};
@@ -207,6 +235,9 @@
 
     if ($('#search_cid').val() !== "") {
       Object.assign(search_setting.search,{find_idcard: $('#search_cid').val()})
+    }
+    if ($('#find_comment').val() !== "") {
+      Object.assign(search_setting.search,{find_comment: $('#search_comment').val()})
     }
 
     if ($('#search_passport').val() !== "") {
@@ -352,6 +383,27 @@
 
   }
 
+  var working_patient;
+  function update_comment(patient_id){
+    working_patient = patient_id
+    $("#p_comment").modal('show')
+    //patient_id
+  }
+  function finish_comment(){
+    $("#p_comment").modal('hide')
+    if(! $('#patient_comment').val()) {
+      alert("Comment is empty")
+      return;
+    }
+    var data = {
+      patient : working_patient,
+      comment: $('#patient_comment').val()
+    }
+    $.postJSON(MAINURL + '/api-backend/admin/update_comment',data,(msg)=>{
+        refreshpage();
+    })
+
+  }
   function appointment(patient_id) {
 
     go2View("appoint_patient?id=" + patient_id)

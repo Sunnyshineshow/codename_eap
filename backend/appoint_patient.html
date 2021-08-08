@@ -41,7 +41,7 @@
                       <select class="form-select" name="hospital" id="hospital" style="display: none;">
                         <option value="##HOSPITAL-id##">##HOSPITAL-name##</option>
                       </select>
-  
+
                       <select class="form-select" name="hospital_showing" id="hospital_showing">
                         <div id="qrcode"></div>
                       </select>
@@ -67,7 +67,7 @@
                       </div>
                     </div>
                   </div>
-  
+
                   <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label"><strong>การรักษา: </strong></label>
                     <div class="col-sm-8">
@@ -85,7 +85,7 @@
             </div>
           </div>
         </div>
-        
+
         <br>
         <div class="card">
             <div class="card-body" style="text-align: left;">
@@ -118,19 +118,19 @@
                   <label class="col-sm-3 col-form-label"><strong>ประเภทการรักษา: </strong></label>
                   <div class="col-sm-8">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="type_of_treatment" id="queue_x_ray_choose">
+                      <input class="form-check-input" type="radio" name="type_of_treatment" id="queue_x_ray_choose" checked>
                       <label class="form-check-label" for="queue_x_ray_choose">
                         X-Ray
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="type_of_treatment" id="queue_customize_choose" checked>
+                      <input class="form-check-input" type="radio" name="type_of_treatment" id="queue_customize_choose" >
                       <label class="form-check-label" for="queue_customize_choose">
                         กำหนดเอง
                       </label>
                     </div>
                   </div>
-                  
+
                 </div>
                 <div class="mb-3 row">
                   <label class="col-sm-3 col-form-label"><strong>การรักษา: </strong></label>
@@ -191,7 +191,7 @@
                   </tbody>
                   <tbody id="row_appointlist_showing">
                     <tr>
-  
+
                     </tr>
                   </tbody>
                 </table>
@@ -205,7 +205,7 @@
 
   <!-- <style>
     //firefox date but no time
-  
+
     [type="date"] {
       background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
     }
@@ -242,24 +242,24 @@
         console.log("Raw Data Above")
 
         console.log("GLOBAL_USER",GLOBAL_USER)
-        
+
       let patientid = getParameterByName('id', window.location.search);
       $.postJSON(MAINURL + '/api-backend/admin/appoint/loaddata', {
         _id: patientid
       }, (msg) => {
-  
+
         // console.log(msg)
-  
+
         //Use to replace data
         let tmp;
         tmp = hash_replace(patient_info_template, "PATIENT", msg.patient)
         $("#patient_information_showing").html(tmp)
-  
+
         // QR CODE
         //new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie");
-  
+
       })
-  
+
       $.postJSON(MAINURL + '/api-backend/admin/appoint/patientdata', {
         patient: patientid
       }, (msg) => {
@@ -267,20 +267,20 @@
 
         appointment_list = msg;
 
-  
+
         for (let i = 0; i < msg.length; i++) {
           //Date Time
           let datetime = new Date(msg[i].appointtime * 1000)
-  
+
           let minutes = datetime.getMinutes()
-  
+
           if (minutes < 10) {
             minutes = "0" + minutes
           }
-  
+
           msg[i].appointtime = datetime.getDate() + "/" +
             (datetime.getMonth() + 1) + "/" + datetime.getFullYear() + " " + datetime.getHours() + ":" + minutes
-  
+
           if (msg[i].status == -1) {
             msg[i].status = `<span style="color: #C70039;">ยกเลิก</span>`
           } else if (msg[i].status == 0) {
@@ -301,14 +301,14 @@
             msg[i].status = `<span style="color: black;">ขาดนัด</span>`
           }
         }
-  
+
         //Use to replace data
         let tmp;
         tmp = hash_replace(appointlist_template, "APPOINT", msg)
         $("#row_appointlist_showing").html(tmp)
       })
     }
-  
+
     function showQR(appointment,patient)
       {
         console.log("GLOBAL_USER",GLOBAL_USER)
@@ -329,7 +329,7 @@
 
 
         //})
-      
+
       }
 
     function submit() {
@@ -337,7 +337,7 @@
           return alert("คุณไม่ได้รับอนุญาตให้ดำเนินการในส่วนนี้")
         }
       // console.log($('#hospital_showing').val())
-  
+
       let patientid = getParameterByName('id', window.location.search);
       let type;
       let date = new Date()
@@ -350,7 +350,7 @@
       if (Math.floor(Date.parse($('#appoint_date').val())) < current_date){
         return alert("โปรดกรอกวันเวลาให้ถูกต้อง")
       }
-      
+
       if (document.getElementById('x_ray_choose').checked) {
         type = "XRAY"
       } else if (document.getElementById('customize_choose').checked) {
@@ -359,7 +359,7 @@
         return alert("โปรดกรอกรายละเอียดการรักษา")
       }
       }
-  
+
       let payload = {
         patient: patientid,
         hospital: parseInt($('#hospital_showing').val()),
@@ -367,7 +367,7 @@
         type: type,
         comment: $('#treatment').val()
       }
-  
+
       $.postJSON(MAINURL + "/api-backend/admin/appoint/submit", payload, (msg) => {
         console.log("data from server: " + msg)
         return alert_success("ทำการนัดหมายเรียบร้อย");
@@ -384,7 +384,7 @@
       console.log($('#postpone_date').val())
       let patientid = getParameterByName('id', window.location.search);
       let type;
-      let date = new Date()      
+      let date = new Date()
 
       let isInThisPatient = false
 
@@ -393,7 +393,7 @@
       var SplitTime = Half[1].split(":")
 
       console.log("Setting Date")
-     
+
       console.log()
       console.log(Half)
       console.log(SplitDate)
@@ -401,14 +401,14 @@
 
       var ChangeTime = Math.floor(new Date(SplitDate[0],SplitDate[1]-1,SplitDate[2],SplitTime[0],SplitTime[1]) /1000)
       var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()) / 1000)
-      
+
       console.log(ChangeTime)
-      console.log(current_date)      
-      
+      console.log(current_date)
+
       if (!($('#queue_number').val())) {
         return alert("โปรดกรอกเลขที่นัดหมาย")
       }
-      
+
       for (let i = 0; i < appointment_list.length; i++)
       {
         if ($('#queue_number').val() == appointment_list[i]._id)
@@ -438,7 +438,7 @@
         if (!($('#queue_treatment').val())) {
         return alert("โปรดกรอกรายละเอียดการรักษา")
       }
-      }            
+      }
 
       let payload = {
         _id: $('#queue_number').val(),
@@ -446,7 +446,7 @@
         appointtime: ChangeTime,
         type: type,
         comment: $('#queue_treatment').val()
-      }    
+      }
 
       console.log("Dragon's Test")
       console.log(payload)
@@ -469,7 +469,7 @@
 
       refreshpage(true);
     }
-  
+
     function cancelAppointment(id) {
       if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("CALLCEN") == -1 && GLOBAL_USER.role.indexOf("XRAY") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1 )){
           return alert("คุณไม่ได้รับอนุญาตให้ดำเนินการในส่วนนี้")
@@ -477,7 +477,7 @@
       let payload = {
         _id: id
       }
-  
+
       if (confirm("คุณต้องการยกเลิกนัดหรือไม่")) {
         $.post(MAINURL + "/api-backend/admin/appoint/cancel_appoint", payload, (msg) => {
           if (msg.code == 200)
@@ -496,7 +496,7 @@
       }
 
       refreshpage(true);
-  
+
     }
 
     function confirmedAppointment(id) {
@@ -506,7 +506,7 @@
       let payload = {
         _id: id
       }
-  
+
       if (confirm("คุณต้องการยืนยันนัดหรือไม่")) {
         $.post(MAINURL + "/api-backend/admin/appoint/confirmed_for_patient", payload, (msg) => {
           if (msg.code == 200)
@@ -521,9 +521,9 @@
       }
 
       refreshpage(true);
-  
+
     }
-  
+
     function toDescription() {
       let patientid = getParameterByName('id', window.location.search);
       go2View("patient?id=" + patientid)
@@ -534,10 +534,10 @@
     function Toggle(Box)
     {
         var x = document.getElementById(Box);
-        if (x.style.display === "none") 
+        if (x.style.display === "none")
         x.style.display = "none";
-        else 
-        x.style.display = "block"; 
+        else
+        x.style.display = "block";
     }
     //date + time
     // mobiscroll.datepicker('#appoint_date', {
@@ -545,4 +545,3 @@
     //   touchUi: true
     // });
   </script>
-  
