@@ -10,9 +10,17 @@
           <div class="row d-flex justify-start">
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
               <div class="form-group">
-                <label for="ID No">Appointment ID:</label>
-                <input type="text" class="form-control" id="search_idno" placeholder="ID No">
+                <label for="ID No">Patient ID:</label>
+                <input type="text" class="form-control" id="search_id" placeholder="Patient ID No">
               </div>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="form-group">
+                <label for="ID No">Appointment ID:</label>
+                <input type="text" class="form-control" id="search_idno" placeholder="Appoint ID No">
+              </div>
+
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
               <label for="search_status">สถานะ</label>
@@ -28,15 +36,24 @@
                 </select>
               </div>
             </div>
-
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <label for="search_status">เรียงข้อมูลตาม</label>
+              <div class="form-group">
+                <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_sort">
+                  <option value="" >โปรดเลือก</option>
+                  <option value="_id">Appointment ID</option>
+                  <option value="dayfirst">วันนัดเก่า มาก่อน</option>
+                  <option value="daylater">วันนัดใหม่ มาก่อน</option>
+                </select>
+              </div>
+            </div>
+  <!--
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
               <label for="SearchDate_Start">วันที่</label>
               <input type="date" class="form-control" id="search_date" placeholder="ช่วงเวลา">
             </div>
 
-            <div class="row d-flex justify-start">
-
-            </div>
+        -->
 
             <div class="row d-flex justify-start">
               <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
@@ -106,7 +123,7 @@
           <label id="HospitalName">##hospital-name##</label>
         </div>
       </div>
-      -->
+
 
       <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
       <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
@@ -114,7 +131,7 @@
         <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
         <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
       </div>
-
+  -->
       <div class="row mt-4 mb-2">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="pagination_bar pb-3"></div>
@@ -158,6 +175,14 @@
               <td class="text-center table-middle">
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
+
+                  <button type="button"  style="display:none" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##patient-id##" data-movepatient="##patient-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้ายไปเวลาอื่น </button>
+
+                    <ul class="dropdown-menu all_timelist" aria-labelledby="Moveit">
+                      <li><a class="dropdown-item" href="#" onclick="return moveslotto(this,'##slot-id##');" >##slot-startshow## - ##slot-endshow##</a></li>
+
+                    </ul>
+
               </td>
             </tr>
           </tbody>
@@ -207,10 +232,10 @@
 
     function refreshpage(rawdata,clearsearch) {
 
-      if (!clearsearch)
-      {
-        clearsearch = true
-      }
+      // if (!clearsearch)
+      // {
+      //   clearsearch = true
+      // }
 
       console.log("GLOBAL_USER",GLOBAL_USER)
 
@@ -240,22 +265,22 @@
         }
       }
 
-      if ($("#search_date").val() != "")
-      {
-        console.log($("#search_date").val())
-        current_date = Math.floor(new Date($("#search_date").val()) / 1000)
-        shown_date = new Date(current_date * 1000)
-        document.getElementById('search_date').value = ""
-      }
+      // if ($("#search_date").val() != "")
+      // {
+      //   console.log($("#search_date").val())
+      //   current_date = Math.floor(new Date($("#search_date").val()) / 1000)
+      //   shown_date = new Date(current_date * 1000)
+      //   document.getElementById('search_date').value = ""
+      // }
 
-      Object.assign(search_setting.search,{find_date: current_date})
+      // Object.assign(search_setting.search,{find_date: current_date})
+      //
+      // console.log("Current Date")
+      // console.log(search_setting.search.current_date)
 
-      console.log("Current Date")
-      console.log(search_setting.search.current_date)
 
 
-
-      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+    //  document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
 
 
       console.log(hospital)
@@ -267,7 +292,12 @@
       if ($('#search_idno').val() !== "") {
         Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
       }
-
+      if ($('#search_id').val() !== "") {
+        Object.assign(search_setting.search,{find_patientid: $('#search_id').val()})
+      }
+      if($('#search_sort').val()){
+        search_setting.search.search_sort =$('#search_sort').val()
+      }
       // if ($('#SearchDate_Start').val() !== ""  && $('#SearchDate_End').val() !== "") {
 
       //   let starttime = Math.floor(new Date($('#SearchDate_Start').val()) / 1000)
@@ -333,6 +363,15 @@
 
         var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
         $("#show_patientlist").html(html_row);
+        if(totalrecord==1){   // only 1 record
+        //  $('.button_moveslot').show();
+            console.log($('#change_appoint'))
+            getdaylist(objdata.obj[0].hospital._id,objdata.obj[0]._id)
+
+        }else{
+          $('.button_moveslot').hide();
+          //$('#change_appoint').hide();
+        }
 
         // $('.show_startpage').show('slow');
       } else {
@@ -401,4 +440,30 @@
       shown_date = new Date(current_date * 1000)
       pre_search()
     }
+
+
+
+
+
+        var template_timelist = $('.all_timelist').html();
+
+        function getdaylist(hospitalid,main_id){
+            console.log("CHECK",hospitalid,main_id)
+
+            $.postJSON(MAINURL + "/api-backend/admin/appoint/get7daysslot", {hospitalid:hospitalid}, (msg) => {
+                msg.map((l)=>{
+                    l.startshow = moment(l.timestart,'X').format("D/MM HH:SS")
+                    l.endshow = moment(l.timeend,'X').format("HH:SS")
+                    if(l._id == main_id){
+                        l.startshow="<font color='red'>ปัจจุบัน"
+                        l.endshow =" เวลานี้ </font>"
+                    }
+                })
+
+                var html = hash_replace(template_timelist,"slot",msg);
+
+              $('.all_timelist').html(html);
+              console.log("7day,",msg)
+            });
+        }
   </script>

@@ -157,6 +157,7 @@
               <td class="text-center table-middle">##patient-status##
                 <br>
 <font color='blue'>##patient-comment##</font>
+ ##patient-otherpatient##
               </td>
               <td class="text-center">
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')"><i class="fas fa-calendar-week"></i> นัดหมาย</button>
@@ -314,6 +315,17 @@
         {
           item.color_change = "-"
         }
+          var temp_other='';
+          if(Array.isArray(item.otherpatient) &&  item.otherpatient.length > 0 ){
+              temp_other = "<br>ลงทะเบียนแทน  "
+              item.otherpatient.map((o)=>{
+                temp_other +=`<a href="/admin/patientlist?find_id=${o}" target="_blank"> ${o} </a> `
+              });
+              item.otherpatient = temp_other;
+          }
+          if(item.main_userid){
+              item.otherpatient = `<br>ลงทะเบียนแทน <b> โดย Patient# <a href="/admin/patientlist?find_id=${item.main_userid}"> ${item.main_userid} </a> `;
+          }
 
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
       })
