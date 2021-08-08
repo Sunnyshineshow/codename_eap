@@ -126,13 +126,16 @@
           <thead class="text-center">
             <tr>
               <th scope="col" class="text-secondary">Profile</th>
-              <th scope="col" class="text-secondary">เลขที่นัดหมาย</th>
+              <th scope="col" class="text-secondary">ID</th>
               <th scope="col" class="text-secondary">Display Name</th>
-              <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
-              <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
-              <th scope="col" class="text-secondary">รายละเอียด</th>
-              <th scope="col" class="text-secondary">สถานะ</th>
-              <th scope="col" class="text-secondary">การยืนยัน</th>
+              <th scope="col" class="text-secondary">Address</th>
+              <th scope="col" class="text-secondary">Appoint Time</th>
+              <th scope="col" class="text-secondary">Site</th>
+              <th scope="col" class="text-secondary">Description</th>
+              <th scope="col" class="text-secondary">Status</th>
+
+              <th scope="col" class="text-secondary">Travel</th>
+
               <th scope="col" class="text-secondary">Action</th>
             </tr>
           </thead>
@@ -142,15 +145,21 @@
                 <img src="##patient-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
               </td>
               <td class="text-center table-middle"># ##patient-id##</td>
-              <td class="text-center table-middle">##patient-patient.displayName##
+              <td class="text-center table-middle" nowrap>##patient-patient.displayName##
                 <br>
                 ##patient-patient.firstname## ##patient-patient.lastname##
               </td>
+              <td class="text-center table-middle">
+                Mobile: ##patient-patient.mobileno##
+                <br>
+                ##patient-patient.address.address## ต. ##patient-patient.address.subdistrict## อ. ##patient-patient.address.district## จ. ##patient-patient.address.province##</td>
               <td class="text-center table-middle">##patient-appointtime##</td>
               <td class="text-center table-middle">##patient-hospital.name##</td>
               <td class="text-center table-middle">##patient-comment##</td>
-              <td class="text-center table-middle">##patient-status##</td>
-              <td class="text-center table-middle">##patient-confirmed##</td>
+              <td class="text-center table-middle">##patient-status## <br>##patient-confirmed##</td>
+
+              <td class="text-center table-middle" nowrap="nowrap">##patient-travel## <Br> ##patient-selfcar##</td>
+
               <td class="text-center table-middle">
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="appointment('##patient-patient.id##')">จัดการนัดหมาย</button>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="view_symptom('##patient-patient.id##')">รายละเอียด</button>
@@ -216,7 +225,7 @@
         paginationDIV: $('.pagination_bar'),
         pagesize: 10,
         showfunction: show_patient_list,
-        limit: 10,
+        limit: 20,
         search: {}
       }
 
@@ -309,9 +318,20 @@
 
         objdata.obj.map(item => {
           console.log(item)
+          if(item.status == 1){
+            if(item.confirmed){
+              item.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+            }else{
+              item.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
+            }
+          }else{
+              item.confirmed=""
+          }
           item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
           item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>`: item.status = ITEMSTATUS[item.status];
           (typeof(item.patient) == "number" || !item.patient) ? item.patient = {displayName : "-- INACTIVE USER --"} : item.patient;
+
+
 
         })
 
