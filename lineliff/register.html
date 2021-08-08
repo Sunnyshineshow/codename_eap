@@ -407,7 +407,7 @@
           // {
           //   go2View('initsymptoms');
           // }
-          // else if (GLOBALUSER.status == 1)
+          // if (GLOBALUSER.status == 1)
           // {
           //   go2View('verify');
           // }
@@ -636,7 +636,8 @@
               }
               else if (res.code == 401)
               {
-                return alert_modal("เกิดข้อผิดพลาดในระบบ หรือท่านยังไม่ได้ยืนยันผลตรวจ\nโปรดยืนยันผลตรวจก่อนทำการลงทะเบียน" + "\nDetail: " + res.detail)
+                alert_modal("เกิดข้อผิดพลาดในระบบ หรือท่านยังไม่ได้ยืนยันผลตรวจ\nโปรดยืนยันผลตรวจก่อนทำการลงทะเบียน" + "\nDetail: " + res.detail)
+                return go2View('verify')
               }
               else
               {
