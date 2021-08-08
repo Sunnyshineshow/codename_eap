@@ -364,10 +364,9 @@
         var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
         $("#show_patientlist").html(html_row);
         if(totalrecord==1){   // only 1 record
-        //  $('.button_moveslot').show();
+          $('.button_moveslot').show();
             console.log($('#change_appoint'))
             getdaylist(objdata.obj[0].hospital._id,objdata.obj[0]._id)
-
         }else{
           $('.button_moveslot').hide();
           //$('#change_appoint').hide();
@@ -446,24 +445,66 @@
 
 
         var template_timelist = $('.all_timelist').html();
-
+        var workingslot ;
         function getdaylist(hospitalid,main_id){
             console.log("CHECK",hospitalid,main_id)
 
             $.postJSON(MAINURL + "/api-backend/admin/appoint/get7daysslot", {hospitalid:hospitalid}, (msg) => {
+              console.log(msg)
+                var found ;
                 msg.map((l)=>{
                     l.startshow = moment(l.timestart,'X').format("D/MM HH:SS")
                     l.endshow = moment(l.timeend,'X').format("HH:SS")
-                    if(l._id == main_id){
-                        l.startshow="<font color='red'>ปัจจุบัน"
-                        l.endshow =" เวลานี้ </font>"
-                    }
+                        if(Array.isArray(l.queue)){
+                            for(var x=0; x < l.queue.length;x++ ){
+                              if(l.queue[x].appointment == main_id){
+                                l.startshow="<font color='red'>ปัจจุบัน"
+                                l.endshow =" เวลานี้ </font>"
+                                found=true;
+                                workingslot = l._id;
+                              }
+                            }
+                        }
+
+
                 })
 
                 var html = hash_replace(template_timelist,"slot",msg);
+              if(found){
+                $('.all_timelist').html(html);
+              }
 
-              $('.all_timelist').html(html);
               console.log("7day,",msg)
             });
+        }
+
+        function moveslotto(obj,slotid){
+          console.log(obj,slotid)
+        //  confirm("ยืนยันการย้าย ?")
+          var testobj = $(obj).parents('td').find('.button_moveslot')
+          console.log('html',testobj.html())
+          var movefrom = testobj.data('movefrom')
+          var movepatient =testobj.data('movepatient')
+          var postData = {
+                patient:movepatient,
+                appointment:movefrom,
+                from:workingslot,
+                to:slotid
+            }
+            if(postData.from == postData.to){
+              alert("Same TIME")
+              return;
+            }
+            console.log(postData)
+            return;
+          $.postJSON(MAINURL + "/api-backend/admin/appoint/move_appoint_slot",postData,(result)=>{
+            $('#external-event-dialog').modal("hide")
+            if(result.result){
+              refreshpage();
+            }else{
+              alert(result.detail)
+            }
+          });
+          console.log("moveslotto",slotid,movefrom,movepatient)
         }
   </script>

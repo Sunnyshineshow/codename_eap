@@ -330,7 +330,7 @@
           if(Array.isArray(item.otherpatient) &&  item.otherpatient.length > 0 ){
               temp_other = "<br>ลงทะเบียนแทน  "
               item.otherpatient.map((o)=>{
-                temp_other +=`<a href="/admin/patientlist?find_id=${o}" target="_blank"> ${o} </a> `
+                temp_other +=`<a href="/admin/patientlist?find_id=${o}" target="_blank">#${o} </a> `
               });
               item.otherpatient = temp_other;
           }
