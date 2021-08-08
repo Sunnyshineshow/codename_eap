@@ -119,9 +119,9 @@
                 <td class="text-center table-middle">##patient-appointtime##</td>
                 <td class="text-center table-middle">##patient-hospital.name##</td>
                 <td class="text-center table-middle">##patient-status##</td>
-                <td class="text-center table-middle">##patient-travel##</td>
+                <td class="text-center table-middle">##patient-appointment.travel##</td>
                 <td class="text-center table-left">###patient-vehicle.id##:##patient-vehicle.Fullname##</td>
-                <td class="text-center table-middle">##patient-selfcar##</td>
+                <td class="text-center table-middle">##patient-appointment.selfcar##</td>
                 <td class="text-center table-middle">
                       <a href="##patient-patient.location.link##" target="_blank"><button type="button" class="btn btn-sm btn-outline-secondary" ><i class="fas fa-map-marker-alt"></i> Map</button></a>
                 </td>
@@ -152,7 +152,7 @@
 </script>
 <script type="text/javascript">
 var date = new Date()
-var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000) + 24*3600
+var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000)
 var shown_date = new Date(current_date * 1000)
 var template_patient_row = $('#row_patientlist').html();
 var template_dropdown = $('#hospital_select').html();
@@ -212,7 +212,7 @@ function  refreshpage(rawdata,clearsearch) {
 
 
   var search_setting = {
-    posturl: '/api-backend/admin/get_current_job',
+    posturl: '/api-backend/admin/vehiclelist',
     paginationDIV: $('.pagination_bar'),
     pagesize: 10,
     showfunction: show_patient_list,
@@ -320,17 +320,17 @@ function show_patient_list(objdata, totalrecord) {
       //item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
       item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>` : item.status = ITEMSTATUS[item.status];
 
-      if (item.travel == "NONE" || item.travel == "SELF" || !item.travel)
+      if (item.appointment.travel == "NONE" || item.appointment.travel == "SELF" || !item.appointment.travel)
       {
         null;
       }
-      else if (item.travel == "STAFF")
+      else if (item.appointment.travel == "STAFF")
       {
         //item.vehicle ? item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">${vehicle}</button>` : item.vehicle = `<button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="choose_car('${appointid}')">โปรดเลือก</button>` ;
       }
       else
       {
-        item.travel = "NONE"
+        item.appointment.travel = "NONE"
       }
 
       typeof(item.patient) == "number" ? item.patient = {displayName : "-- INACTIVE USER --"} : "";
@@ -341,17 +341,17 @@ function show_patient_list(objdata, totalrecord) {
         Object.assign(item.patient.location,{link: "https://www.google.com/maps/search/" + item.patient.location.coordinates[1] + "," + item.patient.location.coordinates[0]})
       }
 
-      if (item.travel == "STAFF")
+      if (item.appointment.travel == "STAFF")
       {
-        item.travel = "รถเจ้าหน้าที่"
+        item.appointment.travel = "รถเจ้าหน้าที่"
       }
-      else if (item.travel == "SELF")
+      else if (item.appointment.travel == "SELF")
       {
-        item.travel = "รถส่วนตัว"
+        item.appointment.travel = "รถส่วนตัว"
       }
       else
       {
-        item.travel = "ไม่มี"
+        item.appointment.travel = "ไม่มี"
       }
     })
 

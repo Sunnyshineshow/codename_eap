@@ -179,6 +179,7 @@
                       <td class="text-center table-middle">##APPOINT-comment##</td>
                       <td class="text-center table-middle">##APPOINT-status##</td>
                       <td class="text-center table-middle">
+                        <button type="button" name="button" class="btn btn-success" onclick="confirmedAppointment('##APPOINT-id##')">ยืนยัน</button>
                         <button type="button" name="button" class="btn btn-danger" onclick="cancelAppointment('##APPOINT-id##')">ยกเลิก</button>
                       </td>
                       <td class="text-center table-middle">
@@ -490,6 +491,31 @@
           else
           {
             return alert("เกิดข้อผิดพลาดระหว่างยกเลิก โปรดลองใหม่อีกครั้ง")
+          }
+        })
+      }
+
+      refreshpage(true);
+  
+    }
+
+    function confirmedAppointment(id) {
+      if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("CALLCEN") == -1 && GLOBAL_USER.role.indexOf("XRAY") == -1 && GLOBAL_USER.role.indexOf("VOLUNTEER") == -1 )){
+          return alert("คุณไม่ได้รับอนุญาตให้ดำเนินการในส่วนนี้")
+        }
+      let payload = {
+        _id: id
+      }
+  
+      if (confirm("คุณต้องการยืนยันนัดหรือไม่")) {
+        $.post(MAINURL + "/api-backend/admin/appoint/confirmed_for_patient", payload, (msg) => {
+          if (msg.code == 200)
+          {
+            return alert_success("ยืนยันนัดเรียบร้อยแล้ว")
+          }
+          else
+          {
+            return alert("เกิดข้อผิดพลาดระหว่างยืนยัน โปรดลองใหม่อีกครั้ง")
           }
         })
       }
