@@ -120,11 +120,19 @@
   </div>
 
 </div>
-<div id="external-event-dialog" class="mbsc-cloak" style="display:none">
-  <div mbsc-form>
-    <div class="mbsc-form-group-inset">
+
+
+<!-- Modal -->
+<div class="modal fade" id="external-event-dialog" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_title">นัดหมาย</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" >
         <label >
-            นัดหมาย #  <span id="totalq"> </span>
+            นัดหมาย Slot#   <span id="qid"> </span>
         </label>
         <br>
         <label >
@@ -134,14 +142,37 @@
         <label >
             เวลาเริ่มสิ้นสุด:  <span id="t_end"> </span>
         </label>
-        <br>
-        <label >
-           <a href="" target="_blank" id="link_detail">  Detail LINK </a>
-        </label>
-        <br>
+        <hr>
+          รายการผู้ป่วย
+        <div >
+          <table class="table table-striped">
+            <tbody id="mobdal_body">
+              <tr>
+                <th scope="row"><img src="##q-patient.pictureUrl##" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;" >               </th>
+                <td> ##q-patient.firstname##</td>
+                <td><a href="/admin/patient?id=##q-patient.id##" target="_blank"> <button type="button" class="btn btn-sm btn-secondary" >Detail </button> </a></td>
+                <td> <button type="button" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้ายไปเวลาอื่น </button>
 
+                  <ul class="dropdown-menu all_timelist" aria-labelledby="Moveit">
+                    <li><a class="dropdown-item" href="#" onclick="return moveslotto(this,'##slot-id##');" >##slot-startshow## - ##slot-endshow##</a></li>
+
+                  </ul>
+
+                </td>
+
+
+              </tr>
+              </tbody>
+            </table>
+
+        </div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
-    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -152,7 +183,9 @@
   var current_hosp;
   var qcalendar;
   var randcolor = ["#7a5886","#9da721","#cd6957","#637e57","#50789d","#6c5d45"]
-
+  var template_modalbody = $('#mobdal_body').html();
+  var template_all_timelist = $('.all_timelist').html();
+  var workingslot;
   function refreshpage(rawdata,clearsearch) {
 
     if (!clearsearch)
@@ -313,25 +346,79 @@
       });
     //  qcalendar.setEvents(all_event);
       console.log("finish",all_event)
-      var dialog = $('#external-event-dialog').mobiscroll().popup({
-          display: 'center',
-          width: 400,
-          contentPadding: false,
-          touchUi: false,
-          headerText: 'Assign task',
-          buttons: ['close'],
-      }).mobiscroll('getInst');
 
-         function fillDialog(args) {
-             var res = getobjbyid(current_hosp,args.event.resource)
-             var q = args.event;
-             $('#t_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
-             $('#t_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
-             $('#totalq').html(`${q._id} จำนวน ${q.title}`)
-             $('#link_detail').attr('href',"/admin/slotlist?qid="+q._id)
-             dialog.open();
-         }
+
   });
   return false;
+}
+
+function fillDialog(args) {
+    var res = getobjbyid(current_hosp,args.event.resource)
+    var q = args.event;
+    workingslot = q;
+    $('#qid').html(q._id);
+    $('#t_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
+    $('#t_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
+    $('#totalq').html(`${q._id} จำนวน ${q.title}`)
+    $('#link_detail').attr('href',"/admin/slotlist?qid="+q._id)
+    var postdata = {
+      search:{qid:q._id}
+    }
+    $.postJSON(MAINURL + "/api-backend/admin/appoin_slot_tlist", postdata, (msg) => {
+        console.log("gotBack",msg)
+
+        var html = hash_replace(template_modalbody,"q",msg.obj.obj);
+          $('#mobdal_body').html(html)
+          getdaylist(q.hospital,q._id);
+          $('#external-event-dialog').modal("show")
+    });
+
+   // dialog.open();
+}
+
+function getdaylist(hospitalid,main_id){
+    console.log("CHECK",hospitalid)
+
+    $.postJSON(MAINURL + "/api-backend/admin/appoint/get7daysslot", {hospitalid:hospitalid}, (msg) => {
+        msg.map((l)=>{
+            l.startshow = moment(l.timestart,'X').format("D/MM HH:SS")
+            l.endshow = moment(l.timeend,'X').format("HH:SS")
+            if(l._id == main_id){
+                l.startshow="<font color='red'>ปัจจุบัน"
+                l.endshow =" เวลานี้ </font>"
+            }
+        })
+
+        var html = hash_replace(template_all_timelist,"slot",msg);
+
+      $('.all_timelist').html(html);
+      console.log("7day,",msg)
+    });
+}
+function moveslotto(obj,slotid){
+  confirm("ยืนยันการย้าย ?")
+  var testobj = $(obj).parents('td').find('.button_moveslot')
+  console.log('html',testobj.html())
+  var movefrom = testobj.data('movefrom')
+  var movepatient =testobj.data('movepatient')
+  var postData = {
+        patient:movepatient,
+        appointment:movefrom,
+        from:workingslot._id,
+        to:slotid
+    }
+    if(postData.from == postData.to){
+      alert("Same TIME")
+      return;
+    }
+  $.postJSON(MAINURL + "/api-backend/admin/appoint/move_appoint_slot",postData,(result)=>{
+    $('#external-event-dialog').modal("hide")
+    if(result.result){
+      refreshpage();
+    }else{
+      alert(result.detail)
+    }
+  });
+  console.log("moveslotto",slotid,movefrom,movepatient)
 }
 </script>
