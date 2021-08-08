@@ -53,6 +53,12 @@
                 <input type="text" class="form-control" id="search_surname" placeholder="นามสกุล">
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_district" placeholder="เขต/อำเภอ">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_zip" placeholder="zipcode">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
@@ -148,7 +154,7 @@
 
               </td>
 
-              <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province##</td>
+              <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province## ##patient-address.zipcode##</td>
               <td class="text-center table-middle">##patient-mobileno##</td>
               <td class="text-center table-middle">##patient-createDate##</td>
               <td class="text-center table-middle">##patient-day_count##</td>
@@ -233,9 +239,14 @@
     if ($('#search_idno').val() !== "") {
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
     }
-
     if ($('#search_cid').val() !== "") {
       Object.assign(search_setting.search,{find_idcard: $('#search_cid').val()})
+    }
+    if ($('#search_district').val() !== "") {
+      Object.assign(search_setting.search,{find_district: $('#search_district').val()})
+    }
+    if ($('#search_zip').val() !== "") {
+      Object.assign(search_setting.search,{find_zipcode: $('#search_zip').val()})
     }
     if ($('#find_comment').val() !== "") {
       Object.assign(search_setting.search,{find_comment: $('#search_comment').val()})
