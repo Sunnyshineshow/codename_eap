@@ -101,7 +101,7 @@
                     <div id="inputbox_idcard">
                       <label style="width: 100%;">
                         <input  class="form-control" style="width: 100%;" mbsc-input id="age" type="number"  placeholder="อายุ" value="" style="font-size: 13px;" />
-                          
+
                       </label>
                     </div>
                   </div>
@@ -109,7 +109,7 @@
               </div>
             </div>
               <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
-                
+
             </div>
 
             <div class="mbsc-row" style="padding:0px;margin:0px;">
@@ -419,7 +419,7 @@
 
     <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
       <div class="mbsc-col-12" style="padding:0px;margin:0px;">
-        
+
         <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
           <div id="input_symptom" style="border-radius:0px !important;padding:0px;margin-top:10px;">
             <!-- checkbox -->
@@ -620,15 +620,14 @@
         </div>
       </div>
 
-      <!-- วันที่พบอาการ -->
+   วันที่พบอาการ
       <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
         <div class="mbsc-col-12" style="padding:0px;margin:0px;">
           <div id="input_checkdate" style="border-radius:0px !important;padding:0px;margin-top:10px;">
             <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">วันที่พบอาการ (Date of Symptoms) <span style="color:red"> *</span></p>
-            <label style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder="" maxlength="30" value="" readonly=""></label>
+            <input type="date" style="font-weight:600;font-size:14px; padding:0px 15px 0px 15px;margin:0px;" class="mbsc-align-left" id="checkdate" name="checkdate" placeholder=""  value="" >
           </div>
         </div>
-      </div>
 
       <!-- Other Info -->
       <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
@@ -816,7 +815,7 @@ if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") =
 
 
           let coorArr = $("#hospital_showing").val().split(",")
-          let location = 
+          let location =
           {
             type: "Point",
             coordinates : [parseFloat(coorArr[0]),parseFloat(coorArr[1])]
@@ -952,7 +951,7 @@ if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") =
               spo_room_air: parseFloat(spo_room_air),
               exercise_test: parseFloat(exercise_test),
               pneumonia_check: pneumonia_check,
-              checkdate: Math.floor((new Date()) / 1000),
+              checkdate: Math.floor($('#checkdate').val() / 1000),
               comment: comment
               }
 
@@ -996,7 +995,7 @@ if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") =
 
               console.log(initial_symptoms)
               console.log(payload)
-          
+
               $.postJSON(MAINURL + "/api-backend/admin/patient_manualadd_new", payload, (msg) =>
               {
                 if (msg.code == 200)
@@ -1015,8 +1014,8 @@ if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") =
     {
         if (document.getElementById("spO2_unknown").checked)
         {
-          document.getElementById('spO2_input').disabled = true;                
-          document.getElementById("spO2_input").style.display = "none";         
+          document.getElementById('spO2_input').disabled = true;
+          document.getElementById("spO2_input").style.display = "none";
         }
         else
         {
@@ -1026,13 +1025,13 @@ if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") =
 
         if (document.getElementById("X2O_unknown").checked)
         {
-          document.getElementById('X2O_input').disabled = true;           
-          document.getElementById("X2O_input").style.display = "none";         
+          document.getElementById('X2O_input').disabled = true;
+          document.getElementById("X2O_input").style.display = "none";
         }
         else
         {
           document.getElementById('X2O_input').disabled = false;
-          document.getElementById("X2O_input").style.display = "block"; 
+          document.getElementById("X2O_input").style.display = "block";
         }
     }
   </script>
