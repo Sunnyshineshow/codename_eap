@@ -123,11 +123,11 @@
 
 
 <!-- Modal -->
-<div class="modal fade " id="external-event-dialog" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+<div class="modal fade" id="external-event-dialog" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal_title">นัดหมาย</h5>
+        <h5 class="modal-title" id="modal_title">นัดหมาย <font color='green'>(กด Esc เพื่อปิดหน้านี้ได้)</font></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" >
@@ -152,9 +152,11 @@
                 <th scope="row"><img src="##q-patient.pictureUrl##" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;" >               </th>
                 <td> ##q-patient.displayName##</td>
                 <td> ##q-patient.firstname##</td>
-                <td>  ##q-patient.mobileno##</td>
+                <td>##q-patient.mobileno##</td>
+                <td nowrap="nowarp"> ##q-patient.address.address## <b>##q-patient.address.subdistrict##</b> ##q-patient.address.district##</td>
+                <td>  ##q-patient.mobileno## (##q-travel## ##q-selfcar##)</td>
                 <td><a href="/admin/patient?id=##q-patient.id##" target="_blank"> <button type="button" class="btn btn-sm btn-secondary" >Detail </button> </a></td>
-                <td nowrap="nowrap"> ##q-confirmed## <button type="button" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้ายไปเวลาอื่น </button>
+                <td nowrap="nowrap"> ##q-confirmed## <button type="button" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้าย/ลบ/confirm </button>
 
                   <ul class="dropdown-menu all_timelist" aria-labelledby="Moveit">
                     <li><a class="dropdown-item" href="#" onclick="return moveslotto(this,'##slot-id##');" >##slot-startshow## - ##slot-endshow##</a></li>
@@ -400,10 +402,55 @@ function getdaylist(hospitalid,main_id){
         })
 
         var html = hash_replace(template_all_timelist,"slot",msg);
-
-      $('.all_timelist').html(html);
+      var confirmhtml=`<li><a class="dropdown-item" href="#" onclick="return makeconfirm(this);" ><font color='green'>Confirm การเดินทาง </font></a></li>`
+      var cancelhtml = `<li><a class="dropdown-item" href="#" onclick="return makecancle(this);" ><font color='red'>ยกเลิกการเดินทาง</font></a></li>`
+      $('.all_timelist').html(confirmhtml+cancelhtml+html);
       console.log("7day,",msg)
     });
+}
+function makeconfirm(obj,slotid){
+    confirm("ยืนยันการเดินทาง?")
+    var testobj = $(obj).parents('td').find('.button_moveslot')
+    console.log('html',testobj.html())
+    var movefrom = testobj.data('movefrom')
+    var postData = {
+          _id:movefrom,
+      }
+      $.postJSON(MAINURL + "/api-backend/admin/appoint/confirmed_for_patient",postData,(result)=>{
+        $('#external-event-dialog').modal("hide")
+        if(result.code==200){
+          refreshpage();
+        }else{
+          alert(result.detail)
+        }
+      });
+
+    console.log("Confirm ",postData)
+    return;
+}
+function makecancle(obj,slotid){
+    confirm("ยืนยันการ 'ลบ' นัดหมาย?")
+    var testobj = $(obj).parents('td').find('.button_moveslot')
+    console.log('html',testobj.html())
+    var movefrom = testobj.data('movefrom')
+    var movepatient =testobj.data('movepatient')
+    var postData = {
+          patient:movepatient,
+          appointment:movefrom,
+      }
+      var postData = {
+            _id:movefrom,
+        }
+        $.postJSON(MAINURL + "/api-backend/admin/appoint/cancel_appoint",postData,(result)=>{
+          $('#external-event-dialog').modal("hide")
+          if(result.code==200){
+            refreshpage();
+          }else{
+            alert(result.detail)
+          }
+        });
+
+    return;
 }
 function moveslotto(obj,slotid){
   confirm("ยืนยันการย้าย ?")
