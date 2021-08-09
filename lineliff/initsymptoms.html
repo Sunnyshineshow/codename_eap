@@ -12,11 +12,6 @@
 
   <div mbsc-form>
 
-    <div class="mbsc-align-center" style="margin-top:20px;">
-      <p id="title_address" style="margin-top:3px;margin-bottom:8px;" > ขออภัย ขณะนี้งดให้บริการลงทะเบียน ชั่วคราว</p>
-      <p style="margin-top:3px;margin-bottom:8px;color:red;" id="other_patient_name" ></p>
-    </div>
-<!--
     <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
       <hr style="background-color: #58595B;opacity:0.5;">
     </div>
@@ -390,7 +385,6 @@
       </div>
     </div>
   </div>
--->
   <script>
 
 
@@ -662,27 +656,27 @@
             }
 
 
-            alert_modal("ระบบยังไม่เปิดให้ลงทะเบียน")
-            // $.postJSON(call_url, initial_symptoms, (msg) =>
-            // {
-            //     var responselinemsg =[{
-            //         type: "text",
-            //         text: "ลงทะเบียนสำเร็จ"
-            //     }]
-            //     if(msg.responselinemsg){
-            //        responselinemsg= msg.responselinemsg;
-            //     }
-            //     liff.sendMessages(responselinemsg).then(() =>
-            //     {
-            //         console.log("Logged to patient's Line")
-            //     }).catch((err) => {
-            //         console.log('error', err)
-            //     })
 
-            //     alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
-            //     console.log("Should be in check register")
-            //     go2View("alreadyregister")
-            // })
+            $.postJSON(call_url, initial_symptoms, (msg) =>
+            {
+                var responselinemsg =[{
+                    type: "text",
+                    text: "ลงทะเบียนสำเร็จ"
+                }]
+                if(msg.responselinemsg){
+                   responselinemsg= msg.responselinemsg;
+                }
+                liff.sendMessages(responselinemsg).then(() =>
+                {
+                    console.log("Logged to patient's Line")
+                }).catch((err) => {
+                    console.log('error', err)
+                })
+
+                alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
+                console.log("Should be in check register")
+                go2View("alreadyregister")
+            })
     }
 
     function opendate()

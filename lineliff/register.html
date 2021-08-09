@@ -627,35 +627,34 @@
             //Check Submit here
 
 
-            alert_modal("ระบบยังไม่เปิดให้ลงทะเบียน")
-            // doUploadImage_v2(blobdata_v2, "/api-web/line/regis_submit", payload, function(res) {
-            //   console.log('upload',res)
-            //   //refresh image tap
-            //   if (res.code == 200)
-            //   {
-            //     go2View("initsymptoms");
-            //   }
-            //   else if (res.code == 401)
-            //   {
-            //     alert_modal("เกิดข้อผิดพลาดในระบบ หรือท่านยังไม่ได้ยืนยันผลตรวจ\nโปรดยืนยันผลตรวจก่อนทำการลงทะเบียน" + "\nDetail: " + res.detail)
-            //     return go2View('verify')
-            //   }
-            //   else
-            //   {
-            //       if(res && res.detail){
-            //           return alert_modal(res.detail)
-            //       }
-            //       return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
-            //   }
-            // })
+            doUploadImage_v2(blobdata_v2, "/api-web/line/regis_submit", payload, function(res) {
+              console.log('upload',res)
+              //refresh image tap
+              if (res.code == 200)
+              {
+                go2View("initsymptoms");
+              }
+              else if (res.code == 401)
+              {
+                alert_modal("เกิดข้อผิดพลาดในระบบ หรือท่านยังไม่ได้ยืนยันผลตรวจ\nโปรดยืนยันผลตรวจก่อนทำการลงทะเบียน" + "\nDetail: " + res.detail)
+                return go2View('verify')
+              }
+              else
+              {
+                  if(res && res.detail){
+                      return alert_modal(res.detail)
+                  }
+                  return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+              }
+            })
 
-            //
-            // $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
-            // {
-            //     console.log(msg);
-            //     go2View("initsymptoms");
-            //
-            // })
+
+            $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
+            {
+                console.log(msg);
+                go2View("initsymptoms");
+
+            })
 
     }
     $(document).ready(function() {

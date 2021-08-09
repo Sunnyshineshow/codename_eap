@@ -54,13 +54,13 @@
             </div>
         </div>
 
-        
+
 <div id="additional_info" style="display: none;">
     <div class="mbsc-align-center">โปรดเลื่อนลง</div>
         <div class="mbsc-align-center" style="margin-top:20px;">
             <p id="requirment" style="margin-top:3px;margin-bottom:8px;" >ข้อมูลเพิ่มเติม</p>
         </div>
-        
+
         <div class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;">
             <span style="padding:5px 11px;margin:0px;font-size:14px;font-weight:400;background-color:#206eb8;border-radius:50px;color:white;">1.</span>
             <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> ท่านเป็นผู้ป่วยติดเชื้อ COVID-19 และมีผลตรวจที่ยืนยันได้</span>
@@ -140,7 +140,7 @@
             <span style="font-size:14px;font-weight:400;color:#0b9fd5;"> กรุณาส่งหลักฐานผลการตรวจเชื้อ (สามารถอัพโหลดเป็นไฟล์ภาพถ่าย หรือเอกสารอิเล็กทรอนิคส์เช่นไฟล์ pdf)</span> <span style="color:red"> *</span>
         </div>
         <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px"  >
-           
+
         <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;margin-top:5px;" id="imageuoload">
           </div>
           </div>
@@ -246,23 +246,22 @@
         }
 
         console.log(payload)
-        alert_modal("ระบบยังไม่เปิดให้ลงทะเบียน")
-        // doUploadImage_v2(blobdata_v2, "/api-web/line/verify_submit", payload, function(res) {
-        //       console.log('upload',res)
-        //       //refresh image tap
-        //       if (res.code == 200)
-        //       {              
-        //         go2View("register4other?id=" + res.patient);
-        //       }
-        //       else if (res.code == 403)
-        //       {
-        //           go2View("rejectservice")
-        //       }
-        //       else
-        //       {
-        //           return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
-        //       }
-        // })
+        doUploadImage_v2(blobdata_v2, "/api-web/line/verify_submit", payload, function(res) {
+              console.log('upload',res)
+              //refresh image tap
+              if (res.code == 200)
+              {
+                go2View("register4other?id=" + res.patient);
+              }
+              else if (res.code == 403)
+              {
+                  go2View("rejectservice")
+              }
+              else
+              {
+                  return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+              }
+        })
     }
 
     $(document).ready(function()
