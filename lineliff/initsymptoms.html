@@ -664,26 +664,27 @@
             }
 
 
-            $.postJSON(call_url, initial_symptoms, (msg) =>
-            {
-                var responselinemsg =[{
-                    type: "text",
-                    text: "ลงทะเบียนสำเร็จ"
-                }]
-                if(msg.responselinemsg){
-                   responselinemsg= msg.responselinemsg;
-                }
-                liff.sendMessages(responselinemsg).then(() =>
-                {
-                    console.log("Logged to patient's Line")
-                }).catch((err) => {
-                    console.log('error', err)
-                })
+            alert_modal("ระบบยังไม่เปิดให้ลงทะเบียน")
+            // $.postJSON(call_url, initial_symptoms, (msg) =>
+            // {
+            //     var responselinemsg =[{
+            //         type: "text",
+            //         text: "ลงทะเบียนสำเร็จ"
+            //     }]
+            //     if(msg.responselinemsg){
+            //        responselinemsg= msg.responselinemsg;
+            //     }
+            //     liff.sendMessages(responselinemsg).then(() =>
+            //     {
+            //         console.log("Logged to patient's Line")
+            //     }).catch((err) => {
+            //         console.log('error', err)
+            //     })
 
-                alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
-                console.log("Should be in check register")
-                go2View("alreadyregister")
-            })
+            //     alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
+            //     console.log("Should be in check register")
+            //     go2View("alreadyregister")
+            // })
     }
 
     function opendate()

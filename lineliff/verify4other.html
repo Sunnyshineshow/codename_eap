@@ -246,22 +246,23 @@
         }
 
         console.log(payload)
-        doUploadImage_v2(blobdata_v2, "/api-web/line/verify_submit", payload, function(res) {
-              console.log('upload',res)
-              //refresh image tap
-              if (res.code == 200)
-              {              
-                go2View("register4other?id=" + res.patient);
-              }
-              else if (res.code == 403)
-              {
-                  go2View("rejectservice")
-              }
-              else
-              {
-                  return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
-              }
-        })
+        alert_modal("ระบบยังไม่เปิดให้ลงทะเบียน")
+        // doUploadImage_v2(blobdata_v2, "/api-web/line/verify_submit", payload, function(res) {
+        //       console.log('upload',res)
+        //       //refresh image tap
+        //       if (res.code == 200)
+        //       {              
+        //         go2View("register4other?id=" + res.patient);
+        //       }
+        //       else if (res.code == 403)
+        //       {
+        //           go2View("rejectservice")
+        //       }
+        //       else
+        //       {
+        //           return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
+        //       }
+        // })
     }
 
     $(document).ready(function()
