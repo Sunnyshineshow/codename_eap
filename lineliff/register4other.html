@@ -634,7 +634,7 @@
               //refresh image tap
               if (res.code == 200)
               {
-                go2View("initsymptoms4other?id="+res.patient);
+                 return go2View("initsymptoms4other?id="+res.patient);
               }
               else
               {
@@ -643,12 +643,12 @@
             })
 
 
-            $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
-            {
-                console.log(msg);
-                go2View("initsymptoms");
+            // $.postJSON(MAINURL + "/api-web/line/regis_submit/",payload,(msg) =>
+            // {
+            //     console.log(msg);
+            //     go2View("initsymptoms");
 
-            })
+            // })
 
     }
     $(document).ready(function() {
