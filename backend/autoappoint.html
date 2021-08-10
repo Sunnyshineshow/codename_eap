@@ -57,9 +57,10 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
-                    <option value="NONE">สี</option>
+                    <option value="" disabled>เลือกสี</option>
+                    <option value="NONE">ยังไม่ระบุ</option>
                     <option value="GREEN">เขียว</option>
-                    <option value="YELLOW" selected>เหลือง</option>
+                    <option value="YELLOW">เหลือง</option>
                     <option value="RED">แดง</option>
                     <option value="WHITE">สิ้นสุด</option>
                   </select>
@@ -165,7 +166,7 @@
         <div class="form-group">
           เพิ่มผู้ป่วยเข้าไปในระบบ จำนวน  <span id="totalrecord" class ="badge bg-danger"> </span> คน
           ระบุ วันเวลาเริ่มต้นที่ ให้ค้นหาคิว
-          <input type="date" class="form-control" id="autodatestart">
+          <input type="datetime-local" class="form-control" id="autodatestart">
         </div>
       </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
@@ -427,16 +428,21 @@
       allpatient.push($(obj[x]).val())
     }
 
-    console.log("allpaitient",allpatient)
+    console.log("Datetime",$('#autodatestart').val())
     var postData ={
         hospital:$('#autohospital').val(),
         patient: allpatient,
         appointtime: Math.floor(new Date($('#autodatestart').val())/1000)
     }
-    $.postJSON(MAINURL + '/api-backend/admin/appoint/auto',postData,(msg)=>{
-        alert_success("นำผู้ป่วยเข้าคิวแล้ว")
-        refreshpage();
-    })
+    if(Number(postData.appointtime) > 0 ){
+      $.postJSON(MAINURL + '/api-backend/admin/appoint/auto',postData,(msg)=>{
+          alert_success("นำผู้ป่วยเข้าคิวแล้ว")
+          refreshpage();
+      })
+    }else{
+        alert ("คุณไม่ได้เลือกวันที่หรือ กรุณาใช้ Chrome เพื่อใช้งานวันที่")
+    }
+
 
     console.log(postData);
 

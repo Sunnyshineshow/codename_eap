@@ -148,12 +148,16 @@
           <table class="table table-striped">
             <tbody id="mobdal_body">
               <tr>
-                <th> ##q-patient.id##</th>
+                <th> ##q-patient.showid##</th>
                 <th scope="row"><img src="##q-patient.pictureUrl##" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;" >               </th>
                 <td> ##q-patient.displayName##</td>
                 <td> ##q-patient.firstname##</td>
                 <td>##q-patient.mobileno##</td>
-                <td nowrap="nowarp"> ##q-patient.address.address## <b>##q-patient.address.subdistrict##</b> ##q-patient.address.district##</td>
+                <td nowrap="nowarp"> ##q-patient.address.address##
+<br> <small> <span  style="color:blue">##q-patient.comment##</span></small>
+                  </td>
+                  <td>##q-patient.address.subdistrict##</td>
+                  <td>##q-patient.address.district##</td>
                 <td>  ##q-patient.mobileno## (##q-travel## ##q-selfcar##)</td>
                 <td><a href="/admin/patient?id=##q-patient.id##" target="_blank"> <button type="button" class="btn btn-sm btn-secondary" >Detail </button> </a></td>
                 <td nowrap="nowrap"> ##q-confirmed## <button type="button" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้าย/ลบ/confirm </button>
@@ -377,6 +381,17 @@ function fillDialog(args) {
           }else{
             o.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
           }
+          o.patient.showid = o.patient._id
+          if(o.patient.color=="RED"){
+            o.patient.showid = `<span class="badge bg-danger">${o.patient._id}</span>`
+          }
+          if(o.patient.color=="GREEN"){
+            o.patient.showid = `<span class="badge bg-success">${o.patient._id}</span>`
+          }
+          if(o.patient.color=="YELLOW"){
+            o.patient.showid = `<span class="badge bg-warning">${o.patient._id}</span>`
+          }
+
         });
 
         var html = hash_replace(template_modalbody,"q",msg.obj.obj);
