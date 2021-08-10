@@ -11,52 +11,66 @@
           </div>
         </div>
       </div>
+        <form class="form-row" onsubmit="return pre_search();">
       <div class="row mb-1 d-flex justify-content-start">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <form class="form-row" onsubmit="return pre_search();">
+              <div class="row d-flex justify-content-center ">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                  <div class="input-group mb-6">
+                  <div class="input-group-text">
+                  <input class="form-check-input mt-0" type="checkbox" value="groupbyregister" id="groupbyregister">
+                  <label class="" for="groupbyregister">
+                    ดึงคนที่ลงทะเบียนร่วมด้วย
+                  </label>
+                  </div>
+                  </div>
+                </div>
+
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                    <div class="input-group mb-6">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox" value="complete" id="complete" checked>
+                          <label  for="complete">
+                              ลงทะเบียนสำเร็จเท่านั้น
+                              </label>
+                    </div>
+                    </div>
+
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+                    <div class="input-group mb-6">
+                    <div class="input-group-text">
+
+                      <input class="form-check-input mt-0" type="checkbox" value="newly" id="newly" checked  >
+                      <label for="newly" > ไม่มีคิวในระบบ </label>
+
+                    </div>
+
+                    <input type="text" id="newlyday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
+                    <span class="input-group-text">วัน </span>
+                  </div>
+                </div>
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+                    <div class="input-group mb-6">
+                    <div class="input-group-text">
+                      <input class="form-check-input mt-0" type="checkbox" value="caseconfirm" id="caseconfirm"   >
+                      <label for="caseconfirm" >  เคยมานัดหมายเมื่อ </label>
+
+                    </div>
+
+                    <input type="text" id="caseconfirmday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=2>
+                    <span class="input-group-text">วัน </span>
+                  </div>
+                    </div>
+                </div>
+          </div>
+      </div>
+      <div class="row mb-1 d-flex justify-content-start">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
             <div class="row d-flex justify-content-center ">
-              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="groupbyregister" id="groupbyregister">
-                <label class="form-check-label" for="groupbyregister">
-                  ดึงคนที่ลงทะเบียนร่วมด้วย
-                </label>
-                </div>
-                  <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="complete" id="complete" checked>
-                <label class="form-check-label" for="complete">
-                  ลงทะเบียนสำเร็จเท่านั้น
-                </label>
-              </div>
 
 
-
-              </div>
-              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
-                <div class="input-group mb-6">
-                <div class="input-group-text">
-
-                  <input class="form-check-input mt-0" type="checkbox" value="newly" id="newly" checked aria-label="Checkbox for following text input" >
-                  <label for="newly" > ไม่มีคิวในระบบ </label>
-
-                </div>
-
-                <input type="text" id="newlyday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
-                <span class="input-group-text">วัน </span>
-              </div>
-
-              <div class="input-group mb-6">
-              <div class="input-group-text">
-                <input class="form-check-input mt-0" type="checkbox" value="caseconfirm" id="caseconfirm"  aria-label="Checkbox for following text input" >
-                <label for="caseconfirm" >  เคยมานัดหมายเมื่อ </label>
-
-              </div>
-
-              <input type="text" id="caseconfirmday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=2>
-              <span class="input-group-text">วัน </span>
-            </div>
-
-              </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <input type="text" class="form-control" id="search_idno" placeholder="ID">
@@ -81,7 +95,16 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_comment" placeholder="ค้าหาตามหมายเหตุ">
               </div>
-
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <select class="form-select" aria-label="search_travel" id="search_travel">
+                    <option value="" disabled selected>เลือกการเดินทาง</option>
+                    <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+                    <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
+                    <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+                  </select>
+                </div>
+              </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
               </div>
@@ -106,10 +129,10 @@
                 </div>
               </div>
             </div>
-          </form>
+
         </div>
       </div>
-
+    </form>
       <!-- แบ่งหน้า -->
       <div class="row mt-4">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -131,7 +154,7 @@
               <th scope="col" class="text-secondary">Create Date</th>
               <th scope="col" class="text-secondary">Day Count</th>
               <th scope="col" class="text-secondary">Color</th>
-              <th scope="col" class="text-secondary">Change</th>
+              <th scope="col" class="text-secondary">Travel</th>
               <th scope="col" class="text-secondary">Register Status</th>
               <th scope="col" class="text-secondary">อื่นๆ</th>
             </tr>
@@ -160,7 +183,7 @@
               <td class="text-center table-middle">##patient-createDate##</td>
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
-              <td class="text-center table-middle"><span id="patient_color">##patient-color_change##</span></td>
+              <td class="text-center table-middle">##patient-travelprefer##</td>
               <td class="text-center table-middle">##patient-status##
                 <br>
 <font color='blue'>##patient-comment##</font>
@@ -286,7 +309,9 @@
     if ($('#search_comment').val()) {
       Object.assign(search_setting.search,{find_comment: $('#search_comment').val()})
     }
-
+    if ($('#search_travel').val()) {
+      Object.assign(search_setting.search,{find_travel: $('#search_travel').val()})
+    }
     if ($('#search_passport').val()) {
       Object.assign(search_setting.search,{find_passport: $('#search_passport').val()})
     }

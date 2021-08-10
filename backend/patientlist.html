@@ -67,6 +67,16 @@
                   </select>
                 </div>
               </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <select class="form-select" aria-label="สีของผู้ป่วย" id="search_travel">
+                    <option value="" disabled selected>เลือกการเดินทาง</option>
+                    <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+                    <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
+                    <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+                  </select>
+                </div>
+              </div>
               <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
@@ -117,6 +127,7 @@
               <th scope="col" class="text-secondary">ชื่อ-นามสกุล /บัตร</th>
               <th scope="col" class="text-secondary">ที่อยู่</th>
               <th scope="col" class="text-secondary">เบอร์โทร</th>
+              <th scope="col" class="text-secondary">การเดินทาง</th>
               <th scope="col" class="text-secondary">Create Date</th>
               <th scope="col" class="text-secondary">Day Count</th>
               <th scope="col" class="text-secondary">Color</th>
@@ -142,6 +153,8 @@
 
               <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province## ##patient-address.zipcode##</td>
               <td class="text-center table-middle">##patient-mobileno##</td>
+              <td class="text-center table-middle">##patient-travelprefer##</td>
+
               <td class="text-center table-middle">##patient-createDate##</td>
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
@@ -238,6 +251,9 @@
     }
     if ($('#search_comment').val()) {
       Object.assign(search_setting.search,{find_comment: $('#search_comment').val()})
+    }
+    if ($('#search_travel').val()) {
+      Object.assign(search_setting.search,{find_travel: $('#search_travel').val()})
     }
 
     if ($('#search_passport').val()) {
