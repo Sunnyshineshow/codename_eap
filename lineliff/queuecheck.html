@@ -118,7 +118,7 @@
 <div id="popup_init">
   <div id="popup_details_hospital_##APPOINT-id##" class="mbsc-cloak"style="display:none;">
     <div class="mbsc-align-center mbsc-padding" style="margin:0px;padding:0px;">
-      <p style="padding:0px;margin:0px;font-weight:500;">ข้อมูลการนัด</p>
+      <p style="padding:0px;margin:0px;font-weight:500;">ข้อมูลการนัด ###APPOINT-id##</p>
       <p style="padding:0px;margin:0px;font-weight:500;" id="patient_name_qr">ชื่อของผู้ป่วย</p>
       <hr>
       <image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>
@@ -211,10 +211,13 @@
           $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname + " ( #" + ACTIVEPATIENT._id + " )")
           check_and_show(ACTIVEPATIENT._id);
           console.log(ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname )
-              document.getElementById('patient_name_qr').innerHTML = ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname 
+         document.getElementById('patient_name_qr').innerHTML = ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname
           return;
+      }else{
+          check_and_show(GLOBALUSER._id)
+          document.getElementById('patient_name_qr').innerHTML = GLOBALUSER.firstname + " " + GLOBALUSER.lastname
       }
-      check_and_show(GLOBALUSER._id)
+
 
   }
   function check_and_show(patient_id){
@@ -251,7 +254,7 @@
               $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname + " ( #" + ACTIVEPATIENT._id + " )")
               check_and_show(ACTIVEPATIENT._id);
               console.log(ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname )
-              document.getElementById('patient_name_qr').innerHTML = ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname 
+              document.getElementById('patient_name_qr').innerHTML = ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname
 
               console.log("ACTIVEPATIENT",ACTIVEPATIENT)
           });

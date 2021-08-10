@@ -13,6 +13,14 @@
         <p id="title_address" style="margin-top:3px;margin-bottom:8px;"> เมนูเจ้าหน้าที่</p>
       </div>
       <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
+        <div id="patient_info" class="mbsc-align-center">
+                       นัด ###patient-id##     ##patient-patient.firstname## ##patient-patient.lastname## , ##patient-patient.gender##
+            <br>
+            <br>
+Time:(##patient-qtime##)  COLOR : ##patient-patient.color##
+<br>
+ID card :  ##patient-patient.idcard##
+        </div>
         <hr style="background-color: #58595B;opacity:0.5;">
       </div>
       <div id="title_more" class="mbsc-align-left" style="margin-left: 18px;margin-top:25px;margin-bottom:12px;">
@@ -134,6 +142,18 @@
           coordinates: [position.coords.longitude ,position.coords.latitude]
         }
       })
+
+      if(Number(patient_id ) > 0  && appoint_id >0){
+        $.post(MAINURL + "/api-web/line/admin_loadqrdata",{_id:appoint_id,patient:patient_id},(msg) =>
+        {
+            console.log(msg)
+            if (msg.code == 200)
+            {
+                msg.detail.qtime = moment(msg.detail.appointtime,"X").format("DD/MM/YY HH:mm")
+                hash_replace($('#patient_info'),'patient',msg.detail)
+            }
+          });
+      }
     })
 
     function optionConfirmed()

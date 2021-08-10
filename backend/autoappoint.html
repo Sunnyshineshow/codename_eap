@@ -28,12 +28,39 @@
                   ลงทะเบียนสำเร็จเท่านั้น
                 </label>
               </div>
-              <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="newly" id="newly" checked>
-            <label class="form-check-label" for="newly">
-              ไม่มีคิวที่ยังไม่ได้ไป
-            </label>
-          </div>
+
+
+
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
+                <div class="input-group mb-6">
+                <div class="input-group-text">
+
+                  <input class="form-check-input mt-0" type="checkbox" value="newly" id="newly" checked aria-label="Checkbox for following text input" >
+                  <label for="newly" > ไม่มีคิวในระบบ </label>
+
+                </div>
+
+                <input type="text" id="newlyday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
+                <span class="input-group-text">วัน </span>
+              </div>
+
+              <div class="input-group mb-6">
+              <div class="input-group-text">
+                <input class="form-check-input mt-0" type="checkbox" value="caseconfirm" id="caseconfirm"  aria-label="Checkbox for following text input" >
+                <label for="caseconfirm" >  เคยมานัดหมายเมื่อ </label>
+
+              </div>
+
+              <input type="text" id="caseconfirmday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=2>
+              <span class="input-group-text">วัน </span>
+            </div>
+
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search_idno" placeholder="ID">
+                </div>
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
@@ -41,6 +68,10 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_surname" placeholder="นามสกุล">
               </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_subdistrict" placeholder="แขวง/ตำบล">
+              </div>
+
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_district" placeholder="เขต/อำเภอ">
               </div>
@@ -242,6 +273,13 @@
     if ($('#search_district').val()) {
       Object.assign(search_setting.search,{find_district: $('#search_district').val()})
     }
+    if ($('#search_subdistrict').val()) {
+      Object.assign(search_setting.search,{find_subdistrict: $('#search_subdistrict').val()})
+    }
+    if ($('#newlyday').val()) {
+      Object.assign(search_setting.search,{find_newlyday: $('#newlyday').val()})
+    }
+
     if ($('#search_zip').val()) {
       Object.assign(search_setting.search,{find_zipcode: $('#search_zip').val()})
     }
@@ -264,8 +302,12 @@
         Object.assign(search_setting.search,{find_grouping: "groupbyregister"})
     }
     if($('#newly').is(":checked")){
-        Object.assign(search_setting.search,{find_newly: "newly"})
+        Object.assign(search_setting.search,{find_newly: $('#newlyday').val()})
     }
+    if($('#caseconfirm').is(":checked")){
+        Object.assign(search_setting.search,{find_caseconfirm: $("caseconfirmday").val()})
+    }
+
     if($('#complete').is(":checked")){
         Object.assign(search_setting.search,{find_completeregister: "complete"})
     }

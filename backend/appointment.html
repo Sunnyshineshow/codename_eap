@@ -152,6 +152,7 @@
               <th scope="col" class="text-secondary">สถานะ</th>
               <th scope="col" class="text-secondary">การยืนยัน</th>
               <th scope="col" class="text-secondary">Action</th>
+              <th scope="col" class="text-secondary">สร้างโดย</th>
             </tr>
           </thead>
           <tbody id="row_patientlist" style="display:none;">
@@ -184,6 +185,7 @@
                     </ul>
 
               </td>
+              <td class="text-center table-middle"># ##patient-staff##</td>
             </tr>
           </tbody>
           <tbody id="show_patientlist">
@@ -470,9 +472,9 @@
                 })
 
                 var html = hash_replace(template_timelist,"slot",msg);
-              if(found){
+            //  if(found){
                 $('.all_timelist').html(html);
-              }
+            //  }
 
               console.log("7day,",msg)
             });

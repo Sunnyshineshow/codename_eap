@@ -192,35 +192,6 @@
               </div>
             </div>
 
-            <!-- <div class="mbsc-row" style="padding:0px;margin:0px;">
-              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
-                <div id="input_lane" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ซอย</p>
-                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
-                    <div id="inputbox_lane">
-                      <label>
-                        <input class="mbsc-align-left" mbsc-input id="lane" type="text" name="lane" placeholder="" value="" maxlength="30" style="font-size: 13px;" />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="mbsc-col-6" style="padding:0px;margin:0px;">
-                <div id="input_road" style="border-radius:0px !important;padding:0px;margin-top:10px;">
-                  <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">ถนน <span style="color:red"> *</span></p>
-                  <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
-                    <div id="inputbox_road">
-                      <label>
-                        <input class="mbsc-align-left" mbsc-input id="road" type="text" name="road" placeholder="" value="" maxlength="30" style="font-size: 13px;" />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-
-
 
             <div class="mbsc-row" style="padding:0px;margin:0px;">
               <div class="mbsc-col-6" style="padding:0px;margin:0px;">
@@ -361,7 +332,21 @@
                 </div>
               </div>
             </div>
-
+            <div style="border-radius:0px !important;padding:0px;margin-top:15px;">
+              <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">การเดินทางมาจุด X-ray<span style="color:red"> *</span></p>
+              <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+                <div id="inputbox_nametitle">
+                  <label id="nametitle_er" style="padding:0px;margin:0px;border-radius:0px;">
+                    <select mbsc-dropdown id="travelprefer" data-input-style="box" name="travelprefer">
+                      <option value="" disabled>กรุณาเลือก การเดินทาง</option>
+                      <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+                      <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
+                      <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
             <div id="show_btn_save" class="mbsc-align-center mbsc-btn-group-justified">
               <button id="btn_register" mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="checkAndSubmit()"
                 style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
@@ -453,7 +438,7 @@
       let lastname_contact = $("#lastname_contact").val()
       let tel = $("#tel").val()
       let allergic = $("#allergic").val()
-
+      let travelprefer = $('#travelprefer').val()
 
       if(!blobdata_v2){
         return alert_modal("กรุณาแนบรูปบัตรประชาชน หรือ Passport")
@@ -491,6 +476,10 @@
       if (type_idcard == "รหัสประชาชน" && (idcard.length != 13 || !idcard.match(new RegExp("^[0-9]+$"))))
       {
         return alert_modal("กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง");
+      }
+      if(!travelprefer)
+      {
+        return alert_modal("กรุณา เลือกประเภทการเดินทางที่สามารถมาได้");
       }
 
       //Format อาจจะไม่เหมือนกัน
@@ -619,6 +608,7 @@
               },
               allergic:allergic,
               location:geo_location,
+              travelprefer:travelprefer
             }
 
             console.log("POST DATA",payload)
