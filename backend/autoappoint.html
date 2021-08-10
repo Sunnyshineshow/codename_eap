@@ -98,7 +98,7 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="search_travel" id="search_travel">
-                    <option value="" disabled selected>เลือกการเดินทาง</option>
+                    <option value=""  selected>เลือกการเดินทาง</option>
                     <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
                     <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
                     <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
@@ -111,7 +111,7 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
-                    <option value="" disabled>เลือกสี</option>
+                    <option value=""  selected>เลือกสี</option>
                     <option value="NONE">ยังไม่ระบุ</option>
                     <option value="GREEN">เขียว</option>
                     <option value="YELLOW">เหลือง</option>
@@ -150,13 +150,12 @@
               <th scope="col" class="text-secondary">Display Name</th>
               <th scope="col" class="text-secondary">ชื่อ-นามสกุล /บัตร</th>
               <th scope="col" class="text-secondary">ที่อยู่</th>
-              <th scope="col" class="text-secondary">เบอร์โทร</th>
-              <th scope="col" class="text-secondary">Create Date</th>
+              <th scope="col" class="text-secondary">เบอร์โทร/Register</th>
               <th scope="col" class="text-secondary">Day Count</th>
               <th scope="col" class="text-secondary">Color</th>
               <th scope="col" class="text-secondary">Travel</th>
               <th scope="col" class="text-secondary">Register Status</th>
-              <th scope="col" class="text-secondary">อื่นๆ</th>
+              <th scope="col" class="text-secondary">Action</th>
             </tr>
           </thead>
           <tbody id="row_patientlist" style="display:none;">
@@ -174,13 +173,14 @@
               <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
               </td>
 
-              <td class="text-center table-middle" nowrap="nowarp">##patient-firstname## ##patient-lastname##
+              <td class="text-center table-middle" nowrap="nowarp">##patient-firstname## ##patient-lastname## (##patient-age## ปี)
                 <br>##patient-idcard##
+                <Br><small>##patient-lastsymptomdetail##</small>
               </td>
 
               <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province## ##patient-address.zipcode##</td>
-              <td class="text-center table-middle">##patient-mobileno##</td>
-              <td class="text-center table-middle">##patient-createDate##</td>
+              <td class="text-center table-middle">##patient-mobileno## <br><small>##patient-createDate##</small></td>
+
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
               <td class="text-center table-middle">##patient-travelprefer##</td>
@@ -189,6 +189,7 @@
 <font color='blue'>##patient-comment##</font>
  ##patient-otherpatient##
               </td>
+
               <td class="text-center">
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="update_comment('##patient-id##')">ใส่หมายเหตุ</button>
@@ -299,9 +300,7 @@
     if ($('#search_subdistrict').val()) {
       Object.assign(search_setting.search,{find_subdistrict: $('#search_subdistrict').val()})
     }
-    if ($('#newlyday').val()) {
-      Object.assign(search_setting.search,{find_newlyday: $('#newlyday').val()})
-    }
+
 
     if ($('#search_zip').val()) {
       Object.assign(search_setting.search,{find_zipcode: $('#search_zip').val()})
@@ -329,8 +328,10 @@
     if($('#newly').is(":checked")){
         Object.assign(search_setting.search,{find_newly: $('#newlyday').val()})
     }
+
+
     if($('#caseconfirm').is(":checked")){
-        Object.assign(search_setting.search,{find_caseconfirm: $("caseconfirmday").val()})
+        Object.assign(search_setting.search,{find_caseconfirm: $("#caseconfirmday").val()})
     }
 
     if($('#complete').is(":checked")){
@@ -413,23 +414,28 @@
           }
 
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+        if(item.lastsymptom){
+          item.lastsymptomdetail = "Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
+          item.lastsymptomdetail += "<BR>"
+        }
+
       })
 
-      //Edit here
-      $.getJSON(MAINURL + "/api-backend/admin/is_staff", (msg) => {
-        console.log(msg)
-        for (let i = 0; i < objdata.obj.length; i++) {
-          for (let j = 0; j < msg.length; j++) {
-            if (objdata.obj[i].displayName == msg[j].displayName) {
-              console.log("Admin: " + msg[j].displayName)
-              Object.assign(objdata.obj[i], {
-                AdminColor: '<span style="color: #C70039;">Admin: </span>'
-              })
-              document.getElementById("Admin_color").innerHTML = '<span style="color: #C70039;">Admin: </span>'
-            }
-          }
-        }
-      })
+      // //Edit here
+      // $.getJSON(MAINURL + "/api-backend/admin/is_staff", (msg) => {
+      //   console.log(msg)
+      //   for (let i = 0; i < objdata.obj.length; i++) {
+      //     for (let j = 0; j < msg.length; j++) {
+      //       if (objdata.obj[i].displayName == msg[j].displayName) {
+      //         console.log("Admin: " + msg[j].displayName)
+      //         Object.assign(objdata.obj[i], {
+      //           AdminColor: '<span style="color: #C70039;">Admin: </span>'
+      //         })
+      //         document.getElementById("Admin_color").innerHTML = '<span style="color: #C70039;">Admin: </span>'
+      //       }
+      //     }
+      //   }
+      // })
 
 
 

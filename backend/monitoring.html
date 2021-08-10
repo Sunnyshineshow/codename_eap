@@ -13,14 +13,20 @@
             </div>
           </div>
           -->
-          <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-2">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+            <div class="form-group">
+              <input type="text" class="form-control" id="search_bypatient" placeholder="PatientID">
+
+            </div>
+          </div>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
             <div class="form-group">
               <input type="text" class="form-control" id="search_bysymptom" placeholder="ค้นหาอาการ">
               <small style="font-size:12px;">* ค้นหาผ่านอาการป่วย (<span style="color:red">หมายเหตุ: ใช้ (",") ในการขั้นโรคเช่น มีไข้ , ตาแดง</span>)</small>
             </div>
           </div>
 
-          <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-2">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
             <select class="form-select" aria-label="การหายใจของผู้ป่วย" id="search_breathing">
               <option value="NONE">โปรดเลือกการหายใจ</option>
               <option value="normal">หายใจปกติ</option>
@@ -53,7 +59,7 @@
 
                 <table class="table table-bordered show_startpage font-weight-light">
                     <thead class="text-center">
-                        <tr>
+                        <tr><th scope="col" class="text-secondary">PatientID</th>
                             <th scope="col" class="text-secondary">Profile</th>
                             <th scope="col" class="text-secondary">ID</th>
                             <th scope="col" class="text-secondary">Display Name</th>
@@ -71,6 +77,7 @@
                     </thead>
                     <tbody id="row_patientlist" style="display:none;">
                         <tr>
+                          <td class="text-center table-middle"># ##patient-patient.id##</td>
                             <td class="text-center table-middle">
                                 <img src="##patient-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
                             </td>
@@ -142,6 +149,9 @@
 
     if ($('#search_bysymptom').val() !== "") {
       Object.assign(search_setting.search,{findsymptom: $('#search_bysymptom').val().split(",")})
+    }
+    if ($('#search_bypatient').val()) {
+      Object.assign(search_setting.search,{find_id: $('#search_bypatient').val()})
     }
 
     if ($('#search_breathing').val() != "NONE") {
