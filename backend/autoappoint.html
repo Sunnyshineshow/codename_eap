@@ -37,7 +37,7 @@
                     </div>
 
                   </div>
-                  <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
                     <div class="input-group mb-6">
                     <div class="input-group-text">
 
@@ -50,7 +50,7 @@
                     <span class="input-group-text">วัน </span>
                   </div>
                 </div>
-                  <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
                     <div class="input-group mb-6">
                     <div class="input-group-text">
                       <input class="form-check-input mt-0" type="checkbox" value="caseconfirm" id="caseconfirm"   >
@@ -62,6 +62,17 @@
                     <span class="input-group-text">วัน </span>
                   </div>
                     </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                      <div class="input-group mb-6">
+                      <div class="input-group-text">
+                        <label for="caseconfirm" >ลงทะเบียนเมื่อ</label>
+
+                      </div>
+
+                      <input type="text" id="registerday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
+                      <span class="input-group-text">วันก่อน</span>
+                    </div>
+                      </div>
                 </div>
           </div>
       </div>
@@ -146,7 +157,7 @@
           <thead class="text-center">
             <tr>
               <th scope="col" class="text-secondary">เลือก</th>
-              <th scope="col" class="text-secondary">ID</th>
+
               <th scope="col" class="text-secondary">Display Name</th>
               <th scope="col" class="text-secondary">ชื่อ-นามสกุล /บัตร</th>
               <th scope="col" class="text-secondary">ที่อยู่</th>
@@ -160,22 +171,24 @@
           </thead>
           <tbody id="row_patientlist" style="display:none;">
             <tr>
-             <td class="text-center table-middle">
+             <td class="text-center table-middle" rowspan=2>
               <div class="form-check">
                 <input class="form-check-input autopatient" type="checkbox" value="##patient-id##" id="selectpatient##patient-id##"  checked onclick="recalulate()">
                 <label class="form-check-label" for="selectpatient##patient-id##">
+                  ##patient-id##
                   <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
                 </label>
+
               </div>
             </td>
 
-              <td class="text-center table-middle"># ##patient-id##</td>
+
               <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
               </td>
 
               <td class="text-center table-middle" nowrap="nowarp">##patient-firstname## ##patient-lastname## (##patient-age## ปี)
                 <br>##patient-idcard##
-                <Br><small>##patient-lastsymptomdetail##</small>
+
               </td>
 
               <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province## ##patient-address.zipcode##</td>
@@ -184,17 +197,28 @@
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
               <td class="text-center table-middle">##patient-travelprefer##</td>
-              <td class="text-center table-middle">##patient-status##
+              <td class="text-center table-middle" rowspan=2>##patient-status##
                 <br>
 <font color='blue'>##patient-comment##</font>
  ##patient-otherpatient##
               </td>
 
-              <td class="text-center">
+              <td class="text-center" rowspan=2>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="update_comment('##patient-id##')">ใส่หมายเหตุ</button>
               </td>
             </tr>
+            <tr >
+              <td colspan="5">
+                <span  nowrap="warp"><small>ลงทะบียน <font color='blue'>##patient-createdate## </font>อาการล่าสุด :   ##patient-lastsymptomdetail## ##patient-init_symptoms.disease##
+                  ##patient-init_symptoms.symptoms##  ##patient-init_symptoms.comment##
+
+                </small> </span>
+              </td>
+              <td colspan=2>
+                <small><a href="/admin/appointment?find_patientid=##patient-id##" target="_blank">ดูนัดหมาย</a></small>
+              </td>
+              </tr>
           </tbody>
           <tbody id="show_patientlist">
             <tr>
@@ -287,6 +311,9 @@
     if ($('#search_surname').val() !== "") {
       Object.assign(search_setting.search,{find_surname: $('#search_surname').val()})
     }
+    if ($('#registerday').val() > 0) {
+      Object.assign(search_setting.search,{find_registerday: $('#registerday').val()})
+    }
 
     if ($('#search_idno').val()) {
       Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
@@ -371,7 +398,7 @@
         // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
         item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
 
-         item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
+         item.createdate ? item.createdate = moment(item.createdate, "X").fromNow('days') + " ที่แล้ว": "";
          item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
          if (item.color == "RED") {
            item.color = '<span style="color: #C70039;">RED</span>'
@@ -418,24 +445,12 @@
           item.lastsymptomdetail = "Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
           item.lastsymptomdetail += "<BR>"
         }
-
+        if(item.init_symptoms){
+        //  item.lastsymptomdetail = "Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
+        //  item.lastsymptomdetail += "<BR>"
+        }
       })
 
-      // //Edit here
-      // $.getJSON(MAINURL + "/api-backend/admin/is_staff", (msg) => {
-      //   console.log(msg)
-      //   for (let i = 0; i < objdata.obj.length; i++) {
-      //     for (let j = 0; j < msg.length; j++) {
-      //       if (objdata.obj[i].displayName == msg[j].displayName) {
-      //         console.log("Admin: " + msg[j].displayName)
-      //         Object.assign(objdata.obj[i], {
-      //           AdminColor: '<span style="color: #C70039;">Admin: </span>'
-      //         })
-      //         document.getElementById("Admin_color").innerHTML = '<span style="color: #C70039;">Admin: </span>'
-      //       }
-      //     }
-      //   }
-      // })
 
 
 
@@ -476,7 +491,7 @@
 
   }
   function recalulate(){
-    $('#totalrecord').html($('.autopatient:checked').length)
+    $('#totalrecord').html($('.autopatient:checked').length - 1)
   }
   function submitauto() {
     if(!$('#autohospital').val()){

@@ -49,7 +49,7 @@
     var URL_PAGE_POSITION = 1;
     var MAINURL = 'https://covidx.narenthorn.or.th'
     $('#body_mainbody').load(PREFIX_MAIN_LOCAL + "/preload.html");
-
+    moment.locale('th')
     alert = function(alertmsg, title = "Warning") {
       PNotify.notice({
         delay: 2500,
