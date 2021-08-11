@@ -113,13 +113,13 @@
                 <th scope="col" class="text-secondary">Date</th>
                 <th scope="col" class="text-secondary">Favipilavia</th>
                 <th scope="col" class="text-secondary">Other</th>
-                <th scope="col" class="text-secondary">Action</th>
+                <th scope="col" class="text-secondary">Comment</th>
               </tr>
             </thead>
             <tbody id="row_patientlist" style="display:none;">
               <tr>
                 <td class="text-center table-middle">###MED-patient.id##<br><img src="##MED-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle"></td>
-              
+
                 <td class="text-center table-middle"># ##MED-appointment.id##</td>
 
                 <td class="text-center table-middle">##MED-patient.displayName##
@@ -131,7 +131,9 @@
                 <td class="text-center table-middle">##MED-medicine.medic_favipilavia##</td>
                 <td class="text-center table-middle">##MED-medicine.medic_other##</td>
                 <td class="text-center">
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')" disabled> comming soon</button>
+                ##MED-patient.comment##
+                 <br>
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')" disabled>change comment</button>
                 </td>
               </tr>
             </tbody>
@@ -167,7 +169,23 @@
       </div>
     </div>
   </div>
-
+  <div class="modal" tabindex="-1" id="p_comment">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ใส่หมายเหตุ สำหรับผู้ป่วยรายนี้</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="finish_comment()" >Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <script type="text/javascript">
     var template_patient_row = $('#row_patientlist').html();
     var searchobj = {};
@@ -226,11 +244,6 @@
         let large_dose = 0
 
         objdata.obj.map(item => {
-          // console.log(item)
-          // let datetime = new Date(res.symptoms[i].inputdate)
-          // res.symptoms[i].inputdate = datetime.getDate() + "/"
-          // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-          // item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
 
           item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY HH:mm") : "";
 
@@ -242,35 +255,7 @@
           {
               large_dose++
           }
-          //  item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
-          //  if (item.color == "RED") {
-          //    item.color = '<span style="color: #C70039;">RED</span>'
-          //  } else if (item.color == "YELLOW") {
-          //    item.color = '<span style="color: #fcba03;">YELLOW</span>'
-          //  } else if (item.color == "GREEN") {
-          //    item.color = '<span style="color: green;">GREEN</span>'
-          //  }else if (item.color == "WHITE") {
-          //     item.color = 'สิ้งสุดกระบวนการ'
-          //   }else{
-          //    item.color = "N/A"
-          //  }
-          // // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
-          // if (item.color_change > 0)
-          // {
-          //   item.color_change = '<span style="color: #C70039;"> +' + item.color_change +'</span>'
-          // }
-          // else if (item.color_change < 0)
-          // {
-          //   item.color_change = '<span style="color: green;">' + item.color_change +'</span>'
-          // }
-          // else if (item.color_change == 0)
-          // {
-          //   item.color_change == 0
-          // }
-          // else
-          // {
-          //   item.color_change = "-"
-          // }
+
 
         })
 
