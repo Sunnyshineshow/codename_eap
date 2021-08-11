@@ -5,7 +5,7 @@
             <h3><b>Staff List</b></h3>
             <div class="row mb-1">
                 <div class="col-6 col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                    <form class="form-row" onsubmit="return pre_search();">
+                    <form class="form-row" onsubmit="return do_searching();">
                         <div class="form-group col-md-6" style="width: 100%;">
                             <label for="txtsearch">ค้นหา</label>
                             <div class="row d-flex justify-content-left" style="width: 180%;">
@@ -109,9 +109,7 @@
 
     var template_staff_row = $('#row_stafflist').html();
 
-    var searchobj = {};
     var fncsearch;
-
     //CheckIsStaff()
 
 
@@ -128,26 +126,14 @@
             pagesize: 10,
             showfunction: show_staff_list,
             limit: 20,
-            search: {}
+            search:{}
         }
-        if ($('#search_name').val() !== "") {
-            Object.assign(search_setting.search,{findname: $('#search_name').val()})
-        }
-
-        if ($('#search_id').val() !== "") {
-            Object.assign(search_setting.search,{findid: $('#search_id').val()})
+        var pagenumber = getParameterByName('page', window.location.search);
+        if (pagenumber > 1) {
+          search_setting.page = pagenumber;
         }
 
-        if ($('#search_hospital').val() !== "") {
-            Object.assign(search_setting.search,{findhospital: $('#search_hospital').val()})
-        }
 
-        // if () {
-        //     Object.assign(search_setting.search,{findhospital: $('#search_hospital').val()})
-        // }
-
-        //date change
-        // Object.assign(res, {day_count: date_diff(res.createdate * 1000)})
 
         var pagenumber = getParameterByName('page', window.location.search);
         if (pagenumber > 1) {
@@ -158,10 +144,23 @@
         return false;
     }
 
-    function pre_search(){
+  function do_searching(){
     // clear search url from lastsearch
+    var searchdata = {}
+    if ($('#search_name').val() !== "") {
+      searchdata.findname= $('#search_name').val()
+    }
 
-    refreshpage(undefined,true);
+    if ($('#search_id').val() !== "") {
+      searchdata.findid = $('#search_id').val()
+    }
+
+    if ($('#search_hospital').val() !== "") {
+      searchdata.findhospital = $('#search_hospital').val()
+    }
+    fncsearch({
+      search: searchdata
+    })
     return false;
   }
 
@@ -221,17 +220,6 @@
         }
     }
 
-    // //date change
-    // function date_diff(date1)
-    // {
-    //     let dateOnly = new Date()
-    //     console.log(dateOnly)
-    //
-    //     let date2 = Date.parse(new Date(dateOnly.getFullYear(), dateOnly.getMonth(), dateOnly.getDate()))
-    //     console.log(new Date(date2))
-    //
-    //     return parseInt((date2 - date1) / 86400000)
-    // }
 
     function settingStaff(dataid) {
         working.active_staffid = dataid;

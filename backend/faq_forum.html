@@ -114,19 +114,23 @@
 
 <script>
     var template_patient_row = $('#row_patientlist').html();
-  var searchobj = {};
   var fncsearch;
-  // var global_color;
 
   function pre_search(){
-    // clear search url from lastsearch
+    var searchdata = {};
+    if ($('#search_name').val() !== "") {
+      searchdata.findname= $('#search_name').val()
+    }
 
-    refreshpage(undefined,true);
+    if ($('#search_idno').val() !== "") {
+      searchdata.find_id = $('#search_idno').val()
+    }
+    fncsearch ({search:searchdata})
     return false;
   }
 
 
-  function refreshpage(rawdata,clearsearch) {
+  function refreshpage(rawdata) {
     $('#imageuoload').loadcached('/backend/uploadimage.html', function() {
       console.log("Load image cached")
     });
@@ -140,24 +144,14 @@
       limit: 10,
       search: {}
     }
-    if ($('#search_name').val() !== "") {
-      Object.assign(search_setting.search,{findname: $('#search_name').val()})
-    }
 
-    if ($('#search_idno').val() !== "") {
-      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
-    }
-
-    console.log("Searching..",search_setting)
-
-    console.log(search_setting.search)
 
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
     // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    fncsearch = ADV_search(search_setting); // Defult always search at first
     return false;
   }
 

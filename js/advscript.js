@@ -517,7 +517,7 @@ function paramsToObject(entries) {
   }
   return result;
 }
-function ADV_search(setting,submitsearch){
+function ADV_search(setting,notsearchatfirst){
    var setval = {
        url:setting.posturl,
        eventname:setting.eventname,
@@ -533,11 +533,11 @@ function ADV_search(setting,submitsearch){
    if(setting.search){
      setval.currentsearch.search = setting.search;
    }
-   setval.firsttimecall = submitsearch ? false:true;
+   setval.firsttimecall = true;
    var preventsearchatfirst=false;
 
  var search_function = function (query,firsttime){
-      var disablehistory = false;//firsttime;
+      var disablehistory = firsttime;
       if(window.location.search && setval.firsttimecall){
         const urlParams = new URLSearchParams(window.location.search);
         const entries = urlParams.entries(); //returns an iterator of decoded [key,value] tuples
@@ -552,7 +552,6 @@ function ADV_search(setting,submitsearch){
         }
 
       }
-      console.log("query",query)
       if(setval.firsttimecall ){
         setval.firsttimecall = false;
       }
@@ -593,7 +592,7 @@ function ADV_search(setting,submitsearch){
                 }
               }
           }
-          console.log("showurl2",showurl)
+
           var pagename = window.location.pathname.split('/')[URL_PAGE_POSITION];
           adv_current_pushstat = adv_current_pushstat.replace(window.location.search,'');
           if(adv_current_pushstat && adv_current_pushstat.indexOf('/') !==0) {
@@ -613,7 +612,12 @@ function ADV_search(setting,submitsearch){
           */
        //
       if(setval.url){
-    	 console.log("Search at POST:"+setval.url);
+       if(query.search){
+         if(!query.search._id && query.search.id) query.search._id = query.search.id;
+         if(!query.search.id && query.search._id) query.search.id = query.search._id;
+       }
+
+       console.log("Search at POST:"+setval.url,query);
          $.postJSON(setval.url,query,function (msg) {
           console.log('Search response:',msg)
             if(msg.errortext){
@@ -709,9 +713,9 @@ function ADV_search(setting,submitsearch){
        preventsearchatfirst = false;
      }
    }
-  // if(!notsearchatfirst){
+   if(!notsearchatfirst){
      search_function(setval.currentsearch,true);  // First Search when Load Page
-   //}
+   }
    return search_function;
  }
 var _internal_cached_url={};

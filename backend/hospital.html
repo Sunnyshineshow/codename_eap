@@ -118,49 +118,33 @@
 </div>
 <script type="text/javascript">
   var template_patient_row = $('#row_hospitallist').html();
-  var searchobj = {};
   var fncsearch;
 
   function pre_search(){
     // clear search url from lastsearch
-
-    refreshpage(undefined,true);
+    var searchdata ={};
+    if ($('#search_name').val() !== "") {
+      searchdata.findname= $('#search_name').val()
+    }
+    fncsearch({search:searchdata})
     return false;
   }
 
-  function refreshpage(rawdata,clearsearch) {
-
-    if (!clearsearch)
-    {
-      clearsearch = true
-    }
-
-    console.log("GLOBAL_USER",GLOBAL_USER)
-
-    var search_setting = {
+  function refreshpage(rawdata) {
+      var search_setting = {
       posturl: '/api-backend/admin/HospitalList',
       paginationDIV: $('.pagination_bar'),
       pagesize: 10,
       showfunction: show_hospital_list,
       limit: 10,
     }
-    if ($('#search_name').val() !== "") {
-      search_setting.search = {
-        findname: $('#search_name').val()
-      }
 
-    }
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
-    // console.log('SEARCH ', search_setting);
-    /*
-    console.log('SEARCH ', search_setting);
+
     fncsearch = ADV_search(search_setting); // Defult always search at first
-    document.getElementById("search_name").value = ""
-    */
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
   }
 

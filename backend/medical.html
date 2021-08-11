@@ -106,8 +106,7 @@
           <table class="table table-bordered table-hover show_startpage font-weight-light" >
             <thead class="text-center">
               <tr>
-                <th scope="col" class="text-secondary">Patient ID</th>
-                <th scope="col" class="text-secondary">Profile</th>
+                <th scope="col" class="text-secondary">Patient</th>
                 <th scope="col" class="text-secondary">Appointment ID</th>
                 <th scope="col" class="text-secondary">Name</th>
                 <th scope="col" class="text-secondary">Age</th>
@@ -119,10 +118,8 @@
             </thead>
             <tbody id="row_patientlist" style="display:none;">
               <tr>
-                <td class="text-center table-middle"># ##MED-patient.id##</td>
-                <td class="text-center table-middle">
-                  <img src="##MED-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
-                </td>
+                <td class="text-center table-middle">###MED-patient.id##<br><img src="##MED-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle"></td>
+              
                 <td class="text-center table-middle"># ##MED-appointment.id##</td>
 
                 <td class="text-center table-middle">##MED-patient.displayName##
@@ -182,19 +179,24 @@
 
     function pre_search(){
       // clear search url from lastsearch
+      var searchdata={}
+      if ($('#search_name').val() !== "") {
+        searchdata.findname = $('#search_name').val()
+      }
 
-      refreshpage(undefined,true);
+      if ($('#search_idno').val() !== "") {
+        searchdata.find_id = $('#search_idno').val()
+      }
+
+
+      searchdata.find_date =  current_date
+      shown_date = new Date(current_date * 1000)
+      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
+      fncsearch({search:searchdata});
       return false;
     }
-    function refreshpage(rawdata,clearsearch) {
-      console.log("GLOBAL_USER",GLOBAL_USER)
-
-      console.log(current_date)
-
-      if (!clearsearch)
-      {
-        clearsearch = true
-      }
+    function refreshpage(rawdata) {
 
       var search_setting = {
         posturl: '/api-backend/admin/treatment_medlist',
@@ -202,46 +204,15 @@
         pagesize: 10,
         showfunction: show_patient_list,
         limit: 20,
-        search: {}
-      }
-      if ($('#search_name').val() !== "") {
-        Object.assign(search_setting.search,{findname: $('#search_name').val()})
+        search: {find_date : current_date}
       }
 
-      if ($('#search_idno').val() !== "") {
-        Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
-      }
-
-    //   if ($("#search_date").val() != "")
-    //   {
-    //     console.log($("#search_date").val())
-    //     current_date = Math.floor(new Date($("#search_date").val()) / 1000)
-    //     shown_date = new Date(current_date * 1000)
-    //     document.getElementById('search_date').value = ""
-    //   }
-
-    Object.assign(search_setting.search,{find_date: current_date})
-
-    shown_date = new Date(current_date * 1000)
-        document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
-
-      console.log("Searching..",search_setting)
-      // else
-      // {
-      //   Object.assign(search_setting.search,{find_color: undefined})
-      // }
-
-      console.log(search_setting.search)
-
-      // if (global_color) {
-      //   Object.assign(search_setting.search,{find_color: global_color})
-      // }
       var pagenumber = getParameterByName('page', window.location.search);
       if (pagenumber > 1) {
         search_setting.page = pagenumber;
       }
       // console.log('SEARCH ', search_setting);
-      fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+      fncsearch = ADV_search(search_setting); // Defult always search at first
       return false;
     }
 

@@ -67,8 +67,7 @@
         <table class="table table-bordered table-hover show_startpage font-weight-light" >
           <thead class="text-center">
             <tr>
-              <th scope="col" class="text-secondary">Patient ID</th>
-              <th scope="col" class="text-secondary">Profile</th>
+              <th scope="col" class="text-secondary">Patient</th>
               <th scope="col" class="text-secondary">Appointment ID</th>
               <th scope="col" class="text-secondary">Name</th>
               <th scope="col" class="text-secondary">Date</th>
@@ -79,10 +78,9 @@
             </tr>
           </thead>
           <tbody id="row_patientlist" style="display:none;">
-            <tr>
-              <td class="text-center table-middle"># ##XRAY-patient.id##</td>
+            <tr>              
               <td class="text-center table-middle">
-                <img src="##XRAY-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                ###XRAY-patient.id##<br><img src="##XRAY-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
               </td>
               <td class="text-center table-middle"># ##XRAY-appointment.id##</td>
               <td class="text-center table-middle">##XRAY-patient.displayName##
@@ -113,17 +111,21 @@
 
   <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
-  var searchobj = {};
   var fncsearch;
-  // var global_color;
-
   function pre_search(){
     // clear search url from lastsearch
+    var searchdata ={};
+    if ($('#search_name').val() !== "") {
+      searchdata.findname= $('#search_name').val()
+    }
 
-    refreshpage(undefined,true);
+    if ($('#search_idno').val() !== "") {
+      searchdata.find_id = $('#search_idno').val()
+    }
+    fncsearch ({search:searchdata})
     return false;
   }
-  function refreshpage(rawdata,clearsearch) {
+  function refreshpage(rawdata) {
     console.log("GLOBAL_USER",GLOBAL_USER)
 
     var search_setting = {
@@ -134,31 +136,15 @@
       limit: 20,
       search: {}
     }
-    if ($('#search_name').val() !== "") {
-      Object.assign(search_setting.search,{findname: $('#search_name').val()})
-    }
 
-    if ($('#search_idno').val() !== "") {
-      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
-    }
 
-    console.log("Searching..",search_setting)
-    // else
-    // {
-    //   Object.assign(search_setting.search,{find_color: undefined})
-    // }
 
-    console.log(search_setting.search)
-
-    // if (global_color) {
-    //   Object.assign(search_setting.search,{find_color: global_color})
-    // }
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
     // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    fncsearch = ADV_search(search_setting); // Defult always search at first
     return false;
   }
 

@@ -122,7 +122,6 @@
           <thead class="text-center">
             <tr>
               <th scope="col" class="text-secondary">Profile</th>
-              <th scope="col" class="text-secondary">ID</th>
               <th scope="col" class="text-secondary">Display Name</th>
               <th scope="col" class="text-secondary">ชื่อ-นามสกุล /บัตร</th>
               <th scope="col" class="text-secondary">ที่อยู่</th>
@@ -139,10 +138,9 @@
           </thead>
           <tbody id="row_patientlist" style="display:none;">
             <tr>
-              <td class="text-center table-middle">
+              <td class="text-center table-middle">###patient-id##<br>
                 <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
               </td>
-              <td class="text-center table-middle"># ##patient-id##</td>
               <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
               </td>
 
@@ -208,18 +206,55 @@
 
 <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
-  var searchobj = {};
   var fncsearch;
   // var global_color;
 
   function pre_search(){
-    // clear search url from lastsearch
+      searchdata = {};
+    if ($('#search_name').val() !== "") {
+      searchdata.findname= $('#search_name').val()
+    }
 
-    refreshpage(undefined,true);
+    if ($('#search_surname').val() !== "") {
+      searchdata.find_surname= $('#search_surname').val()
+    }
+
+    if ($('#search_idno').val()) {
+      searchdata.find_id= $('#search_idno').val()
+    }
+    if ($('#search_cid').val()) {
+      searchdata.find_idcard= $('#search_cid').val()
+    }
+    if ($('#search_district').val()) {
+      searchdata.find_district= $('#search_district').val()
+    }
+    if ($('#search_zip').val()) {
+      searchdata.find_zipcode=$('#search_zip').val()
+    }
+    if ($('#search_comment').val()) {
+      searchdata.find_comment= $('#search_comment').val()
+    }
+    if ($('#search_travel').val()) {
+      searchdata.find_travel=$('#search_travel').val()
+    }
+
+    if ($('#search_passport').val()) {
+      searchdata.find_passport= $('#search_passport').val()
+    }
+
+    if ($('#search_tel').val() !== "") {
+      searchdata.find_tel=$('#search_tel').val()
+    }
+
+    if ($('#search_color').val() != "NONE") {
+      searchdata.find_color= $('#search_color').val()
+    }
+        // clear search url from lastsearch
+
+    fncsearch({  search: searchdata});
     return false;
   }
-  function refreshpage(rawdata,clearsearch) {
-    console.log("GLOBAL_USER",GLOBAL_USER)
+  function refreshpage(rawdata,) {
 
     var search_setting = {
       posturl: '/api-backend/admin/patientlist',
@@ -229,61 +264,14 @@
       limit: 20,
       search: {}
     }
-    if ($('#search_name').val() !== "") {
-      Object.assign(search_setting.search,{findname: $('#search_name').val()})
-    }
 
-    if ($('#search_surname').val() !== "") {
-      Object.assign(search_setting.search,{find_surname: $('#search_surname').val()})
-    }
 
-    if ($('#search_idno').val()) {
-      Object.assign(search_setting.search,{find_id: $('#search_idno').val()})
-    }
-    if ($('#search_cid').val()) {
-      Object.assign(search_setting.search,{find_idcard: $('#search_cid').val()})
-    }
-    if ($('#search_district').val()) {
-      Object.assign(search_setting.search,{find_district: $('#search_district').val()})
-    }
-    if ($('#search_zip').val()) {
-      Object.assign(search_setting.search,{find_zipcode: $('#search_zip').val()})
-    }
-    if ($('#search_comment').val()) {
-      Object.assign(search_setting.search,{find_comment: $('#search_comment').val()})
-    }
-    if ($('#search_travel').val()) {
-      Object.assign(search_setting.search,{find_travel: $('#search_travel').val()})
-    }
 
-    if ($('#search_passport').val()) {
-      Object.assign(search_setting.search,{find_passport: $('#search_passport').val()})
-    }
-
-    if ($('#search_tel').val() !== "") {
-      Object.assign(search_setting.search,{find_tel: $('#search_tel').val()})
-    }
-
-    if ($('#search_color').val() != "NONE") {
-      Object.assign(search_setting.search,{find_color: $('#search_color').val()})
-    }
-    console.log("Searching..",search_setting)
-    // else
-    // {
-    //   Object.assign(search_setting.search,{find_color: undefined})
-    // }
-
-    console.log(search_setting.search)
-
-    // if (global_color) {
-    //   Object.assign(search_setting.search,{find_color: global_color})
-    // }
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
-    // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    fncsearch = ADV_search(search_setting); // Defult always search at first
     return false;
   }
 
