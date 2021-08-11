@@ -1,6 +1,16 @@
 <script>
     var appointmentid = getParameterByName('id', window.location.search);
-    console.log("เข้าหน้าเว็บ")
+    console.log("GOT",appointmentid)
+    if(Number(appointmentid) > 0){
+      window.localStorage.setItem('active_queueconfirm',appointmentid);
+      console.log("SET")
+    }else{
+      var test = window.localStorage.getItem('active_queueconfirm');
+      if(Number(test) > 0 ){
+        appointmentid = test;
+      }
+    }
+    console.log("เข้าหน้าเว็บ",appointmentid,window.location.search)
     $.postJSON(MAINURL + "/api-web/line/appoint_confirmed/", {_id: parseInt(appointmentid)}, (msg)=>
     {
         if (msg.code == 200)
