@@ -197,12 +197,7 @@
   var workingslot;
 
 
-  function refreshpage(rawdata,clearsearch) {
-
-    if (!clearsearch)
-    {
-      clearsearch = true
-    }
+  function refreshpage(rawdata) {
 
     console.log("GLOBAL_USER",GLOBAL_USER)
 
@@ -214,7 +209,7 @@
       limit: 10,
     }
 
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    fncsearch = ADV_search(search_setting); // Defult always search at first
     return false;
   }
   function load_timeslot(hospital_id){

@@ -40,7 +40,18 @@
   function refreshpage() {
     console.log("Check Register Passed")
       console.log("GLOBALUSER",GLOBALUSER)
-
+      if(ACTIVEPATIENT){
+        if(ACTIVEPATIENT.status==4 ){  // Working in Register
+          go2View("register4other")
+          return;
+        } else if(ACTIVEPATIENT.status==1){
+          go2View("verify4other")
+          return;
+        }else if(ACTIVEPATIENT.status==3){
+          go2View("initsymptoms")
+          return;
+        }
+      }
       if(GLOBALUSER.status ==1){
           go2View("verify");
       }
