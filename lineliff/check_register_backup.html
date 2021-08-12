@@ -1,0 +1,71 @@
+<div class="md-range-event"  mbsc-form style="display:none">
+  <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
+    <div class="mbsc-header-txt mbsc-align-center">
+      <div class="mbsc-align-center" style="margin-top:8px;">
+        <p style="padding:0px 5px;margin:0px;font-weight:400;font-size: 1.5rem;line-height: 2rem;color:white;">โครงการอยู่บ้าน ปอดปลอดภัย</p>
+      </div>
+    </div>
+  </div>
+
+  <div mbsc-form>
+    <div mbsc-form id="form_display">
+      <div class="mbsc-align-center" style="margin-top:20px;">
+        <p style="margin-top:3px;margin-bottom:8px;color:red;">ท่านได้ ลงทะเบียนผู้ป่วยเป็นที่เรียบร้อยแล้ว</p>
+        <p style="margin-top:3px;margin-bottom:8px;color:red;">ท่านสามารถ ทำการแจ้งอาการ หรือ ตรวจสอบคิวได้ ในเมนูอื่นๆ</p>
+      </div>
+
+      <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
+        <hr style="background-color: #58595B;opacity:0.5;">
+      </div>
+      <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
+        <div  class="mbsc-align-center mbsc-btn-group-justified">
+          <button  mbsc-button type="button" class="mbsc-btn-outline btn_hover" onclick="go2View('verify4other')"
+            style="color:white !important; border:none !important ; border-radius:5px;padding:0px 50px;font-size:16px;font-weight:400;background-color:#206eb8;border-radius:5px;">
+            <div class="mbsc-form-grid">
+              <div class="mbsc-grid">
+                <div class="mbsc-row">
+                  <div class="mbsc-col-12">
+                    <p style="padding:0px;margin:0px;" id="text_edit_inbtn">ลงทะเบียนเพิ่ม แทนผู้อื่น </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+      </div>
+</div>
+<script>
+
+  function refreshpage() {
+    console.log("Check Register Passed")
+      console.log("GLOBALUSER",GLOBALUSER)
+      if(ACTIVEPATIENT){
+        if(ACTIVEPATIENT.status==4 ){  // Working in Register
+          go2View("register4other")
+          return;
+        } else if(ACTIVEPATIENT.status==1){
+          go2View("verify4other")
+          return;
+        }else if(ACTIVEPATIENT.status==3){
+          go2View("initsymptoms")
+          return;
+        }
+      }
+      if(GLOBALUSER.status ==1){
+          go2View("verify");
+      }
+      else if (GLOBALUSER.status == 3)
+      {
+        alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน")
+        go2View("initsymptoms")
+        return;
+      }
+      else if (GLOBALUSER.status == 4)
+      {
+        go2View("register")
+        return;
+      }
+
+  }
+  </script>

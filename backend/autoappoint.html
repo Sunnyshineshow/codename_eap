@@ -233,10 +233,10 @@
         <div class="form-group">
           สถานพยาบาล
           <select class="form-select" aria-label="" id="autohospital">
-            <option selected disabled>Select ศูนย์ X-ray</option>
+            <option  disabled>Select ศูนย์ X-ray</option>
             <option value="1">นเรนทร กรุงเทพฯใต้ </option>
             <option value="2">Closed Site </option>
-            <option value="3">นเรนทร กรุงธนเหนือ 	</option>
+            <option value="3" selected >นเรนทร กรุงธนเหนือ 	</option>
           </select>
           </div>
             </div>
@@ -375,9 +375,42 @@
     fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
   }
+  function map_html_to_obj(html,obj){
 
-  function show_patient_list(objdata, totalrecord) {
-    // console.log('objdata', objdata);
+  }
+  var html_obj = {search_comment:"find_comment",
+                  search_comment:"search_surname",
+                  search_subdistrict:"find_subdistrict",
+                  search_district:"find_district",
+                  search_travel:"find_travel"
+                }
+  function map_obj_to_html(obj,html){
+    if(typeof(obj)=='object'){
+        var keys = Object.keys(obj)
+        for(var x=0; x < keys.length;x++){
+            if(obj[keys[x]] !==undefined ){
+                var test = check_objkeymatch(html,keys[x])
+                if(test) {
+                    $('#' + test).val(obj[keys[x]])
+                }
+            }
+        }
+    }
+  }
+  function check_objkeymatch(obj,key){
+      var keys = Object.keys(obj)
+      for(var x=0; x < keys.length;x++){
+        if(obj[keys[x]] == key){
+            return keys[x];
+        }
+      }
+  }
+  function show_patient_list(objdata, totalrecord,filed2show,queryobj) {
+
+    if(queryobj){
+      map_obj_to_html(queryobj.search,html_obj)
+      console.log("queryobj",queryobj)
+    }
     if (objdata.result && totalrecord > 0) {
       $('#totalrecord').html(totalrecord);
       working.patient = objdata.obj;

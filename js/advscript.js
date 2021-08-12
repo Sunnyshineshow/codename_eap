@@ -649,7 +649,7 @@ function ADV_search(setting,notsearchatfirst){
              for(var x=1;x <= totalpage; x++) page.push(x);
              // Show data
              console.log("search result",msg.obj);
-             setval.fnc_result(msg.obj,totalrecord,msg.field2show);
+             setval.fnc_result(msg.obj,totalrecord,msg.field2show,query);
              if(firsttime){
                if(!totalrecord){
                  totalrecord =0
