@@ -261,24 +261,7 @@
     </div>
   </div>
 </div>
-<div class="modal" tabindex="-1" id="p_comment">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">ใส่หมายเหตุ สำหรับผู้ป่วยรายนี้</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="finish_comment()" >Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
@@ -300,19 +283,19 @@
                   search_name:"findname",
                   complete:"find_completeregister"
                 }
+        var html_obj_option = {
+          newlyday:"find_newly",
+          caseconfirmday:"find_caseconfirm"
+        }
   function pre_search(){
     var searchdata ={};
-
     if($('#newly').is(":checked")){
         searchdata.find_newly= $('#newlyday').val()
     }
-
     if($('#caseconfirm').is(":checked")){
         searchdata.find_caseconfirm = $("#caseconfirmday").val()
     }
-
     map_html_to_obj(html_obj,searchdata)
-
     fncsearch({  search: searchdata});
     return false;
   }
@@ -342,6 +325,8 @@
 
     if(queryobj){
       map_obj_to_html(queryobj.search,html_obj)
+      map_obj_to_html(queryobj.search,html_obj_option)
+
     }
     $('#totalrecord').html(totalrecord);
     if (objdata.result && totalrecord > 0) {
@@ -420,27 +405,8 @@
     go2View("patient?id=" + patient_id)
 
   }
-
-  var working_patient;
   function update_comment(patient_id){
-    working_patient = patient_id
-    $("#p_comment").modal('show')
-    //patient_id
-  }
-  function finish_comment(){
-    $("#p_comment").modal('hide')
-    if(! $('#patient_comment').val()) {
-      alert("Comment is empty")
-      return;
-    }
-    var data = {
-      patient : working_patient,
-      comment: $('#patient_comment').val()
-    }
-    $.postJSON(MAINURL + '/api-backend/admin/update_comment',data,(msg)=>{
-        refreshpage();
-    })
-
+    update_patient_comment(patient_id,refreshpage)  // predefine in preload
   }
   function recalulate(){
     $('#totalrecord').html($('.autopatient:checked').length - 1)

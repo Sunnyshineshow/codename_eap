@@ -186,23 +186,7 @@
     </div>
   </div>
 </div>
-<div class="modal" tabindex="-1" id="p_comment">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">ใส่หมายเหตุ สำหรับผู้ป่วยรายนี้</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="finish_comment()" >Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
@@ -398,26 +382,8 @@
 
   }
 
-  var working_patient;
   function update_comment(patient_id){
-    working_patient = patient_id
-    $("#p_comment").modal('show')
-    //patient_id
-  }
-  function finish_comment(){
-    $("#p_comment").modal('hide')
-    if(! $('#patient_comment').val()) {
-      alert("Comment is empty")
-      return;
-    }
-    var data = {
-      patient : working_patient,
-      comment: $('#patient_comment').val()
-    }
-    $.postJSON(MAINURL + '/api-backend/admin/update_comment',data,(msg)=>{
-        refreshpage();
-    })
-
+    update_patient_comment(patient_id,refreshpage)  // predefine in preload
   }
   function appointment(patient_id) {
 

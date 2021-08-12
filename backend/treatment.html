@@ -2,8 +2,8 @@
   <div class="p-2 mr-5 ml-5">
     <div class="container">
 
-      <h3 class="p-0 m-0 mb-3"><b>Treatment (อยู่ระหว่างการพัฒนา)</b></h3>
-      <h4 class="p-0 m-0 mb-3"><b>X-Ray</b></h4>
+      <h3 class="p-0 m-0 mb-3"><b>X-Ray Result</b></h3>
+
       <div class="row mb-1 d-flex justify-content-start">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form class="form-row" onsubmit="return pre_search();">
@@ -18,6 +18,9 @@
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_resultx" placeholder="ผลของ X-ray">
               </div>
               <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
@@ -71,14 +74,14 @@
               <th scope="col" class="text-secondary">Appointment ID</th>
               <th scope="col" class="text-secondary">Name</th>
               <th scope="col" class="text-secondary">Date</th>
-              <th scope="col" class="text-secondary">Accession</th>
+              <th scope="col" class="text-secondary">ID/Accession</th>
               <th scope="col" class="text-secondary">Category</th>
-              <th scope="col" class="text-secondary">Status</th>
-              <th scope="col" class="text-secondary">Action</th>
+              <th scope="col" class="text-secondary">Other</th>
+              <th scope="col" class="text-secondary">ผู้ตรวจ</th>
             </tr>
           </thead>
           <tbody id="row_patientlist" style="display:none;">
-            <tr>              
+            <tr>
               <td class="text-center table-middle">
                 ###XRAY-patient.id##<br><img src="##XRAY-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
               </td>
@@ -87,12 +90,14 @@
                 <br>
                 ##XRAY-patient.firstname## ##XRAY-patient.lastname##
               </td>
+
               <td class="text-center table-middle">##XRAY-createdate##</td>
-              <td class="text-center table-middle">##XRAY-accession##</td>
+              <td class="text-center table-middle">##XRAY-patient.idcard##<br>##XRAY-accession##</td>
               <td class="text-center table-middle">##XRAY-data.FindingName##</td>
-              <td class="text-center table-middle">##XRAY-data.Status##</td>
-              <td class="text-center">
-                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')" disabled> comming soon</button>
+              <td class="text-left table-middle"><small><small>##XRAY-data.ResultText## </small></small></td>
+              <td class="text-center table-middle">
+                ##XRAY-data.RadiologistName##
+
               </td>
             </tr>
           </tbody>
@@ -112,16 +117,16 @@
   <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
   var fncsearch;
+    var html_obj = {
+      search_name:"findname",
+      search_idno:"find_id",
+      search_cid:"find_cid",
+      search_resultx:"search_resultx"
+    }
   function pre_search(){
     // clear search url from lastsearch
     var searchdata ={};
-    if ($('#search_name').val() !== "") {
-      searchdata.findname= $('#search_name').val()
-    }
-
-    if ($('#search_idno').val() !== "") {
-      searchdata.find_id = $('#search_idno').val()
-    }
+    map_html_to_obj(html_obj,searchdata)
     fncsearch ({search:searchdata})
     return false;
   }
@@ -132,7 +137,7 @@
       posturl: '/api-backend/admin/treatment_xraylist',
       paginationDIV: $('.pagination_bar'),
       pagesize: 10,
-      showfunction: show_patient_list,
+      showfunction: show_search_list,
       limit: 20,
       search: {}
     }
@@ -148,54 +153,21 @@
     return false;
   }
 
-  function show_patient_list(objdata, totalrecord) {
-    // console.log('objdata', objdata);
+  function show_search_list(objdata, totalrecord,filed2show,queryobj) {
+      if(queryobj){
+        map_obj_to_html(queryobj.search,html_obj)
+      }
     if (objdata.result && totalrecord > 0) {
       working.patient = objdata.obj;
-      console.log("OBJDATA: " + objdata.obj)
 
       objdata.obj.map(item => {
 
-        console.log(item)
-        // console.log(item)
-        // let datetime = new Date(res.symptoms[i].inputdate)
-        // res.symptoms[i].inputdate = datetime.getDate() + "/"
-        // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-        // item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
 
         item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY HH:mm") : "";
-        //  item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
-        //  if (item.color == "RED") {
-        //    item.color = '<span style="color: #C70039;">RED</span>'
-        //  } else if (item.color == "YELLOW") {
-        //    item.color = '<span style="color: #fcba03;">YELLOW</span>'
-        //  } else if (item.color == "GREEN") {
-        //    item.color = '<span style="color: green;">GREEN</span>'
-        //  }else if (item.color == "WHITE") {
-        //     item.color = 'สิ้งสุดกระบวนการ'
-        //   }else{
-        //    item.color = "N/A"
-        //  }
-        // // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
-        // if (item.color_change > 0)
-        // {
-        //   item.color_change = '<span style="color: #C70039;"> +' + item.color_change +'</span>'
-        // }
-        // else if (item.color_change < 0)
-        // {
-        //   item.color_change = '<span style="color: green;">' + item.color_change +'</span>'
-        // }
-        // else if (item.color_change == 0)
-        // {
-        //   item.color_change == 0
-        // }
-        // else
-        // {
-        //   item.color_change = "-"
-        // }
+
 
       })
-
+      console.log("Set result")
       var html_row = hash_replace(template_patient_row, 'XRAY', objdata.obj)
       $("#show_patientlist").html(html_row);
       // $('.show_startpage').show('slow');

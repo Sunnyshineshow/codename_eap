@@ -154,7 +154,7 @@
                 <td> ##q-patient.firstname## ##q-patient.lastname##</td>
                 <td>##q-patient.mobileno##</td>
                 <td nowrap="nowarp"> ##q-patient.address.address##
-<br> <small> <span  style="color:blue">##q-patient.comment##</span></small>
+<br> <small> <span  style="color:blue">##q-patient.comment##</span> </small><span  class="badge rounded-pill  bg-light text-dark" onclick="update_comment('##q-patient.id##')" style="cursor: pointer;">comment...</span>
                   </td>
                   <td>##q-patient.address.subdistrict##</td>
                   <td>##q-patient.address.district##</td>
@@ -405,8 +405,8 @@ function getdaylist(hospitalid,main_id){
 
     $.postJSON(MAINURL + "/api-backend/admin/appoint/get7daysslot", {hospitalid:hospitalid}, (msg) => {
         msg.map((l)=>{
-            l.startshow = moment(l.timestart,'X').format("D/MM HH:SS")
-            l.endshow = moment(l.timeend,'X').format("HH:SS")
+            l.startshow = moment(l.timestart,'X').format("D/MM HH:mm")
+            l.endshow = moment(l.timeend,'X').format("HH:mm")
             if(l._id == main_id){
                 l.startshow="<font color='red'>ปัจจุบัน"
                 l.endshow =" เวลานี้ </font>"
@@ -419,6 +419,11 @@ function getdaylist(hospitalid,main_id){
       $('.all_timelist').html(confirmhtml+cancelhtml+html);
       console.log("7day,",msg)
     });
+}
+function update_comment(patient_id){
+  update_patient_comment(patient_id,()=>{
+      alert_success("แก้ไขแล้ว กรุณา refresh เพื่อ update การแสดงผล")
+  })  // predefine in preload
 }
 function makeconfirm(obj,slotid){
     confirm("ยืนยันการเดินทาง?")

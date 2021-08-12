@@ -120,6 +120,7 @@
     <div class="mbsc-align-center mbsc-padding" style="margin:0px;padding:0px;">
       <p style="padding:0px;margin:0px;font-weight:500;">ข้อมูลการนัด ###APPOINT-id##</p>
       <p style="padding:0px;margin:0px;font-weight:500;" id="patient_name_qr">ชื่อของผู้ป่วย</p>
+      <p style="padding:0px;margin:0px;font-weight:500;" class="bg-danger">นัดหมาย ##APPOINT-timeshow##</p>
       <hr>
       <image id="qr_##APPOINT-id##_##APPOINT-patient##" style="width: 100%; height: auto;"></image>
       <hr>
@@ -391,9 +392,10 @@
     $.getJSON(call_url, (msg) =>
     {
       console.log(msg)
-
+      moment.locale('th')
       for (let i = 0; i < msg.length; i++)
       {
+          msg[i].timeshow =  moment(msg[i].appointtime , "X").format("DD MMMM YYYY HH:mm") ;
           msg[i].appointtime =  moment(msg[i].appointtime , "X").format("DD/MM/YYYY HH:mm") ;
 
           Object.assign(msg[i].hospital, {nameonly: msg[i].hospital.name})

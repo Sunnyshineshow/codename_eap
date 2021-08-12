@@ -414,8 +414,8 @@
               console.log(msg)
                 var found ;
                 msg.map((l)=>{
-                    l.startshow = moment(l.timestart,'X').format("D/MM HH:SS")
-                    l.endshow = moment(l.timeend,'X').format("HH:SS")
+                    l.startshow = moment(l.timestart,'X').format("D/MM HH:mm")
+                    l.endshow = moment(l.timeend,'X').format("HH:mm")
                         if(Array.isArray(l.queue)){
                             for(var x=0; x < l.queue.length;x++ ){
                               if(l.queue[x].appointment == main_id){
