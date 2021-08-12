@@ -133,7 +133,7 @@
                 <td class="text-center">
                 ##MED-patient.comment##
                  <br>
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="appointment('##patient-id##')" disabled>change comment</button>
+                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="update_comment('##MED-patient.id##')">ใส่หมายเหตุ</button>
                 </td>
               </tr>
             </tbody>
@@ -300,5 +300,27 @@
       current_date += 24 * 3600 * (quantity)
       shown_date = new Date(current_date * 1000)
       pre_search()
+    }
+
+    var working_patient;
+    function update_comment(patient_id){
+      working_patient = patient_id
+      $("#p_comment").modal('show')
+      //patient_id
+    }
+    function finish_comment(){
+      $("#p_comment").modal('hide')
+      if(! $('#patient_comment').val()) {
+        alert("Comment is empty")
+        return;
+      }
+      var data = {
+        patient : working_patient,
+        comment: $('#patient_comment').val()
+      }
+      $.postJSON(MAINURL + '/api-backend/admin/update_comment',data,(msg)=>{
+          refreshpage();
+      })
+
     }
   </script>

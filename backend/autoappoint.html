@@ -210,9 +210,8 @@
             </tr>
             <tr >
               <td colspan="5">
-                <span  nowrap="warp"><small>ลงทะบียน <font color='blue'>##patient-createdate## </font>อาการล่าสุด :   ##patient-lastsymptomdetail## ##patient-init_symptoms.disease##
-                  ##patient-init_symptoms.symptoms##  ##patient-init_symptoms.comment##
-
+                <span  nowrap="warp"><small>ลงทะบียน <font color='blue'>##patient-createdate## </font>อาการ :   ##patient-firstsymptomdetail## ##patient-init_symptoms.disease##
+                  ##patient-init_symptoms.symptoms##  ##patient-init_symptoms.comment##  :##patient-lastsymptomdetail##
                 </small> </span>
               </td>
               <td colspan=2>
@@ -284,73 +283,35 @@
 <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
   var fncsearch;
-  // var global_color;
-
+  var html_obj = {search_comment:"find_comment",
+                  search_surname:"find_surname",
+                  search_subdistrict:"find_subdistrict",
+                  search_district:"find_district",
+                  search_travel:"find_travel",
+                  groupbyregister:"find_grouping",
+                  search_color:"find_color",
+                  search_tel:"find_tel",
+                  search_passport:"find_passport",
+                  search_travel:"find_travel",
+                  search_zip:"find_zipcode",
+                  search_cid:"find_idcard",
+                  search_idno:"find_id",
+                  registerday:"find_registerday",
+                  search_name:"findname",
+                  complete:"find_completeregister"
+                }
   function pre_search(){
-
-    // clear search url from lastsearch
     var searchdata ={};
-    if ($('#search_name').val() !== "") {
-      searchdata.findname= $('#search_name').val()
-    }
 
-    if ($('#search_surname').val() !== "") {
-      searchdata.find_surname = $('#search_surname').val()
-    }
-    if ($('#registerday').val() > 0) {
-      searchdata.find_registerday = $('#registerday').val();
-    }
-
-    if ($('#search_idno').val()) {
-      searchdata.find_id= $('#search_idno').val()
-    }
-    if ($('#search_cid').val()) {
-      searchdata.find_idcard = $('#search_cid').val()
-    }
-    if ($('#search_district').val()) {
-      searchdata.find_district = $('#search_district').val()
-    }
-    if ($('#search_subdistrict').val()) {
-      searchdata.find_subdistrict= $('#search_subdistrict').val()
-    }
-
-
-    if ($('#search_zip').val()) {
-      searchdata.find_zipcode= $('#search_zip').val()
-    }
-    if ($('#search_comment').val()) {
-      searchdata.find_comment= $('#search_comment').val()
-    }
-    if ($('#search_travel').val()) {
-      searchdata.find_travel= $('#search_travel').val()
-    }
-    if ($('#search_passport').val()) {
-      searchdata.find_passport = $('#search_passport').val()
-    }
-
-    if ($('#search_tel').val() !== "") {
-      searchdata.find_tel= $('#search_tel').val()
-    }
-
-    if ($('#search_color').val() != "NONE") {
-      searchdata.find_color = $('#search_color').val()
-    }
-    if($('#groupbyregister').is(":checked")){
-        searchdata.find_grouping =  "groupbyregister"
-    }
     if($('#newly').is(":checked")){
         searchdata.find_newly= $('#newlyday').val()
     }
-
 
     if($('#caseconfirm').is(":checked")){
         searchdata.find_caseconfirm = $("#caseconfirmday").val()
     }
 
-    if($('#complete').is(":checked")){
-        searchdata.find_completeregister = "complete"
-    }
-
+    map_html_to_obj(html_obj,searchdata)
 
     fncsearch({  search: searchdata});
     return false;
@@ -375,54 +336,20 @@
     fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
     return false;
   }
-  function map_html_to_obj(html,obj){
 
-  }
-  var html_obj = {search_comment:"find_comment",
-                  search_comment:"search_surname",
-                  search_subdistrict:"find_subdistrict",
-                  search_district:"find_district",
-                  search_travel:"find_travel"
-                }
-  function map_obj_to_html(obj,html){
-    if(typeof(obj)=='object'){
-        var keys = Object.keys(obj)
-        for(var x=0; x < keys.length;x++){
-            if(obj[keys[x]] !==undefined ){
-                var test = check_objkeymatch(html,keys[x])
-                if(test) {
-                    $('#' + test).val(obj[keys[x]])
-                }
-            }
-        }
-    }
-  }
-  function check_objkeymatch(obj,key){
-      var keys = Object.keys(obj)
-      for(var x=0; x < keys.length;x++){
-        if(obj[keys[x]] == key){
-            return keys[x];
-        }
-      }
-  }
+
   function show_patient_list(objdata, totalrecord,filed2show,queryobj) {
 
     if(queryobj){
       map_obj_to_html(queryobj.search,html_obj)
-      console.log("queryobj",queryobj)
     }
+    $('#totalrecord').html(totalrecord);
     if (objdata.result && totalrecord > 0) {
-      $('#totalrecord').html(totalrecord);
       working.patient = objdata.obj;
       //console.log("OBJDATA: " + objdata.obj)
       var STATUSSHOW =["สิ้นสุดกระบวนการ","ยังไม่ได้ลงทะเบียน","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ (2/3)","ยังลงทะเบียนไม่เสร็จ (1/3)"]
       objdata.obj.map(item => {
-        // console.log(item)
-        // let datetime = new Date(res.symptoms[i].inputdate)
-        // res.symptoms[i].inputdate = datetime.getDate() + "/"
-        // + (datetime.getMonth() + 1) + "/" + datetime.getFullYear()
-        item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
-
+         item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
          item.createdate ? item.createdate = moment(item.createdate, "X").fromNow('days') + " ที่แล้ว": "";
          item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
          if (item.color == "RED") {
@@ -467,12 +394,12 @@
 
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
         if(item.lastsymptom){
-          item.lastsymptomdetail = "Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
+          item.lastsymptomdetail = " ล่าสุด Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
           item.lastsymptomdetail += "<BR>"
         }
         if(item.init_symptoms){
-        //  item.lastsymptomdetail = "Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
-        //  item.lastsymptomdetail += "<BR>"
+          item.firstsymptomdetail = "Breathing: "+item.init_symptoms.breathing +" spo_room_air:" +item.init_symptoms.spo_room_air
+          item.firstsymptomdetail += "<BR>"
         }
       })
 

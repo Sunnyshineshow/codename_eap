@@ -718,6 +718,61 @@ function ADV_search(setting,notsearchatfirst){
    }
    return search_function;
  }
+ function map_html_to_obj(html,obj={}){   // html is html_object
+   var keys = Object.keys(html)
+   for(var x=0; x < keys.length;x++){
+       var test = html[keys[x]]
+       var jqobj = $('#' + keys[x])
+       if(jqobj && jqobj[0] && jqobj.val() && jqobj.val() !='0' && jqobj.val() !==''){    // found
+         if(jqobj[0].nodeName =='SELECT' ||  jqobj[0].nodeName =='BUTTON' ||  jqobj[0].nodeName =='INPUT'){
+             if(jqobj[0].nodeName =='INPUT' &&  jqobj[0].type == "checkbox" ){
+                if(jqobj[0].checked){
+                  obj[test] = jqobj.val();
+                }
+             }else{
+                 obj[test] = jqobj.val()
+             }
+         }
+       }
+   }
+ }
+function map_obj_to_html(obj,html){ // html is html_object
+ if(typeof(obj)=='object'){
+     var keys = Object.keys(obj)
+     for(var x=0; x < keys.length;x++){
+         if(obj[keys[x]] !==undefined ){
+             var test = check_objkeymatch(html,keys[x])
+             if(test) {
+                 var jqobj = $('#' + test)
+                 if(jqobj && jqobj[0] ) {
+                   if(jqobj[0].nodeName =='SELECT' ||  jqobj[0].nodeName =='BUTTON' ||  jqobj[0].nodeName =='INPUT'){
+                       if(jqobj[0].nodeName =='INPUT' &&  jqobj[0].type == "checkbox" ){
+                          if(jqobj[0].value ==obj[keys[x]]){
+                            jqobj.prop("checked",true)
+                          }else{
+                            jqobj.prop('checked', false);
+                          }
+                       }else{
+                           jqobj.val(obj[keys[x]])
+                       }
+                   }else{
+
+                       jqobj.html(obj[keys[x]])
+                   }
+                 }
+             }
+         }
+     }
+ }
+}
+function check_objkeymatch(obj,key){
+   var keys = Object.keys(obj)
+   for(var x=0; x < keys.length;x++){
+     if(obj[keys[x]] == key){
+         return keys[x];
+     }
+   }
+}
 var _internal_cached_url={};
 $.fn.find_id =  function(url){
     var temp = this.parents('.row_tablecontent').attr('data-id');
