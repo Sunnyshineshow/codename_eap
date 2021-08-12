@@ -241,14 +241,17 @@
           name = name.concat(msg.obj)
           console.log("Other : ",name)
           select_patient_modal(name,(select_id)=>{
+
             ACTIVEPATIENT = name[select_id]
-              if(ACTIVEPATIENT.status != 2 ){  // Not Reigster
-                  alert_modal("ผู้ป่วยลงทะเบียนไม่เสร็จ / ไม่สมบูรณ์")
-                  return go2View("check_register");
+              if(ACTIVEPATIENT.status == 4){  // Not Register
+                  alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน")
+                  return go2View("register4other?id=" + ACTIVEPATIENT._id);
               }
-              // if(ACTIVEPATIENT.status == 3 ){  // Not finish
-              //   return go2View("initsymptoms");
-              // }
+              else if (ACTIVEPATIENT.status == 3)
+              {
+                alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน") //Not initsymptoms
+                return go2View("initsymptoms4other?id=" + ACTIVEPATIENT._id);
+              }
               $('#warn_select_patient').hide();
 
               $('#other_patient_name').html("รายการของ " + ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname + " ( #" + ACTIVEPATIENT._id + " )")
