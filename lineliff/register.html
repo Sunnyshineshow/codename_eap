@@ -412,6 +412,10 @@
             $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
               console.log("Load image cached")
             });
+            if(GLOBALUSER.status ==2){
+                go2View("register");
+                return
+            }
 
             $('#main_form_register').show();
           // else if (GLOBALUSER.status == 3)
@@ -681,4 +685,3 @@
       $zipcode: $('#zipcode'),
     });
   </script>
-
