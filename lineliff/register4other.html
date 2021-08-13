@@ -367,7 +367,7 @@
                 <div id="inputbox_nametitle">
                   <label id="nametitle_er" style="padding:0px;margin:0px;border-radius:0px;">
                     <select mbsc-dropdown id="travelprefer" data-input-style="box" name="travelprefer">
-                      <option value="" disabled>กรุณาเลือก การเดินทาง</option>
+                      <option value="" disabled selected>กรุณาเลือก การเดินทาง</option>
                       <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
                       <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
                       <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
@@ -655,6 +655,9 @@
               }
               else
               {
+                  if(res.detail){
+                    return alert_modal(res.detail)
+                  }
                   return alert_modal("เกิดข้อผิดพลาดในระบบ โปรดลองใหม่อีกครั้ง")
               }
             })

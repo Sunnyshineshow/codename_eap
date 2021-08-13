@@ -244,6 +244,7 @@
           select_patient_modal(name,(select_id)=>{
 
             ACTIVEPATIENT = name[select_id]
+            if(ACTIVEPATIENT._id > 0){
               if(ACTIVEPATIENT.status == 4){  // Not Register
                   alert_modal("กรุณาลงทะเบียนให้เรียบร้อยก่อน")
                   return go2View("register4other?id=" + ACTIVEPATIENT._id);
@@ -261,6 +262,9 @@
               document.getElementById('patient_name_qr').innerHTML = ACTIVEPATIENT.firstname + " " + ACTIVEPATIENT.lastname
 
               console.log("ACTIVEPATIENT",ACTIVEPATIENT)
+            }else{
+              alert("No Active patient counf")
+            }
           });
           //select_patient_modal("กรุณาเลือกผู้ป่วยที่ต้องการ")
       })
