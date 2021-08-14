@@ -688,7 +688,7 @@
 
       function completePatient()
       {
-        if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1 && GLOBAL_USER.role.indexOf("CALLCEN") !== -1)
+        if (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1 && GLOBAL_USER.role.indexOf("SITEADMIN") == -1 && GLOBAL_USER.role.indexOf("CALLCEN") !== -1 && GLOBAL_USER.role.indexOf("VOLUNTEER"))
         {
           return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
         }

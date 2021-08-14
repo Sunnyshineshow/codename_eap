@@ -156,7 +156,10 @@
         <table class="table table-bordered table-hover show_startpage font-weight-light" >
           <thead class="text-center">
             <tr>
-              <th scope="col" class="text-secondary">เลือก</th>
+              <th scope="col" class="text-secondary">
+                <input type="checkbox" id="select_all_patient" class="form-check-input autopatient" onchange="selectAll()" checked>
+                <label for="select_all_patient"> เลือก</label>
+              </th>
 
               <th scope="col" class="text-secondary">Display Name</th>
               <th scope="col" class="text-secondary">ชื่อ-นามสกุล /บัตร</th>
@@ -173,7 +176,7 @@
             <tr>
              <td class="text-center table-middle" rowspan=2>
               <div class="form-check">
-                <input class="form-check-input autopatient" type="checkbox" value="##patient-id##" id="selectpatient##patient-id##"  checked onclick="recalulate()">
+                <input class="form-check-input autopatient" type="checkbox" value="##patient-id##" id="selectpatient##patient-id##" name="selectpatients" checked onclick="recalulate()">
                 <label class="form-check-label" for="selectpatient##patient-id##">
                   ###patient-id##
                   <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
@@ -457,6 +460,24 @@
   function settingpatient(dataid) {
     working.active_patientid = dataid;
     go2View('patient-edit');
+  }
+
+
+  function selectAll()
+  {
+    let patient_check = document.getElementsByName("selectpatients")
+
+    let checked = false;
+    if(document.getElementById('select_all_patient').checked)
+    {
+      checked = true
+    }
+
+    for (let i = 0; i < patient_check.length; i++)
+    {
+      patient_check[i].checked = checked
+    }
+    recalulate();
   }
 
 
