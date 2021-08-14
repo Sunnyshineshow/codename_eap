@@ -180,7 +180,7 @@
           <label for="search_status">ค้นหาโดยโรงพยาบาล</label>
           <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
             <option value="" >โปรดเลือก</option>
-            
+
           </select>
         </div>
 
@@ -277,8 +277,6 @@
       <th scope="col" class="text-secondary">Appoint ID</th>
 
         <th scope="col" class="text-secondary">Display Name</th>
-
-
         <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
         <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
         <th scope="col" class="text-secondary">รายละเอียด</th>
@@ -388,7 +386,7 @@
       maxshow: 10
     }, null, false);
   }
-  
+
 
   function pre_search(){
     var searchdata ={};
@@ -463,7 +461,7 @@
 
                       ev.start = new Date(ev.timestart*1000);
                       ev.end = new Date(ev.timeend*1000);
-                      ev.title = ev.queuecount + " นัด";
+                      ev.title = ev.queuecount + " Q";
                       if(ev.queuecount ==0){
                         ev.title =""
                         ev.color = "#eeeeee"
@@ -791,7 +789,7 @@ function finish_queue_comment(){
   console.log("SENGING",data)
   $.postJSON(MAINURL + '/api-backend/admin/update_q_comment',data,(msg)=>{
       // update Qcomment
-      console.log("Q ",q)
+
         $('#q_comment_text').html(q)
   })
 
