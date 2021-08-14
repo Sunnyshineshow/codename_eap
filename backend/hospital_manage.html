@@ -273,6 +273,7 @@
         <th scope="col" class="text-secondary">รายละเอียด</th>
         <th scope="col" class="text-secondary">สถานะ</th>
         <th scope="col" class="text-secondary">การยืนยัน</th>
+        <th scope="col" class="text-secondary">action</th>
         <th scope="col" class="text-secondary">สร้างโดย</th>
       </tr>
     </thead>
@@ -296,6 +297,12 @@
         <td class="text-center table-middle">##patient-status## <br>##patient-confirmed##</td>
 
         <td class="text-center table-middle" nowrap="nowrap">##patient-travel## <Br> ##patient-selfcar##</td>
+
+          <td class="text-center table-middle">
+            <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="go2View('appoint_patient?id=##patient-patient.id##')">จัดการนัดหมาย</button>
+            <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="go2View('patient?id=##patient-patient.id##')">รายละเอียด</button>
+
+          </td>
         <td class="text-center table-middle"># ##patient-staff##</td>
         </small></small>
       </tr>
