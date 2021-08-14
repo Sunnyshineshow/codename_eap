@@ -25,11 +25,8 @@
                 <th scope="col" class="text-secondary">Citizen ID</th>
                 <th scope="col" class="text-secondary">Tel</th>
                 <th scope="col" class="text-secondary">O2,pulse</th>
-                <th scope="col" class="text-secondary">มากกว่า 90 kg (54 เม็ด)</th>
-                <th scope="col" class="text-secondary">น้อยกว่า 90 kg (64 เม็ด)</th>
-                <th scope="col" class="text-secondary">เคยได้แล้ว</th>
-                <th scope="col" class="text-secondary">ตั้งครรภ์</th>
-                <th scope="col" class="text-secondary">มีโรคตับ</th>
+                <th scope="col" class="text-secondary">favipilavia Dose</th>                         
+                <th scope="col" class="text-secondary">ไม่เคยได้รับยาเพราะ</th>               
                 <th scope="col" class="text-secondary">จำนวน xray</th>
                 <th scope="col" class="text-secondary">ชื่อผู้ปฎิบัติ</th>
 
@@ -38,12 +35,15 @@
             <tbody id="row_patientlist" style="display:none;">
               <tr>
                 <td class="text-center table-middle"># ##patient-id##</td>
-                <td class="text-center table-middle"># ##vehicle-id##</td>
-                <td class="text-center table-middle">##vehicle-Fullname##</td>
-                <td class="text-center table-middle">##vehicle-Tel##</td>
-                <td class="text-center table-middle">##vehicle-CarNumber##</td>
-                <td class="text-center table-middle">##vehicle-car_type##</td>
-                <td class="text-center table-middle">##vehicle-maxcapacity##</td>
+                <td class="text-center table-middle">##patient-createdate##</td>
+                <td class="text-center table-middle">##patient-patient.firstname##  ##patient-patient.lastname##  </td>
+                <td class="text-center table-middle">##patient-patient.idcard##</td>
+                <td class="text-center table-middle">##patient-patient.mobileno##</td>
+                <td class="text-center table-middle">##patient-patient.init_symptoms.spo_room_air##</td>
+                <td class="text-center table-middle">##patient-medicine.medic_favipilavia##</td>
+                <td class="text-center table-middle"> - </td>
+                <td class="text-center table-middle">##patient-countxray##</td>
+                <td class="text-center table-middle">##patient-bystaff##</td>
               </tr>
             </tbody>
             <tbody id="show_patientlist">
@@ -61,7 +61,7 @@
   <script type="text/javascript">
     var template_patient_row = $('#row_patientlist').html();
     var fncsearch;   
-    /*
+    
     function pre_search(){
       var searchdata ={}     
      
@@ -69,7 +69,7 @@
       fncsearch({search:searchdata});
       return false;
     }
-    */
+    
     function refreshpage(rawdata) {
       console.log("GLOBAL_USER",GLOBAL_USER)
 
@@ -100,7 +100,26 @@
         console.log("Object Income here!")
         console.log(objdata.obj)
 
-        var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
+        objdata.obj.map(item => {
+        item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY") : "";
+
+        if (item.medicine.medic_favipilavia == 64)
+        {
+          item.medicine.medic_favipilavia = '<span style="color: #ff0000;">' + "น้อยกว่า 90 kg กรัม" +'</span>'
+        }
+        else if (item.medicine.medic_favipilavia == 50)
+        {
+          item.medicine.medic_favipilavia = '<span style="color: #15cf30;">' + "มากกว่า 90 kg กรัม" +'</span>'
+        }
+
+        if (item.patient.init_symptoms.spo_room_air == -1)
+        {
+          item.patient.init_symptoms.spo_room_air = '<span style="color: #ff0000;">' + "ไม่ทราบ" +'</span>'
+        }
+        
+      })
+
+        var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)        
         $("#show_patientlist").html(html_row);
         // $('.show_startpage').show('slow');
 
