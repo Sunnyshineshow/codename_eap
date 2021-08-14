@@ -2,52 +2,11 @@
     <div class="p-2 mr-5 ml-5">
       <div class="container">
 
-        <h3 class="p-0 m-0 mb-3"><b>Vehicle List</b></h3>
+        <h3 class="p-0 m-0 mb-3"><b>Send drug</b></h3>
         <br>        
-        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>
-
-        <h3 class="p-0 m-0 mb-3"><b>Search Bar</b></h3>
-
-        <div class="row mb-1 d-flex justify-content-start">
-          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form class="form-row" onsubmit="return pre_search();">
-              <div class="row d-flex justify-content-center ">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="search_idno" placeholder="ID">
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
-                </div>
-
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <input type="text" class="form-control" id="search_tel" placeholder="หมายเลขโทรศัพท์">
-                </div>
-
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                    <input type="text" class="form-control" id="search_carnumber" placeholder="ทะเบียนรถ">
-                  </div>
-
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary border-0">
-                      <i class="fas fa-search"></i>
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- add patients -->
-        <br>
-
-        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
-
+        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>            
+        <br>         
+              
         <!-- แบ่งหน้า -->
         <div class="row mt-4">
           <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -58,16 +17,23 @@
 
         <div class="table-responsive mt-2">
           <table class="table table-bordered table-hover show_startpage font-weight-light" >
-            <thead class="text-center">
+            <thead class="text-center">             
               <tr>
-                <th scope="col" class="text-secondary">Profile</th>
-                <th scope="col" class="text-secondary">ID</th>
+                <th scope="col" class="text-secondary">No</th>
+                <th scope="col" class="text-secondary">Date</th>
                 <th scope="col" class="text-secondary">Display Name</th>
+                <th scope="col" class="text-secondary">Citizen ID</th>
                 <th scope="col" class="text-secondary">Tel</th>
-                <th scope="col" class="text-secondary">Car Number</th>
-                <th scope="col" class="text-secondary">Car type</th>
-                <th scope="col" class="text-secondary"> Max Capacity</th>
-              </tr>
+                <th scope="col" class="text-secondary">O2,pulse</th>
+                <th scope="col" class="text-secondary">มากกว่า 90 kg (54 เม็ด)</th>
+                <th scope="col" class="text-secondary">น้อยกว่า 90 kg (64 เม็ด)</th>
+                <th scope="col" class="text-secondary">เคยได้แล้ว</th>
+                <th scope="col" class="text-secondary">ตั้งครรภ์</th>
+                <th scope="col" class="text-secondary">มีโรคตับ</th>
+                <th scope="col" class="text-secondary">จำนวน xray</th>
+                <th scope="col" class="text-secondary">ชื่อผู้ปฎิบัติ</th>
+
+              </tr>              
             </thead>
             <tbody id="row_patientlist" style="display:none;">
               <tr>
@@ -106,26 +72,13 @@
     })
 
     function pre_search(){
-      var searchdata ={}
-      if ($('#search_name').val() !== "") {
-        searchdata.findname = $('#search_name').val()
-      }
-
-      if ($('#search_idno').val() !== "") {
-        searchdata.find_id =  $('#search_idno').val()
-      }
-
-      if ($('#search_tel').val() !== "") {
-        searchdata.find_tel= $('#search_tel').val()
-      }
-
-      if ($('#search_carnumber').val() !== "") {
-        searchdata.find_carnumber =  $('#search_carnumber').val()
-      }
-      var searchdata ={};
+      var searchdata ={}     
+     
+      var searchdata ={ date: Math.floor(new Date() / 1000)};
       fncsearch({search:searchdata});
       return false;
     }
+
     function refreshpage(rawdata) {
       console.log("GLOBAL_USER",GLOBAL_USER)
 
@@ -135,9 +88,8 @@
         pagesize: 10,
         showfunction: show_patient_list,
         limit: 20,
-        search: {}
-      }
-
+        search: {date: Math.floor(new Date() / 1000)}
+      }    
 
       var pagenumber = getParameterByName('page', window.location.search);
       if (pagenumber > 1) {
@@ -149,7 +101,8 @@
     }
 
     function show_patient_list(objdata, totalrecord) {
-      // console.log('objdata', objdata);
+      console.log("Check!")
+      console.log(objdata.obj)
       if (objdata.result && totalrecord > 0) {
         working.patient = objdata.obj;
 
