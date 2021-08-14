@@ -87,6 +87,26 @@
                         <span class="input-group-text">วัน </span>
                       </div>
                     </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
+                      <div class="input-group mb-6">
+                      <div class="input-group-text">
+    
+                        <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker">
+                        <label for="day_count_filter_checker" > จาก</label>
+    
+                        <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
+                          <option value="" >โปรดเลือก</option>
+                          
+                        </select>
+
+                      </div>
+
+                      <input type="number" id="search_hospital_meter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=10>
+                      <span class="input-group-text">เมตร </span>
+                    </div>
+                  </div>
+
+
                 </div>
           </div>
       </div>
@@ -304,6 +324,12 @@
           newlyday:"find_newly",
           caseconfirmday:"find_caseconfirm"
         }
+
+    $(document).ready(() =>
+    {
+      selectKiosk();
+    })
+
   function pre_search(){
     var searchdata ={};
     if($('#newly').is(":checked")){
@@ -318,6 +344,24 @@
     if($('#caseconfirm').is(":checked")){
         searchdata.find_caseconfirm = $("#caseconfirmday").val()
     }
+
+    if(document.getElementById('search_hospital').value && $("#search_hospital_checker").is(":checked")){
+
+        if ($("#search_hospital_meter").val() <= 0)
+        {
+          alert("ค่าระยะทางไม่ควรเป็นลบ")
+        }
+        else
+        {
+          searchdata.find_hospital = document.getElementById('search_hospital').value
+          searchdata.find_hospital_range = $("#search_hospital_meter").val()
+        }
+    }
+    else if ($("#search_hospital_checker").is(":checked"))
+    {
+      alert("คุณไม่ได้เลือกโรงพยาบาล")
+    }
+
     map_html_to_obj(html_obj,searchdata)
     fncsearch({  search: searchdata});
     return false;
@@ -500,6 +544,16 @@
     recalulate();
   }
 
+  function selectKiosk() {
+    $('#search_hospital').adv_select({
+      url: '/api-backend/admin/hospital/get',
+      name: 'name',
+      val: {},
+      template: "#{{_id}}: {{name}}",
+      id: '_id',
+      maxshow: 10
+    }, null, false);
+  }
 
 
 </script>
