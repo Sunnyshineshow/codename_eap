@@ -251,7 +251,12 @@
               //refresh image tap
               if (res.code == 200)
               {
-                go2View("register4other?id=" + res.patient);
+                if(Number(res.patient ) > 0 ){
+                  go2View("register4other?id=" + res.patient);
+                }else{
+                  alert("Sorry error in register")
+                }
+                return;
               }
               else if (res.code == 403)
               {

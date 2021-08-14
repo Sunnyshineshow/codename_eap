@@ -398,6 +398,13 @@
 
 
         $(document).ready(function() {
+          var patientid = getParameterByName('id', window.location.search);
+          if(Number(patientid) > 0){
+
+          }else{
+            alert ("Error in Regsiter fo other")
+            return
+          }
           $('#input_nametitle').mobiscroll().select({
               display: 'bubble'
           });

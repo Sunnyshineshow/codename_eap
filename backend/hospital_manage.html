@@ -171,7 +171,18 @@
             </select>
           </div>
         </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <label for="search_status">ค้นหาโดยวันที่</label>
+          <input type="date" class="form-control" id="search_date" >
+        </div>
 
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <label for="search_status">ค้นหาโดยโรงพยาบาล</label>
+          <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
+            <option value="" >โปรดเลือก</option>
+            
+          </select>
+        </div>
 
         <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
           <div class="form-group">
@@ -349,6 +360,8 @@
                   search_id:"find_patientid",
                   search_sort:"search_sort",
                   search_status:"find_status",
+                  search_date: "find_date",
+                  search_hospital: "search_hospital"
                 }
   $(document).ready(() =>{
       // for search list
@@ -361,12 +374,27 @@
         search:{}
       }
       fncsearch = ADV_search(search_setting); // Defult always search at first
+      selectKiosk();
       return false;
   });
+
+  function selectKiosk() {
+    $('#search_hospital').adv_select({
+      url: '/api-backend/admin/hospital/get',
+      name: 'name',
+      val: {},
+      template: "#{{_id}}: {{name}}",
+      id: '_id',
+      maxshow: 10
+    }, null, false);
+  }
+  
+
   function pre_search(){
     var searchdata ={};
     map_html_to_obj(html_obj,searchdata)
     fncsearch({  search: searchdata});
+    console.log("searchdata =====================>", searchdata)
     return false;
   }
   function show_appoint_list(objdata, totalrecord,filed2show,queryobj) {
@@ -378,7 +406,7 @@
         var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
 
         objdata.obj.map(item => {
-          console.log(item)
+          // console.log(item)
           if(item.status == 1){
             if(item.confirmed){
               item.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`

@@ -424,10 +424,16 @@
           }
           else    // Registed already
           {
-            $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
-              console.log("Load image cached")
-            });
-            $('#main_form_register').show();
+            var patientid = getParameterByName('id', window.location.search);
+            if(Number(patientid) > 0 ){
+              $('#imageuoload').loadcached(PREFIX_MAIN_LOCAL+'/uploadimage.html', function() {
+                console.log("Load image cached")
+              });
+              $('#main_form_register').show();
+            }else{
+              alert("Error in Regsiter for other")
+            }
+
           }
 
       }
