@@ -121,6 +121,73 @@
 
 </div>
 
+<div class="container">
+
+  <!-- <div class="row mb-1">
+            <div class="col-6 col-xs-12 col-sm-12 col-md-12 col-lg-6"> -->
+  <form class="form-row" style="width: 100%;" onsubmit="return pre_search();">
+    <div class="form-group">
+      <!-- <div class="row d-flex justify-content-center"> -->
+
+      <div class="row d-flex justify-start">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+
+          <div class="form-group">
+
+            <label for="ID No">Patient ID:</label>
+            <input type="text" class="form-control" id="search_id" placeholder="Patient ID No">
+          </div>
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <div class="form-group">
+            <label for="ID No">Appointment ID:</label>
+            <input type="text" class="form-control" id="search_idno" placeholder="Appoint ID No">
+          </div>
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <label for="search_status">สถานะ</label>
+          <div class="form-group">
+            <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_status">
+              <option value="">โปรดเลือก</option>
+              <option value="-1">ยกเลิก</option>
+              <option value="0">รอคิว</option>
+              <option value="1" selected>ได้คิว</option>
+              <option value="2">ตามเวลานัด</option>
+              <option value="4">พลาดคิว</option>
+              <option value="5">ขาดนัด</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <label for="search_status">เรียงข้อมูลตาม</label>
+          <div class="form-group">
+            <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_sort">
+              <option value="" >โปรดเลือก</option>
+              <option value="_id">Appointment ID</option>
+              <option value="dayfirst">วันนัดเก่า มาก่อน</option>
+              <option value="daylater" selected>วันนัดใหม่ มาก่อน</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+          <div class="form-group">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+            Search
+          </button>
+          </div>
+        </div>
+
+
+    </div>
+  </form>
+
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="external-event-dialog" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
@@ -131,17 +198,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" >
-        <label >
-            นัดหมาย Slot#   <span id="qid"> </span>
+        <label  >
+            นัดหมาย Slot#   <span id="qid" > </span>
         </label>
-        <br>
+
         <label >
-            เวลาเริ่ม :  <span id="t_begin"> </span>
+            เวลาเริ่ม :  <span id="t_begin" style="color:green"> </span>
         </label>
-        <br>
+
         <label >
-            เวลาเริ่มสิ้นสุด:  <span id="t_end"> </span>
+            เวลาเริ่มสิ้นสุด:  <span id="t_end" style="color:red"> </span>
         </label>
+        <span> หมายเหตุ :</span> <span id="q_comment_text"  style="color:blue"> </span> <span  class="badge rounded-pill  bg-light text-dark" onclick="update_queue_comment()" style="cursor: pointer;">comment...</span> <span id="bystaffname"></span>
         <hr>
           รายการผู้ป่วย
         <div >
@@ -184,9 +252,90 @@
   </div>
 </div>
 
+<div class="row mt-4 mb-2">
+  <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="pagination_bar pb-3"></div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered show_startpage font-weight-light">
+    <thead class="text-center">
+      <tr>
+        <th scope="col" class="text-secondary">Patient</th>
+      <th scope="col" class="text-secondary">Appoint ID</th>
+
+        <th scope="col" class="text-secondary">Display Name</th>
+
+
+        <th scope="col" class="text-secondary">วันเวลาที่นัดหมาย</th>
+        <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
+        <th scope="col" class="text-secondary">รายละเอียด</th>
+        <th scope="col" class="text-secondary">สถานะ</th>
+        <th scope="col" class="text-secondary">การยืนยัน</th>
+        <th scope="col" class="text-secondary">action</th>
+        <th scope="col" class="text-secondary">สร้างโดย</th>
+      </tr>
+    </thead>
+    <tbody id="row_appointlist" style="display:none;">
+      <tr>
+        <small><small>
+          <td class="text-center table-middle">
+            ###patient-patient.id##<BR><img src="##patient-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
+          </td>
+      <td class="text-center table-middle">###patient-id##</td>
+
+
+        <td class="text-center table-middle" nowrap>##patient-patient.displayName##
+          <br>
+          ##patient-patient.firstname## ##patient-patient.lastname##
+        </td>
+
+        <td class="text-center table-middle"><span class="badge bg-primary" onclick="hilight('##patient-id##')" style="cursor: pointer;">##patient-appointtime## </span></td>
+        <td class="text-center table-middle">##patient-hospital.name##</td>
+        <td class="text-center table-middle" style="color:blue;">##patient-patient.comment##</td>
+        <td class="text-center table-middle">##patient-status## <br>##patient-confirmed##</td>
+
+        <td class="text-center table-middle" nowrap="nowrap">##patient-travel## <Br> ##patient-selfcar##</td>
+
+          <td class="text-center table-middle">
+            <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="go2View('appoint_patient?id=##patient-patient.id##')">จัดการนัดหมาย</button>
+            <button type="button" name="button" class="btn btn-sm btn-outline-secondary" onclick="go2View('patient?id=##patient-patient.id##')">รายละเอียด</button>
+
+          </td>
+        <td class="text-center table-middle"># ##patient-staff##</td>
+        </small></small>
+      </tr>
+    </tbody>
+    <tbody id="show_appointlist">
+      <tr>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal" tabindex="-1" id="queue_comment">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ใส่หมายเหตุ สำหรับช่วงเวลานัดหมายนี้ </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><input class="form-control" id="q_comment" placeholder="หมายเหตุสำหรับ slot นี้"> </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="finish_queue_comment()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
 
-  var searchobj = {};
   var fncsearch;
   var current_appoint;
   var current_hosp;
@@ -194,23 +343,80 @@
   var randcolor = ["#7a5886","#9da721","#cd6957","#637e57","#50789d","#6c5d45"]
   var template_modalbody = $('#mobdal_body').html();
   var template_all_timelist = $('.all_timelist').html();
+  var template_appoint_row = $('#row_appointlist').html();
   var workingslot;
-
-
-  function refreshpage(rawdata) {
-
-    console.log("GLOBAL_USER",GLOBAL_USER)
-
-    var search_setting = {
-      posturl: '/api-backend/admin/HospitalList',
-      paginationDIV: $('.pagination_bar'),
-      pagesize: 10,
-      showfunction: show_hospital_list,
-      limit: 10,
-    }
-
-    fncsearch = ADV_search(search_setting); // Defult always search at first
+  var html_obj = {search_idno:"find_id",
+                  search_id:"find_patientid",
+                  search_sort:"search_sort",
+                  search_status:"find_status",
+                }
+  $(document).ready(() =>{
+      // for search list
+      var search_setting = {
+        posturl: '/api-backend/admin/appointlist',
+        paginationDIV: $('.pagination_bar'),
+        pagesize: 10,
+        showfunction: show_appoint_list,
+        limit: 20,
+        search:{}
+      }
+      fncsearch = ADV_search(search_setting); // Defult always search at first
+      return false;
+  });
+  function pre_search(){
+    var searchdata ={};
+    map_html_to_obj(html_obj,searchdata)
+    fncsearch({  search: searchdata});
     return false;
+  }
+  function show_appoint_list(objdata, totalrecord,filed2show,queryobj) {
+      map_obj_to_html(queryobj.search,html_obj)
+      if (objdata.result && totalrecord > 0) {
+        working.patient = objdata.obj;
+        //console.log("OBJDATA: " + objdata.obj)
+
+        var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
+
+        objdata.obj.map(item => {
+          console.log(item)
+          if(item.status == 1){
+            if(item.confirmed){
+              item.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+            }else{
+              item.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
+            }
+          }else{
+              item.confirmed=""
+          }
+          item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
+          item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>`: item.status = ITEMSTATUS[item.status];
+          (typeof(item.patient) == "number" || !item.patient) ? item.patient = {displayName : "-- INACTIVE USER --"} : item.patient;
+
+
+
+        })
+
+
+        var html_row = hash_replace(template_appoint_row, 'patient', objdata.obj)
+        $("#show_appointlist").html(html_row);
+        if(totalrecord==1){   // only 1 record
+          $('.button_moveslot').show();
+            console.log($('#change_appoint'))
+            getdaylist(objdata.obj[0].hospital._id,objdata.obj[0]._id)
+        }else{
+          $('.button_moveslot').hide();
+          //$('#change_appoint').hide();
+        }
+
+        // $('.show_startpage').show('slow');
+      } else {
+        alert("ไม่พบรายการ")
+        $("#show_appointlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+      }
+  }
+  function refreshpage(rawdata) {
+    show_hospital_list();
+
   }
   function load_timeslot(hospital_id){
   let payload = {
@@ -224,6 +430,7 @@
     $.postJSON(MAINURL + "/api-backend/admin/hospital/load_timeslot", payload, (msg) => {
         console.log("GOT TIMESLOT",msg)
         if(Array.isArray(msg.detail )){
+            console.log("  msg.detail",  msg.detail);
             msg.detail.map((ev)=>{
 
                       ev.start = new Date(ev.timestart*1000);
@@ -246,25 +453,32 @@
 
     });
   }
-  function show_hospital_list(objdata, totalrecord) {
-    // console.log('objdata', objdata);
+  function show_hospital_list() {
 
-    var allhosp = []
+     $.postJSON(MAINURL + "/api-backend/admin/HospitalList",{page:1,limit:100},(msg )=>{
+       var allhosp = []
+       if(!msg.obj){
+         alert("Server Busy");
+         return;
+       }
+       objdata = msg.obj;
+       totalrecord = msg.totalrecord
+       if (objdata.result && totalrecord > 0) {
 
-    if (objdata.result && totalrecord > 0) {
+         working.patient = objdata.obj;
+         objdata.obj.map(item => {
+           allhosp.push(item._id);
+           item.title = item.name;
+           item.id= item._id;
+           item.color = randcolor[ item._id % 5]
+           // console.log(item)
+         });
+         current_hosp = objdata.obj;
+         load_timeslot(allhosp);
+         return;
+       }
+     })
 
-      working.patient = objdata.obj;
-      objdata.obj.map(item => {
-        allhosp.push(item._id);
-        item.title = item.name;
-        item.id= item._id;
-        item.color = randcolor[ item._id % 5]
-        // console.log(item)
-      });
-      current_hosp = objdata.obj;
-      load_timeslot(allhosp);
-      return;
-    }
   }
 
   function set_event(obj,all_event){
@@ -288,18 +502,38 @@
                 timeLabelStep: 60
             }
         },invalid: [{
-        start: '00:00',
-        end: '06:00',
-        recurring: {
-            repeat: 'daily',
-        }
-    }, {
-        start: '22:00',
-        end: '23:59',
-        recurring: {
-            repeat: 'daily',
-        }
-    }],
+            start: '00:00',
+            end: '06:00',
+            recurring: {
+                repeat: 'daily',
+            }
+        }, {
+            start: '22:00',
+            end: '23:59',
+            recurring: {
+                repeat: 'daily',
+            }
+        }],
+//         responsive: {
+//     xsmall: {
+//         view: {
+//             calendar: {
+//                 type: 'week'
+//             },
+//             agenda: {
+//                 type: 'day'
+//             }
+//         }
+//     },
+//     custom: { // Custom breakpoint
+//         breakpoint: 600,
+//         view: {
+//             calendar: {
+//                 labels: true
+//             }
+//         }
+//     }
+// },
           renderResource: function (resource) {
               return '<div class="md-work-week-cont">' +
                   '<div class="md-work-week-name">'+ resource.title + '</div>' +
@@ -308,21 +542,7 @@
                   //  `<div><small>unsave</small></div>`+
                   '</div>';
           },
-          // renderScheduleEvent: function (data) {
-          // //  console.log("Reding data",data)
-          //     var ev = data.original;
-          //     var color = data.color;
-          //     var html = `<div class="hosp-event mbsc-schedule-event-title mbsc-ios" >${ev.title} </div>
-          //         <div class="mbsc-schedule-event-range mbsc-ios">${ev.startchar}</div>`;
-          //     // if(ev.status == 1){
-          //     //     html+=`<span class="mbsc-icon mbsc-font-icon mbsc-icon-save" style="background:${color}"></span> `
-          //     // }
-          //     //  html += `<span class="md-timeline-template-title">${ev.title}</span></div></div>`
-          //     return html;
-          //         //'
-          //       //  (ev.unsave || '') +
-          //
-          // },
+
           clickToCreate: false,
           dragToCreate: false,
           dragToResize: false,
@@ -351,7 +571,7 @@
           resources:obj
       });
     //  qcalendar.setEvents(all_event);
-      console.log("finish",all_event)
+    //  console.log("finish",all_event)
 
 
   });
@@ -359,44 +579,58 @@
 }
 
 function fillDialog(args) {
-    var res = getobjbyid(current_hosp,args.event.resource)
-    var q = args.event;
-    workingslot = q;
-    $('#qid').html(q._id);
-    $('#t_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
-    $('#t_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
-    $('#totalq').html(`${q._id} จำนวน ${q.title}`)
-    $('#link_detail').attr('href',"/admin/slotlist?qid="+q._id)
-    var postdata = {
-      search:{qid:q._id}
-    }
-    $.postJSON(MAINURL + "/api-backend/admin/appoin_slot_tlist", postdata, (msg) => {
-        console.log("gotBack",msg)
-        msg.obj.obj.map((o)=>{
-          if(o.confirmed){
-            o.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
-          }else{
-            o.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
-          }
-          o.patient.showid = o.patient._id
-          if(o.patient.color=="RED"){
-            o.patient.showid = `<span class="badge bg-danger">${o.patient._id}</span>`
-          }
-          if(o.patient.color=="GREEN"){
-            o.patient.showid = `<span class="badge bg-success">${o.patient._id}</span>`
-          }
-          if(o.patient.color=="YELLOW"){
-            o.patient.showid = `<span class="badge bg-warning">${o.patient._id}</span>`
-          }
+  var res = getobjbyid(current_hosp,args.event.resource)
 
-        });
+  var q = args.event;
+  workingslot = q;
+  $.postJSON(MAINURL + "/api-backend/admin/appoint/loadslot", {_id:q._id}, (msg) => {
+        if(msg){
+          if(msg.bystaffname) $('#bystaffname').html(`${msg.bystaffname}`)
+          else $('#bystaffname').html(``)
+          if(msg.comment) $('#q_comment_text').html(`${msg.comment}`)
+          else $('#q_comment_text').html(``)
+        }
+  });
 
-        var html = hash_replace(template_modalbody,"q",msg.obj.obj);
-          $('#mobdal_body').html(html)
-          getdaylist(q.hospital,q._id);
-          $('#external-event-dialog').modal("show")
-    });
+  var postdata = {
+    search:{qid:q._id}
+  }
+  $.postJSON(MAINURL + "/api-backend/admin/appoin_slot_tlist", postdata, (msg) => {
+      console.log("gotBack",msg)
+      msg.obj.obj.map((o)=>{
+        if(o.confirmed){
+          o.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+        }else{
+          o.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
+        }
+        o.patient.showid = o.patient._id
+        if(o.patient.color=="RED"){
+          o.patient.showid = `<span class="badge bg-danger">${o.patient._id}</span>`
+        }
+        if(o.patient.color=="GREEN"){
+          o.patient.showid = `<span class="badge bg-success">${o.patient._id}</span>`
+        }
+        if(o.patient.color=="YELLOW"){
+          o.patient.showid = `<span class="badge bg-warning">${o.patient._id}</span>`
+        }
 
+      });
+
+      var html = hash_replace(template_modalbody,"q",msg.obj.obj);
+        $('#mobdal_body').html(html)
+
+        $('#qid').html(q._id);
+        $('#t_begin').html(moment(q.start).format("DD-MM-YY HH:mm"));
+        $('#t_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
+        $('#totalq').html(`${q._id} จำนวน ${q.title}`)
+        console.log("Beforemodal",q)
+
+
+        getdaylist(q.hospital,q._id);
+        working_queue_id = q._id;
+
+        $('#external-event-dialog').modal("show")
+  });
    // dialog.open();
 }
 
@@ -494,5 +728,44 @@ function moveslotto(obj,slotid){
     }
   });
   console.log("moveslotto",slotid,movefrom,movepatient)
+}
+function hilight(id){
+  //alert("ID"+id)
+  for(var x=0; x < current_appoint.length;x++){
+    for(var y=0; y < current_appoint[x].queue.length; y++){
+      //  console.log("checking",current_appoint[x].queue[y].appointment , id);
+        if(current_appoint[x].queue[y] && current_appoint[x].queue[y].appointment == id){
+            console.log("FOUND",current_appoint[x].queue[y])
+            // With selector
+            $('#xray-q').mobiscroll('navigate', new Date(current_appoint[x].timestart*1000));
+            var args = {
+                event:current_appoint[x]
+            }
+            fillDialog(args)
+            return ;
+        }
+    }
+  }
+  alert("ไม่พบในปฏิทิน")
+}
+var working_queue_id;
+function update_queue_comment(){
+  $("#queue_comment").modal('show')
+  $('#q_comment').val($('#q_comment_text').html() || "")
+}
+function finish_queue_comment(){
+  $("#queue_comment").modal('hide')
+  var q = $('#q_comment').val() || "";
+  var data = {
+    queue_id : working_queue_id,
+    comment: q
+  }
+  console.log("SENGING",data)
+  $.postJSON(MAINURL + '/api-backend/admin/update_q_comment',data,(msg)=>{
+      // update Qcomment
+      console.log("Q ",q)
+        $('#q_comment_text').html(q)
+  })
+
 }
 </script>

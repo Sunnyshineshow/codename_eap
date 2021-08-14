@@ -723,9 +723,9 @@ function ADV_search(setting,notsearchatfirst){
    for(var x=0; x < keys.length;x++){
        var test = html[keys[x]]
        var jqobj = $('#' + keys[x])
-       if(jqobj && jqobj[0] && jqobj.val() && jqobj.val() !='0' && jqobj.val() !==''){    // found
+       if(jqobj && jqobj[0] && jqobj.val() !== undefined && jqobj.val() !==null && jqobj.val() !==''){    // found
          if(jqobj[0].nodeName =='SELECT' ||  jqobj[0].nodeName =='BUTTON' ||  jqobj[0].nodeName =='INPUT'){
-             if(jqobj[0].nodeName =='INPUT' &&  jqobj[0].type == "checkbox" ){
+             if(jqobj[0].nodeName =='INPUT' && jqobj[0].type == "checkbox" ){
                 if(jqobj[0].checked){
                   obj[test] = jqobj.val();
                 }
