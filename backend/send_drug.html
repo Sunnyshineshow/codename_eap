@@ -6,7 +6,7 @@
         <br>        
         <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 50px;margin-bottom:30px;"></div>            
         <br>         
-              
+
         <!-- แบ่งหน้า -->
         <div class="row mt-4">
           <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -37,9 +37,7 @@
             </thead>
             <tbody id="row_patientlist" style="display:none;">
               <tr>
-                <td class="text-center table-middle">
-                  <img src="##vehicle-Picture##" style="max-width:50px;" class="rounded-circle">
-                </td>
+                <td class="text-center table-middle"># ##patient-id##</td>
                 <td class="text-center table-middle"># ##vehicle-id##</td>
                 <td class="text-center table-middle">##vehicle-Fullname##</td>
                 <td class="text-center table-middle">##vehicle-Tel##</td>
@@ -62,23 +60,16 @@
   </div>
   <script type="text/javascript">
     var template_patient_row = $('#row_patientlist').html();
-    var fncsearch;
-    $(document).ready(() =>
-    {
-        $.getJSON(MAINURL + "/api-backend/admin/get_staff_list",(msg)=>{
-        staff_name = hash_replace($("#staff_list").html(), 'staff', msg)
-        $("#staff_list_showing").html(staff_name);
-        })
-    })
-
+    var fncsearch;   
+    /*
     function pre_search(){
       var searchdata ={}     
      
-      var searchdata ={ date: Math.floor(new Date() / 1000)};
+      var searchdata ={};
       fncsearch({search:searchdata});
       return false;
     }
-
+    */
     function refreshpage(rawdata) {
       console.log("GLOBAL_USER",GLOBAL_USER)
 
@@ -109,7 +100,7 @@
         console.log("Object Income here!")
         console.log(objdata.obj)
 
-        var html_row = hash_replace(template_patient_row, 'medic', objdata.obj)
+        var html_row = hash_replace(template_patient_row, 'patient', objdata.obj)
         $("#show_patientlist").html(html_row);
         // $('.show_startpage').show('slow');
 
@@ -118,27 +109,7 @@
       }
     }
 
-    function view_symptom(patient_id) {
-
-      go2View("patient?id=" + patient_id)
-
-    }
-
-    function appointment(patient_id) {
-
-      go2View("appoint_patient?id=" + patient_id)
-
-    }
-
-    function settingpatient(dataid) {
-      working.active_patientid = dataid;
-      go2View('patient-edit');
-    }
-
-    function AddDataPatient(){
-      go2View('patient_form');
-    }
-
+    
     function date_diff(date1) {
       let dateOnly = new Date()
       console.log(dateOnly)
