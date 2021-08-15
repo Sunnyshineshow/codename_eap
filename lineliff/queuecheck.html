@@ -105,6 +105,11 @@
 <br>
 <p> รถของเจ้าหน้าที่จะให้บริการแบบ car pool (5 และ 9 ที่นั่ง)</p>
 <br>
+<div class="col-md-12 mb-2" id="changeTravel">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    เลือกการเดินทางมาจุด X-ray ใหม่
+  </button>
+</div>
 <span style="color: #C70039;">* QR Code สำหรับเจ้าหน้าที่อยู่ในปุ่มโรงพยาบาล</span><br>
 <span style="color: #C70039;">**ขอ<strong>สงวนสิทธิ์ในการให้บริการ</strong>ผู้ป่วยที่เดินทางมาด้วย<strong>รถสาธารณะ</strong> โดยไม่มีข้อยกเว้น</span>
 
@@ -188,6 +193,45 @@
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">เลือกการเดินทาง</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <b class="text-danger">"เนื่องจากขณะนี้ ศูนย์ให้บริการ Xray มีรถรับส่งให้บริการเป็นจำนวนจำกัด ท่านอาจจะยังไม่ได้รับการจัดสรร คิว หรือ ได้รับล่าช้า
+            ทั้งนี้หาก สามารถเดินทางเองได้(รถยนต์เท่านั้น) กรุณา ระบุประเภทการเดินทาง เพื่อลดภาระของเจ้าหน้าที่รับส่ง และ ได้รับนัดหมายที่เร็วขึ้น"</b>
+        </div>
+        <div class="mb-3">
+          <label for="disabledSelect" class="form-label">การเดินทางมาจุด X-ray</label>
+          <select id="travelprefer" class="form-select">
+            <option value="" disabled>กรุณาเลือก การเดินทาง</option>
+            <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+            <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
+            <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+          </select>
+        </div>
+        <!-- <label id="nametitle_er" style="padding:0px;margin:0px;border-radius:0px;">
+          <select mbsc-dropdown id="travelprefer" data-input-style="box" name="travelprefer">
+            <option value="" disabled>กรุณาเลือก การเดินทาง</option>
+            <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+            <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
+            <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+          </select>
+        </label> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="editQueueCheck()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 
   function refreshpage() {
@@ -219,8 +263,33 @@
           document.getElementById('patient_name_qr').innerHTML = GLOBALUSER.firstname + " " + GLOBALUSER.lastname
       }
 
+      if(GLOBALUSER.travelprefer && !GLOBALUSER.travelpreferConfirm) {
+        $('#travelprefer').val(GLOBALUSER.travelprefer);
+      } else {
+        $('#changeTravel').hide();
+        $('#travelprefer').attr('disabled', true);
+      }
 
   }
+
+  function editQueueCheck() {
+    var postData = {
+      user: GLOBALUSER,
+      travelprefer: $('#travelprefer').val()
+    };
+    $.postJSON(MAINURL + '/api-web/line/admin/queue_check/edit', postData, (res) => {
+      if(res.result) {
+        $('#exampleModal').modal('hide');
+        alert_modal("อัพเดทข้อมูลเรียบร้อย");
+        window.location.reload();
+      } else {
+        $('#exampleModal').modal('hide');
+        alert_modal("อัพเดทข้อมูลผิดพลาด");
+        return refreshpage();
+      }
+    })
+  }
+
   function check_and_show(patient_id){
     $.getJSON(MAINURL + "/api-web/line/appoint_load_patient/"+patient_id,(msg) =>
     {
@@ -267,7 +336,7 @@
             }
           });
           //select_patient_modal("กรุณาเลือกผู้ป่วยที่ต้องการ")
-      })
+      }) 
 
   }
   //modal confirm order
