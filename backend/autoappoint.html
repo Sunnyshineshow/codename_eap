@@ -4,9 +4,9 @@
       <!--Counter-->
       <div class="position-relative" style="text-align: center;">
         <div class="row">
-          <div class="col-md-4 mt-2">
-            <div onclick="go2View('patientlist?find_color=YELLOW')" class="card bg-warning border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-              <h3>Auto Appointment by fillter <br>(max 100 list)</h3>
+          <div class="col-md-12 mt-12">
+            <div  class="card bg-warning border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+              <h5>Auto Appointment by fillter <br>(max 100 list สำหรับ Feature ไม่มีคิวในระบบ)</h5>
             </div>
           </div>
         </div>
@@ -77,26 +77,26 @@
                       <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
                         <div class="input-group mb-6">
                         <div class="input-group-text">
-      
-                          <input class="form-check-input mt-0" type="checkbox" id="day_count_filter_checker" disabled>
+
+                          <input class="form-check-input mt-0" type="checkbox" id="day_count_filter_checker" checked>
                           <label for="day_count_filter_checker" > Day Count </label>
-      
+
                         </div>
-      
-                        <input type="number" id="day_count_filter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=14 disabled>
+
+                        <input type="number" id="day_count_filter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=14>
                         <span class="input-group-text">วัน </span>
                       </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3" disabled>
                       <div class="input-group mb-6">
                       <div class="input-group-text">
-    
+
                         <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker" disabled>
                         <label for="day_count_filter_checker" > จากโรงพยาบาล</label>
-    
+
                         <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" disabled></select>
                           <option value="" >โปรดเลือก</option>
-                          
+
                         </select>
 
                         <label> ระยะทาง</label>
@@ -324,7 +324,9 @@
                 }
         var html_obj_option = {
           newlyday:"find_newly",
-          caseconfirmday:"find_caseconfirm"
+          caseconfirmday:"find_caseconfirm",
+
+
         }
 
     $(document).ready(() =>
@@ -347,22 +349,22 @@
         searchdata.find_caseconfirm = $("#caseconfirmday").val()
     }
 
-    // if(document.getElementById('search_hospital').value && $("#search_hospital_checker").is(":checked")){
+    if(document.getElementById('search_hospital').value && $("#search_hospital_checker").is(":checked")){
 
-    //     if ($("#search_hospital_meter").val() <= 0)
-    //     {
-    //       alert("ค่าระยะทางไม่ควรเป็นลบ")
-    //     }
-    //     else
-    //     {
-    //       searchdata.find_hospital = parseInt(document.getElementById('search_hospital').value)
-    //       searchdata.find_hospital_range = parseFloat($("#search_hospital_meter").val())
-    //     }
-    // }
-    // else if ($("#search_hospital_checker").is(":checked"))
-    // {
-    //   alert("คุณไม่ได้เลือกโรงพยาบาล")
-    // }
+        if ($("#search_hospital_meter").val() <= 0)
+        {
+          alert("ค่าระยะทางไม่ควรเป็นลบ")
+        }
+        else
+        {
+          searchdata.find_hospital = parseInt(document.getElementById('search_hospital').value)
+          searchdata.find_hospital_range = parseFloat($("#search_hospital_meter").val())
+        }
+    }
+    else if ($("#search_hospital_checker").is(":checked"))
+    {
+      alert("คุณไม่ได้เลือกโรงพยาบาล")
+    }
 
     map_html_to_obj(html_obj,searchdata)
     fncsearch({  search: searchdata});
