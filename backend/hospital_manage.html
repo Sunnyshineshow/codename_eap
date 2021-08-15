@@ -461,9 +461,9 @@
 
                       ev.start = new Date(ev.timestart*1000);
                       ev.end = new Date(ev.timeend*1000);
-                      ev.title = ev.queuecount + " Q";
+                      ev.title = ev.queuecount ;
                       if(ev.queuecount ==0){
-                        ev.title =""
+                        ev.title ="-"
                         ev.color = "#eeeeee"
                       }
                       ev.resource =  ev.hospital;
@@ -562,7 +562,7 @@
 // },
           renderResource: function (resource) {
               return '<div class="md-work-week-cont">' +
-                  '<div class="md-work-week-name">'+ resource.title + '</div>' +
+                  '<div class="md-work-week-name" align="center">'+ resource.title + '</div>' +
         //          '<div class="md-work-week-title">' + resource.title + '</div>' +
                   //'<div class="md-work-week-avatar" ><a href="/admin/vehicle_list?find_id='+resource.id+'" target="_blank">#'+ resource.id +"</a>:</div>" +
                   //  `<div><small>unsave</small></div>`+
