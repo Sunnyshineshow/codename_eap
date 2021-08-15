@@ -289,14 +289,10 @@
                 <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
               </select>
             </div>
-            <!-- <label id="nametitle_er" style="padding:0px;margin:0px;border-radius:0px;">
-              <select mbsc-dropdown id="travelprefer" data-input-style="box" name="travelprefer">
-                <option value="" disabled>กรุณาเลือก การเดินทาง</option>
-                <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
-                <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
-                <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
-              </select>
-            </label> -->
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">ป้ายทะเบียนรถยนต์</label>
+              <input type="text" class="form-control" id="licensePlate" aria-describedby="emailHelp">
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -354,6 +350,11 @@
             $('#travelprefer').val(res.travelprefer);
           } else {
             $('#changeTravel').val("");
+          }
+          if(res.licensePlate) {
+            $('#licensePlate').val(res.licensePlate);
+          } else {
+            $('#licensePlate').val("");
           }
 
           for (let i = 0; i < res.symptoms.length; i++) {
@@ -540,19 +541,21 @@
         // console.log(DATA_USER)
         var postData = {
           user: DATA_USER,
-          travelprefer: $('#travelprefer').val()
+          travelprefer: $('#travelprefer').val(),
+          licensePlate: $('#licensePlate').val() || ""
         }
         $.postJSON(MAINURL + "/api-backend/admin/patient/travel/edit", postData, (res) => {
           // console.log(res)
           if(res.result) {
             $('#exampleModal').modal('hide');
             alert("อัพเดทข้อมูลเรียบร้อย");
-            // window.location.reload();
-            return refreshpage();
+            setTimeout(function() {
+              window.location.reload();
+            }, 500);
           } else {
             $('#exampleModal').modal('hide');
             alert("อัพเดทข้อมูลผิดพลาด");
-            return refreshpage();
+            return false;
           }
         })
       }
