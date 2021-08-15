@@ -7,7 +7,7 @@
       <div class="row mb-1 d-flex justify-content-start">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form class="form-row" onsubmit="return pre_search();">
-            <div class="row d-flex justify-content-center ">
+            <div class="row ">
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <input type="text" class="form-control" id="search_idno" placeholder="HN PatientID">
@@ -21,7 +21,19 @@
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <input type="text" class="form-control" id="search_resultx" placeholder="ผลของ X-ray">
+              </div> 
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="date" class="form-control" id="search_date" >
               </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary border-0">
+                    <i class="fas fa-search"></i>
+                    Search
+                  </button>
+                </div>
+              </div>
+
               <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
@@ -43,14 +55,6 @@
                   </select>
                 </div>
               </div> -->
-              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary border-0">
-                    <i class="fas fa-search"></i>
-                    Search
-                  </button>
-                </div>
-              </div>
             </div>
           </form>
         </div>
@@ -121,7 +125,8 @@
       search_name:"findname",
       search_idno:"find_id",
       search_cid:"find_cid",
-      search_resultx:"search_resultx"
+      search_resultx:"search_resultx",
+      search_date:"search_date"
     }
   function pre_search(){
     // clear search url from lastsearch
