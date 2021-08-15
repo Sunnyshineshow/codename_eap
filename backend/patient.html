@@ -38,6 +38,7 @@
                   </svg> ตรวจสอบ</button>
                   <button type="button" class="btn btn-primary mt-4 mb-3" onclick="open_first_map('##PATIENT-location.link##')"><i class="fas fa-map-marker-alt"></i> ตำแหน่ง</button>
                   <button type="button" class="btn btn-primary mt-4 mb-3" onclick="open_edit_console()"><i class="fas fa-edit"></i> แก้ไข</button>
+                  <button type="button" class="btn btn-primary mt-4 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-route"></i> การเดินทาง</button>
                   <br>
                   <br>
                 </div>
@@ -270,6 +271,40 @@
         </div>
       </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">เลือกการเดินทาง</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="disabledSelect" class="form-label">การเดินทางมาจุด X-ray</label>
+              <select id="travelprefer" class="form-select">
+                <option value="" disabled>กรุณาเลือก การเดินทาง</option>
+                <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+                <!-- <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option> -->
+                <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+              </select>
+            </div>
+            <!-- <label id="nametitle_er" style="padding:0px;margin:0px;border-radius:0px;">
+              <select mbsc-dropdown id="travelprefer" data-input-style="box" name="travelprefer">
+                <option value="" disabled>กรุณาเลือก การเดินทาง</option>
+                <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
+                <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
+                <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
+              </select>
+            </label> -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="editTravel()">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <style>
       .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -282,6 +317,7 @@
     <script>
       var template_main_paitient_info = $('#main_paitient_info').html();
       var template_symptomlist = $("#row_symptomlist").html()
+      var DATA_USER;
 
       function refreshpage() {
 
@@ -291,7 +327,7 @@
         $.postJSON(MAINURL + '/api-backend/admin/patient', {
           _id: patientid
         }, (res) => {
-
+          DATA_USER = res || false;
           if (res.location && !res.reappoint) {
 
             Object.assign(res.location,{
@@ -312,6 +348,12 @@
           else
           {
             res.day_count = "!! ยังไม่ลงทะเบียน !!"
+          }
+
+          if(res.travelprefer) {
+            $('#travelprefer').val(res.travelprefer);
+          } else {
+            $('#changeTravel').val("");
           }
 
           for (let i = 0; i < res.symptoms.length; i++) {
@@ -492,6 +534,28 @@
 
         return parseInt((date2 - date1) / 86400000)
       }*/
+
+      function editTravel() {
+        // var patientid = getParameterByName('id', window.location.search);
+        // console.log(DATA_USER)
+        var postData = {
+          user: DATA_USER,
+          travelprefer: $('#travelprefer').val()
+        }
+        $.postJSON(MAINURL + "/api-backend/admin/patient/travel/edit", postData, (res) => {
+          // console.log(res)
+          if(res.result) {
+            $('#exampleModal').modal('hide');
+            alert("อัพเดทข้อมูลเรียบร้อย");
+            // window.location.reload();
+            return refreshpage();
+          } else {
+            $('#exampleModal').modal('hide');
+            alert("อัพเดทข้อมูลผิดพลาด");
+            return refreshpage();
+          }
+        })
+      }
 
       function checkAndSubmit()
       {

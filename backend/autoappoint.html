@@ -74,6 +74,18 @@
                       <span class="input-group-text">วันก่อน</span>
                     </div>
                       </div>
+
+                      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-3">
+                        <div class="input-group mb-6">
+                        <div class="input-group-text">
+
+                          <input class="form-check-input mt-0" onchange="pre_search()" type="checkbox" id="day_count_sort_checker">
+                          <label for="day_count_sort_checker" > Sort by Day Count</label>
+
+                        </div>
+                      </div>
+                    </div>
+
                       <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
                         <div class="input-group mb-6">
                         <div class="input-group-text">
@@ -340,10 +352,15 @@
         searchdata.find_newly= $('#newlyday').val()
     }
 
-    // if($("#day_count_filter_checker").is(":checked"))
-    // {
-    //   searchdata.find_daycount = $("#day_count_filter").val()
-    // }
+    if($("#day_count_filter_checker").is(":checked"))
+    {
+      searchdata.find_daycount = $("#day_count_filter").val()
+    }
+
+    if($("#day_count_sort_checker").is(":checked"))
+    {
+      searchdata.sort_daycount = true
+    }
 
     if($('#caseconfirm').is(":checked")){
         searchdata.find_caseconfirm = $("#caseconfirmday").val()
