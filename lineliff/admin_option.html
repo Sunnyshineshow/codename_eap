@@ -1,4 +1,4 @@
-<div class="md-range-event" mbsc-form>
+<div class="md-range-event" mbsc-form  >
     <div class="md-header" style="padding:8px 0px 14px 0px;margin:0px;background-color:#206eb8;">
       <div class="mbsc-header-txt mbsc-align-center">
         <div class="mbsc-align-center" style="margin-top:8px;">
@@ -7,15 +7,16 @@
       </div>
     </div>
   </div>
-
-  <div mbsc-form>
-    <div class="mbsc-align-center" style="margin-top:20px;">
-        <p id="title_address" style="margin-top:3px;margin-bottom:8px;"> เมนูเจ้าหน้าที่</p>
+  <div  id="main_option_page" style="display: none;">
+  <div mbsc-form mbsc-cloak >
+    <div class="mbsc-align-center" style="margin-top:20px;" >
+        <p   style="margin-top:3px;margin-bottom:8px;"> เมนูเจ้าหน้าที่</p>
       </div>
       <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
-        <div id="patient_info" class="mbsc-align-center">
-                       นัด ###patient-id##     ##patient-patient.firstname## ##patient-patient.lastname## , ##patient-patient.gender##
+        <div id="patient_info" class="mbsc-align-center" >
+                       นัด ###patient-id##     ##patient-patient.firstname## ##patient-patient.lastname## , ##patient-patient.gender##  ##patient-patient.age## ปี
             <br>
+              ครั้งที่ <font color='red'># ##patient-th_meeting##</font>
             <br>
 Time:(##patient-qtime##)  COLOR : ##patient-patient.color##
 <br>
@@ -32,6 +33,15 @@ ID card :  ##patient-patient.idcard##
           <div class="mbsc-grid mbsc-align-left" style="padding:0px;margin:0px;">
             <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
               <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                <input id="xray" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
+              </div>
+              <div class="mbsc-col-9">
+                <label for="xray" >
+                <span style="font-size:14px;font-weight:400;">รับคิวผู้ป่วยเข้า X-Ray</span>
+                </label>
+              </div>
+            </div>            <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+              <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
                 <input id="medicine" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
               </div>
               <div class="mbsc-col-9">
@@ -40,16 +50,7 @@ ID card :  ##patient-patient.idcard##
                 </label>
               </div>
             </div>
-            <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
-              <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
-                <input id="xray" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
-              </div>
-              <div class="mbsc-col-9">
-                <label for="xray" >
-                <span style="font-size:14px;font-weight:400;">รับคิวผู้ป่วยเข้า X-Ray</span>
-                </label>
-              </div>
-            </div>
+
 
             <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
               <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
@@ -57,7 +58,7 @@ ID card :  ##patient-patient.idcard##
               </div>
               <div class="mbsc-col-9">
                 <label for="new_appointment" >
-                <span style="font-size:14px;font-weight:400;">นัดสังเกตอาการ</span>
+                <span style="font-size:14px;font-weight:400;">นัดหมายใหม่เพิ่มเติมครั้งหน้า</span>
                 </label>
               </div>
             </div>
@@ -106,9 +107,9 @@ ID card :  ##patient-patient.idcard##
       <div id="show_on_appoint_check" style="display: none;">
         <div class="mbsc-row">
           <div class="mbsc-col-sm-12 mbsc-col-md-6">
-            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">นัดติดตามอาการ<span style="color:red"> *</span></p>
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">นัดหมายใหม่เพิ่มเติมครั้งหน้า<span style="color:red"> *</span></p>
            <label>
-               ดูอาการในวัน...
+               นัดครั้งหน้า ...
                <select mbsc-dropdown id="appoint_day" data-input-style="box">
                   <option value="0" disabled selected>กรุณาเลือก</option>
                    <option value="1">พรุ่งนี้</option>
@@ -123,9 +124,9 @@ ID card :  ##patient-patient.idcard##
          </div>
          <div class="mbsc-col-sm-12 mbsc-col-md-6">
           <label>
-              ในเวลา
+              เวลาประมาณ
               <select mbsc-dropdown id="appoint_time" data-input-style="box">
-                 <option value="0" disabled selected>กรุณาเลือก</option>
+                 <option value="0" disabled selected>กรุณาเลือก </option>
                   <option value="9">9:00</option>
                   <option value="10">10:00</option>
                   <option value="11">11:00</option>
@@ -138,20 +139,6 @@ ID card :  ##patient-patient.idcard##
           </label>
         </div>
        </div>
-       <div class="mbsc-row">
-         <div class="mbsc-col-sm-12 mbsc-col-md-6">
-
-           <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">หมายเหตุ<span style="color:red"></span></p>
-           <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
-             <div >
-               <label>
-                 <input class="mbsc-align-left" mbsc-input id="appoint_other" type="text" name="appoint_other" placeholder="ถ้ามี" value="" style="font-size: 13px;" />
-               </label>
-             </div>
-
-         </div>
-         </div>
-        </div>
       </div>
 
 
@@ -182,7 +169,7 @@ ID card :  ##patient-patient.idcard##
             </div>
         </div>
   </div>
-
+  </div>
 
 
 <script>
@@ -209,7 +196,6 @@ ID card :  ##patient-patient.idcard##
           coordinates: [position.coords.longitude ,position.coords.latitude]
         }
       })
-
       if(Number(patient_id ) > 0  && appoint_id >0){
         $.post(MAINURL + "/api-web/line/admin_loadqrdata",{_id:appoint_id,patient:patient_id},(msg) =>
         {
@@ -217,7 +203,11 @@ ID card :  ##patient-patient.idcard##
             if (msg.code == 200)
             {
                 msg.detail.qtime = moment(msg.detail.appointtime,"X").format("DD/MM/YY HH:mm")
+
                 hash_replace($('#patient_info'),'patient',msg.detail)
+                $('#main_option_page').show();
+            }else{
+              alert(msg.detail)
             }
           });
       }
@@ -290,10 +280,10 @@ ID card :  ##patient-patient.idcard##
                     },
                 more_appointment: {
                   patient: patient_id,
-                   old_appoint: appoint_id,
+                  old_appoint: appoint_id,
                   day: $("#appoint_day").val(),
                   time: $("#appoint_time").val(),
-                  comment: $("#appoint_other").val(),
+                  type: "XRAY"
                 }
             }
         }
@@ -320,7 +310,7 @@ ID card :  ##patient-patient.idcard##
             }
             else
             {
-              return alert_modal("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง")
+              return alert_modal("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง\n" + msg.detail)
             }
         })
       }
@@ -334,22 +324,29 @@ ID card :  ##patient-patient.idcard##
     {
       if (document.getElementById('medicine').checked)
       {
-        document.getElementById('show_on_med_check').style.display = "block"
-        document.getElementById('show_on_appoint_check').style.display = "block"
+        $('#show_on_med_check').show('slow');
+        $('#show_on_appoint_check').show('slow');
+        // document.getElementById('show_on_med_check').style.display = "block"
+        // document.getElementById('show_on_appoint_check').style.display = "block"
       }
       else
       {
-        document.getElementById('show_on_med_check').style.display = "none"
-        document.getElementById('show_on_appoint_check').style.display = "none"
+        $('#show_on_med_check').hide();
+        $('#show_on_appoint_check').hide();
+        // document.getElementById('show_on_med_check').style.display = "none"
+        // document.getElementById('show_on_appoint_check').style.display = "none"
       }
 
       if (document.getElementById('new_appointment').checked /*|| document.getElementById('medicine').checked*/)
       {
-        document.getElementById('show_on_appoint_check').style.display = "block"
+
+        $('#show_on_appoint_check').show('slow');
+        // document.getElementById('show_on_appoint_check').style.display = "block"
       }
       else
       {
-        document.getElementById('show_on_appoint_check').style.display = "none"
+        $('#show_on_appoint_check').hide('slow');
+        // document.getElementById('show_on_appoint_check').style.display = "none"
       }
     }
 

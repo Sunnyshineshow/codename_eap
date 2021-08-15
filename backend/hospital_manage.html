@@ -229,7 +229,7 @@
               <tr>
                 <th> ##q-patient.showid##</th>
                 <th scope="row"><img src="##q-patient.pictureUrl##" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;" >               </th>
-                <td> ##q-patient.displayName##</td>
+                <td> ##q-patient.displayName## </td>
                 <td> ##q-patient.firstname## ##q-patient.lastname##</td>
                 <td>##q-patient.mobileno##</td>
                 <td nowrap="nowarp"> ##q-patient.address.address##
@@ -239,7 +239,7 @@
                   <td>##q-patient.address.district##</td>
                 <td>  ##q-patient.mobileno## (##q-patient.travelprefer## ##q-travel## ##q-selfcar##)</td>
                 <td><a href="/admin/patient?id=##q-patient.id##" target="_blank"> <button type="button" class="btn btn-sm btn-secondary" >Detail </button> </a></td>
-                <td nowrap="nowrap"> ##q-confirmed## 
+                <td nowrap="nowrap"> ##q-confirmed##
                   <button type="button" id="btn_##q-id##"  class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้าย/ลบ/confirm </button>
 
                   <ul class="dropdown-menu all_timelist" aria-labelledby="Moveit">
@@ -355,6 +355,7 @@
   var template_all_timelist = $('.all_timelist').html();
   var template_appoint_row = $('#row_appointlist').html();
   var workingslot;
+  var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
   var html_obj = {search_idno:"find_id",
                   search_id:"find_patientid",
                   search_sort:"search_sort",
@@ -402,7 +403,7 @@
         working.patient = objdata.obj;
         //console.log("OBJDATA: " + objdata.obj)
 
-        var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
+
 
         objdata.obj.map(item => {
           // console.log(item)
@@ -558,7 +559,7 @@
 //             calendar: {
 //                 labels: true
 //             }
-//         } 
+//         }
 //     }
 // },
           renderResource: function (resource) {
@@ -640,7 +641,7 @@ function fillDialog(args) {
         if(o.patient.color=="YELLOW"){
           o.patient.showid = `<span class="badge bg-warning">${o.patient._id}</span>`
         }
-        
+
       });
 
       var html = hash_replace(template_modalbody,"q",msg.obj.obj);
@@ -656,6 +657,9 @@ function fillDialog(args) {
           if(item.status == 2) {
             $('#btn_'+item._id).hide();
             $('#btn_'+item._id).replaceWith($('<span class="pr-2 text-primary"><i class="fas fa-check-circle"></i> มาตามนัดแล้ว</span>'));
+          }else if(item.status == 4 || item.status == 5){
+            $('#btn_'+item._id).hide();
+            $('#btn_'+item._id).replaceWith($(ITEMSTATUS[item.status]))
           }
         })
 
