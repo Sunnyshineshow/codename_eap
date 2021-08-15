@@ -239,7 +239,8 @@
                   <td>##q-patient.address.district##</td>
                 <td>  ##q-patient.mobileno## (##q-patient.travelprefer## ##q-travel## ##q-selfcar##)</td>
                 <td><a href="/admin/patient?id=##q-patient.id##" target="_blank"> <button type="button" class="btn btn-sm btn-secondary" >Detail </button> </a></td>
-                <td nowrap="nowrap"> ##q-confirmed## <button type="button" class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้าย/ลบ/confirm </button>
+                <td nowrap="nowrap"> ##q-confirmed## 
+                  <button type="button" id="btn_##q-id##"  class="btn btn-sm btn-outline-warning dropdown-toggle button_moveslot" data-movefrom="##q-id##" data-movepatient="##q-patient.id##" data-bs-toggle="dropdown" aria-expanded="false" >ย้าย/ลบ/confirm </button>
 
                   <ul class="dropdown-menu all_timelist" aria-labelledby="Moveit">
                     <li><a class="dropdown-item" href="#" onclick="return moveslotto(this,'##slot-id##');" >##slot-startshow## - ##slot-endshow##</a></li>
@@ -461,9 +462,9 @@
 
                       ev.start = new Date(ev.timestart*1000);
                       ev.end = new Date(ev.timeend*1000);
-                      ev.title = ev.queuecount + " Q";
+                      ev.title = ev.queuecount ;
                       if(ev.queuecount ==0){
-                        ev.title =""
+                        ev.title ="-"
                         ev.color = "#eeeeee"
                       }
                       ev.resource =  ev.hospital;
@@ -557,12 +558,12 @@
 //             calendar: {
 //                 labels: true
 //             }
-//         }
+//         } 
 //     }
 // },
           renderResource: function (resource) {
               return '<div class="md-work-week-cont">' +
-                  '<div class="md-work-week-name">'+ resource.title + '</div>' +
+                  '<div class="md-work-week-name" align="center">'+ resource.title + '</div>' +
         //          '<div class="md-work-week-title">' + resource.title + '</div>' +
                   //'<div class="md-work-week-avatar" ><a href="/admin/vehicle_list?find_id='+resource.id+'" target="_blank">#'+ resource.id +"</a>:</div>" +
                   //  `<div><small>unsave</small></div>`+
@@ -639,7 +640,7 @@ function fillDialog(args) {
         if(o.patient.color=="YELLOW"){
           o.patient.showid = `<span class="badge bg-warning">${o.patient._id}</span>`
         }
-
+        
       });
 
       var html = hash_replace(template_modalbody,"q",msg.obj.obj);
@@ -650,7 +651,13 @@ function fillDialog(args) {
         $('#t_end').html(moment(q.end).format("DD-MM-YY HH:mm"));
         $('#totalq').html(`${q._id} จำนวน ${q.title}`)
         console.log("Beforemodal",q)
-
+        msg.obj.obj.map(item => {
+          console.log(item.status == 2)
+          if(item.status == 2) {
+            $('#btn_'+item._id).hide();
+            $('#btn_'+item._id).replaceWith($('<span class="pr-2 text-primary"><i class="fas fa-check-circle"></i> มาตามนัดแล้ว</span>'));
+          }
+        })
 
         getdaylist(q.hospital,q._id);
         working_queue_id = q._id;
