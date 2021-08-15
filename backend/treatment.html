@@ -26,6 +26,12 @@
                 <input type="date" class="form-control" id="search_date" >
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <button type="button" class="btn btn-primary border-0" onclick="waitingResultXray()">
+                  <i class="fas fa-x-ray"></i>
+                  ผู้ที่รอผล x-ray
+                </button>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary border-0">
                     <i class="fas fa-search"></i>
@@ -146,9 +152,6 @@
       limit: 20,
       search: {}
     }
-
-
-
     var pagenumber = getParameterByName('page', window.location.search);
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
@@ -156,6 +159,15 @@
     // console.log('SEARCH ', search_setting);
     fncsearch = ADV_search(search_setting); // Defult always search at first
     return false;
+  }
+
+  function waitingResultXray() {
+    var searchdata = {}
+    searchdata.waiting_result = true;
+    fncsearch({
+      search: searchdata
+    })
+    return false
   }
 
   function show_search_list(objdata, totalrecord,filed2show,queryobj) {
