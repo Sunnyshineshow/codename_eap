@@ -50,6 +50,18 @@ ID card :  ##patient-patient.idcard##
                 </label>
               </div>
             </div>
+
+            <div class="mbsc-row" style="padding:0px;margin:0px; margin-top:12px;">
+              <div mbsc-form class="mbsc-col-2 mbsc-checkbox-primary" style="padding-left:0px;margin:0px;background-color:transparent;">
+                <input id="new_appointment" name = "treatment_option" mbsc-checkbox type="radio" onchange="show_on_med_check()">
+              </div>
+              <div class="mbsc-col-9">
+                <label for="new_appointment" >
+                <span style="font-size:14px;font-weight:400;">นัดสังเกตอาการ</span>
+                </label>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -62,6 +74,7 @@ ID card :  ##patient-patient.idcard##
       <div id="show_on_med_check" style="display: none;">
         <div class="mbsc-row">
           <div class="mbsc-col-sm-12 mbsc-col-md-6">
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">การจ่ายยา<span style="color:red"> *</span></p>
            <label>
                ยาฟาวิพิราเวียร์
                <select mbsc-dropdown id="medic_favipilavia" data-input-style="box">
@@ -87,6 +100,60 @@ ID card :  ##patient-patient.idcard##
          </div>
         </div>
       </div>
+
+      <br>
+
+      <div id="show_on_appoint_check" style="display: none;">
+        <div class="mbsc-row">
+          <div class="mbsc-col-sm-12 mbsc-col-md-6">
+            <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">นัดติดตามอาการ<span style="color:red"> *</span></p>
+           <label>
+               ดูอาการในวัน...
+               <select mbsc-dropdown id="appoint_day" data-input-style="box">
+                  <option value="0" disabled selected>กรุณาเลือก</option>
+                   <option value="1">พรุ่งนี้</option>
+                   <option value="2">อีก 2 วัน</option>
+                   <option value="3">อีก 3 วัน</option>
+                   <option value="4">อีก 4 วัน</option>
+                   <option value="5">อีก 5 วัน</option>
+                   <option value="6">อีก 6 วัน</option>
+                   <option value="7">อีก 7 วัน</option>
+               </select>
+           </label>
+         </div>
+         <div class="mbsc-col-sm-12 mbsc-col-md-6">
+          <label>
+              ในเวลา
+              <select mbsc-dropdown id="appoint_time" data-input-style="box">
+                 <option value="0" disabled selected>กรุณาเลือก</option>
+                  <option value="9">9:00</option>
+                  <option value="10">10:00</option>
+                  <option value="11">11:00</option>
+                  <option value="12">12:00</option>
+                  <option value="13">13:00</option>
+                  <option value="14">14:00</option>
+                  <option value="15">15:00</option>
+                  <option value="16">16:00</option>
+              </select>
+          </label>
+        </div>
+       </div>
+       <div class="mbsc-row">
+         <div class="mbsc-col-sm-12 mbsc-col-md-6">
+
+           <p style="padding:0px;margin:0px;margin-left: 18px;font-weight:400;font-size:14px;">หมายเหตุ<span style="color:red"></span></p>
+           <div class="mbsc-form-group-inset" style="padding:0px 15px 0px 15px;margin:0px;">
+             <div >
+               <label>
+                 <input class="mbsc-align-left" mbsc-input id="appoint_other" type="text" name="appoint_other" placeholder="ถ้ามี" value="" style="font-size: 13px;" />
+               </label>
+             </div>
+
+         </div>
+         </div>
+        </div>
+      </div>
+
 
       <div class="mbsc-row" style="padding:0px;margin:0px;margin-top:5px">
         <div class="mbsc-col-12" style="padding:0px;margin:0px;">
@@ -200,6 +267,36 @@ ID card :  ##patient-patient.idcard##
                     }
             }
         }
+        else if (document.getElementById('new_appointment').checked)
+        {
+          if (!$("#appoint_day").val())
+          {
+            return alert_modal("กรุณาระบุวัน")
+          }
+          if (!$("#appoint_day").val())
+          {
+            return alert_modal("กรุณาระบุเวลา")
+          }
+
+            option = "APPOINT"
+            payload =
+            {
+                _id : appoint_id,
+                patient: patient_id,
+                treatment: {
+                    option: option,
+                    comment: $("#comment").val(),
+                    location: geo_location
+                    },
+                more_appointment: {
+                  patient: patient_id,
+                   old_appoint: appoint_id,
+                  day: $("#appoint_day").val(),
+                  time: $("#appoint_time").val(),
+                  comment: $("#appoint_other").val(),
+                }
+            }
+        }
         else
         {
             return alert_modal("กรุณาเลือกฝ่าย")
@@ -238,10 +335,21 @@ ID card :  ##patient-patient.idcard##
       if (document.getElementById('medicine').checked)
       {
         document.getElementById('show_on_med_check').style.display = "block"
+        document.getElementById('show_on_appoint_check').style.display = "block"
       }
       else
       {
         document.getElementById('show_on_med_check').style.display = "none"
+        document.getElementById('show_on_appoint_check').style.display = "none"
+      }
+
+      if (document.getElementById('new_appointment').checked /*|| document.getElementById('medicine').checked*/)
+      {
+        document.getElementById('show_on_appoint_check').style.display = "block"
+      }
+      else
+      {
+        document.getElementById('show_on_appoint_check').style.display = "none"
       }
     }
 
