@@ -111,9 +111,9 @@ ID card :  ##patient-patient.idcard##
            <label>
                นัดครั้งหน้า ...
                <select mbsc-dropdown id="appoint_day" data-input-style="box">
-                  <option value="0" disabled selected>กรุณาเลือก</option>
+                  <option value="0"  >ไม่นัดหมาย</option>
                    <option value="1">พรุ่งนี้</option>
-                   <option value="2">อีก 2 วัน</option>
+                   <option value="2" selected>อีก 2 วัน</option>
                    <option value="3">อีก 3 วัน</option>
                    <option value="4">อีก 4 วัน</option>
                    <option value="5">อีก 5 วัน</option>
@@ -226,7 +226,6 @@ ID card :  ##patient-patient.idcard##
           }
 
 
-
             option = "MEDICINE"
             payload =
             {
@@ -240,7 +239,15 @@ ID card :  ##patient-patient.idcard##
                 medicine: {
                   medic_favipilavia: $("#medic_favipilavia").val(),
                   medic_other:  $("#medic_other").val() | ""
-                }
+                },
+
+              more_appointment: {
+                patient: patient_id,
+                old_appoint: appoint_id,
+                day: $("#appoint_day").val(),
+                time: $("#appoint_time").val(),
+                type: "XRAY"
+              }
             }
         }
         else if (document.getElementById('xray').checked)
@@ -322,6 +329,18 @@ ID card :  ##patient-patient.idcard##
 
     function show_on_med_check()
     {
+      if (document.getElementById('new_appointment').checked /*|| document.getElementById('medicine').checked*/)
+      {
+
+        $('#show_on_appoint_check').show('slow');
+        // document.getElementById('show_on_appoint_check').style.display = "block"
+      }
+      else
+      {
+        $('#show_on_appoint_check').hide();
+        // document.getElementById('show_on_appoint_check').style.display = "none"
+      }
+
       if (document.getElementById('medicine').checked)
       {
         $('#show_on_med_check').show('slow');
@@ -337,17 +356,7 @@ ID card :  ##patient-patient.idcard##
         // document.getElementById('show_on_appoint_check').style.display = "none"
       }
 
-      if (document.getElementById('new_appointment').checked /*|| document.getElementById('medicine').checked*/)
-      {
 
-        $('#show_on_appoint_check').show('slow');
-        // document.getElementById('show_on_appoint_check').style.display = "block"
-      }
-      else
-      {
-        $('#show_on_appoint_check').hide('slow');
-        // document.getElementById('show_on_appoint_check').style.display = "none"
-      }
     }
 
 </script>
