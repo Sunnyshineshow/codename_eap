@@ -225,7 +225,13 @@ ID card :  ##patient-patient.idcard##
             return alert("กรุณากรอกหน่วยงาน")
           }
 
+          if($("#appoint_day").val() > 0){
+            if($("#appoint_time").val()) > 0 ){
 
+            }else{
+              return alert_modal("กรุณาระบุเวลา")
+            }
+          }
             option = "MEDICINE"
             payload =
             {
@@ -274,6 +280,7 @@ ID card :  ##patient-patient.idcard##
           {
             return alert_modal("กรุณาระบุเวลา")
           }
+
 
             option = "APPOINT"
             payload =
