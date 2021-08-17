@@ -88,6 +88,7 @@
               <th scope="col" class="text-secondary">Category</th>
               <th scope="col" class="text-secondary">Other</th>
               <th scope="col" class="text-secondary">ผู้ตรวจ</th>
+              <th scope="col" class="text-secondary">อื่นๆ</th>
             </tr>
           </thead>
           <tbody id="row_patientlist" style="display:none;">
@@ -109,6 +110,10 @@
                 ##XRAY-data.RadiologistName##
 
               </td>
+            </td><td class="text-center">
+              <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##XRAY-patient.id##')">รายละเอียดผู้ป่วย</button>
+              <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_detail_x_ray('##XRAY-patient.id##')">รายละเอียด x-ray</button>
+            </td>
             </tr>
           </tbody>
           <tbody id="show_patientlist">
@@ -124,8 +129,50 @@
   </div>
 </div>
 
+<!-- Scrollable modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">X-Ray Detail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover show_startpage font-weight-light">
+            <thead class="text-center">
+              <tr>
+                <th scope="col" class="text-secondary">X_RAY ID</th>
+                <th scope="col" class="text-secondary">Appointment ID</th>
+                <th scope="col" class="text-secondary">Accession</th>
+                <th scope="col" class="text-secondary">ACK Code</th>
+                <th scope="col" class="text-secondary">Create Date</th>
+              </tr>
+            </thead>
+            <tbody id="row_x_ray" style="display:none;">
+              <td class="text-center table-middle">##detail-id##</td>
+              <td class="text-center table-middle">##detail-appointment##</td>
+              <td class="text-center table-middle">##detail-accession##</td>
+              <td class="text-center table-middle">##detail-ack_code##</td>
+              <td class="text-center table-middle">##detail-createdate##</td>
+            </tbody>
+            <tbody id="show_x_ray">
+              <tr>
+  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
   <script type="text/javascript">
   var template_patient_row = $('#row_patientlist').html();
+  var template_x_ray_row = $('#row_x_ray').html();
   var fncsearch;
     var html_obj = {
       search_name:"findname",
@@ -193,4 +240,32 @@
       $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
     }
   }
+
+  function view_symptom(patient_id) {
+    go2View("patient?id=" + patient_id)
+  }
+
+  function view_detail_x_ray(patient_id) {
+    // go2View("patient?id=" + patient_id)
+    $.postJSON(`/api-backend/admin/treatment/x-ray/detail`, {patient:Number(patient_id)}, (res) => {
+      console.log(res)
+      if(res && res.result) {
+        res.data.map(item => {
+          item.createdate ? item.createdate = moment(item.createdate, 'X').format('DD/MM/YYYY HH:mm') : item.createdate = "";
+        });
+        var html_row = hash_replace(template_x_ray_row, 'detail', res.data)
+        $("#show_x_ray").html(html_row);
+        $('#exampleModal').modal('show');
+      } else {
+        $("#show_x_ray").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
+      }
+    })
+    // detail_x_ray();
+  }
+
+  function detail_x_ray() {
+    // $('#exampleModal').show();
+    $('#exampleModal').modal('show')
+  }
+
 </script>
