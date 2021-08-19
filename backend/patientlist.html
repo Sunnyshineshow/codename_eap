@@ -192,7 +192,7 @@
   var template_patient_row = $('#row_patientlist').html();
   var fncsearch;
   // var global_color;
-
+  var current_patientlist
   function pre_search(){
       searchdata = {};
     if ($('#search_name').val() !== "") {
@@ -261,8 +261,10 @@
 
   function show_patient_list(objdata, totalrecord) {
     // console.log('objdata', objdata);
+
     if (objdata.result && totalrecord > 0) {
       working.patient = objdata.obj;
+      current_patientlist = objdata.obj;
       console.log("OBJDATA: " + objdata.obj)
       var STATUSSHOW =["สิ้นสุดกระบวนการ","ยังไม่ได้ลงทะเบียน","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ (2/3)","ยังลงทะเบียนไม่เสร็จ (1/3)"]
       objdata.obj.map(item => {

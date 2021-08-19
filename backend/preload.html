@@ -21,6 +21,11 @@
       </div>
       <div class="modal-body">
         <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
+        <br>
+        <h5>History</h5>
+        <div id="p_historycomment">
+
+          </div>
       </div>
 
       <div class="modal-footer">
@@ -131,6 +136,24 @@
     var working_patient_comment_cb;
     function update_patient_comment(patient_id,cb){
       working_patient_id = patient_id
+      var paitien_obj;
+      $('#p_historycomment').html('')
+       $('#patient_comment').val('')
+      if(Array.isArray(current_patientlist)){
+        console.log("GOT ",current_patientlist)
+        current_patientlist.map((p)=>{
+          if(p._id ==patient_id) paitien_obj = p
+        })
+      }
+      if(paitien_obj && Array.isArray(paitien_obj.commentlog)){
+         $('#patient_comment').val(paitien_obj.comment)
+        console.log("FOUND COMMENTLOG")
+        var p_h = '';
+        for(var x=0;x < paitien_obj.commentlog.length;x++){
+            p_h += paitien_obj.commentlog[x] + ' ' + paitien_obj.commentby[x] + '<br>'
+        }
+        $('#p_historycomment').html(p_h)
+      }
       $("#p_comment").modal('show')
       working_patient_comment_cb =cb;
       //patient_id

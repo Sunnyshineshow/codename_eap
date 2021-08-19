@@ -355,6 +355,7 @@
   var template_all_timelist = $('.all_timelist').html();
   var template_appoint_row = $('#row_appointlist').html();
   var workingslot;
+  var current_patientlist;
   var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
   var html_obj = {search_idno:"find_id",
                   search_id:"find_patientid",
@@ -625,6 +626,8 @@ function fillDialog(args) {
   }
   $.postJSON(MAINURL + "/api-backend/admin/appoin_slot_tlist", postdata, (msg) => {
       console.log("gotBack",msg)
+      current_patientlist =[]
+      console.log("current_patientlist",current_patientlist)
       msg.obj.obj.map((o)=>{
         if(o.confirmed){
           o.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
@@ -632,6 +635,7 @@ function fillDialog(args) {
           o.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
         }
         o.patient.showid = o.patient._id
+        current_patientlist.push(o.patient)
         if(o.patient.color=="RED"){
           o.patient.showid = `<span class="badge bg-danger">${o.patient._id}</span>`
         }
