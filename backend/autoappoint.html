@@ -71,7 +71,9 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="input-group mb-6">
                   <div class="input-group-text">
-                    SpO2 >
+                    <input class="form-check-input mt-0" type="checkbox" id="spo2more_checker" checked>
+
+                    <label for="spo2more_checker">SpO2 > </label>
 
                   </div>
 
@@ -83,7 +85,7 @@
                 <div class="input-group mb-6">
                   <div class="input-group-text">
 
-                    <input class="form-check-input mt-0" onchange="pre_search()" type="checkbox"
+                    <input class="form-check-input mt-0"   type="checkbox"
                       id="day_count_sort_checker">
                     <label for="day_count_sort_checker"> Sortby DayCount</label>
 
@@ -353,12 +355,11 @@
     registerday: "find_registerday",
     search_name: "findname",
     complete: "find_completeregister",
-    spo2more : "find_spo2more"
   }
   var html_obj_option = {
     newlyday: "find_newly",
     caseconfirmday: "find_caseconfirm",
-
+    spo2more : "find_spo2more"
 
   }
 
@@ -383,7 +384,9 @@
     if ($("#day_count_filter_checker").is(":checked")) {
       searchdata.find_daycount = $("#day_count_filter").val()
     }
-
+    if ($("#spo2more_checker").is(":checked")) {
+      searchdata.find_spo2more = $("#spo2more").val()
+    }
     if ($("#day_count_sort_checker").is(":checked")) {
       searchdata.sort_daycount = true
     }
@@ -419,7 +422,7 @@
       pagesize: 10,
       showfunction: show_patient_list,
       limit: 100,
-      search: { find_completeregister: "complete", find_newly: "0" }    //default searching
+      search: { find_completeregister: "complete", find_newly: "0" ,spo2more:$('#spo2more').val()}    //default searching
     }
 
     var pagenumber = getParameterByName('page', window.location.search);
