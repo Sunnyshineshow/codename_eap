@@ -630,7 +630,12 @@ function fillDialog(args) {
       console.log("current_patientlist",current_patientlist)
       msg.obj.obj.map((o)=>{
         if(o.confirmed){
-          o.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+          if(o.confirmed == "staff"){
+              o.confirmed=`<span class="badge rounded-pill bg-primary">Staff Confirm</span>`
+          }else{
+              o.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+          }
+
         }else{
           o.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
         }

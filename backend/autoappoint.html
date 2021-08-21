@@ -68,31 +68,42 @@
                   <span class="input-group-text">วันก่อน</span>
                 </div>
               </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+                    SpO2 >
 
-              <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-3">
+                  </div>
+
+                  <input type="text" id="spo2more" class="form-control" aria-label="Text input with checkbox"
+                    placeholder="" value=92>
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="input-group mb-6">
                   <div class="input-group-text">
 
                     <input class="form-check-input mt-0" onchange="pre_search()" type="checkbox"
                       id="day_count_sort_checker">
-                    <label for="day_count_sort_checker"> Sort by Day Count</label>
+                    <label for="day_count_sort_checker"> Sortby DayCount</label>
 
                   </div>
                 </div>
               </div>
+
 
               <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
                 <div class="input-group mb-6">
                   <div class="input-group-text">
 
                     <input class="form-check-input mt-0" type="checkbox" id="day_count_filter_checker" checked>
-                    <label for="day_count_filter_checker"> Day Count </label>
+                    <label for="day_count_filter_checker"> DayCount <  </label>
 
                   </div>
 
                   <input type="number" id="day_count_filter" class="form-control" aria-label="Text input with checkbox"
                     placeholder="" value=14>
-                  <span class="input-group-text">วัน </span>
+
                 </div>
               </div>
               <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3">
@@ -336,13 +347,13 @@
     search_color: "find_color",
     search_tel: "find_tel",
     search_passport: "find_passport",
-    search_travel: "find_travel",
     search_zip: "find_zipcode",
     search_cid: "find_idcard",
     search_idno: "find_id",
     registerday: "find_registerday",
     search_name: "findname",
-    complete: "find_completeregister"
+    complete: "find_completeregister",
+    spo2more : "find_spo2more"
   }
   var html_obj_option = {
     newlyday: "find_newly",
@@ -484,7 +495,7 @@
           item.firstsymptomdetail += "<BR>"
         }
         if (item.distance > 0) {
-          item.distance = Math.floor(item.distance) + " เมตร จากศูนย์ X-ray"
+          item.distance = Math.ceil(item.distance/100)/10 + " Km จากศูนย์ X-ray"
         }
       })
 
