@@ -1,16 +1,7 @@
 <div class="main_page mb-5" style="margin-top:100px;">
   <div class="p-2 mr-5 ml-5">
     <div class="container">
-      <!--Counter-->
-      <div class="position-relative" style="text-align: center;">
-        <div class="row">
-          <div class="col-md-12 mt-12">
-            <div  class="card bg-warning border-0" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-              <h5>Auto Appointment by fillter <br>(max 100 list สำหรับ Feature ไม่มีคิวในระบบ)</h5>
-            </div>
-          </div>
-        </div>
-      </div>
+
         <form class="form-row" onsubmit="return pre_search();">
       <div class="row mb-1 d-flex justify-content-start">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -42,12 +33,12 @@
                     <div class="input-group-text">
 
                       <input class="form-check-input mt-0" type="checkbox" value="newly" id="newly" checked  >
-                      <label for="newly" > ไม่มีคิวในระบบ </label>
+                      <label for="newly" > ไม่เคยมีคิวใน </label>
 
                     </div>
 
                     <input type="text" id="newlyday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
-                    <span class="input-group-text">วัน </span>
+                    <span class="input-group-text">วันก่อน </span>
                   </div>
                 </div>
 
@@ -66,7 +57,7 @@
                     <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                       <div class="input-group mb-6">
                       <div class="input-group-text">
-                        <label for="caseconfirm" >ลงทะเบียนเมื่อ</label>
+                        ลงทะเบียนเมื่อ
 
                       </div>
 
@@ -99,14 +90,14 @@
                         <span class="input-group-text">วัน </span>
                       </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3" disabled>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3" >
                       <div class="input-group mb-6">
                       <div class="input-group-text">
 
-                        <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker" disabled>
-                        <label for="day_count_filter_checker" > จากโรงพยาบาล</label>
+                      <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker" >
+                        <label for="search_hospital_checker" > จากศูนย์</label>
 
-                        <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" disabled></select>
+                        <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" >
                           <option value="" >โปรดเลือก</option>
 
                         </select>
@@ -115,7 +106,7 @@
 
                       </div>
 
-                      <input type="number" id="search_hospital_meter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=10 disabled>
+                      <input type="number" id="search_hospital_meter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=1000 >
                       <span class="input-group-text">เมตร </span>
                     </div>
                   </div>
@@ -247,7 +238,10 @@
 
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
-              <td class="text-center table-middle">##patient-travelprefer##</td>
+              <td class="text-center table-middle">##patient-travelprefer##
+              <font color='red'><small>##patient-distance##</small></font>
+
+              </td>
               <td class="text-center table-middle" rowspan=2>##patient-status##
                 <br>
 <font color='blue'>##patient-comment##</font>
@@ -475,6 +469,9 @@
         if(item.init_symptoms){
           item.firstsymptomdetail = "Breathing: "+item.init_symptoms.breathing +" spo_room_air:" +item.init_symptoms.spo_room_air
           item.firstsymptomdetail += "<BR>"
+        }
+        if(item.distance >0){
+           item.distance = Math.floor(item.distance) + " เมตร จากศูนย์ X-ray"
         }
       })
 
