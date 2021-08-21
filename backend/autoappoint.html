@@ -2,121 +2,127 @@
   <div class="p-2 mr-5 ml-5">
     <div class="container">
 
-        <form class="form-row" onsubmit="return pre_search();">
-      <div class="row mb-1 d-flex justify-content-start">
-        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="row d-flex justify-content-center ">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <div class="input-group mb-6">
+      <form class="form-row" onsubmit="return pre_search();">
+        <div class="row mb-1 d-flex justify-content-start">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row d-flex justify-content-center ">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="input-group mb-6">
                   <div class="input-group-text">
-                  <input class="form-check-input mt-0" type="checkbox" value="groupbyregister" id="groupbyregister">
-                  <label class="" for="groupbyregister">
-                    ดึงคนที่ลงทะเบียนร่วมด้วย
-                  </label>
+                    <input class="form-check-input mt-0" type="checkbox" value="groupbyregister" id="groupbyregister">
+                    <label class="" for="groupbyregister">
+                      ดึงคนที่ลงทะเบียนร่วมด้วย
+                    </label>
                   </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" value="complete" id="complete" checked>
+                    <label for="complete">
+                      ลงทะเบียนสำเร็จเท่านั้น
+                    </label>
                   </div>
                 </div>
 
-                  <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                    <div class="input-group mb-6">
-                    <div class="input-group-text">
-                        <input class="form-check-input mt-0" type="checkbox" value="complete" id="complete" checked>
-                          <label  for="complete">
-                              ลงทะเบียนสำเร็จเท่านั้น
-                              </label>
-                    </div>
-                    </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+
+                    <input class="form-check-input mt-0" type="checkbox" value="newly" id="newly" checked>
+                    <label for="newly"> ไม่เคยมีคิวใน </label>
 
                   </div>
-                  <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
-                    <div class="input-group mb-6">
-                    <div class="input-group-text">
 
-                      <input class="form-check-input mt-0" type="checkbox" value="newly" id="newly" checked  >
-                      <label for="newly" > ไม่เคยมีคิวใน </label>
+                  <input type="text" id="newlyday" class="form-control" aria-label="Text input with checkbox"
+                    placeholder="" value=0>
+                  <span class="input-group-text">วันก่อน </span>
+                </div>
+              </div>
 
-                    </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" value="caseconfirm" id="caseconfirm">
+                    <label for="caseconfirm"> เคยมานัดหมายเมื่อ </label>
 
-                    <input type="text" id="newlyday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
-                    <span class="input-group-text">วันก่อน </span>
+                  </div>
+
+                  <input type="text" id="caseconfirmday" class="form-control" aria-label="Text input with checkbox"
+                    placeholder="" value=2>
+                  <span class="input-group-text">วัน </span>
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+                    ลงทะเบียนเมื่อ
+
+                  </div>
+
+                  <input type="text" id="registerday" class="form-control" aria-label="Text input with checkbox"
+                    placeholder="" value=0>
+                  <span class="input-group-text">วันก่อน</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-3">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+
+                    <input class="form-check-input mt-0" onchange="pre_search()" type="checkbox"
+                      id="day_count_sort_checker">
+                    <label for="day_count_sort_checker"> Sort by Day Count</label>
+
                   </div>
                 </div>
+              </div>
 
-                  <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
-                    <div class="input-group mb-6">
-                    <div class="input-group-text">
-                      <input class="form-check-input mt-0" type="checkbox" value="caseconfirm" id="caseconfirm"   >
-                      <label for="caseconfirm" >  เคยมานัดหมายเมื่อ </label>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
 
-                    </div>
+                    <input class="form-check-input mt-0" type="checkbox" id="day_count_filter_checker" checked>
+                    <label for="day_count_filter_checker"> Day Count </label>
 
-                    <input type="text" id="caseconfirmday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=2>
-                    <span class="input-group-text">วัน </span>
-                  </div>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                      <div class="input-group mb-6">
-                      <div class="input-group-text">
-                        ลงทะเบียนเมื่อ
-
-                      </div>
-
-                      <input type="text" id="registerday" class="form-control" aria-label="Text input with checkbox" placeholder="" value=0>
-                      <span class="input-group-text">วันก่อน</span>
-                    </div>
-                      </div>
-
-                      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-3">
-                        <div class="input-group mb-6">
-                        <div class="input-group-text">
-
-                          <input class="form-check-input mt-0" onchange="pre_search()" type="checkbox" id="day_count_sort_checker">
-                          <label for="day_count_sort_checker" > Sort by Day Count</label>
-
-                        </div>
-                      </div>
-                    </div>
-
-                      <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-3">
-                        <div class="input-group mb-6">
-                        <div class="input-group-text">
-
-                          <input class="form-check-input mt-0" type="checkbox" id="day_count_filter_checker" checked>
-                          <label for="day_count_filter_checker" > Day Count </label>
-
-                        </div>
-
-                        <input type="number" id="day_count_filter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=14>
-                        <span class="input-group-text">วัน </span>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3" >
-                      <div class="input-group mb-6">
-                      <div class="input-group-text">
-
-                      <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker" >
-                        <label for="search_hospital_checker" > จากศูนย์</label>
-
-                        <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" >
-                          <option value="" >โปรดเลือก</option>
-
-                        </select>
-
-                        <label> ระยะทาง</label>
-
-                      </div>
-
-                      <input type="number" id="search_hospital_meter" class="form-control" aria-label="Text input with checkbox" placeholder="" value=1000 >
-                      <span class="input-group-text">เมตร </span>
-                    </div>
                   </div>
 
-
+                  <input type="number" id="day_count_filter" class="form-control" aria-label="Text input with checkbox"
+                    placeholder="" value=14>
+                  <span class="input-group-text">วัน </span>
                 </div>
+              </div>
+              <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+
+                    <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker">
+                    <label for="search_hospital_checker"> จากศูนย์</label>
+
+                    <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
+                      <option value="">โปรดเลือก</option>
+
+                    </select>
+
+                    <label> ระยะทาง</label>
+
+                  </div>
+
+                  <input type="number" id="search_hospital_meter" class="form-control"
+                    aria-label="Text input with checkbox" placeholder="" value=1000>
+                  <span class="input-group-text">เมตร </span>
+                </div>
+              </div>
+
+
+            </div>
           </div>
-      </div>
-      <div class="row mb-1 d-flex justify-content-start">
-        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        </div>
+        <div class="row mb-1 d-flex justify-content-start">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
             <div class="row d-flex justify-content-center ">
 
@@ -148,7 +154,7 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="search_travel" id="search_travel">
-                    <option value=""  selected>เลือกการเดินทาง</option>
+                    <option value="" selected>เลือกการเดินทาง</option>
                     <option value="รถส่วนตัวได้">รถส่วนตัวได้</option>
                     <option value="รถส่วนตัวได้บางครั้ง">รถส่วนตัวได้บางครั้ง</option>
                     <option value="ต้องการรถจากศูนย์">ต้องการรถจากศูนย์</option>
@@ -161,7 +167,7 @@
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                 <div class="form-group">
                   <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
-                    <option value=""  selected>เลือกสี</option>
+                    <option value="" selected>เลือกสี</option>
                     <option value="NONE">ยังไม่ระบุ</option>
                     <option value="GREEN">เขียว</option>
                     <option value="YELLOW">เหลือง</option>
@@ -180,9 +186,9 @@
               </div>
             </div>
 
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
       <!-- แบ่งหน้า -->
       <div class="row mt-4">
         <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -192,11 +198,12 @@
       <!-- // แบ่งหน้า -->
 
       <div class="table-responsive mt-2">
-        <table class="table table-bordered table-hover show_startpage font-weight-light" >
+        <table class="table table-bordered table-hover show_startpage font-weight-light">
           <thead class="text-center">
             <tr>
               <th scope="col" class="text-secondary">
-                <input type="checkbox" id="select_all_patient" class="form-check-input autopatient" onchange="selectAll()" checked>
+                <input type="checkbox" id="select_all_patient" class="form-check-input autopatient"
+                  onchange="selectAll()" checked>
                 <label for="select_all_patient"> เลือก</label>
               </th>
 
@@ -213,56 +220,63 @@
           </thead>
           <tbody id="row_patientlist" style="display:none;">
             <tr>
-             <td class="text-center table-middle" rowspan=2>
-              <div class="form-check">
-                <input class="form-check-input autopatient" type="checkbox" value="##patient-id##" id="selectpatient##patient-id##" name="selectpatients" checked onclick="recalulate()">
-                <label class="form-check-label" for="selectpatient##patient-id##">
-                  ###patient-id##
-                  <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
-                </label>
+              <td class="text-center table-middle" rowspan=2>
+                <div class="form-check">
+                  <input class="form-check-input autopatient" type="checkbox" value="##patient-id##"
+                    id="selectpatient##patient-id##" name="selectpatients" checked onclick="recalulate()">
+                  <label class="form-check-label" for="selectpatient##patient-id##">
+                    ###patient-id##
+                    <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
+                  </label>
 
-              </div>
-            </td>
-
-
-              <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor## ##patient-displayName##
+                </div>
               </td>
 
-              <td class="text-center table-middle" nowrap="nowarp">##patient-firstname## ##patient-lastname## (##patient-age## ปี)
+
+              <td class="text-center table-middle"><span id="Admin_color"></span>##patient-AdminColor##
+                ##patient-displayName##
+              </td>
+
+              <td class="text-center table-middle" nowrap="nowarp">##patient-firstname## ##patient-lastname##
+                (##patient-age## ปี)
                 <br>##patient-idcard##
 
               </td>
 
-              <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district## จ.##patient-address.province## ##patient-address.zipcode##</td>
+              <td class="text-center table-middle">##patient-address.subdistrict## อ.##patient-address.district##
+                จ.##patient-address.province## ##patient-address.zipcode##</td>
               <td class="text-center table-middle">##patient-mobileno## <br><small>##patient-createDate##</small></td>
 
               <td class="text-center table-middle">##patient-day_count##</td>
               <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
               <td class="text-center table-middle">##patient-travelprefer##
-              <font color='red'><small>##patient-distance##</small></font>
+                <font color='red'><small>##patient-distance##</small></font>
 
               </td>
               <td class="text-center table-middle" rowspan=2>##patient-status##
                 <br>
-<font color='blue'>##patient-comment##</font>
- ##patient-otherpatient##
+                <font color='blue'>##patient-comment##</font>
+                ##patient-otherpatient##
               </td>
 
               <td class="text-center" rowspan=2>
-                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="view_symptom('##patient-id##')">รายละเอียด</button>
-                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="update_comment('##patient-id##')">ใส่หมายเหตุ</button>
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2"
+                  onclick="view_symptom('##patient-id##')">รายละเอียด</button>
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2"
+                  onclick="update_comment('##patient-id##')">ใส่หมายเหตุ</button>
               </td>
             </tr>
-            <tr >
+            <tr>
               <td colspan="5">
-                <span  nowrap="warp"><small>ลงทะบียน <font color='blue'>##patient-createdate## </font>อาการ :   ##patient-firstsymptomdetail## ##patient-init_symptoms.disease##
-                  ##patient-init_symptoms.symptoms##  ##patient-init_symptoms.comment##  :##patient-lastsymptomdetail##
-                </small> </span>
+                <span nowrap="warp"><small>ลงทะบียน <font color='blue'>##patient-createdate## </font>อาการ :
+                    ##patient-firstsymptomdetail## ##patient-init_symptoms.disease##
+                    ##patient-init_symptoms.symptoms## ##patient-init_symptoms.comment## :##patient-lastsymptomdetail##
+                  </small> </span>
               </td>
               <td colspan=2>
                 <small><a href="/admin/appointment?find_patientid=##patient-id##" target="_blank">ดูนัดหมาย</a></small>
               </td>
-              </tr>
+            </tr>
           </tbody>
           <tbody id="show_patientlist">
             <tr>
@@ -277,22 +291,22 @@
         <div class="form-group">
           สถานพยาบาล
           <select class="form-select" aria-label="" id="autohospital">
-            <option  disabled>Select ศูนย์ X-ray</option>
-            <option value="1">นเรนทร กรุงเทพฯใต้ </option>
+            <option value="">Select ศูนย์ X-ray</option>
+            <!-- <option value="1">นเรนทร กรุงเทพฯใต้ </option>
             <option value="2">Closed Site </option>
-            <option value="3" selected >นเรนทร กรุงธนเหนือ 	</option>
+            <option value="3" selected>นเรนทร กรุงธนเหนือ </option> -->
           </select>
-          </div>
-            </div>
-            <br>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+        </div>
+      </div>
+      <br>
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6">
         <div class="form-group">
-          เพิ่มผู้ป่วยเข้าไปในระบบ จำนวน  <span id="totalrecord" class ="badge bg-danger"> </span> คน
+          เพิ่มผู้ป่วยเข้าไปในระบบ จำนวน <span id="totalrecord" class="badge bg-danger"> </span> คน
           ระบุ วันเวลาเริ่มต้นที่ ให้ค้นหาคิว
           <input type="datetime-local" class="form-control" id="autodatestart">
         </div>
       </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6">
         <div class="form-group">
           <br>
           <button type="submit" class="btn btn-primary border-0" onclick="submitauto()">
@@ -312,78 +326,81 @@
   var template_patient_row = $('#row_patientlist').html();
   var fncsearch;
   var current_patientlist;
-  var html_obj = {search_comment:"find_comment",
-                  search_surname:"find_surname",
-                  search_subdistrict:"find_subdistrict",
-                  search_district:"find_district",
-                  search_travel:"find_travel",
-                  groupbyregister:"find_grouping",
-                  search_color:"find_color",
-                  search_tel:"find_tel",
-                  search_passport:"find_passport",
-                  search_travel:"find_travel",
-                  search_zip:"find_zipcode",
-                  search_cid:"find_idcard",
-                  search_idno:"find_id",
-                  registerday:"find_registerday",
-                  search_name:"findname",
-                  complete:"find_completeregister"
-                }
-        var html_obj_option = {
-          newlyday:"find_newly",
-          caseconfirmday:"find_caseconfirm",
+  var html_obj = {
+    search_comment: "find_comment",
+    search_surname: "find_surname",
+    search_subdistrict: "find_subdistrict",
+    search_district: "find_district",
+    search_travel: "find_travel",
+    groupbyregister: "find_grouping",
+    search_color: "find_color",
+    search_tel: "find_tel",
+    search_passport: "find_passport",
+    search_travel: "find_travel",
+    search_zip: "find_zipcode",
+    search_cid: "find_idcard",
+    search_idno: "find_id",
+    registerday: "find_registerday",
+    search_name: "findname",
+    complete: "find_completeregister"
+  }
+  var html_obj_option = {
+    newlyday: "find_newly",
+    caseconfirmday: "find_caseconfirm",
 
 
-        }
+  }
 
-    $(document).ready(() =>
-    {
-      selectKiosk();
-    })
+  $(document).ready(() => {
+    selectKiosk();
+    $('#autohospital').adv_select({
+      url: '/api-backend/admin/module/hospital/list',
+      name: 'name',
+      val: {},
+      template: "#{{_id}}: {{name}}",
+      id: '_id',
+      maxshow: 10
+    }, null, false);
+  })
 
-  function pre_search(){
-    var searchdata ={};
-    if($('#newly').is(":checked")){
-        searchdata.find_newly= $('#newlyday').val()
+  function pre_search() {
+    var searchdata = {};
+    if ($('#newly').is(":checked")) {
+      searchdata.find_newly = $('#newlyday').val()
     }
 
-    if($("#day_count_filter_checker").is(":checked"))
-    {
+    if ($("#day_count_filter_checker").is(":checked")) {
       searchdata.find_daycount = $("#day_count_filter").val()
     }
 
-    if($("#day_count_sort_checker").is(":checked"))
-    {
+    if ($("#day_count_sort_checker").is(":checked")) {
       searchdata.sort_daycount = true
     }
 
-    if($('#caseconfirm').is(":checked")){
-        searchdata.find_caseconfirm = $("#caseconfirmday").val()
+    if ($('#caseconfirm').is(":checked")) {
+      searchdata.find_caseconfirm = $("#caseconfirmday").val()
     }
 
-    if(document.getElementById('search_hospital').value && $("#search_hospital_checker").is(":checked")){
+    if (document.getElementById('search_hospital').value && $("#search_hospital_checker").is(":checked")) {
 
-        if ($("#search_hospital_meter").val() <= 0)
-        {
-          alert("ค่าระยะทางไม่ควรเป็นลบ")
-        }
-        else
-        {
-          searchdata.find_hospital = parseInt(document.getElementById('search_hospital').value)
-          searchdata.find_hospital_range = parseFloat($("#search_hospital_meter").val())
-        }
+      if ($("#search_hospital_meter").val() <= 0) {
+        alert("ค่าระยะทางไม่ควรเป็นลบ")
+      }
+      else {
+        searchdata.find_hospital = parseInt(document.getElementById('search_hospital').value)
+        searchdata.find_hospital_range = parseFloat($("#search_hospital_meter").val())
+      }
     }
-    else if ($("#search_hospital_checker").is(":checked"))
-    {
+    else if ($("#search_hospital_checker").is(":checked")) {
       alert("คุณไม่ได้เลือกโรงพยาบาล")
     }
 
-    map_html_to_obj(html_obj,searchdata)
-    fncsearch({  search: searchdata});
+    map_html_to_obj(html_obj, searchdata)
+    fncsearch({ search: searchdata });
     return false;
   }
-  function refreshpage(rawdata,clearsearch) {
-    console.log("GLOBAL_USER",GLOBAL_USER)
+  function refreshpage(rawdata, clearsearch) {
+    console.log("GLOBAL_USER", GLOBAL_USER)
 
     var search_setting = {
       posturl: '/api-backend/admin/patientlist',
@@ -391,7 +408,7 @@
       pagesize: 10,
       showfunction: show_patient_list,
       limit: 100,
-      search: {find_completeregister : "complete",find_newly:"0"}    //default searching
+      search: { find_completeregister: "complete", find_newly: "0" }    //default searching
     }
 
     var pagenumber = getParameterByName('page', window.location.search);
@@ -399,79 +416,75 @@
       search_setting.page = pagenumber;
     }
     // console.log('SEARCH ', search_setting);
-    fncsearch = ADV_search(search_setting,clearsearch); // Defult always search at first
+    fncsearch = ADV_search(search_setting, clearsearch); // Defult always search at first
     return false;
   }
 
 
-  function show_patient_list(objdata, totalrecord,filed2show,queryobj) {
-
-    if(queryobj){
-      map_obj_to_html(queryobj.search,html_obj)
-      map_obj_to_html(queryobj.search,html_obj_option)
+  function show_patient_list(objdata, totalrecord, filed2show, queryobj) {
+    console.log("objdata", objdata)
+    if (queryobj) {
+      map_obj_to_html(queryobj.search, html_obj)
+      map_obj_to_html(queryobj.search, html_obj_option)
 
     }
-    $('#totalrecord').html(totalrecord);
+    $('#totalrecord').html(objdata.obj.length);
     if (objdata.result && totalrecord > 0) {
       current_patientlist = working.patient = objdata.obj;
 
       //console.log("OBJDATA: " + objdata.obj)
-      var STATUSSHOW =["สิ้นสุดกระบวนการ","ยังไม่ได้ลงทะเบียน","ลงทะเบียนแล้ว","ยังลงทะเบียนไม่เสร็จ (2/3)","ยังลงทะเบียนไม่เสร็จ (1/3)"]
+      var STATUSSHOW = ["สิ้นสุดกระบวนการ", "ยังไม่ได้ลงทะเบียน", "ลงทะเบียนแล้ว", "ยังลงทะเบียนไม่เสร็จ (2/3)", "ยังลงทะเบียนไม่เสร็จ (1/3)"]
       objdata.obj.map(item => {
-         item.init_symptoms ? item.day_count =  moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
-         item.createdate ? item.createdate = moment(item.createdate, "X").fromNow('days') + " ที่แล้ว": "";
-         item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
-         if (item.color == "RED") {
-           item.color = '<span style="color: #C70039;">RED</span>'
-         } else if (item.color == "YELLOW") {
-           item.color = '<span style="color: #fcba03;">YELLOW</span>'
-         } else if (item.color == "GREEN") {
-           item.color = '<span style="color: green;">GREEN</span>'
-         }else if (item.color == "WHITE") {
-            item.color = 'สิ้งสุดกระบวนการ'
-          }else{
-           item.color = "N/A"
-         }
+        item.init_symptoms ? item.day_count = moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
+        item.createdate ? item.createdate = moment(item.createdate, "X").fromNow('days') + " ที่แล้ว" : "";
+        item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
+        if (item.color == "RED") {
+          item.color = '<span style="color: #C70039;">RED</span>'
+        } else if (item.color == "YELLOW") {
+          item.color = '<span style="color: #fcba03;">YELLOW</span>'
+        } else if (item.color == "GREEN") {
+          item.color = '<span style="color: green;">GREEN</span>'
+        } else if (item.color == "WHITE") {
+          item.color = 'สิ้งสุดกระบวนการ'
+        } else {
+          item.color = "N/A"
+        }
         // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
-        if (item.color_change > 0)
-        {
-          item.color_change = '<span style="color: #C70039;"> +' + item.color_change +'</span>'
+        if (item.color_change > 0) {
+          item.color_change = '<span style="color: #C70039;"> +' + item.color_change + '</span>'
         }
-        else if (item.color_change < 0)
-        {
-          item.color_change = '<span style="color: green;">' + item.color_change +'</span>'
+        else if (item.color_change < 0) {
+          item.color_change = '<span style="color: green;">' + item.color_change + '</span>'
         }
-        else if (item.color_change == 0)
-        {
+        else if (item.color_change == 0) {
           item.color_change == 0
         }
-        else
-        {
+        else {
           item.color_change = "-"
         }
-          var temp_other='';
-          if(Array.isArray(item.otherpatient) &&  item.otherpatient.length > 0 ){
-              temp_other = "<br>ลงทะเบียนแทน  "
-              item.otherpatient.map((o)=>{
-                temp_other +=`<a href="/admin/patientlist?find_id=${o}" target="_blank">#${o} </a> `
-              });
-              item.otherpatient = temp_other;
-          }
-          if(item.main_userid){
-              item.otherpatient = `<br>ลงทะเบียนแทน <b> โดย Patient# <a href="/admin/patientlist?find_id=${item.main_userid}"> ${item.main_userid} </a> `;
-          }
+        var temp_other = '';
+        if (Array.isArray(item.otherpatient) && item.otherpatient.length > 0) {
+          temp_other = "<br>ลงทะเบียนแทน  "
+          item.otherpatient.map((o) => {
+            temp_other += `<a href="/admin/patientlist?find_id=${o}" target="_blank">#${o} </a> `
+          });
+          item.otherpatient = temp_other;
+        }
+        if (item.main_userid) {
+          item.otherpatient = `<br>ลงทะเบียนแทน <b> โดย Patient# <a href="/admin/patientlist?find_id=${item.main_userid}"> ${item.main_userid} </a> `;
+        }
 
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
-        if(item.lastsymptom){
-          item.lastsymptomdetail = " ล่าสุด Breathing: "+item.lastsymptom.breathing +" spo_room_air:" +item.lastsymptom.spo_room_air
+        if (item.lastsymptom) {
+          item.lastsymptomdetail = " ล่าสุด Breathing: " + item.lastsymptom.breathing + " spo_room_air:" + item.lastsymptom.spo_room_air
           item.lastsymptomdetail += "<BR>"
         }
-        if(item.init_symptoms){
-          item.firstsymptomdetail = "Breathing: "+item.init_symptoms.breathing +" spo_room_air:" +item.init_symptoms.spo_room_air
+        if (item.init_symptoms) {
+          item.firstsymptomdetail = "Breathing: " + item.init_symptoms.breathing + " spo_room_air:" + item.init_symptoms.spo_room_air
           item.firstsymptomdetail += "<BR>"
         }
-        if(item.distance >0){
-           item.distance = Math.floor(item.distance) + " เมตร จากศูนย์ X-ray"
+        if (item.distance > 0) {
+          item.distance = Math.floor(item.distance) + " เมตร จากศูนย์ X-ray"
         }
       })
 
@@ -492,48 +505,51 @@
     go2View("patient?id=" + patient_id)
 
   }
-  function update_comment(patient_id){
-    update_patient_comment(patient_id,refreshpage)  // predefine in preload
+  function update_comment(patient_id) {
+    update_patient_comment(patient_id, refreshpage)  // predefine in preload
   }
-  function recalulate(){
-    $('#totalrecord').html($('.autopatient:checked').length - 1)
+  function recalulate() {
+    console.log($('.autopatient:checked').length - 2)
+    var total = $('.autopatient:checked').length - 2
+    total < 0 ? total = 0 : true;
+    $('#totalrecord').html(total)
   }
   function submitauto() {
-    if(!$('#autohospital').val()){
-      alert ("Please Select hospital")
+    if (!$('#autohospital').val()) {
+      alert("Please Select hospital")
       return;
     }
-    if(!$('#autodatestart').val()){
-      alert ("Please Select Date ในการเริ่มทำระบบ Auto")
+    if (!$('#autodatestart').val()) {
+      alert("Please Select Date ในการเริ่มทำระบบ Auto")
       return;
     }
 
-    if(!confirm("คุณกำลังเลือกคนกลุ่มนี้ให้เข้าคิวในระบบ ?")){
+    if (!confirm("คุณกำลังเลือกคนกลุ่มนี้ให้เข้าคิวในระบบ ?")) {
       return;
 
     }
     // all patientid
     var allpatient = [];
-    var obj =$('.autopatient:checked');
+    var obj = $('.autopatient:checked');
     console.log();
-    for(var x=0; x < obj.length;x++){
-      if($(obj[x]).val() > 0)
-      allpatient.push($(obj[x]).val())
+    for (var x = 0; x < obj.length; x++) {
+      if ($(obj[x]).val() > 0)
+        allpatient.push($(obj[x]).val())
     }
 
-    console.log("Datetime",$('#autodatestart').val())
-    var postData ={
-        hospital:$('#autohospital').val(),
-        patient: allpatient,
-        appointtime: Math.floor(new Date($('#autodatestart').val())/1000)
+    console.log("Datetime", $('#autodatestart').val())
+    var postData = {
+      hospital: $('#autohospital').val(),
+      patient: allpatient,
+      appointtime: Math.floor(new Date($('#autodatestart').val()) / 1000)
     }
-    if(Number(postData.appointtime) > 0 ){
-      $.postJSON(MAINURL + '/api-backend/admin/appoint/auto',postData,(msg)=>{
-          alert_success("นำผู้ป่วยเข้าคิวแล้ว")
-          refreshpage();
+    if (Number(postData.appointtime) > 0) {
+      $.postJSON(MAINURL + '/api-backend/admin/appoint/auto', postData, (msg) => {
+        alert_success("นำผู้ป่วยเข้าคิวแล้ว")
+        refreshpage();
       })
-    }else{
-        alert ("คุณไม่ได้เลือกวันที่หรือ กรุณาใช้ Chrome เพื่อใช้งานวันที่")
+    } else {
+      alert("คุณไม่ได้เลือกวันที่หรือ กรุณาใช้ Chrome เพื่อใช้งานวันที่")
     }
 
 
@@ -547,18 +563,15 @@
   }
 
 
-  function selectAll()
-  {
+  function selectAll() {
     let patient_check = document.getElementsByName("selectpatients")
 
     let checked = false;
-    if(document.getElementById('select_all_patient').checked)
-    {
+    if (document.getElementById('select_all_patient').checked) {
       checked = true
     }
 
-    for (let i = 0; i < patient_check.length; i++)
-    {
+    for (let i = 0; i < patient_check.length; i++) {
       patient_check[i].checked = checked
     }
     recalulate();

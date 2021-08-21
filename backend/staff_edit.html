@@ -1,125 +1,136 @@
-
-
-
 <br />
-    <br />
-    <br />
+<br />
+<br />
 <div class="main_page mb-5">
     <div class="container">
         <div class="card-body" style="width: 85%;">
-<br />
-    <br />
-    <br />
-<div class="main_page mb-5">
-    <div class="container">
-        <div class="card-body" style="width: 85%;">
-            <div class="p-2 mr-5 ml-5">
-                <h3 style="color: #0d6efd;">Staff</h3>
-                <br>
-                <div class="card">
-                    <div class="card-body" style="text-align: left;">
-                        <div id="staff_data" style="display: none;">
-                            <h4 style="color: #289de9;">Information</h4>
-                            <div> <img src="##STAFF-pictureUrl##" alt="Staff Image" width="45%" height="auto" style="border-radius: 15px 50px;"> </div>
-                                <br>
-                                <strong>#</strong> ##STAFF-id##
-                                <br />
-                                <strong>ชื่อในไลน์: </strong>  ##STAFF-displayName##
-                                <br />
-                                <strong>วันที่แต่งตั้ง: </strong> ##STAFF-createdate##
-                                <br />
-                                <strong>วันที่อัพเดท: </strong> ##STAFF-lastupdate##
-                                <br />
-                                <strong>หน้าที่: </strong> ##STAFF-role##
-                                <br />
-                                <br>
-                                <strong>สังกัด: </strong> ##STAFF-affiliation##
-                        </div>
-                        <div id="staff_data_showing">
-
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-
-                <div class = "card">
-                    <div class="card-body">
-                        <h4 style="color: #289de9;">Organize</h4> <br>
-                        <div id="organize_zone" style="text-align: left;">
-                            <strong>จัดการ</strong><br><br>
-                                <button type="button" class="btn btn-danger" disabled>ลบออกจากเจ้าหน้าที่</button>
-                            <br><br><hr><br>
-                            <strong >แก้ไขสถานะ</strong><br><br>
-                            <div class="row">
-                                <div class="col-md-3" style="text-align: left;">
-                                    <strong style="text-align: left;" id="position_text">ตำแหน่ง:</strong>
-                                </div>
-                                <br>
-                            </div>
+            <br />
+            <br />
+            <br />
+            <div class="main_page mb-5">
+                <div class="container">
+                    <div class="card-body" style="width: 85%;">
+                        <div class="p-2 mr-5 ml-5">
+                            <h3 style="color: #0d6efd;">Staff</h3>
                             <br>
-                            
-                            <div class="row" style="text-align: left;">
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_SUPERADMIN" value="SUPERADMIN">
-                                    <label for="position">หัวหน้าแอดมิน</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_DEVELOPER" value="DEVELOPER">
-                                    <label for="position">นักพัฒนา</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_SITEADMIN" value="SITEADMIN">
-                                    <label for="position">แอดมินประจำไซต์</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_VOLUNTEER" value="VOLUNTEER">
-                                    <label for="position">อาสาสมัคร</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_CALLCEN" value="CALLCEN">
-                                    <label for="position">คอลเซ็นเตอร์</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_XRAY" value="XRAY">
-                                    <label for="position">หน่วย X-Ray</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="checkbox" class="form-check-input" name="position" id="position_DRIVER" value="DRIVER">
-                                    <label for="position">พนักงานขับรถ</label>
-                                </div>
-                                
-                                
-                            </div>
-                            <br>
-
-                            <div class="row">
-                                    <strong style="text-align: left;" >สังกัดสถานพยาบาล: </strong> <br><br>
-                                    <div class="col-md-12"></div>
-
-                                    <div id="hospital_select" style="display: none;">
-
-                                        <div class="col-md-12">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" id="hospital_##HOSPITAL-id##" name="hospital_select" value="##HOSPITAL-id##">
-                                                    <label class="form-check-label" for="exampleCheck1">##HOSPITAL-name##</label>
-                                                </div>
-                                        </div>
+                            <div class="card">
+                                <div class="card-body" style="text-align: left;">
+                                    <div id="staff_data" style="display: none;">
+                                        <h4 style="color: #289de9;">Information</h4>
+                                        <div> <img src="##STAFF-pictureUrl##" alt="Staff Image" width="45%"
+                                                height="auto" style="border-radius: 15px 50px;"> </div>
+                                        <br>
+                                        <strong>#</strong> ##STAFF-id##
+                                        <br />
+                                        <strong>ชื่อในไลน์: </strong> ##STAFF-displayName##
+                                        <br />
+                                        <strong>วันที่แต่งตั้ง: </strong> ##STAFF-createdate##
+                                        <br />
+                                        <strong>วันที่อัพเดท: </strong> ##STAFF-lastupdate##
+                                        <br />
+                                        <strong>หน้าที่: </strong> ##STAFF-role##
+                                        <br />
+                                        <br>
+                                        <strong>สังกัด: </strong> ##STAFF-affiliation##
                                     </div>
-        
-                                                <div id="hospital_select_showing">
-            
+                                    <div id="staff_data_showing">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 style="color: #289de9;">Organize</h4> <br>
+                                    <div id="organize_zone" style="text-align: left;">
+                                        <strong>จัดการ</strong><br><br>
+                                        <button type="button" class="btn btn-danger"
+                                            disabled>ลบออกจากเจ้าหน้าที่</button>
+                                        <br><br>
+                                        <hr><br>
+                                        <strong>แก้ไขสถานะ</strong><br><br>
+                                        <div class="row">
+                                            <div class="col-md-3" style="text-align: left;">
+                                                <strong style="text-align: left;" id="position_text">ตำแหน่ง:</strong>
+                                            </div>
+                                            <br>
+                                        </div>
+                                        <br>
+
+                                        <div class="row" style="text-align: left;">
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_SUPERADMIN" value="SUPERADMIN">
+                                                <label for="position">หัวหน้าแอดมิน</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_DEVELOPER" value="DEVELOPER">
+                                                <label for="position">นักพัฒนา</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_SITEADMIN" value="SITEADMIN">
+                                                <label for="position">แอดมินประจำไซต์</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_VOLUNTEER" value="VOLUNTEER">
+                                                <label for="position">อาสาสมัคร</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_CALLCEN" value="CALLCEN">
+                                                <label for="position">คอลเซ็นเตอร์</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_XRAY" value="XRAY">
+                                                <label for="position">หน่วย X-Ray</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" class="form-check-input" name="position"
+                                                    id="position_DRIVER" value="DRIVER">
+                                                <label for="position">พนักงานขับรถ</label>
+                                            </div>
+
+
+                                        </div>
+                                        <br>
+
+                                        <div class="row">
+                                            <strong style="text-align: left;">สังกัดสถานพยาบาล: </strong> <br><br>
+                                            <div class="col-md-12"></div>
+
+                                            <div id="hospital_select" style="display: none;">
+
+                                                <div class="col-md-12">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="hospital_##HOSPITAL-id##" name="##HOSPITAL-name##"
+                                                            value="##HOSPITAL-id##">
+                                                        <label class="form-check-label"
+                                                            for="exampleCheck1">##HOSPITAL-name##</label>
+                                                    </div>
                                                 </div>
                                             </div>
 
+                                            <div id="hospital_select_showing">
+
+                                            </div>
+                                        </div>
+
                                     </div>
-                                
+
                                 </div>
 
                             </div>
-                            
+
                             <br><br>
-                            <button type="submit" class="btn btn-primary" onclick="AddStaffDataToDB()" width="10" height="10">ยืนยัน</button>
+                            <button type="submit" class="btn btn-primary" onclick="AddStaffDataToDB()" width="10"
+                                height="10">ยืนยัน</button>
                         </div>
 
                     </div>
@@ -132,137 +143,136 @@
 
 <script>
 
-var position_name
+    var position_name
 
-$(document).ready(() =>
-{
-    $.getJSON(MAINURL + "/api-backend/admin/hospital/get",(msg) =>
-      {
-        console.log(msg)
-        position_name = hash_replace($("#hospital_select").html(), 'HOSPITAL', msg)
-        $("#hospital_select_showing").html(position_name);
-      })
-})
+    $(document).ready(() => {
+        
+    })
 
 
-    function refreshpage()
-    {
-        if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
-                return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
-            }
-        console.log("GLOBAL_USER",GLOBAL_USER)
-        if(!Array.isArray(GLOBAL_USER.role) || GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1){
-          return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
+    function refreshpage() {
+        if (!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)) {
+            return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
+        }
+        console.log("GLOBAL_USER", GLOBAL_USER)
+        if (!Array.isArray(GLOBAL_USER.role) || GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1) {
+            return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
         }
 
         var staff_id = getParameterByName('id', window.location.search);
-
-        $.postJSON(MAINURL + "/api-backend/admin/staff/view", {_id:staff_id},(msg) =>
-        {
-            let tmp;
-            tmp = hash_replace($('#staff_data'),"STAFF",msg.detail)
-            $("#staff_data_showing").html(tmp)
+        $.getJSON(MAINURL + "/api-backend/admin/hospital/get", (msg) => {
+            position_name = hash_replace($("#hospital_select").html(), 'HOSPITAL', msg)
+            $("#hospital_select_showing").html(position_name);
+            mapDataUser(staff_id);
         })
     }
 
-    function AddStaffDataToDB()
-        {
-            if(!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)){
-                return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
-            }
-
-            var patientid = getParameterByName('id', window.location.search);
-            
-            //let role = document.getElementById('position').value
-
-            //let affiliation = document.getElementById('hospital_select_showing').value
-
-            let role_options = document.getElementsByName('position')
-            let role = []
-            let isRole = false;
-
-            let hospital_options = document.getElementsByName('hospital_select')
-            let hospital = []
-            let isHospital = false
-
-            //roles
-            for (let i = 0; i < role_options.length; i++)
-            {
-                if (role_options[i].checked)
-                {
-                    console.log("option checked: " + role_options[i].value)
-                    if (role_options[i].value == "SUPERADMIN" && GLOBAL_USER.role.indexOf("SUPERADMIN") == -1)
-                    {
-                        return alert("ไม่อนุญาตให้แต่งตั้งหัวหน้าแอดมินโดยพละการ")
+    async function mapDataUser(staff_id) {
+        $.postJSON(MAINURL + "/api-backend/admin/staff/view", { _id: staff_id }, async (msg) => {
+            let tmp;
+            console.log(msg)
+            tmp = hash_replace($('#staff_data'), "STAFF", msg.detail)
+            $("#staff_data_showing").html(tmp)
+            if(msg.detail) {
+                if(msg.detail.affiliationID.length > 0) {
+                    for(let i = 0; i < msg.detail.affiliationID.length; i++) {
+                        $(`#hospital_${msg.detail.affiliationID[i]}`).prop('checked', true);
                     }
-                    role.push(role_options[i].value)
                 }
-            }
-            //hospital
-            for (let i = 0; i < hospital_options.length; i++)
-            {
-                if (hospital_options[i].checked)
-                {
-                    // console.log("option checked: " + hospital_options[i].value)
-                    hospital.push(parseInt(hospital_options[i].value))
-                }
-            }
-
-            console.log(role)
-
-            console.log(hospital)
-
-            if (role.indexOf("SUPERADMIN") == -1)
-            {
-                if (!confirm("การลบหน้าที่หัวหน้าแอดมินจะทำให้การแก้ไขในส่วนต่างๆ เกิดความยากลำบาก ต้องการดำเนินการต่อหรือไม่"))
-                {
-                    return 0;
-                }
-            }
-
-            if(confirm("แน่ใจหรือว่าจะแต่งตั้งให้เป็น " + role +"?"))
-            {
-                payload =
-                {
-                    _id: patientid,
-                    role: role,
-                    affiliation: hospital
-                }
-
-                console.log(payload);
-                $.postJSON(MAINURL + "/api-backend/admin/edit_role_staff",payload,(msg) =>
-                {
-                    console.log(msg);
-                    if (msg.code == 200)
-                    {
-                        return alert_success("อัพเดทเรียบร้อย")
+                if(msg.detail.role) {
+                    for(let i = 0; i < msg.detail.role.length; i++) {
+                        
                     }
-                    else if (msg.code == 404)
-                    {
-                        return alert("ไม่พบเจ้าหน้าที่ในฐานข้อมูล โปรดลองใหม่อีกครั้ง")
-                    }
-                    else
-                    {
-                        return alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง")
-                    }            
-                })
+                }
+            }
+        })
+        
+    }
+
+    function AddStaffDataToDB() {
+        if (!Array.isArray(GLOBAL_USER.role) || (GLOBAL_USER.role.indexOf("SUPERADMIN") == -1 && GLOBAL_USER.role.indexOf("DEVELOPER") == -1)) {
+            return alert("ไม่อนุญาตให้ทำการกระทำดังกล่าว")
+        }
+
+        var patientid = getParameterByName('id', window.location.search);
+
+        //let role = document.getElementById('position').value
+
+        //let affiliation = document.getElementById('hospital_select_showing').value
+
+        let role_options = document.getElementsByName('position')
+        let role = []
+        let isRole = false;
+
+        let hospital_options = document.getElementsByName('hospital_select')
+        let hospital = []
+        let isHospital = false
+
+        //roles
+        for (let i = 0; i < role_options.length; i++) {
+            if (role_options[i].checked) {
+                console.log("option checked: " + role_options[i].value)
+                if (role_options[i].value == "SUPERADMIN" && GLOBAL_USER.role.indexOf("SUPERADMIN") == -1) {
+                    return alert("ไม่อนุญาตให้แต่งตั้งหัวหน้าแอดมินโดยพละการ")
+                }
+                role.push(role_options[i].value)
+            }
+        }
+        //hospital
+        for (let i = 0; i < hospital_options.length; i++) {
+            if (hospital_options[i].checked) {
+                // console.log("option checked: " + hospital_options[i].value)
+                hospital.push(parseInt(hospital_options[i].value))
             }
         }
 
+        console.log(role)
 
-    function Toggle(Boxed,Boxed2)
-    {
+        console.log(hospital)
+
+        if (role.indexOf("SUPERADMIN") == -1) {
+            if (!confirm("การลบหน้าที่หัวหน้าแอดมินจะทำให้การแก้ไขในส่วนต่างๆ เกิดความยากลำบาก ต้องการดำเนินการต่อหรือไม่")) {
+                return 0;
+            }
+        }
+
+        if (confirm("แน่ใจหรือว่าจะแต่งตั้งให้เป็น " + role + "?")) {
+            payload =
+            {
+                _id: patientid,
+                role: role,
+                affiliation: hospital
+            }
+
+            console.log(payload);
+            $.postJSON(MAINURL + "/api-backend/admin/edit_role_staff", payload, (msg) => {
+                console.log(msg);
+                if (msg.code == 200) {
+                    return alert_success("อัพเดทเรียบร้อย")
+                }
+                else if (msg.code == 404) {
+                    return alert("ไม่พบเจ้าหน้าที่ในฐานข้อมูล โปรดลองใหม่อีกครั้ง")
+                }
+                else {
+                    return alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง")
+                }
+            })
+        }
+    }
+
+
+    function Toggle(Boxed, Boxed2) {
         var x = document.getElementById(Boxed);
-        if (x.style.display === "none") 
-        x.style.display = "block";
-        else 
-        x.style.display = "none"; 
-        
+        if (x.style.display === "none")
+            x.style.display = "block";
+        else
+            x.style.display = "none";
+
         //Extra for toggle 2 object
         var y = document.getElementById(Boxed2);
-        if (y.style.display === "none") 
-        y.style.display = "block";
-        else 
-        y.style.display = "none";
+        if (y.style.display === "none")
+            y.style.display = "block";
+        else
+            y.style.display = "none";
     }
 </script>
