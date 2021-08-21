@@ -114,6 +114,7 @@
                           <option value="">กรุณาเลือก</option>
                           <option value="รหัสประชาชน">บัตรประชาชน</option>
                           <option value="พาสปอร์ต">พาสปอร์ต</option>
+                          <option value="บัตรต่างด้าว">บัตรต่างด้าว</option>
                         </select>
                       </label>
                     </div>
@@ -504,7 +505,7 @@
         return alert_modal("กรุณากรอกรหัสประจำตัวประชาชน / พาสปอร์ต");
       }
 
-      if (type_idcard == "รหัสประชาชน" && !Script_checkID(idcard))
+      if ((type_idcard == "รหัสประชาชน" || type_idcard == "บัตรต่างด้าว") && !Script_checkID(idcard))
       {
         return alert_modal("กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง");
       }
