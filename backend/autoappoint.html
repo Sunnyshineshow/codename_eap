@@ -85,8 +85,7 @@
                 <div class="input-group mb-6">
                   <div class="input-group-text">
 
-                    <input class="form-check-input mt-0"   type="checkbox"
-                      id="day_count_sort_checker">
+                    <input class="form-check-input mt-0" type="checkbox" id="day_count_sort_checker">
                     <label for="day_count_sort_checker"> Sortby DayCount</label>
 
                   </div>
@@ -99,7 +98,7 @@
                   <div class="input-group-text">
 
                     <input class="form-check-input mt-0" type="checkbox" id="day_count_filter_checker" checked>
-                    <label for="day_count_filter_checker"> DayCount <  </label>
+                    <label for="day_count_filter_checker"> DayCount < </label>
 
                   </div>
 
@@ -235,7 +234,7 @@
             <tr>
               <td class="text-center table-middle" rowspan=2>
                 <div class="form-check">
-                  <input class="form-check-input autopatient" type="checkbox" value="##patient-id##"
+                  <input class="form-check-input autopatient chkpatient" type="checkbox" value="##patient-id##"
                     id="selectpatient##patient-id##" name="selectpatients" checked onclick="recalulate()">
                   <label class="form-check-label" for="selectpatient##patient-id##">
                     ###patient-id##
@@ -359,7 +358,7 @@
   var html_obj_option = {
     newlyday: "find_newly",
     caseconfirmday: "find_caseconfirm",
-    spo2more : "find_spo2more"
+    spo2more: "find_spo2more"
 
   }
 
@@ -422,7 +421,7 @@
       pagesize: 10,
       showfunction: show_patient_list,
       limit: 100,
-      search: { find_completeregister: "complete", find_newly: "0" ,spo2more:$('#spo2more').val()}    //default searching
+      search: { find_completeregister: "complete", find_newly: "0", spo2more: $('#spo2more').val() }    //default searching
     }
 
     var pagenumber = getParameterByName('page', window.location.search);
@@ -498,7 +497,7 @@
           item.firstsymptomdetail += "<BR>"
         }
         if (item.distance > 0) {
-          item.distance = Math.ceil(item.distance/100)/10 + " Km จากศูนย์ X-ray"
+          item.distance = Math.ceil(item.distance / 100) / 10 + " Km จากศูนย์ X-ray"
         }
       })
 
@@ -523,9 +522,14 @@
     update_patient_comment(patient_id, refreshpage)  // predefine in preload
   }
   function recalulate() {
-    console.log($('.autopatient:checked').length - 2)
-    var total = $('.autopatient:checked').length - 2
-    total < 0 ? total = 0 : true;
+    var element = document.getElementById("selectpatient##patient-id##");
+    element.classList.remove("chkpatient");
+
+    console.log("chkpatient", $('.chkpatient:checked').length)
+    // console.log($('.autopatient:checked').length - 2)
+    // var total = $('.autopatient:checked').length - 2
+    // total < 0 ? total = 0 : true;
+    var total = $('.chkpatient:checked').length
     $('#totalrecord').html(total)
   }
   function submitauto() {
