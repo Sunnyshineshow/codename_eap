@@ -229,11 +229,6 @@ function  refreshpage(rawdata,clearsearch) {
         return alert("คุณไม่ได้รับสิทธิให้เข้าดูในส่วนนี้ หากคิดว่านี่คือข้อผิดพลาด โปรดติดต่อทีมพัฒนา")
       }
 
-      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
-
-      console.log(new Date(shown_date) + " " + new Date(current_date * 1000))
-
-
   var search_setting = {
     posturl: '/api-backend/admin/vehiclelist',
     paginationDIV: $('.pagination_bar'),
@@ -291,6 +286,10 @@ function continue_search(rawdata,search_setting)
 }
 
 function show_patient_list(objdata, totalrecord) {
+      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
+      console.log(new Date(shown_date) + " " + new Date(current_date * 1000))
+
   console.log('objdata', objdata);
   if (objdata.result && totalrecord > 0) {
     working.patient = objdata.obj;
