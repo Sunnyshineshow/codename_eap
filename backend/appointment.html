@@ -47,13 +47,17 @@
                 </select>
               </div>
             </div>
-  <!--
+
             <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-              <label for="SearchDate_Start">วันที่</label>
+              <label for="search_date">วันที่</label>
               <input type="date" class="form-control" id="search_date" placeholder="ช่วงเวลา">
             </div>
 
-        -->
+            <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <label for="cleardate"></label>
+              <input id="cleardate" type="button" class="form-control btn btn-sm btn-outline-secondary" value = "ล้างวันที่" onclick = "clearDate()">
+            </div>
+
 
             <div class="row d-flex justify-start">
               <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
@@ -251,6 +255,9 @@
       }
       if ($('#search_status').val() !== "-2") {
           searchdata.find_status = $('#search_status').val()
+      }
+      if ($('#search_date').val()) {
+          searchdata.find_date = Math.floor(new Date($('#search_date').val()) / 1000)
       }
     fncsearch({
       search: searchdata
@@ -467,5 +474,10 @@
             }
           });
           console.log("moveslotto",slotid,movefrom,movepatient)
+        }
+
+        function clearDate()
+        {
+          document.getElementById('search_date').value = ""
         }
   </script>
