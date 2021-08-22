@@ -109,7 +109,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-check">
                                                         <input type="checkbox" class="form-check-input"
-                                                            id="hospital_##HOSPITAL-id##" name="##HOSPITAL-name##"
+                                                            id="hospital_##HOSPITAL-id##" name="hospital_select"
                                                             value="##HOSPITAL-id##">
                                                         <label class="form-check-label"
                                                             for="exampleCheck1">##HOSPITAL-name##</label>
@@ -181,7 +181,7 @@
                 }
                 if(msg.detail.role) {
                     for(let i = 0; i < msg.detail.role.length; i++) {
-                        
+                        $(`#position_${msg.detail.role[i]}`).prop('checked', true);
                     }
                 }
             }
