@@ -222,11 +222,11 @@
         </label>
         <span> หมายเหตุ :</span> <span id="q_comment_text"  style="color:blue"> </span> <span  class="badge rounded-pill  bg-light text-dark" onclick="update_queue_comment()" style="cursor: pointer;">comment...</span> <span id="bystaffname"></span>
         <hr>
-          รายการผู้ป่วย
+          รายการผู้ป่วย  <button onclick="toggletravelstaff()" class='btn btn-success' align="right"> Switch / แสดง เฉพาะ เดินทางโดยรถเจ้าหน้าที่ </button>
         <div >
           <table class="table table-striped">
             <tbody id="mobdal_body">
-              <tr>
+              <tr class="##q-travelclass##">
                 <th> ##q-patient.showid##</th>
                 <th scope="row"><img src="##q-patient.pictureUrl##" class="rounded-circle staffimage" style="max-width : 50px;padding:0px;margin:0px;" >               </th>
                 <td> ##q-patient.displayName## </td>
@@ -375,11 +375,11 @@
         search:{}
       }
       fncsearch = ADV_search(search_setting); // Defult always search at first
-      selectKiosk();
+      selecthospital();
       return false;
   });
 
-  function selectKiosk() {
+  function selecthospital() {
     $('#search_hospital').adv_select({
       url: '/api-backend/admin/hospital/get',
       name: 'name',
@@ -410,7 +410,12 @@
           // console.log(item)
           if(item.status == 1){
             if(item.confirmed){
-              item.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+              if(item.confirmed == "staff"){
+                  item.confirmed=`<span class="badge rounded-pill bg-primary">Staff Confirm</span>`
+                }else{
+                    item.confirmed=`<span class="badge rounded-pill bg-success">Confirm</span>`
+                }
+
             }else{
               item.confirmed=`<span class="badge rounded-pill bg-secondary">not confirm</span>`
             }
@@ -650,6 +655,11 @@ function fillDialog(args) {
         if(o.patient.color=="YELLOW"){
           o.patient.showid = `<span class="badge bg-warning">${o.patient._id}</span>`
         }
+        if(o.patient.travelprefer !=='รถส่วนตัวได้'){
+
+        }else{
+          o.travelclass = "travelstaff"
+        }
 
       });
 
@@ -674,7 +684,7 @@ function fillDialog(args) {
 
         getdaylist(q.hospital,q._id);
         working_queue_id = q._id;
-
+        travelstaff_tg =false;
         $('#external-event-dialog').modal("show")
   });
    // dialog.open();
@@ -813,5 +823,11 @@ function finish_queue_comment(){
         $('#q_comment_text').html(q)
   })
 
+}
+var travelstaff_tg;
+function toggletravelstaff(){
+  if(travelstaff_tg) $('.travelstaff').show('slow');
+  else $('.travelstaff').hide('slow');
+  travelstaff_tg = !travelstaff_tg;
 }
 </script>
