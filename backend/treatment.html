@@ -32,14 +32,16 @@
                 </button>
               </div>
               <div class="col-sm-12 col-md-6 col-lg-12 col-xl-12 mt-2">
-                <label for="search_status">ค้นหาโดยโรงพยาบาล</label>
-                <select class="form-control form-control-sm tag-select" id="search_hospital" name="hospital[]" multiple="multiple">
+                <label for="search_status">ค้นหาโดยศูนย์ X-ray</label>
+                <select class="form-control form-control-sm tag-select" id="search_hospital" name="hospital[]"
+                  multiple="multiple">
                 </select>
-                <small id="search_hospital_help" class="form-text text-muted">**สามารถเลือกโรงพยาบาลได้มากกว่าหนึ่งแห่ง</small>
+                <small id="search_hospital_help"
+                  class="form-text text-muted">**สามารถเลือกศูนย์ X-ray ได้มากกว่าหนึ่งแห่ง</small>
                 <!-- <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
-                  <option value="" >โปรดเลือก</option>
-
-                </select> -->
+                    <option value="" >โปรดเลือก</option>
+  
+                  </select> -->
               </div>
               <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
                 <div class="form-group">
@@ -92,6 +94,7 @@
             <tr>
               <th scope="col" class="text-secondary">Patient</th>
               <th scope="col" class="text-secondary">Appointment ID</th>
+              <th scope="col" class="text-secondary">X-ray Center Name</th>
               <th scope="col" class="text-secondary">Name</th>
               <th scope="col" class="text-secondary">Date</th>
               <th scope="col" class="text-secondary">ID/Accession</th>
@@ -107,6 +110,7 @@
                 ###XRAY-patient.id##<br><img src="##XRAY-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle">
               </td>
               <td class="text-center table-middle"># ##XRAY-appointment.id##</td>
+              <td style="white-space: nowrap;" class="text-center table-middle"># ##XRAY-hospital.name##</td>
               <td class="text-center table-middle">##XRAY-patient.displayName##
                 <br>
                 ##XRAY-patient.firstname## ##XRAY-patient.lastname##

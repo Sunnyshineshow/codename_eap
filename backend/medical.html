@@ -59,12 +59,12 @@
                 <input type="date" class="form-control" id="search_date">
               </div>
               <div class="col-sm-12 col-md-6 col-lg-12 col-xl-12 mt-2">
-                <label for="search_status">ค้นหาโดยโรงพยาบาล</label>
+                <label for="search_status">ค้นหาโดยศูนย์ X-ray</label>
                 <select class="form-control form-control-sm tag-select" id="search_hospital" name="hospital[]"
                   multiple="multiple">
                 </select>
                 <small id="search_hospital_help"
-                  class="form-text text-muted">**สามารถเลือกโรงพยาบาลได้มากกว่าหนึ่งแห่ง</small>
+                  class="form-text text-muted">**สามารถเลือกศูนย์ X-ray ได้มากกว่าหนึ่งแห่ง</small>
                 <!-- <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
                     <option value="" >โปรดเลือก</option>
   
@@ -126,6 +126,7 @@
             <tr>
               <th scope="col" class="text-secondary">Patient</th>
               <th scope="col" class="text-secondary">Appointment ID</th>
+              <th scope="col" class="text-secondary">X-ray Center Name</th>
               <th scope="col" class="text-secondary">Name</th>
               <th scope="col" class="text-secondary">Age</th>
               <th scope="col" class="text-secondary">Date</th>
@@ -140,7 +141,7 @@
                   style="max-width:50px;" class="rounded-circle"></td>
 
               <td class="text-center table-middle"># ##MED-appointment.id##</td>
-
+              <td style="white-space: nowrap;" class="text-center table-middle">##MED-hospital.name##</td>
               <td class="text-center table-middle">##MED-patient.displayName##
                 <br>
                 ##MED-patient.firstname## ##MED-patient.lastname##
