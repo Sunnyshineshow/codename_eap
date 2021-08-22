@@ -31,9 +31,19 @@
                   ผู้ที่รอผล x-ray
                 </button>
               </div>
-              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="col-sm-12 col-md-6 col-lg-12 col-xl-12 mt-2">
+                <label for="search_status">ค้นหาโดยโรงพยาบาล</label>
+                <select class="form-control form-control-sm tag-select" id="search_hospital" name="hospital[]" multiple="multiple">
+                </select>
+                <small id="search_hospital_help" class="form-text text-muted">**สามารถเลือกโรงพยาบาลได้มากกว่าหนึ่งแห่ง</small>
+                <!-- <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
+                  <option value="" >โปรดเลือก</option>
+
+                </select> -->
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary border-0">
+                  <button type="submit" class="btn btn-primary border-0 mt-2">
                     <i class="fas fa-search"></i>
                     Search
                   </button>
@@ -174,23 +184,38 @@
   var template_patient_row = $('#row_patientlist').html();
   var template_x_ray_row = $('#row_x_ray').html();
   var fncsearch;
-    var html_obj = {
-      search_name:"findname",
-      search_idno:"find_id",
-      search_cid:"find_cid",
-      search_resultx:"search_resultx",
-      search_date:"search_date"
-    }
+  var html_obj = {
+    search_name:"findname",
+    search_idno:"find_id",
+    search_cid:"find_cid",
+    search_resultx:"search_resultx",
+    search_date:"search_date",
+  }
+  
+  $('#search_hospital').adv_select({
+    url: '/api-backend/admin/hospital/get',
+    name: 'name',
+    val: {},
+    template: "#{{_id}}: {{name}}",
+    id: '_id',
+    maxshow: 10
+  }, null, true);
+
   function pre_search(){
     // clear search url from lastsearch
+    // console.log($('#search_hospital').val().map(numStr => parseInt(numStr)))
     var searchdata ={};
+    if($('#search_hospital').val().length > 0) {
+      searchdata.hospital = $('#search_hospital').val().map(numStr => parseInt(numStr));
+    }
     map_html_to_obj(html_obj,searchdata)
     fncsearch ({search:searchdata})
     return false;
   }
+
   function refreshpage(rawdata) {
     console.log("GLOBAL_USER",GLOBAL_USER)
-
+    // $('#search_hospital').val(GLOBAL_USER.affiliation).trigger('change');
     var search_setting = {
       posturl: '/api-backend/admin/treatment_xraylist',
       paginationDIV: $('.pagination_bar'),
@@ -203,6 +228,7 @@
     if (pagenumber > 1) {
       search_setting.page = pagenumber;
     }
+    
     // console.log('SEARCH ', search_setting);
     fncsearch = ADV_search(search_setting); // Defult always search at first
     return false;

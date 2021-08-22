@@ -1,58 +1,76 @@
 <div class="main_page mb-5" style="margin-top:120px;">
-    <div class="p-2 mr-5 ml-5">
-      <div class="container">
+  <div class="p-2 mr-5 ml-5">
+    <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-md-4 mt-2" style="text-align: center;">
-                <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
-                  <div class="card-body text-black">
-                    <h3>Normal Dose</h3>
-                    <h1 id="normal_dose_num">Loading</h1>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4 mt-2" style="text-align: center;">
-                <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
-                  <div class="card-body text-black">
-                    <h3>90kg Dose</h3>
-                    <h1 id="large_dose_num">Loading</h1>
-                  </div>
-                </div>
-              </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4 mt-2" style="text-align: center;">
+          <div class="card border-0"
+            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+            <div class="card-body text-black">
+              <h3>Normal Dose</h3>
+              <h1 id="normal_dose_num">Loading</h1>
+            </div>
+          </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-4 mt-2" style="text-align: center;">
-                <div class="card border-0" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
-                  <div class="card-body text-black">
-                    <h3>Total Normal / 90kg</h3>
-                    <h1 id="total_dose_num">Loading</h1>
-                  </div>
+        <div class="col-md-4 mt-2" style="text-align: center;">
+          <div class="card border-0"
+            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+            <div class="card-body text-black">
+              <h3>90kg Dose</h3>
+              <h1 id="large_dose_num">Loading</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4 mt-2" style="text-align: center;">
+          <div class="card border-0"
+            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
+            <div class="card-body text-black">
+              <h3>Total Normal / 90kg</h3>
+              <h1 id="total_dose_num">Loading</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+
+      <h3 class="p-0 m-0 mb-3"><b>Treatment (อยู่ระหว่างการพัฒนา)</b></h3>
+      <h4 class="p-0 m-0 mb-3"><b>Medical</b></h4>
+      <div class="row mb-1 d-flex justify-content-start">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <form class="form-row" onsubmit="return pre_search();">
+            <div class="row">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search_idno" placeholder="ID">
                 </div>
               </div>
-        </div>
-
-        <br>
-
-        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
-
-        <h3 class="p-0 m-0 mb-3"><b>Treatment (อยู่ระหว่างการพัฒนา)</b></h3>
-        <h4 class="p-0 m-0 mb-3"><b>Medical</b></h4>
-        <div class="row mb-1 d-flex justify-content-start">
-          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form class="form-row" onsubmit="return pre_search();">
-              <div class="row d-flex justify-content-center ">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="search_idno" placeholder="ID">
-                  </div>
-                </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
-                </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
-                </div>
-                <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_name" placeholder="ชื่อ">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="text" class="form-control" id="search_cid" placeholder="เลขบัตรประชาชน">
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <input type="date" class="form-control" id="search_date">
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-12 col-xl-12 mt-2">
+                <label for="search_status">ค้นหาโดยโรงพยาบาล</label>
+                <select class="form-control form-control-sm tag-select" id="search_hospital" name="hospital[]"
+                  multiple="multiple">
+                </select>
+                <small id="search_hospital_help"
+                  class="form-text text-muted">**สามารถเลือกโรงพยาบาลได้มากกว่าหนึ่งแห่ง</small>
+                <!-- <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
+                    <option value="" >โปรดเลือก</option>
+  
+                  </select> -->
+              </div>
+              <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                   <div class="form-group">
                     <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
                       <option value="NONE">โปรดเลือกสี</option>
@@ -63,7 +81,7 @@
                     </select>
                   </div>
                 </div> -->
-                <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+              <!--<div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
                   <div class="form-group">
                     <select class="form-select" aria-label="สีของผู้ป่วย" id="search_color">
                       <option value="NONE">โปรดเลือกการเปลี่ยนแปลง</option>
@@ -73,254 +91,269 @@
                     </select>
                   </div>
                 </div> -->
-                <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary border-0">
-                      <i class="fas fa-search"></i>
-                      Search
-                    </button>
-                  </div>
+              <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mt-2">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary border-0">
+                    <i class="fas fa-search"></i>
+                    Search
+                  </button>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
+      </div>
 
-        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
 
-        <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
-        <div class="btn-group" style="text-align: left;">
-            <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
-            <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
-          </div>
+      <h3 class="p-0 m-0 mb-3"><b id="datetime_there">Date will be shown here</b></h3>
+      <div class="btn-group" style="text-align: left;">
+        <button class="btn btn-outline-primary" onclick="changeDate(-1)">&#171; Previous Day</button>
+        <button class="btn btn-outline-primary" onclick="changeDate(1)">Next Day &#187;</button>
+      </div>
 
-        <!-- แบ่งหน้า -->
-        <div class="row mt-4">
-          <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="pagination_bar pb-3"></div>
-          </div>
+      <!-- แบ่งหน้า -->
+      <div class="row mt-4">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="pagination_bar pb-3"></div>
         </div>
-        <!-- // แบ่งหน้า -->
+      </div>
+      <!-- // แบ่งหน้า -->
 
-        <div class="table-responsive mt-2">
-          <table class="table table-bordered table-hover show_startpage font-weight-light" >
-            <thead class="text-center">
-              <tr>
-                <th scope="col" class="text-secondary">Patient</th>
-                <th scope="col" class="text-secondary">Appointment ID</th>
-                <th scope="col" class="text-secondary">Name</th>
-                <th scope="col" class="text-secondary">Age</th>
-                <th scope="col" class="text-secondary">Date</th>
-                <th scope="col" class="text-secondary">Favipilavia</th>
-                <th scope="col" class="text-secondary">Other</th>
-                <th scope="col" class="text-secondary">Comment</th>
-              </tr>
-            </thead>
-            <tbody id="row_patientlist" style="display:none;">
-              <tr>
-                <td class="text-center table-middle">###MED-patient.id##<br><img src="##MED-patient.pictureUrl##" style="max-width:50px;" class="rounded-circle"></td>
+      <div class="table-responsive mt-2">
+        <table class="table table-bordered table-hover show_startpage font-weight-light">
+          <thead class="text-center">
+            <tr>
+              <th scope="col" class="text-secondary">Patient</th>
+              <th scope="col" class="text-secondary">Appointment ID</th>
+              <th scope="col" class="text-secondary">Name</th>
+              <th scope="col" class="text-secondary">Age</th>
+              <th scope="col" class="text-secondary">Date</th>
+              <th scope="col" class="text-secondary">Favipilavia</th>
+              <th scope="col" class="text-secondary">Other</th>
+              <th scope="col" class="text-secondary">Comment</th>
+            </tr>
+          </thead>
+          <tbody id="row_patientlist" style="display:none;">
+            <tr>
+              <td class="text-center table-middle">###MED-patient.id##<br><img src="##MED-patient.pictureUrl##"
+                  style="max-width:50px;" class="rounded-circle"></td>
 
-                <td class="text-center table-middle"># ##MED-appointment.id##</td>
+              <td class="text-center table-middle"># ##MED-appointment.id##</td>
 
-                <td class="text-center table-middle">##MED-patient.displayName##
-                  <br>
-                  ##MED-patient.firstname## ##MED-patient.lastname##
-                </td>
-                <td class="text-center table-middle">##MED-patient.age##</td>
-                <td class="text-center table-middle">##MED-createdate##</td>
-                <td class="text-center table-middle">##MED-medicine.medic_favipilavia##</td>
-                <td class="text-center table-middle">##MED-medicine.medic_other##</td>
-                <td class="text-center">
+              <td class="text-center table-middle">##MED-patient.displayName##
+                <br>
+                ##MED-patient.firstname## ##MED-patient.lastname##
+              </td>
+              <td class="text-center table-middle">##MED-patient.age##</td>
+              <td class="text-center table-middle">##MED-createdate##</td>
+              <td class="text-center table-middle">##MED-medicine.medic_favipilavia##</td>
+              <td class="text-center table-middle">##MED-medicine.medic_other##</td>
+              <td class="text-center">
                 ##MED-patient.comment##
-                 <br>
-                  <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="update_comment('##MED-patient.id##')">ใส่หมายเหตุ</button>
-                </td>
-              </tr>
-            </tbody>
-            <tbody id="show_patientlist">
-              <tr>
+                <br>
+                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2"
+                  onclick="update_comment('##MED-patient.id##')">ใส่หมายเหตุ</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody id="show_patientlist">
+            <tr>
 
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- // end table -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- // end table -->
 
-        <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
+      <div style="width: 100%;height: 1px;border-bottom: 1px dashed #ddd;margin-top: 30px;margin-bottom:30px;"></div>
 
-        <h4 class="p-0 m-0 mb-3"><b>Daily Summary</b></h4>
-        <table class="table table-bordered table-hover show_startpage font-weight-light" >
-            <thead class="text-center">
-              <tr>
-                <th scope="col" class="text-secondary">Normal Dose</th>
-                <th scope="col" class="text-secondary">90kg Dose</th>
-                <th scope="col" class="text-secondary">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-center table-middle" id="normal_table"></td>
-                <td class="text-center table-middle" id="large_table"></td>
-                <td class="text-center table-middle" id="total_table"></td>
-              </tr>
-            </tbody>
-          </table>
+      <h4 class="p-0 m-0 mb-3"><b>Daily Summary</b></h4>
+      <table class="table table-bordered table-hover show_startpage font-weight-light">
+        <thead class="text-center">
+          <tr>
+            <th scope="col" class="text-secondary">Normal Dose</th>
+            <th scope="col" class="text-secondary">90kg Dose</th>
+            <th scope="col" class="text-secondary">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center table-middle" id="normal_table"></td>
+            <td class="text-center table-middle" id="large_table"></td>
+            <td class="text-center table-middle" id="total_table"></td>
+          </tr>
+        </tbody>
+      </table>
 
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" id="p_comment">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ใส่หมายเหตุ สำหรับผู้ป่วยรายนี้</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="finish_comment()">Save changes</button>
       </div>
     </div>
   </div>
-  <div class="modal" tabindex="-1" id="p_comment">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">ใส่หมายเหตุ สำหรับผู้ป่วยรายนี้</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p><input class="form-control" id="patient_comment" placeholder="หมายเหตุ"> </p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="finish_comment()" >Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <script type="text/javascript">
-    var template_patient_row = $('#row_patientlist').html();
-    var searchobj = {};
-    var fncsearch;
-    var date = new Date();
-    var current_date = Math.floor(new Date(date.getFullYear(),date.getMonth(),date.getDate()) / 1000)
-    var shown_date = new Date(current_date * 1000)
-    // var global_color;
+</div>
+<script type="text/javascript">
+  var template_patient_row = $('#row_patientlist').html();
+  var searchobj = {};
+  var fncsearch;
+  var date = new Date();
+  var current_date = Math.floor(new Date(date.getFullYear(), date.getMonth(), date.getDate()) / 1000)
+  var shown_date = new Date(current_date * 1000)
+  // var global_color;
+  $('#search_hospital').adv_select({
+    url: '/api-backend/admin/hospital/get',
+    name: 'name',
+    val: {},
+    template: "#{{_id}}: {{name}}",
+    id: '_id',
+    maxshow: 10
+  }, null, true);
 
-    function pre_search(){
-      // clear search url from lastsearch
-      var searchdata={}
-      if ($('#search_name').val() !== "") {
-        searchdata.findname = $('#search_name').val()
-      }
-
-      if ($('#search_idno').val() !== "") {
-        searchdata.find_id = $('#search_idno').val()
-      }
-
-
-      searchdata.find_date =  current_date
-      shown_date = new Date(current_date * 1000)
-      document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
-
-      fncsearch({search:searchdata});
-      return false;
-    }
-    function refreshpage(rawdata) {
-
-      var search_setting = {
-        posturl: '/api-backend/admin/treatment_medlist',
-        paginationDIV: $('.pagination_bar'),
-        pagesize: 10,
-        showfunction: show_patient_list,
-        limit: 20,
-        search: {find_date : current_date}
-      }
-
-      var pagenumber = getParameterByName('page', window.location.search);
-      if (pagenumber > 1) {
-        search_setting.page = pagenumber;
-      }
-      // console.log('SEARCH ', search_setting);
-      fncsearch = ADV_search(search_setting); // Defult always search at first
-      return false;
+  function pre_search() {
+    // clear search url from lastsearch
+    var searchdata = {}
+    if ($('#search_name').val() !== "") {
+      searchdata.findname = $('#search_name').val()
     }
 
-    function show_patient_list(objdata, totalrecord) {
-      // console.log('objdata', objdata);
-      if (objdata.result && totalrecord > 0) {
-        working.patient = objdata.obj;
-        console.log("OBJDATA: " + objdata.obj)
-
-        let normal_dose = 0
-        let large_dose = 0
-
-        objdata.obj.map(item => {
-
-          item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY HH:mm") : "";
-
-          if (item.medicine.medic_favipilavia == 50)
-          {
-              normal_dose++
-          }
-          else if (item.medicine.medic_favipilavia == 64)
-          {
-              large_dose++
-          }
-
-
-        })
-
-        document.getElementById('normal_dose_num').innerHTML = normal_dose
-        document.getElementById('large_dose_num').innerHTML = large_dose
-
-        document.getElementById('normal_table').innerHTML = normal_dose
-        document.getElementById('large_table').innerHTML = large_dose
-        document.getElementById('total_table').innerHTML = normal_dose + large_dose
-
-        var html_row = hash_replace(template_patient_row, 'MED', objdata.obj)
-        $("#show_patientlist").html(html_row);
-        // $('.show_startpage').show('slow');
-      } else {
-        $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
-      }
+    if ($('#search_idno').val() !== "") {
+      searchdata.find_id = $('#search_idno').val()
     }
 
-    $(document).ready(() =>
-    {
-        $.getJSON(MAINURL + "/api-backend/admin/treatment_medquery", (msg) =>
-        {
-            let normal = 0;
-            let large = 0;
-            for (let i = 0; i < msg.length; i++)
-            {
-                if (msg[i]._id.favi == 50)
-                {
-                    normal++;
-                }
-                else if (msg[i]._id.favi == 64)
-                {
-                    large++;
-                }
-            }
-
-            document.getElementById('total_dose_num').innerHTML = normal + "/" + large
-        })
-    })
-
-    function changeDate(quantity) {
-      current_date += 24 * 3600 * (quantity)
-      shown_date = new Date(current_date * 1000)
-      pre_search()
+    if ($('#search_date').val()) {
+      searchdata.find_date = moment($('#search_date').val()).unix();
+      current_date = moment($('#search_date').val()).unix();
+    } else {
+      searchdata.find_date = current_date;
     }
 
-    var working_patient;
-    function update_comment(patient_id){
-      working_patient = patient_id
-      $("#p_comment").modal('show')
-      //patient_id
+    if($('#search_hospital').val().length > 0) {
+      searchdata.hospital = $('#search_hospital').val().map(numStr => parseInt(numStr));
     }
-    function finish_comment(){
-      $("#p_comment").modal('hide')
-      if(! $('#patient_comment').val()) {
-        alert("Comment is empty")
-        return;
-      }
-      var data = {
-        patient : working_patient,
-        comment: $('#patient_comment').val()
-      }
-      $.postJSON(MAINURL + '/api-backend/admin/update_comment',data,(msg)=>{
-          refreshpage();
+
+    shown_date = new Date(current_date * 1000)
+    document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+
+    fncsearch({ search: searchdata });
+    return false;
+  }
+  function refreshpage(rawdata) {
+    var search_setting = {
+      posturl: '/api-backend/admin/treatment_medlist',
+      paginationDIV: $('.pagination_bar'),
+      pagesize: 10,
+      showfunction: show_patient_list,
+      limit: 20,
+      search: { find_date: current_date }
+    }
+
+    var pagenumber = getParameterByName('page', window.location.search);
+    if (pagenumber > 1) {
+      search_setting.page = pagenumber;
+    }
+    // find_date : current_date
+    shown_date = new Date(current_date * 1000)
+    // $('#search_hospital').val(GLOBAL_USER.affiliation).trigger('change');
+    document.getElementById('datetime_there').innerHTML = "สำหรับวันที่ " + shown_date.getDate() + "/" + (shown_date.getMonth() + 1) + "/" + shown_date.getFullYear()
+    // search_setting.search.find_date = current_date;
+    // console.log('SEARCH ', search_setting);
+    fncsearch = ADV_search(search_setting); // Defult always search at first
+    return false;
+  }
+  function show_patient_list(objdata, totalrecord) {
+    // console.log('objdata', objdata);
+    if (objdata.result && totalrecord > 0) {
+      working.patient = objdata.obj;
+      console.log("OBJDATA: " + objdata.obj)
+
+      let normal_dose = 0
+      let large_dose = 0
+
+      objdata.obj.map(item => {
+
+        item.createdate ? item.createdate = moment(item.createdate, "X").format("DD/MM/YYYY HH:mm") : "";
+
+        if (item.medicine.medic_favipilavia == 50) {
+          normal_dose++
+        }
+        else if (item.medicine.medic_favipilavia == 64) {
+          large_dose++
+        }
+
+
       })
 
+      document.getElementById('normal_dose_num').innerHTML = normal_dose
+      document.getElementById('large_dose_num').innerHTML = large_dose
+
+      document.getElementById('normal_table').innerHTML = normal_dose
+      document.getElementById('large_table').innerHTML = large_dose
+      document.getElementById('total_table').innerHTML = normal_dose + large_dose
+
+      var html_row = hash_replace(template_patient_row, 'MED', objdata.obj)
+      $("#show_patientlist").html(html_row);
+      // $('.show_startpage').show('slow');
+    } else {
+      $("#show_patientlist").html('<tr><td colspan="100%" class="text-center"><span class="text-sub">Data not found</span></td></tr>');
     }
-  </script>
+  }
+
+  $(document).ready(() => {
+    $.getJSON(MAINURL + "/api-backend/admin/treatment_medquery", (msg) => {
+      let normal = 0;
+      let large = 0;
+      for (let i = 0; i < msg.length; i++) {
+        if (msg[i]._id.favi == 50) {
+          normal++;
+        }
+        else if (msg[i]._id.favi == 64) {
+          large++;
+        }
+      }
+
+      document.getElementById('total_dose_num').innerHTML = normal + "/" + large
+    })
+  })
+
+  function changeDate(quantity) {
+    current_date += 24 * 3600 * (quantity)
+    shown_date = new Date(current_date * 1000)
+    pre_search()
+  }
+
+  var working_patient;
+  function update_comment(patient_id) {
+    working_patient = patient_id
+    $("#p_comment").modal('show')
+    //patient_id
+  }
+  function finish_comment() {
+    $("#p_comment").modal('hide')
+    if (!$('#patient_comment').val()) {
+      alert("Comment is empty")
+      return;
+    }
+    var data = {
+      patient: working_patient,
+      comment: $('#patient_comment').val()
+    }
+    $.postJSON(MAINURL + '/api-backend/admin/update_comment', data, (msg) => {
+      refreshpage();
+    })
+
+  }
+</script>
