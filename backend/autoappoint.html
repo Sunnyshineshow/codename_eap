@@ -114,7 +114,7 @@
                     <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker">
                     <label for="search_hospital_checker"> จากศูนย์</label>
 
-                    <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital">
+                    <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" onchange="search_hospital_change()">
                       <option value="">โปรดเลือก</option>
 
                     </select>
@@ -124,7 +124,7 @@
                   </div>
 
                   <input type="number" id="search_hospital_meter" class="form-control"
-                    aria-label="Text input with checkbox" placeholder="" value=1000>
+                    aria-label="Text input with checkbox" placeholder="" value=5000>
                   <span class="input-group-text">เมตร </span>
                 </div>
               </div>
@@ -488,6 +488,7 @@
         }
 
         item.active ? item.active = '<b class="text-success">เปิดใช้งาน</b>' : item.active = '<b class="text-danger">ปิดใช้งาน</b>';
+        item.lastsymptomdetail=""
         if (item.lastsymptom) {
           item.lastsymptomdetail = " ล่าสุด Breathing: " + item.lastsymptom.breathing + " spo_room_air:" + item.lastsymptom.spo_room_air
           item.lastsymptomdetail += "<BR>"
@@ -495,6 +496,9 @@
         if (item.init_symptoms) {
           item.firstsymptomdetail = "Breathing: " + item.init_symptoms.breathing + " spo_room_air:" + item.init_symptoms.spo_room_air
           item.firstsymptomdetail += "<BR>"
+        }
+        if(item.spo2){
+            item.lastsymptomdetail += " <span class='badge bg-primary'>SPO2 : " +item.spo2 +'</span>'
         }
         if (item.distance > 0) {
           item.distance = Math.ceil(item.distance / 100) / 10 + " Km จากศูนย์ X-ray"
@@ -606,5 +610,7 @@
     }, null, false);
   }
 
-
+  function search_hospital_change(){
+    $('#autohospital').val($('#search_hospital').val()).trigger('change');
+  }
 </script>

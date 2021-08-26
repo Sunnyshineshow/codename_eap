@@ -6,37 +6,38 @@
         </div>
       </div>
     </div>
-  
+
     <div mbsc-form>
       <div mbsc-form id="form_display">
         <div class="mbsc-align-center" style="margin-top:20px;">
-          <p style="margin-top:3px;margin-bottom:8px;;">เลือกโรงพยาบาลที่ท่านสะดวก</p>
+          <p style="margin-top:3px;margin-bottom:8px;;">
+            เพื่อให้เป็นการสะดวกแก่เจ้าหน้าที่ในการจัดหาคิว และ ให้ท่านสะดวกในการเดินทาง
+            <br>
+            กรุณาเลือกศูนย์ให้บริการที่ท่านสะดวก</p>
+            <font color="red"><small >*หากเลือกแล้วไม่สามารถเปลี่ยนแปลงได้</small></font>
         </div>
-  
-        <div style="padding:0px 15px 0px 15px;margin: 25px 0px 20px 0px;">
-          <hr style="background-color: #58595B;opacity:0.5;">
-        </div>
-  
+
+
+
         <!-- form register -->
         <div id="form_choose_location" >
           <!-- 1 -->
-          
+
 
           <div mbsc-form style="max-width:900px;" class="mbsc-align-center mbsc-btn-group-justified">
             <div class="mbsc-grid mbsc-form-grid">
 
                     <div class="mbsc-row">
-                        
+
                     <div class="mbsc-col-12">
-                        <label>
-                            โปรดเลือก </label>
+
                             <select mbsc-dropdown data-input-style="box" id="hospital" style="display: none;">
                                 <option value="##HOSPITAL-id##">##HOSPITAL-name##</option>
                             </select>
                             <select mbsc-dropdown data-input-style="box" id="hospital_showing">
 
                             </select>
-                        
+
                     </div>
             </div>
 
@@ -57,32 +58,44 @@
                 </button>
               </div>
             </div>
+            <div class="mbsc-row "  mbsc-form >
+
+            <div class="mbsc-col-12  " >
+               ข้อมูล สถานที่ของ ศูนย์ที่ให้บริการ
+
+          <hr style="background-color: #58595B;opacity:0.5;">
+              <div id="location_of_hosp">
+                ชื่อ : <font color="blue">##hosp-name##</font>
+                <br>
+                สถานที่ที่ตั้ง : ##hosp-address##
+                <br>
+                ที่อยู่ละเอียด : <small>##hosp-lineaddress##</small>
+                <hr>
+              </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    </div>
 
 <script>
     var hospitalNamelist;
     var appoint_detail_template = $("#hospital").html()
-    // $.getJSON(MAINURL + "/api-web/line/hospital/get",(msg) =>
-    //     {
-    //         console.log(msg)
-
-    //         let tmp;
-    //         tmp = hash_replace(hospitalNamelist, 'HOSPITAL', msg)
-    //         $("#hospital_list_showing").html(tmp)
-    //     })
     $.getJSON(MAINURL + '/api-web/line/hospital/get', (msg) => {
           console.log(msg)
-
+           // remove TEST Site
+           for(var x=0; x < msg.length;x++){
+             if(msg[x]._id < 3){
+               msg.splice(x,1); x--;
+             }
+           }
            hospitalNamelist = hash_replace(appoint_detail_template, 'HOSPITAL', msg)
            $("#hospital_showing").html(hospitalNamelist)
 
            $('#hospital_showing').mobiscroll().select({
                 display: 'bubble'
             });
+           hash_replace($('#location_of_hosp'),"hosp",msg)
         })
 
         function hospitalSubmit()
@@ -97,20 +110,28 @@
 
             var patientid = getParameterByName('id', window.location.search);
 
-            let payload = 
+            let payload =
             {
                 patient: patientid,
                 hospital: hospital,
                 location: location
             }
             console.log(payload)
-
-            $.postJSON(MAINURL + "/api-web/line/patient/reappoint",payload,(msg) =>
+            var call_url = MAINURL + "/api-web/line/patient/reappoint/";
+            if(ACTIVEPATIENT){  // ทำรายการแทนกัน
+              call_url  += ACTIVEPATIENT._id
+            }else{
+              call_url  += GLOBALUSER._id
+            }
+            $.postJSON(call_url,payload,(msg) =>
             {
                 if (msg.code == 200)
                 {
                     alert_modal("บันทึกข้อมูลแล้ว")
-                    return go2View("queuecheck")
+                    setTimeout(()=>{
+                      go2View("queuecheck")
+                    },1500);
+                    return
                 }
                 else
                 {
@@ -119,4 +140,3 @@
             })
         }
 </script>
-  

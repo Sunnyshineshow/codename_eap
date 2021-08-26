@@ -58,10 +58,9 @@
               <th scope="col" class="text-secondary">Tel</th>
               <th scope="col" class="text-secondary">O2,pulse</th>
               <th scope="col" class="text-secondary">favipilavia Dose</th>
-              <th scope="col" class="text-secondary">ไม่เคยได้รับยาเพราะ</th>
+              <th scope="col" class="text-secondary">Site</th>
               <th scope="col" class="text-secondary">จำนวน xray</th>
-              <th scope="col" class="text-secondary">ชื่อผู้ปฎิบัติ</th>
-
+              <th scope="col" class="text-secondary">รหัสผู้ปฎิบัติ</th>
             </tr>
           </thead>
           <tbody id="row_patientlist" style="display:none;">
@@ -73,7 +72,7 @@
               <td class="text-center table-middle">##patient-patient.mobileno##</td>
               <td class="text-center table-middle">##patient-patient.init_symptoms.spo_room_air##</td>
               <td class="text-center table-middle">##patient-medicine.medic_favipilavia##</td>
-              <td class="text-center table-middle"> - </td>
+              <td class="text-center table-middle">##patient-hospital.name##</td>
               <td class="text-center table-middle">##patient-countxray##</td>
               <td class="text-center table-middle">##patient-bystaff##</td>
             </tr>
@@ -149,7 +148,7 @@
           item.medicine.medic_favipilavia = '<span style="color: #15cf30;">' + "มากกว่า 90 kg กรัม" + '</span>'
         }
 
-        if (item.patient.init_symptoms.spo_room_air == -1) {
+        if (item.patient.init_symptoms && item.patient.init_symptoms.spo_room_air == -1) {
           item.patient.init_symptoms.spo_room_air = '<span style="color: #ff0000;">' + "ไม่ทราบ" + '</span>'
         }
 
@@ -203,7 +202,14 @@
     })
     return false;
   }
-
+  var allhospitalsearch=[]
+  function getHospitalname(id){
+    allhospitalsearch.map((h)=>{
+      if(h._id == id){
+        return h.name;
+      }
+    })
+  }
   function exportExcel() {
     var postData = {};
     var getDate = $('#search_date').val();
@@ -217,29 +223,30 @@
     }
 
     $.postJSON('/api-backend/admin/export/send_drug/excel', postData, async(res) => {
-      // console.log(res)
+       console.log("Excel",res)
       if(res.result && res.data.length > 0) {
         var detail = {
           hospitalName: "",
           size50: 0,
           size64: 0
         }
-        if(res.hospital.length > 0) {
-          for(let i = 0; i < res.hospital.length; i++) {
-            if(res.hospital[i].name) {
-              if(i > 0) {
-                if(res.hospital[i+1] !== undefined) {
-                  detail.hospitalName += res.hospital[i].name + ", ";
-                } else {
-                  detail.hospitalName += res.hospital[i].name;
-                }
-              }
-              detail.hospitalName += res.hospital[i].name;
-            }
-          }
-        } else {
-          detail.hospitalName = "ทุกจุด x-ray";
-        }
+        // if(res.hospital.length > 0) {
+        //   allhospitalsearch= res.hospital;
+        //   for(let i = 0; i < res.hospital.length; i++) {
+        //     if(res.hospital[i].name) {
+        //       if(i > 0) {
+        //         if(res.hospital[i+1] !== undefined) {
+        //           detail.hospitalName += res.hospital[i].name + ", ";
+        //         } else {
+        //           detail.hospitalName += res.hospital[i].name;
+        //         }
+        //       }
+        //       detail.hospitalName += res.hospital[i].name;
+        //     }
+        //   }
+        // } else {
+        //   detail.hospitalName = "ทุกจุด x-ray";
+        // }
         res.data.map(item => {
           if(item.medicine) {
             if(item.medicine.medic_favipilavia == "50A" || item.medicine.medic_favipilavia == 50) {
@@ -286,7 +293,7 @@
         <th class="text-secondary" colspan="3">จำนวนยอดยาที่ยกมา</th>
         <th class="text-secondary" colspan="2">ถุง</th>
         <th class="text-secondary">จุด</th>
-        <th class="text-secondary" colspan="9">${detail.hospitalName}</th>
+        <th class="text-secondary" colspan="9"> </th>
       </tr>
       <tr>
         <th class="text-secondary">ขนาด</th>
@@ -320,7 +327,7 @@
         <th rowspan="1" colspan="3" class="text-secondary">จำนวนยา</th>
         <th rowspan="1" colspan="3" class="text-secondary">ไม่ได้รับยา</th>
         <th rowspan="1" colspan="2" class="text-secondary">X-ray</th>
-        <th rowspan="3" class="text-secondary">ชื่อผู้ปฎิบัติ</th>
+        <th rowspan="3" class="text-secondary">สถานที่</th>
       </tr>
       <tr>
         <th class="text-secondary">${"<"} 90 kg.</th>
@@ -360,7 +367,7 @@
           kg.adding = dataSource[i].medicine.medic_favipilavia
         }
       }
-      if(dataSource[i].patient.init_symptoms.spo_room_air == -1) {
+      if(dataSource[i].patient && dataSource[i].patient.init_symptoms && dataSource[i].patient.init_symptoms.spo_room_air == -1) {
         dataSource[i].patient.init_symptoms.spo_room_air = "-"
       }
       content += `<tbody>
@@ -379,7 +386,7 @@
         <td class="text-center"></td>
         <td class="text-center">${dataSource[i].countxray || ""}</td>
         <td class="text-center"></td>
-        <td class="text-center"></td>
+        <td class="text-center">${dataSource[i].hospital.name}</td>
       </tr>`;
     }
     content += `</tbody>
@@ -387,6 +394,5 @@
     </html>`;
     return content;
   }
-
 
 </script>
