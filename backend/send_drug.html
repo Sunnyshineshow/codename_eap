@@ -17,7 +17,7 @@
             <select class="form-control form-control-sm tag-select" id="search_hospital" name="hospital[]"
               multiple="multiple">
             </select>
-            
+
           </div>
           <div class="col-md-2">
             <div class="form-group">
@@ -250,7 +250,7 @@
             }
           }
         })
-        
+
         var content = await createExportHeaderDetail(detail);
         content += await createExportHeader();
         content += await createExportRows(res.data);
@@ -324,17 +324,17 @@
       </tr>
       <tr>
         <th class="text-secondary">${"<"} 90 kg.</th>
-        <th class="text-secondary">>90 kg.</th> 
-        <th rowspan="2" class="text-secondary">ยาเพิ่ม</th>
+        <th class="text-secondary">>90 kg.</th>
+        <th rowspan="2" class="text-secondary">ยาเพิ่ม(เม็ด)</th>
         <th rowspan="2" class="text-secondary">เคยได้แล้ว</th>
-        <th rowspan="2" class="text-secondary">ตั้งครรภ์</th>  
+        <th rowspan="2" class="text-secondary">ตั้งครรภ์</th>
         <th rowspan="2" class="text-secondary">มีโรคตับ</th>
         <th rowspan="2" class="text-secondary">ครั้งที่</th>
         <th rowspan="2" class="text-secondary">นัดครั้งเดียว</th>
       </tr>
       <tr>
         <th class="text-secondary">50 เม็ด</th>
-        <th class="text-secondary">64 เม็ด</th> 
+        <th class="text-secondary">64 เม็ด</th>
       </tr>
     </thead>`;
     return headerRow;
@@ -349,13 +349,15 @@
       let kg = {
         over90: "",
         less90: "",
+        adding:""
       }
       if(dataSource[i].medicine) {
         if(dataSource[i].medicine.medic_favipilavia == "50A" || dataSource[i].medicine.medic_favipilavia == 50) {
-          kg.less90 = "|";
-        }
-        if(dataSource[i].medicine.medic_favipilavia == 64) {
-          kg.over90 = "|";
+          kg.less90 = "50";
+        }else  if(dataSource[i].medicine.medic_favipilavia == 64) {
+          kg.over90 = "64";
+        }else{
+          kg.adding = dataSource[i].medicine.medic_favipilavia
         }
       }
       if(dataSource[i].patient.init_symptoms.spo_room_air == -1) {
@@ -366,12 +368,12 @@
         <td class="text-center">${index}</td>
         <td class="text-center">${moment(dataSource[i].createdate, 'X').format('DD/MM/YYYY')}</td>
         <td class="text-center">${dataSource[i].patient.firstname || ""} ${dataSource[i].patient.lastname || ""}</td>
-        <td class="text-center">${dataSource[i].patient.idcard || ""}</td>
+        <td class="text-center" datatype="string"  dtype="string">${dataSource[i].patient.idcard || ""}</td>
         <td class="text-center">${dataSource[i].patient.mobileno.toString() || ""}</td>
         <td class="text-center">${dataSource[i].patient.init_symptoms.spo_room_air || ""}</td>
         <td class="text-center">${kg.less90}</td>
         <td class="text-center">${kg.over90}</td>
-        <td class="text-center"></td>
+        <td class="text-center">${kg.adding}</td>
         <td class="text-center"></td>
         <td class="text-center"></td>
         <td class="text-center"></td>
