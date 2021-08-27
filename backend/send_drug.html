@@ -370,6 +370,7 @@
       if(dataSource[i].patient && dataSource[i].patient.init_symptoms && dataSource[i].patient.init_symptoms.spo_room_air == -1) {
         dataSource[i].patient.init_symptoms.spo_room_air = "-"
       }
+      if(! dataSource[i].patient.init_symptoms ) dataSource[i].patient.init_symptoms ={};
       content += `<tbody>
       <tr>
         <td class="text-center">${index}</td>
