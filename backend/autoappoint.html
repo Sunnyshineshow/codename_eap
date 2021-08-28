@@ -107,14 +107,27 @@
 
                 </div>
               </div>
-              <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-3">
+              <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 mt-3">
+                <div class="input-group mb-6">
+                  <div class="input-group-text">
+                    <label> ผป เลือก Site : </label>
+                <select class="form-select" aria-label="" id="siteprefer" onchange="search_hospital_change(this)">
+                  <option value="">Select ศูนย์ X-ray</option>
+                  <!-- <option value="1">นเรนทร กรุงเทพฯใต้ </option>
+                  <option value="2">Closed Site </option>
+                  <option value="3" selected>นเรนทร กรุงธนเหนือ </option> -->
+                </select>
+                </div>
+              </div>
+              </div>
+              <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 mt-3">
                 <div class="input-group mb-6">
                   <div class="input-group-text">
 
                     <input class="form-check-input mt-0" type="checkbox" id="search_hospital_checker">
                     <label for="search_hospital_checker"> จากศูนย์</label>
 
-                    <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" onchange="search_hospital_change()">
+                    <select class="form-select" aria-label="สถานะผู้ป่วย" id="search_hospital" onchange="search_hospital_change(this)">
                       <option value="">โปรดเลือก</option>
 
                     </select>
@@ -128,7 +141,6 @@
                   <span class="input-group-text">เมตร </span>
                 </div>
               </div>
-
 
             </div>
           </div>
@@ -224,7 +236,7 @@
               <th scope="col" class="text-secondary">ที่อยู่</th>
               <th scope="col" class="text-secondary">เบอร์โทร/Register</th>
               <th scope="col" class="text-secondary">Day Count</th>
-              <th scope="col" class="text-secondary">Color</th>
+              <th scope="col" class="text-secondary">Site</th>
               <th scope="col" class="text-secondary">Travel</th>
               <th scope="col" class="text-secondary">Register Status</th>
               <th scope="col" class="text-secondary">Action</th>
@@ -260,7 +272,7 @@
               <td class="text-center table-middle">##patient-mobileno## <br><small>##patient-createDate##</small></td>
 
               <td class="text-center table-middle">##patient-day_count##</td>
-              <td class="text-center table-middle"><span id="patient_color">##patient-color##</span></td>
+              <td class="text-center table-middle">##patient-prefersite##</td>
               <td class="text-center table-middle">##patient-travelprefer##
                 <font color='red'><small>##patient-distance##</small></font>
 
@@ -272,7 +284,7 @@
               </td>
 
               <td class="text-center" rowspan=2>
-                <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2"
+                <button type="button" name="button" class="btn btn-sm    ##patient-buttonclass## mt-2"
                   onclick="view_symptom('##patient-id##')">รายละเอียด</button>
                 <button type="button" name="button" class="btn btn-sm btn-outline-secondary mt-2"
                   onclick="update_comment('##patient-id##')">ใส่หมายเหตุ</button>
@@ -301,7 +313,7 @@
 
       <div class="col-12 col-sm-12 col-md-6 col-lg-6">
         <div class="form-group">
-          สถานพยาบาล
+          ศูนย์ X-ray
           <select class="form-select" aria-label="" id="autohospital">
             <option value="">Select ศูนย์ X-ray</option>
             <!-- <option value="1">นเรนทร กรุงเทพฯใต้ </option>
@@ -354,6 +366,7 @@
     registerday: "find_registerday",
     search_name: "findname",
     complete: "find_completeregister",
+    siteprefer:"siteprefer"
   }
   var html_obj_option = {
     newlyday: "find_newly",
@@ -363,7 +376,7 @@
   }
 
   $(document).ready(() => {
-    selectKiosk();
+    selecthosptail();
     $('#autohospital').adv_select({
       url: '/api-backend/admin/module/hospital/list',
       name: 'name',
@@ -420,7 +433,7 @@
       paginationDIV: $('.pagination_bar'),
       pagesize: 10,
       showfunction: show_patient_list,
-      limit: 100,
+      limit: 50,
       search: { find_completeregister: "complete", find_newly: "0", spo2more: $('#spo2more').val() }    //default searching
     }
 
@@ -452,16 +465,21 @@
         item.createdate ? item.createdate = moment(item.createdate, "X").fromNow('days') + " ที่แล้ว" : "";
         item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
         if (item.color == "RED") {
+          item.buttonclass = 'btn-danger'
           item.color = '<span style="color: #C70039;">RED</span>'
         } else if (item.color == "YELLOW") {
+          item.buttonclass = 'btn-warning'
           item.color = '<span style="color: #fcba03;">YELLOW</span>'
         } else if (item.color == "GREEN") {
+          item.buttonclass = 'btn-success'
           item.color = '<span style="color: green;">GREEN</span>'
         } else if (item.color == "WHITE") {
+          item.buttonclass = 'btn-light'
           item.color = 'สิ้งสุดกระบวนการ'
         } else {
           item.color = "N/A"
         }
+        item.prefersite = showprefer(item.siteprefer)
         // item.createDate ? item.createdate = datetime.getDate() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getFullYear() :
         if (item.color_change > 0) {
           item.color_change = '<span style="color: #C70039;"> +' + item.color_change + '</span>'
@@ -599,7 +617,29 @@
     recalulate();
   }
 
-  function selectKiosk() {
+  function showprefer(id){
+    if(id == 3 ){
+        return '<span class="badge bg-primary">S5 กรุงธนเหนือ</span>'
+    }
+    if(id == 4){
+        return '<span class="badge bg-primary">S4 กรุงเทพตะวันออก</span>'
+    }
+    return '';
+  }
+  function selecthosptail(cb) {
+    // $.get("/api-backend/admin/hospital/get",(msg)=>{
+    //     globalHospital = msg;
+    //     //console.log("Got hospital",msg)
+    // });
+
+    $('#siteprefer').adv_select({
+      url: '/api-backend/admin/hospital/get',
+      name: 'name',
+      val: {},
+      template: "#{{_id}}: {{name}}",
+      id: '_id',
+      maxshow: 10
+    }, null, false);
     $('#search_hospital').adv_select({
       url: '/api-backend/admin/hospital/get',
       name: 'name',
@@ -610,7 +650,7 @@
     }, null, false);
   }
 
-  function search_hospital_change(){
-    $('#autohospital').val($('#search_hospital').val()).trigger('change');
+  function search_hospital_change(obj){
+    $('#autohospital').val($(obj).val()).trigger('change');
   }
 </script>
