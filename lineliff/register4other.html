@@ -507,7 +507,12 @@
         return alert_modal("กรุณากรอกรหัสประจำตัวประชาชน / พาสปอร์ต");
       }
 
-      if ((type_idcard == "รหัสประชาชน" || type_idcard == "บัตรต่างด้าว") && !Script_checkID(idcard))
+      // if ((type_idcard == "รหัสประชาชน" || type_idcard == "บัตรต่างด้าว") && !Script_checkID(idcard))
+      // {
+      //   return alert_modal("กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง");
+      // }
+
+      if ((type_idcard == "รหัสประชาชน") && !Script_checkID(idcard))
       {
         return alert_modal("กรุณากรอกเลขประจำตัวประชาชนให้ถูกต้อง");
       }
