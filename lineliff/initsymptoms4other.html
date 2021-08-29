@@ -652,7 +652,10 @@
                     })
 
                     alert_modal("ลงทะเบียนสำเร็จ โปรดตรวจสอบคิวในเมนู \"ตรวจสอบคิว\" บนหน้าหลักของ LINE \"อยู่บ้านปอดปลอยภัย\" และทำการเลือกวิธีการเดินทาง")
-                    liff.closeWindow()
+                    setTimeout(()=>{
+                        liff.closeWindow()
+                    },5000)
+
                     //TODO
                     go2View("alreadyregister2?id=" + patientid)
                     }
