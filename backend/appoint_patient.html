@@ -173,7 +173,7 @@
                     <th scope="col" class="text-secondary">สถานที่นัดหมาย</th>
                     <th scope="col" class="text-secondary">รายละเอียด</th>
                     <th scope="col" class="text-secondary">สถานะ</th>
-
+                    <th scope="col" class="text-secondary">Action</th>
                     <th scope="col" class="text-secondary">QRcode</th>
                   </tr>
                 </thead>
@@ -184,13 +184,14 @@
                     <td class="text-center table-middle">##APPOINT-hospital.name##</td>
                     <td class="text-center table-middle">##APPOINT-comment##</td>
                     <td class="text-center table-middle">##APPOINT-status##</td>
-                    <!--<td class="text-center table-middle">
-                      <button type="button" name="button" class="btn btn-success"
+                    <td class="text-center table-middle">
+    <!--                  <button type="button" name="button" class="btn btn-success"
                         onclick="confirmedAppointment('##APPOINT-id##')">ยืนยัน</button>
+-->
                       <button type="button" name="button" class="btn btn-danger"
                         onclick="cancelAppointment('##APPOINT-id##')">ยกเลิก</button>
 
-                    </td>  -->
+                    </td>
                     <td class="text-center table-middle">
                       <button type="button" class="btn btn-primary border-0" style="background: #289de9;"
                         href="#qr_code_img" onclick="showQR('##APPOINT-id##','##APPOINT-patient##')" width="10"
