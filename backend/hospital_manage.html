@@ -25,7 +25,7 @@
 
   .md-work-week-cont {
       position: relative;
-      padding-left: 50px;
+      padding-left: 0px;
   }
 
   .md-work-week-avatar {
@@ -570,7 +570,7 @@
 // },
           renderResource: function (resource) {
               return '<div class="md-work-week-cont">' +
-                  '<div class="md-work-week-name" align="center">'+ resource.title + '</div>' +
+                  '<div class="md-work-week-name" align="center">'+ resource.title.replace("นเรนทร ","") + '</div>' +
         //          '<div class="md-work-week-title">' + resource.title + '</div>' +
                   //'<div class="md-work-week-avatar" ><a href="/admin/vehicle_list?find_id='+resource.id+'" target="_blank">#'+ resource.id +"</a>:</div>" +
                   //  `<div><small>unsave</small></div>`+
