@@ -381,7 +381,7 @@
       url: '/api-backend/admin/module/hospital/list',
       name: 'name',
       val: {},
-      template: "#{{_id}}: {{name}}",
+      template: "{{name}}",
       id: '_id',
       maxshow: 10
     }, null, false);
@@ -644,12 +644,11 @@
     //     globalHospital = msg;
     //     //console.log("Got hospital",msg)
     // });
-
     $('#siteprefer').adv_select({
       url: '/api-backend/admin/hospital/get',
       name: 'name',
       val: {},
-      template: "#{{_id}}: {{name}}",
+      template: "{{name}}",
       id: '_id',
       maxshow: 10
     }, null, false);
@@ -657,12 +656,11 @@
       url: '/api-backend/admin/hospital/get',
       name: 'name',
       val: {},
-      template: "#{{_id}}: {{name}}",
+      template: "{{name}}",
       id: '_id',
       maxshow: 10
     }, null, false);
   }
-
   function search_hospital_change(obj){
     $('#autohospital').val($(obj).val()).trigger('change');
   }
