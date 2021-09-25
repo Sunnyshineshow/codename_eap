@@ -1,0 +1,9 @@
+.select2-selection--single {
+    height: 37.5px !important;
+    border-color: #ced4da !important;
+    
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 35px !important;
+}
