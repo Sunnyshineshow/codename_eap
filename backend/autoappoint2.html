@@ -276,12 +276,13 @@
   
                             <td class="text-center table-middle">##patient-address.subdistrict##
                                 อ.##patient-address.district##
-                                จ.##patient-address.province## ##patient-address.zipcode##</td>
+                                จ.##patient-address.province## ##patient-address.zipcode##
+                            </td>
                             <td class="text-center table-middle">##patient-mobileno##
                                 <br><small>##patient-createDate##</small>
                             </td>
   
-                            <td class="text-center table-middle">##patient-day_count##</td>
+                            <td class="text-center table-middle">##patient-showDayCount##</td>
                             <td class="text-center table-middle">##patient-prefersite##</td>
                             <td class="text-center table-middle">##patient-travelprefer##
                                 <font color='red'><small>##patient-distance##</small></font>
@@ -489,6 +490,20 @@
                 item.init_symptoms ? item.day_count = moment(item.init_symptoms.checkdate, "X").fromNow(true) : item.day_count = "N/A"
                 item.createdate ? item.createdate = moment(item.createdate, "X").fromNow('days') + " ที่แล้ว" : "";
                 item.status = STATUSSHOW[item.status] || "ไม่มีข้อมูล";
+                item.init_symptoms && item.init_symptoms.checkdate ? item.dayCountText = moment(item.init_symptoms.checkdate, "X").format('YYYY/MM/DD') : item.dayCountText = "N/A";
+                if(item.dayCountText !== "N/A") {
+                    item.duration = (Math.floor(new Date()) / 1000) - item.init_symptoms.checkdate;
+                    if(item.duration > 86400) {
+                        let nowDate = new Date();
+                        let checkInDate = new Date(item.dayCountText);
+                        let diffTime = Math.abs(nowDate - checkInDate);
+                        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        item.showDayCount = `${diffDays} วัน`;
+                    } else {
+                        item.showDayCount = "วันนี้";
+                    }
+                }
+                
                 if (item.color == "RED") {
                     item.buttonclass = 'btn-danger'
                     item.color = '<span style="color: #C70039;">RED</span>'
