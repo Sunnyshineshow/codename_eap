@@ -227,7 +227,7 @@
             <tr>
               <th scope="col" class="text-secondary">
                 <input type="checkbox" id="select_all_patient" class="form-check-input autopatient"
-                  onchange="selectAll()" checked>
+                  onchange="selectAll()" >
                 <label for="select_all_patient"> เลือก</label>
               </th>
 
@@ -247,7 +247,7 @@
               <td class="text-center table-middle" rowspan=2>
                 <div class="form-check">
                   <input class="form-check-input autopatient chkpatient" type="checkbox" value="##patient-id##"
-                    id="selectpatient##patient-id##" name="selectpatients" checked onclick="recalulate()">
+                    id="selectpatient##patient-id##" name="selectpatients" onclick="recalulate()">
                   <label class="form-check-label" for="selectpatient##patient-id##">
                     ###patient-id##
                     <img src="##patient-pictureUrl##" style="max-width:50px;" class="rounded-circle">
@@ -618,17 +618,24 @@
   }
 
   function showprefer(id){
+
     if(id == 3 ){
         return '<span class="badge bg-primary">S5 กรุงธนเหนือ</span>'
     }
     if(id == 4){
-        return '<span class="badge bg-primary">S4 กรุงเทพตะวันออก</span>'
+        return '<span class="badge bg-primary">S4 กรุงเทพฯตะวันออก </span>'
     }
     if(id == 5){
-        return '<span class="badge bg-primary">S3 นเรนทร กรุงเทพฯใต้</span>'
+        return '<span class="badge bg-primary">S2 กรุงเทพฯใต้ </span>'
     }
     if(id == 6){
-        return '<span class="badge bg-primary">S6 นเรนทร กรุงธนใต้</span>'
+        return '<span class="badge bg-primary">S6 กรุงธนใต้</span>'
+    }
+    if(id == 7 ){
+        return '<span class="badge bg-primary">S3 กรุงเทพฯเหนือ </span>'
+    }
+    if(id == 8 ){
+        return '<span class="badge bg-primary">S1 กรุงเทพฯกลาง </span>'
     }
     return '';
   }
