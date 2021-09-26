@@ -157,6 +157,7 @@
               <option value="2">ตามเวลานัด</option>
               <option value="4">พลาดคิว</option>
               <option value="5">ขาดนัด</option>
+              <option value="6">รอคิวเจ้าหน้าที่</option>
             </select>
           </div>
         </div>
@@ -344,6 +345,26 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal" tabindex="-1" id="modal_appoint_changetime">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เลือกเวลา สำหรับการลงนัดหมายนี้</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><input class="form-control" id="change_time" placeholder="" type="datetime-local">  </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="finish_changetime()" >ทำนัดเลย</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
 
   var fncsearch;
@@ -356,7 +377,12 @@
   var template_appoint_row = $('#row_appointlist').html();
   var workingslot;
   var current_patientlist;
-  var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,`<span style="color: #47CF55;">ได้คิว</span>`,`<span style="color: green;">ตามเวลานัด</span>`,`<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,`<span style="color: red;">พลาดคิว</span>`,`<span style="color: black;">ขาดนัด</span>`]
+  var ITEMSTATUS = [`<span style="color: #FFD033;">รอคิว</span>`,
+  `<span style="color: #47CF55;">ได้คิว</span>`,
+  `<span style="color: green;">ตามเวลานัด</span>`,
+  `<span style="color: #9139B6;">นัดอัตโนมัติ</span>`,
+  `<span style="color: red;">พลาดคิว</span>`,
+  `<span style="color: black;">ขาดนัด</span>`,`<span style="color: #FFD044;">รอคิวเจ้าหน้าที่</span>`]
   var html_obj = {search_idno:"find_id",
                   search_id:"find_patientid",
                   search_sort:"search_sort",
@@ -423,7 +449,12 @@
               item.confirmed=""
           }
           item.appointtime ? item.appointtime = moment(item.appointtime, "X").format('DD/MM/YYYY HH:mm') : "";
-          item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>`: item.status = ITEMSTATUS[item.status];
+
+          if(item.status==6){
+            item.status = `<span class='badge bg-primary'  style="cursor: pointer;" onclick='que_bytime(${item._id});' >รอคิว เจ้าหน้าที่</span>`
+          }else{
+            item.status == -1 ? item.status = `<span style="color: #C70039;">ยกเลิก</span>`: item.status = ITEMSTATUS[item.status];
+          }
           (typeof(item.patient) == "number" || !item.patient) ? item.patient = {displayName : "-- INACTIVE USER --"} : item.patient;
 
 
@@ -802,6 +833,7 @@ function hilight(id){
         }
     }
   }
+
   alert("ไม่พบในปฏิทิน")
 }
 var working_queue_id;
@@ -823,6 +855,22 @@ function finish_queue_comment(){
         $('#q_comment_text').html(q)
   })
 
+}
+var changingtime_id
+function que_bytime(id){
+  changingtime_id = id;
+  $('#modal_appoint_changetime').modal('show')
+}
+function finish_changetime(){
+  var qtime  = Math.floor(new Date($('#change_time').val()) /1000)
+  console.log("edit " ,changingtime_id );
+  $('#modal_appoint_changetime').modal('hide')
+  var data = {appointid:changingtime_id,updatetime:qtime}
+  $.postJSON(MAINURL + '/api-backend/admin/update_q_time',data,(msg)=>{
+      // update Qcomment
+
+        alert_success("Queue Updated, Please check again")
+  })
 }
 var travelstaff_tg;
 function toggletravelstaff(){
