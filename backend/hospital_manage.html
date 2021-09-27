@@ -868,8 +868,8 @@ function finish_changetime(){
   var data = {appointid:changingtime_id,updatetime:qtime}
   $.postJSON(MAINURL + '/api-backend/admin/update_q_time',data,(msg)=>{
       // update Qcomment
-
         alert_success("Queue Updated, Please check again")
+        refreshpage();
   })
 }
 var travelstaff_tg;
